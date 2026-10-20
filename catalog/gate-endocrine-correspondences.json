@@ -1,6 +1,6 @@
 {
   "$schema": "../schema/correspondence-catalog.schema.json",
-  "catalogVersion": "0.1.1",
+  "catalogVersion": "0.1.2",
   "catalogStatus": "source_attributed",
   "policy": "These entries record specific Human Design sources' gate-level biological or hormonal correspondences. They are not established biology, assay interpretation, or evidence that a gate causes, measures, or predicts a hormone. Preserve each source and its wording; do not generalize one source's teaching to all Human Design lineages.",
   "correspondences": [
@@ -108,6 +108,111 @@
         "This is an attribution to a Human Design reference source, not a universal or experimentally validated association.",
         "The source does not define a Gate 41-specific mechanism, assay, direction, or effect size.",
         "It does not measure or predict an individual's adrenal function, catecholamine levels, stress response, or health state."
+      ]
+    },
+    {
+      "id": "gate-61-pineal-gland-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "Gate 61 article accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "61",
+        "label": "Gate 61 · Inner Truth"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "pineal-gland",
+        "label": "Pineal gland (melatonin-producing)"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 61 reference assigns the pineal gland as Gate 61's physiology. Metheus records this source-specific gate-to-gland correspondence; although the pineal gland produces melatonin, this does not establish that Gate 61 regulates melatonin, sleep, circadian timing, or pineal activity.",
+      "sourceCitations": [
+        {
+          "title": "Gate 61 Inner Truth (Mystery)",
+          "url": "https://www.humdes.com/en/kb/gates/61/",
+          "locator": "Summary of the Gates in Rave Chart Structure · Physiology",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to a Human Design reference source, not an experimentally validated association or a universal lineage claim.",
+        "The source names a physiological correspondence but does not define a Gate-specific mechanism, assay, direction, or effect size.",
+        "It does not measure or predict an individual’s pineal function, melatonin level, sleep, circadian phase, or health state."
+      ]
+    },
+    {
+      "id": "gate-63-pineal-gland-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "Gate 63 article accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "63",
+        "label": "Gate 63 · Doubt"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "pineal-gland",
+        "label": "Pineal gland (melatonin-producing)"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 63 reference assigns the pineal gland as Gate 63's physiology. Metheus records this source-specific gate-to-gland correspondence; although the pineal gland produces melatonin, this does not establish that Gate 63 regulates melatonin, sleep, circadian timing, or pineal activity.",
+      "sourceCitations": [
+        {
+          "title": "Gate 63 Doubts (After Completion)",
+          "url": "https://www.humdes.com/en/kb/gates/63/",
+          "locator": "Summary of the Gates in Rave Chart Structure · Physiology",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to a Human Design reference source, not an experimentally validated association or a universal lineage claim.",
+        "The source names a physiological correspondence but does not define a Gate-specific mechanism, assay, direction, or effect size.",
+        "It does not measure or predict an individual’s pineal function, melatonin level, sleep, circadian phase, or health state."
+      ]
+    },
+    {
+      "id": "gate-64-pineal-gland-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "Gate 64 article accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "64",
+        "label": "Gate 64 · Confusion"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "pineal-gland",
+        "label": "Pineal gland (melatonin-producing)"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 64 reference assigns the pineal gland as Gate 64's physiology. Metheus records this source-specific gate-to-gland correspondence; although the pineal gland produces melatonin, this does not establish that Gate 64 regulates melatonin, sleep, circadian timing, or pineal activity.",
+      "sourceCitations": [
+        {
+          "title": "Gate 64 Confusion (Before Completion)",
+          "url": "https://www.humdes.com/en/kb/gates/64/",
+          "locator": "Summary of the Gates in Rave Chart Structure · Physiology",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to a Human Design reference source, not an experimentally validated association or a universal lineage claim.",
+        "The source names a physiological correspondence but does not define a Gate-specific mechanism, assay, direction, or effect size.",
+        "It does not measure or predict an individual’s pineal function, melatonin level, sleep, circadian phase, or health state."
       ]
     }
   ]
