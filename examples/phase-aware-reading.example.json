@@ -30,7 +30,7 @@
       "support": {
         "confidence": "moderate",
         "coverage": "partial",
-          "rationale": "Synthetic onset report illustrates one dated entry; subsequent bleeding is not represented."
+        "rationale": "Synthetic onset report illustrates one dated entry; subsequent bleeding is not represented."
       }
     }
   ],
