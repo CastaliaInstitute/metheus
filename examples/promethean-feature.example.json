@@ -1,0 +1,22 @@
+{
+  "id": "promethean-feature-example-01",
+  "subjectId": "example-subject-01",
+  "recordType": "symbolic_feature",
+  "epistemicClass": "symbolic",
+  "time": {
+    "observedAt": "2026-10-20T15:55:00-06:00",
+    "timeZone": "America/Denver",
+    "precision": "approximate",
+    "scale": "life_course"
+  },
+  "source": {
+    "kind": "symbolic_system",
+    "name": "Human Design",
+    "method": "synthetic example feature; no calculation or doctrine asserted",
+    "version": "example-only"
+  },
+  "domain": "symbolic",
+  "label": "Learner-selected theme for reflection",
+  "value": { "text": "The learner wonders whether responding to experience feels useful in this learning context." },
+  "notes": "This is a user-authored reflection prompt, not an empirically established learning trait or teaching prescription."
+}

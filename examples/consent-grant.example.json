@@ -1,0 +1,16 @@
+{
+  "id": "consent-example-local-learning-01",
+  "subjectId": "example-subject-01",
+  "grantor": {
+    "reference": "example-subject-01",
+    "role": "subject"
+  },
+  "domains": ["learning", "birth_chart_inputs"],
+  "purposes": ["learning_support", "personal_reflection"],
+  "permittedActions": ["collect", "analyze"],
+  "status": "granted",
+  "consentTextVersion": "metheus-local-learning-consent/0.1.0",
+  "createdAt": "2026-10-20T18:00:00-06:00",
+  "expiresAt": "2026-11-20T18:00:00-07:00",
+  "auditReference": "local-example-only"
+}

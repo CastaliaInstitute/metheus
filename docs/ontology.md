@@ -18,8 +18,14 @@
 | **Subject** | Person whose life or observations are represented | Self, infant/child represented by a guardian, participant in a reading |
 | **Profile context** | Relatively stable, revisable information | Birth data, time zone, preferred units, optional life context |
 | **Symbolic map** | Features defined by a named interpretive system | Human Design type/profile/gates, calculation inputs, source/version |
+| **Correspondence** | A sourced relation between a symbolic feature and another concept; not an observation | A source-attributed center/gland association, a reflective pairing, or a separately evidenced mechanism |
 | **Observation** | A dated measurement or report of something observed | Temperature reading, sleep interval, reported pain, caregiver-observed feeding |
 | **Event** | A dated occurrence that can contextualize observations | Travel, period start, birth, relationship transition, medication change |
+| **Behavior episode** | An intended, attempted, completed, partial, skipped, or constrained action/exposure, with status kept separate from response | Explicit fast boundary, exercise session, supplement use, dietary-pattern change |
+| **Sensory exposure** | A time-bounded smell, taste, flavor, or combined exposure, with route and composition kept distinct from response | Ambient aroma, inhalation, taste-only mouth rinse, flavor during a meal |
+| **Behavior intention** | What a person plans or hopes to try, separately from whether it occurred | Intention to walk after work, planned dietary change |
+| **Learning activity** | A time-bounded learning task, approaches, and supports used in a setting | Caregiver-supported play, guided practice, independent retrieval practice, accessible lesson |
+| **Learning evidence** | A separately sourced observation of the learner's report or demonstrated knowledge/skill | Learner feedback, prompted or independent demonstration, transfer observation |
 | **Estimate** | A derived quantity or phase computed from inputs | Cycle-day estimate, sleep midpoint, deviation from personal baseline |
 | **Development context** | Age/stage information and optional developmental observations | Gestational/chronological age, corrected age if supplied, milestone note |
 | **Relationship context** | A subject's account of a relationship or interaction | Felt closeness, a personally noted intimacy event, caregiving relation |
@@ -40,6 +46,10 @@ Every record MUST have one class:
 
 Do not combine distinct classes into one unlabeled score. An interpretation may cite several classes, but each underlying input remains separately inspectable.
 
+## Correspondence evidence status
+
+A correspondence is not an epistemic class for the target observation. Store its relation type, source lineage, evidence status, permitted use, citations, and limitations separately using the draft [`correspondence schema`](../schema/correspondence.schema.json). The bridge document specifies four lanes: lineage-attributed doctrine, reflective association, empirical association, and physiological mechanism. Only evidence reviewed for a precise scope can support the latter two; a tradition-attributed pairing may be offered as an optional reflection but may not explain or predict a measured value.
+
 ## Temporal model
 
 Use a single event/observation timeline while retaining multiple timescales:
@@ -54,7 +64,7 @@ Use a single event/observation timeline while retaining multiple timescales:
 | Developmental | Growth and changing skills, puberty, postpartum transitions |
 | Life-course | Birth, menopause, caregiving changes, aging, major life events |
 
-Store timestamps in an unambiguous format with offset/time zone when available. For intervals, distinguish start and end. For recurring patterns, store the observation window, method, and coverage. Do not force events into conventional clock-time buckets.
+Store timestamps in an unambiguous format with offset/time zone when available. If only a calendar date is known, use `time.date` and `precision: "date_only"`; do not fabricate a clock time. For intervals, distinguish start and end. For recurring patterns, store the observation window, method, and coverage. Do not force events into conventional clock-time buckets.
 
 ## Rhythm concepts
 
@@ -66,7 +76,7 @@ Store timestamps in an unambiguous format with offset/time zone when available. 
 - **Alignment / co-variation:** temporal relation between two series. This may suggest a question but does not demonstrate causation.
 - **Missingness:** absent or unavailable observations, with reason only when known (not tracked, device off, declined, unknown).
 
-The observation schema uses `eventType` to distinguish `main_sleep`, `sleep_episode`, `nap`, `meal`, `feeding`, `light_exposure`, `activity`, `bleeding_start`, and other point or interval events. `main_sleep` is a person's or data-source's designation for the principal sleep interval in a cycle; it is not inferred automatically from clock time. A `meal` event is a logged meal, not proof that all food intake was logged. A `feeding` event is separate and may represent caregiver-reported infant feeding; adult meal-window and fasting summaries must never be applied to infant feeds. A device-derived event must use `epistemicClass: "derived"` and preserve its method and source records, even if the originating sensor measurements were direct.
+The observation schema uses `eventType` to distinguish sleep/wake, meals/feeds, explicit `fasting_start` and `fasting_end`, `bleeding_start`, `dietary_pattern`, `learning_activity`, `exercise_session`, `supplement_use`, medication changes, light exposure, sensory exposures, and other events. A fasting interval is only represented when explicitly reported; missing meal events are never used to infer fasting. A fasting, exercise, supplement-use, or dietary-pattern event requires a matching `behaviorContext.kind`; the schema preserves the category of the reported action without requiring a goal or health outcome. A `learning_activity` requires `learningActivity` metadata and `domain: "learning"`; separate learning observations retain their own source, time, and method. `main_sleep` is a person's or data-source's designation for the principal sleep interval in a cycle; it is not inferred automatically from clock time. `wake` is an explicit wake observation or report, not automatically the end of a sleep interval. A `meal` event is a logged meal, not proof that all food intake was logged. A `feeding` event is separate and may represent caregiver-reported infant feeding; adult meal-window and fasting summaries must never be applied to infant feeds. A device-derived event must use `epistemicClass: "derived"` and preserve its method and source records, even if the originating sensor measurements were direct. Optional `behaviorContext`, `learningActivity`, and `sensoryExposure` keep intentions, approaches, supports, agency, modality, route, and exposure details distinct from later outcomes. See the [behavior layer](behavior-layer.md), [learning layer](developmental-learning-layer.md), and [sensory exposure layer](sensory-aroma-flavor-layer.md). The rhythm prototype summarizes intervals between explicit bleeding-onset reports as calendar gaps only; it does not classify them as menstrual cycles or estimate phase.
 
 ## Reading model
 
@@ -91,7 +101,7 @@ For a child, identify who made each observation and distinguish caregiver report
 
 ## Draft JSON Schema
 
-The machine-readable starter is [`../schema/observation.schema.json`](../schema/observation.schema.json). It defines one record at a time and intentionally avoids a complete person profile. A future profile/container schema should reference records rather than embed all sensitive history in a single object.
+The machine-readable starters are the [`observation schema`](../schema/observation.schema.json), which defines one time-bounded record at a time; [`correspondence schema`](../schema/correspondence.schema.json), which defines a source-attributed crosswalk; and [`consent schema`](../schema/consent.schema.json), which models scoped, revisable permissions. Optional `measurementDetails` preserves assay/device context; `behaviorContext` preserves a reported action or intention without treating it as a health outcome; `learningActivity` records what learning approaches and supports were used; `sensoryExposure` distinguishes smell, taste, and ingestion. See the [measurement landscape](measurement-landscape.md), [behavior layer](behavior-layer.md), [developmental learning layer](developmental-learning-layer.md), [sensory exposure layer](sensory-aroma-flavor-layer.md), [Promethean–Epimethean bridge](promethean-epimethean-bridge.md), and [privacy/consent model](privacy-consent-model.md). A future profile/container schema should reference records rather than embed all sensitive history in a single object.
 
 ## Open design questions
 

@@ -17,8 +17,10 @@ PERSON + LIFE CONTEXT
 ├── Epimethean dynamics
 │   ├── body and physiology
 │   ├── developmental stage
+│   ├── learning goals, activities, and supports
 │   ├── relationships and care
 │   ├── environment and daily conditions
+│   ├── behaviors, intentions, sensory exposures, and constraints
 │   ├── events, choices, and personal meaning
 │   └── observations over time
 │
@@ -53,6 +55,8 @@ Represent processes that vary over time and on different scales:
 
 These rhythms interact. Light exposure and sleep timing can organize circadian phase; meals, activity, and social schedules can act as timing cues for peripheral physiology; sleep, feeding, and hormones influence one another. A model should look for individual timing and co-variation rather than assume a single universal routine or that timing alone establishes cause. Rhythms can change with shift work, travel, parenting, illness, disability, season, culture, and personal preference.
 
+Metheus should distinguish local clock time, time relative to an observed wake/sleep anchor, and biological phase. The last is not recoverable from ordinary timestamps alone. An eating event can be compared with logged waking, but an event log cannot establish complete intake, a fasting state, metabolic adequacy, or whether the timing is biologically aligned. See the [rhythm system model](rhythm-system.md) for the interaction layers, feature definitions, comparison workflow, and infant-specific constraints.
+
 #### Rhythm record
 
 For each repeated process, represent (when available):
@@ -70,7 +74,11 @@ Do not force meal events into fixed breakfast/lunch/dinner slots. Do not infer a
 
 Capture what is happening now: sleep, activity, illness or recovery as self-reported, travel, workload, stressors, meals, location context, relationship events, and the person's current intentions. State is transient and should not be turned into trait.
 
-### 5. Observation and interpretation
+### 5. Behavior and chosen change
+
+Represent eating patterns, explicit fasting intervals, movement/exercise, supplements, sleep/light routines, sensory practices, and other user-selected or externally imposed exposures as dated behaviors. Distinguish intention, occurrence, dose/amount, route, and later response. Also preserve when an action is constrained by access, disability, caregiving, work, illness, or other circumstance. This is not a universal “controllable factors” panel: agency is contextual, and the Promethean map may prompt reflection but must never prescribe a behavior. See the [Epimethean behavior layer](behavior-layer.md) and its [sensory, aroma, and flavor sublayer](sensory-aroma-flavor-layer.md).
+
+### 6. Observation and interpretation
 
 Each data point should carry its source and uncertainty:
 
@@ -83,12 +91,18 @@ Each data point should carry its source and uncertainty:
 | Symbolic interpretation | Human Design gates, types, profiles, or other chart meanings | A framework for reflection, not empirically measured physiology |
 | Joint interpretation | A reading that places observations and symbolic prompts together | A revisable question or hypothesis, not causal proof or diagnosis |
 
+Behavior exposures are records of what was intended or reported, not outcomes. A response—subjective, wearable-derived, or laboratory-measured—must be a separate observation with its own time, source, and method. The schema's optional `behaviorContext` and `sensoryExposure` objects carry exposure details; neither encodes a presumed effect. For aroma/flavor, preserve modality and route because smelling, tasting, and swallowing are materially different exposures.
+
+### 7. Developmental psychology and learning
+
+Learning belongs in the Epimethean layer as a changing interaction among developmental context, prior knowledge, learner goals, task demands, relationships, culture, access, and the learning environment. Record what learning activity and supports were used; keep learner feedback and demonstrated learning evidence as separately sourced observations with their own times and methods. The Promethean map may help the learner frame a question about motivation or preferred conditions; it must not prescribe a method, assign a fixed learning style, or predict a child's abilities. See the [developmental psychology and learning layer](developmental-learning-layer.md).
+
 ## Dynamics rather than scores
 
 The model should represent change, feedback, and timing instead of assigning a single “Metheus type” or wellbeing score. A useful conceptual form is:
 
 ```text
-state(t + Δt) = transition(state(t), context(t), events(t), uncertainty)
+state(t + Δt) = transition(state(t), context(t), behavior(t), events(t), uncertainty)
 observation(t) = observe(state(t), device_or_report, method)
 reading(t) = reflect(symbolic_map, observations, life_stage, person's_question)
 ```
@@ -109,6 +123,8 @@ The Promethean and Epimethean layers should be allowed to inform a reading witho
 - The **Epimethean** layer may add temporal observations, physiology, development, relationships, and circumstances.
 - The **reading** may ask whether the theme resonates with the person's own history and current context.
 - If the observations disagree with the symbolic story, the observations and the person's account remain visible; the model must not force them to fit.
+
+For Human Design center/gland correspondences, gate/channel associations, or chakra language, preserve the named lineage and classify the link as symbolic doctrine unless it has independent empirical support. The [Promethean–Epimethean bridge](promethean-epimethean-bridge.md) defines relation types and a reading sequence for this.
 
 This is a systems analogy to Human Design in the sense that both aim to orient self-understanding through a structured map. Metheus' distinctive contribution is to make the map time-aware and situated within the person's changing, interconnected life. It does not make the symbolic system a scientific measurement instrument.
 
@@ -131,8 +147,13 @@ For infants, use a caregiver-supported record with a strong duty of care:
 3. **Uncertainty:** Missing or approximate data reduce confidence; they do not invite confident guessing.
 4. **Pluralism:** A person can decline any data type, and the model should remain useful with sparse information.
 5. **Privacy and agency:** Sensitive information is optional, minimized, private by default, and under the subject's control.
-6. **Non-determinism:** Never infer identity, character, consent, fertility, diagnosis, or destiny from a chart, hormone, wearable proxy, or correlation.
-7. **Revision:** Interpretations should be revisitable when new information or the person's understanding changes.
+6. **Behavior without blame:** Record choices, attempts, and constraints without turning them into compliance or virtue scores.
+7. **Non-determinism:** Never infer identity, character, consent, fertility, diagnosis, or destiny from a chart, hormone, wearable proxy, or correlation.
+8. **Revision:** Interpretations should be revisitable when new information or the person's understanding changes.
+
+### Consent and stewardship
+
+Sensitive data are included only for a subject-selected purpose and scope. Collection, analysis, sharing, and remote processing are separate permissions; withdrawal and deletion must propagate to dependent summaries/readings according to the disclosed storage model. Child records require careful guardian stewardship and an increasing role for the child's own voice; intimate records remain each participant's own. See the [privacy and consent model](privacy-consent-model.md) and draft [consent schema](../schema/consent.schema.json). The repository's current static site does not collect or store personal records.
 
 ## Practical development path
 

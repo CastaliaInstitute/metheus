@@ -48,6 +48,34 @@
         }
       }
     },
+    "reflectionOptions": {
+      "type": "array",
+      "description": "Optional choices for the subject to consider. These are not recommendations; the subject decides whether to choose, decline, or revise them.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "kind", "text", "basis", "sourceIds", "subjectStatus"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "kind": { "enum": ["learning_approach", "observation_question", "reflection_question", "professional_consultation", "other"] },
+          "text": { "type": "string", "minLength": 1 },
+          "basis": { "enum": ["learner_goal", "task_demand", "access_need", "developmental_context", "symbolic_prompt", "evidence_reference", "multiple_non_symbolic_inputs", "unspecified"] },
+          "sourceIds": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+          "subjectStatus": { "enum": ["not_reviewed", "chosen", "declined", "revised"] },
+          "limitations": { "type": "array", "items": { "type": "string" } }
+        },
+        "allOf": [
+          {
+            "if": { "required": ["kind"], "properties": { "kind": { "const": "learning_approach" } } },
+            "then": { "properties": { "basis": { "enum": ["learner_goal", "task_demand", "access_need", "developmental_context", "evidence_reference", "multiple_non_symbolic_inputs"] } } }
+          },
+          {
+            "if": { "required": ["basis"], "properties": { "basis": { "const": "symbolic_prompt" } } },
+            "then": { "properties": { "kind": { "const": "reflection_question" } } }
+          }
+        ]
+      }
+    },
     "synthesis": { "type": "string" },
     "reflectiveQuestion": { "type": "string" },
     "limitations": { "type": "array", "items": { "type": "string" } },

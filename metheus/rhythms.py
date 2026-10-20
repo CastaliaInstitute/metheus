@@ -2,18 +2,22 @@
 
 These functions summarize logged events. They do not estimate hormones,
 diagnose conditions, infer causation, or evaluate whether a schedule is healthy.
-All timestamps must be ISO 8601 values with an explicit UTC offset.
+Timed values must be ISO 8601 timestamps with an explicit UTC offset. The
+bleeding-onset summary also accepts an explicit date-only record where supported.
 """
 
 from __future__ import annotations
 
 from datetime import date, datetime, timezone
+from math import isfinite
 from statistics import median
 from typing import Any, Iterable
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 
 METHOD_VERSION = "metheus-rhythm-summary/0.1.0"
+WAKE_RELATIVE_METHOD_VERSION = "metheus-wake-relative-meal/0.1.0"
+BLEEDING_ONSET_METHOD_VERSION = "metheus-bleeding-onset-gap/0.1.0"
 
 
 def _parse_datetime(value: str) -> datetime:
@@ -87,6 +91,94 @@ def _coverage(observed_days: set[date], window_days: int) -> dict[str, Any]:
 def _summary_id(domain: str, start: date, end: date) -> str:
     # IDs are scoped by subjectId in storage; never encode the subject ID here.
     return f"{domain}:{METHOD_VERSION}:{start.isoformat()}:{end.isoformat()}"
+
+
+def summarize_bleeding_onset_intervals(
+    records: Iterable[dict[str, Any]], *, subject_id: str, start_date: str, end_date: str
+) -> dict[str, Any]:
+    """Describe gaps between explicitly logged bleeding-onset dates.
+
+    This reports calendar-day intervals between adjacent logged onset dates in
+    the inclusive window. It does not determine whether bleeding is menstrual,
+    infer ovulation or hormone phase, predict a future event, or evaluate health.
+    Exact times are unnecessary; date-only onset records are supported.
+    """
+    if not subject_id:
+        raise ValueError("subject_id is required to prevent cross-subject aggregation")
+    first_day, last_day, window_days = _window(start_date, end_date)
+    onset_records: dict[date, set[str]] = {}
+    onset_record_counts: dict[date, int] = {}
+    date_only_count = 0
+    timed_count = 0
+
+    for record in records:
+        if record.get("subjectId") != subject_id:
+            continue
+        if record.get("recordType") not in {"observation", "event"}:
+            continue
+        if record.get("eventType") != "bleeding_start" or record.get("domain") != "reproductive":
+            continue
+        if record.get("epistemicClass") in {"derived", "symbolic"}:
+            continue
+
+        time_data = record.get("time", {})
+        if time_data.get("precision") == "date_only":
+            date_value = time_data.get("date")
+            if not date_value:
+                continue
+            onset_date = date.fromisoformat(date_value)
+            date_only = True
+        else:
+            stamp = time_data.get("observedAt") or time_data.get("start")
+            if not stamp:
+                continue
+            onset_date = _localize(record, stamp).date()
+            date_only = False
+
+        if not first_day <= onset_date <= last_day:
+            continue
+        if date_only:
+            date_only_count += 1
+        else:
+            timed_count += 1
+        onset_records.setdefault(onset_date, set())
+        onset_record_counts[onset_date] = onset_record_counts.get(onset_date, 0) + 1
+        record_id = record.get("id")
+        if record_id:
+            onset_records[onset_date].add(record_id)
+
+    onset_dates = sorted(onset_records)
+    interval_days = [(later - earlier).days for earlier, later in zip(onset_dates, onset_dates[1:])]
+    median_gap = median(interval_days) if interval_days else None
+    deviations = [abs(value - median_gap) for value in interval_days] if median_gap is not None else []
+    input_ids = sorted({record_id for ids in onset_records.values() for record_id in ids})
+
+    return {
+        "summaryId": f"bleeding-onset:{BLEEDING_ONSET_METHOD_VERSION}:{first_day.isoformat()}:{last_day.isoformat()}",
+        "subjectId": subject_id,
+        "summaryType": "derived_rhythm_summary",
+        "epistemicClass": "derived",
+        "domain": "reproductive",
+        "label": "calendar-day gaps between logged bleeding-onset dates",
+        "methodVersion": BLEEDING_ONSET_METHOD_VERSION,
+        "window": {"startDate": first_day.isoformat(), "endDate": last_day.isoformat(), "inclusiveDays": window_days},
+        "inputRecordIds": input_ids,
+        "nOnsetRecords": sum(onset_record_counts.values()),
+        "nDistinctOnsetDates": len(onset_dates),
+        "nIntervals": len(interval_days),
+        "intervalsDays": interval_days,
+        "medianGapDays": round(median_gap, 1) if median_gap is not None else None,
+        "medianAbsoluteDeviationDays": round(median(deviations), 1) if deviations else None,
+        "dateOnlyRecordCount": date_only_count,
+        "timedRecordCount": timed_count,
+        "limitations": [
+            "Includes only explicitly logged bleeding-onset records for this subject; missing logs are not evidence that bleeding did not occur.",
+            "A gap between bleeding-onset dates is a calendar interval, not proof of a menstrual cycle or its biological phase.",
+            "Does not infer ovulation, fertility, pregnancy, hormone levels, menopause stage, diagnosis, or a future onset date.",
+            "Date-only reports have less timing precision than timestamped events; the source's precision is retained in the input records.",
+            "Summarizes intervals whose adjacent onset dates both fall inside the selected window; boundary intervals are omitted.",
+        ],
+    }
 
 
 def summarize_main_sleep(
@@ -259,5 +351,136 @@ def summarize_feeding_events(
             "Does not infer appetite, calories, feeding adequacy, nutritional status, or hormone levels.",
             "Infant feed mode is caregiver-report context only and is not a feeding assessment.",
             "Day coverage means days with at least one matching log; it is not sensor or behavioral completeness.",
+        ],
+    }
+
+
+def summarize_meal_timing_relative_to_wake(
+    records: Iterable[dict[str, Any]],
+    *,
+    subject_id: str,
+    start_date: str,
+    end_date: str,
+    max_interval_hours: float = 36.0,
+) -> dict[str, Any]:
+    """Describe logged meal timing within complete intervals between explicit wake events.
+
+    A wake event anchors a behavioral day. Only meal events between one wake and
+    the next recorded wake are included. Feeding events are excluded, including
+    caregiver-reported infant feeds. The function does not infer fasting,
+    completeness of meal logging, circadian phase, or an appropriate schedule.
+    """
+    if not subject_id:
+        raise ValueError("subject_id is required to prevent cross-subject aggregation")
+    if not isfinite(max_interval_hours) or max_interval_hours <= 0:
+        raise ValueError("max_interval_hours must be a finite number greater than zero")
+    first_day, last_day, window_days = _window(start_date, end_date)
+    subject_records = [
+        record
+        for record in records
+        if record.get("subjectId") == subject_id
+        and record.get("recordType") in {"observation", "event"}
+    ]
+
+    wakes: list[tuple[datetime, date, str]] = []
+    meals: list[tuple[datetime, str]] = []
+    for record in subject_records:
+        event_type = record.get("eventType")
+        if event_type not in {"wake", "meal"}:
+            continue
+        if event_type == "wake" and record.get("domain") not in {"sleep", "circadian"}:
+            continue
+        if event_type == "meal" and record.get("domain") not in {"feeding", "nutrition"}:
+            continue
+        time_data = record.get("time", {})
+        stamp = time_data.get("observedAt") or time_data.get("start")
+        if not stamp:
+            continue
+        observed_at = _localize(record, stamp)
+        instant = observed_at.astimezone(timezone.utc)
+        if event_type == "wake":
+            wakes.append((instant, observed_at.date(), record.get("id", "")))
+        else:
+            meals.append((instant, record.get("id", "")))
+
+    # Deduplicate identical wake instants, preserving one provenance ID. Without
+    # this, a duplicated sync record could create a zero-length behavioral day.
+    wakes_by_instant: dict[datetime, tuple[datetime, date, str]] = {}
+    for wake in sorted(wakes, key=lambda item: item[0]):
+        wakes_by_instant.setdefault(wake[0], wake)
+    ordered_wakes = list(wakes_by_instant.values())
+    meals.sort(key=lambda item: item[0])
+
+    eligible_cycles: list[tuple[datetime, datetime, date, str, str, list[tuple[datetime, str]]]] = []
+    excluded_gap_ids: set[str] = set()
+    candidate_interval_count = 0
+    for index, wake in enumerate(ordered_wakes[:-1]):
+        start, wake_day, wake_id = wake
+        next_start, _, next_wake_id = ordered_wakes[index + 1]
+        if not first_day <= wake_day <= last_day or next_start <= start:
+            continue
+        candidate_interval_count += 1
+        if (next_start - start).total_seconds() > max_interval_hours * 3600:
+            excluded_gap_ids.update(record_id for record_id in (wake_id, next_wake_id) if record_id)
+            continue
+        cycle_meals = [meal for meal in meals if start <= meal[0] < next_start]
+        eligible_cycles.append((start, next_start, wake_day, wake_id, next_wake_id, cycle_meals))
+
+    intervals_with_meals = [cycle for cycle in eligible_cycles if cycle[5]]
+    first_meal_delays = [
+        (cycle[5][0][0] - cycle[0]).total_seconds() / 60
+        for cycle in intervals_with_meals
+    ]
+    all_meal_delays = [
+        (meal[0] - cycle[0]).total_seconds() / 60
+        for cycle in eligible_cycles
+        for meal in cycle[5]
+    ]
+    input_ids = {
+        record_id
+        for cycle in eligible_cycles
+        for record_id in (cycle[3], cycle[4])
+        if record_id
+    }
+    input_ids.update(
+        record_id
+        for cycle in eligible_cycles
+        for _, record_id in cycle[5]
+        if record_id
+    )
+    input_ids.update(excluded_gap_ids)
+    observed_days = {cycle[2] for cycle in eligible_cycles}
+
+    return {
+        "summaryId": f"meal-wake-relative:{WAKE_RELATIVE_METHOD_VERSION}:{first_day.isoformat()}:{last_day.isoformat()}",
+        "subjectId": subject_id,
+        "summaryType": "derived_rhythm_summary",
+        "epistemicClass": "derived",
+        "domain": "nutrition",
+        "label": "logged meal timing relative to explicit wake events",
+        "methodVersion": WAKE_RELATIVE_METHOD_VERSION,
+        "timeReference": "elapsed_minutes_from_explicit_wake_event",
+        "window": {"startDate": first_day.isoformat(), "endDate": last_day.isoformat(), "inclusiveDays": window_days},
+        "inputRecordIds": sorted(input_ids),
+        "nWakeToWakeIntervals": len(eligible_cycles),
+        "nCandidateWakeToWakeIntervals": candidate_interval_count,
+        "nIntervalsExcludedForGap": candidate_interval_count - len(eligible_cycles),
+        "maximumIntervalHours": max_interval_hours,
+        "nIntervalsWithLoggedMeals": len(intervals_with_meals),
+        "nLoggedMeals": len(all_meal_delays),
+        "coverage": {
+            "wakeDatesWithCompleteWakeToWakeInterval": len(observed_days),
+            "calendarDaysInWindow": window_days,
+            "fractionOfDaysWithCompleteInterval": round(len(observed_days) / window_days, 3) if window_days else 0.0,
+        },
+        "medianFirstLoggedMealMinutesAfterWake": round(median(first_meal_delays), 1) if first_meal_delays else None,
+        "medianLoggedMealMinutesAfterWake": round(median(all_meal_delays), 1) if all_meal_delays else None,
+        "limitations": [
+            "Includes only explicit wake-to-next-wake intervals; intervals without a following recorded wake are excluded.",
+            "Intervals longer than maximumIntervalHours are excluded as possible missing-wake gaps; the default is a data-quality rule, not a biological boundary.",
+            "Meal records may be incomplete; the first logged meal is not necessarily the first meal eaten.",
+            "Caregiver-reported feeding events are excluded and must not be interpreted with adult meal summaries.",
+            "Elapsed time from waking is a behavioral reference, not endogenous circadian phase.",
+            "Does not infer fasting, appetite, calories, nutrition adequacy, metabolic state, or a recommended schedule.",
         ],
     }

@@ -1,0 +1,31 @@
+{
+  "id": "learning-activity-2026-10-20-01",
+  "subjectId": "example-subject-01",
+  "recordType": "event",
+  "eventType": "learning_activity",
+  "epistemicClass": "self_reported",
+  "time": {
+    "start": "2026-10-20T16:00:00-06:00",
+    "end": "2026-10-20T16:20:00-06:00",
+    "timeZone": "America/Denver",
+    "precision": "approximate",
+    "scale": "interval"
+  },
+  "source": { "kind": "subject", "reportedByRelation": "self" },
+  "domain": "learning",
+  "label": "French conversation practice",
+  "learningActivity": {
+    "taskOrSkill": "Recall and use familiar French phrases in conversation",
+    "activityKind": "guided_practice",
+    "approaches": ["audio", "discussion", "retrieval_practice"],
+    "supportLevel": "light_prompting",
+    "learnerChoice": true,
+    "setting": "One-to-one practice"
+  },
+  "privacy": {
+    "sensitivity": "personal",
+    "subjectControlled": true,
+    "sharing": "private"
+  },
+  "notes": "Synthetic example record; not a recommended lesson or learning-style profile."
+}

@@ -24,10 +24,72 @@ Set `include_infant_feeds=True` only when a caregiver explicitly requests a comb
 
 The reported within-day span is **not** an inferred fasting duration or a recommended eating window. Missing meal/feed records do not show that no meal/feed occurred. The functions do not calculate calories, infer appetite, assess nutrition, or infer hormone levels.
 
+### Meal timing relative to waking
+
+`summarize_meal_timing_relative_to_wake(records, subject_id=..., start_date=..., end_date=..., max_interval_hours=36.0)` compares logged `meal` events with explicit `wake` events. Wake records must use `eventType: "wake"` and domain `sleep` or `circadian`. The function measures elapsed minutes between wake timestamps on the UTC timeline, and reports the median time to the **first logged** meal per complete wake-to-next-wake interval plus the median time of all logged meals relative to wake.
+
+Only intervals with a following explicit wake event are considered, so the final wake in a dataset is not summarized until its next wake is recorded. Intervals longer than `max_interval_hours` are excluded as possible missing-wake gaps; the 36-hour default is a data-quality heuristic, not a biological boundary. The date window selects the local date of the interval's starting wake. Caregiver-reported `feeding` events are always excluded; infant feeding must not be analyzed as adult meal timing. This is behavioral timing, not a biological circadian phase estimate.
+
+Example wake record:
+
+```json
+{
+  "id": "wake-2026-10-18",
+  "subjectId": "local-subject-7f23",
+  "recordType": "event",
+  "eventType": "wake",
+  "epistemicClass": "self_reported",
+  "time": {
+    "observedAt": "2026-10-18T06:30:00-06:00",
+    "timeZone": "America/Denver",
+    "precision": "approximate",
+    "scale": "circadian"
+  },
+  "source": { "kind": "subject", "reportedByRelation": "self" },
+  "domain": "sleep",
+  "label": "woke for the day"
+}
+```
+
+Use the function from the package:
+
+```python
+from metheus import summarize_meal_timing_relative_to_wake
+
+summary = summarize_meal_timing_relative_to_wake(
+    records,
+    subject_id="local-subject-7f23",
+    start_date="2026-10-12",
+    end_date="2026-10-18",
+)
+```
+
+### Gaps between logged bleeding-onset dates
+
+`summarize_bleeding_onset_intervals(records, subject_id=..., start_date=..., end_date=...)` describes calendar-day gaps between adjacent, explicitly logged `bleeding_start` records in the selected window. Records must belong to the requested subject and use `domain: "reproductive"`; symbolic and derived event records are excluded. Duplicate records on the same local date are grouped as one onset date. The summary returns interval values, median gap, median absolute deviation, date-precision counts, and input IDs.
+
+The output calls these **gaps between logged bleeding-onset dates**, not menstrual-cycle lengths. Bleeding may have different causes, entries may be missing, and the summary does not infer ovulation, hormone phase, fertility, pregnancy, menopause stage, diagnosis, or a future onset. It only includes adjacent onset dates that both fall inside the selected window.
+
+Date-only reports use `time.date` with `precision: "date_only"`; see the [synthetic date-only bleeding-onset record](../examples/bleeding-onset.example.json).
+
+Use the function from the package:
+
+```python
+from metheus import summarize_bleeding_onset_intervals
+
+summary = summarize_bleeding_onset_intervals(
+    records,
+    subject_id="local-subject-7f23",
+    start_date="2026-01-01",
+    end_date="2026-10-31",
+)
+```
+
+
 ## Time and subject handling
 
 - A `subject_id` is required. Records for other subjects are ignored before aggregation.
-- Timestamps must include an explicit UTC offset. If `time.timeZone` is a valid IANA zone, it is used to interpret local clock time and daylight-saving changes; otherwise the supplied offset is used.
+- Timed values must include an explicit UTC offset. If `time.timeZone` is a valid IANA zone, it is used to interpret local clock time and daylight-saving changes; otherwise the supplied offset is used. Date-only bleeding-onset reports use an explicit `time.date` field and are not assigned an artificial time of day.
 - Durations are computed on the UTC timeline. Clock-time summaries are suppressed when inputs use more than one time-zone context because those local clock times are not directly comparable.
 - Date windows are inclusive and are evaluated using each record's local date.
 - Summary IDs are deterministic for domain, method version, and date window. Storage identity must scope that ID by `subjectId`; the identifier itself contains no subject key.
@@ -63,7 +125,11 @@ The record is illustrative. It contains no health conclusion. Because the device
 ## Using the functions
 
 ```python
-from metheus import summarize_feeding_events, summarize_main_sleep
+from metheus import (
+    summarize_bleeding_onset_intervals,
+    summarize_feeding_events,
+    summarize_main_sleep,
+)
 
 sleep_summary = summarize_main_sleep(
     records,
@@ -77,10 +143,16 @@ meal_summary = summarize_feeding_events(
     start_date="2026-10-12",
     end_date="2026-10-18",
 )
+bleeding_gap_summary = summarize_bleeding_onset_intervals(
+    records,
+    subject_id="local-subject-7f23",
+    start_date="2026-01-01",
+    end_date="2026-10-31",
+)
 ```
 
 These function outputs are **derived feature summaries**, not persisted observation records. If a future reading refers to one, it should cite the returned `summaryId`, `methodVersion`, and `inputRecordIds`. The subject, chosen window, coverage, and limitations must remain attached. A future storage adapter can map each numeric feature into the observation schema once feature-level units and validity rules are reviewed.
 
 ## Current boundary
 
-This prototype computes descriptive timing summaries only. It does not yet calculate light-based circadian phase, model endocrine dynamics, join multiple rhythms, estimate personal baselines, generate readings, or store any data. Those require separate, reviewed methods and must not be implied by these functions.
+This prototype computes descriptive timing summaries only, including a meal-to-wake comparison based on explicit wake events and calendar gaps between reported bleeding onsets. It does not calculate light-based circadian phase, infer menstrual phase or ovulation, model endocrine dynamics, estimate personal baselines, generate readings, or store any data. Those require separate, reviewed methods and must not be implied by these functions.

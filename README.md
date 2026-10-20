@@ -33,9 +33,25 @@ See [Metheus as a systems model](docs/systems-model.md) for the intended archite
 
 See [Metheus ontology](docs/ontology.md) for core entities and epistemic classes, with a draft [observation schema](schema/observation.schema.json) for time-bounded records.
 
-See [Metheus reading grammar](docs/reading-grammar.md) for synthesis rules and worked examples, with a draft [reading schema](schema/reading.schema.json) for sourced claims and limitations.
+See [Metheus reading grammar](docs/reading-grammar.md) for synthesis rules and worked examples, with a draft [reading schema](schema/reading.schema.json) for sourced claims, limitations, and subject-controlled reflection options.
 
-See [First executable rhythm summaries](docs/rhythm-analysis.md) for the current deterministic code prototype for logged sleep and meal/feeding timing.
+See [First executable rhythm summaries](docs/rhythm-analysis.md) for deterministic descriptions of logged sleep, meal/feeding timing, meal timing relative to wake, and gaps between reported bleeding-onset dates.
+
+See [Measurement landscape](docs/measurement-landscape.md) for a modality-by-modality account of what Metheus could record, what is only an estimate, and the limits of wearables, urine tests, laboratory results, self-reports, and developmental records.
+
+See [Rhythm system model](docs/rhythm-system.md) for how circadian, sleep/wake, eating/feeding, activity, reproductive, developmental, and social rhythms may be represented and compared over time.
+
+See [Promethean–Epimethean bridge](docs/promethean-epimethean-bridge.md) for a source-attributed way to place gates, channels, centers, chakra traditions, and lived physiology in conversation without conflating symbolism with endocrine mechanisms. The draft [correspondence schema](schema/correspondence.schema.json) keeps these crosswalks distinct from measured observations.
+
+See [Epimethean behavior layer](docs/behavior-layer.md) for representing chosen or constrained eating patterns, fasting, exercise, supplements, sleep/light routines, and other practices alongside physiology without treating the model as a prescriber.
+
+See [Sensory, aroma, and flavor layer](docs/sensory-aroma-flavor-layer.md) for recording scent, taste, flavor, and route separately from measured or reported outcomes, with evidence limits on hormone-response claims.
+
+See [Developmental psychology and learning layer](docs/developmental-learning-layer.md) for using developmental and learning sciences to shape revisable learning options while keeping symbolic design reflective rather than deterministic.
+
+The [synthetic learning example set](examples/learning-reading.example.json) shows a Promethean prompt, learning activity, separate learner feedback, and a structured reading with subject-controlled reflection options.
+
+See the [privacy, consent, and data stewardship model](docs/privacy-consent-model.md) and draft [consent-grant schema](schema/consent.schema.json) for scoped permissions, child participation, relationship-data boundaries, and required data lifecycle controls.
 
 ## Site
 

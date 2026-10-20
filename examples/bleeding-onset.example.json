@@ -1,0 +1,21 @@
+{
+  "id": "bleeding-onset-example-2026-10-01",
+  "subjectId": "example-subject-02",
+  "recordType": "event",
+  "eventType": "bleeding_start",
+  "epistemicClass": "self_reported",
+  "time": {
+    "date": "2026-10-01",
+    "precision": "date_only",
+    "scale": "reproductive"
+  },
+  "source": { "kind": "subject", "reportedByRelation": "self" },
+  "domain": "reproductive",
+  "label": "reported bleeding began",
+  "privacy": {
+    "sensitivity": "sensitive",
+    "subjectControlled": true,
+    "sharing": "private"
+  },
+  "notes": "Synthetic example; does not specify cause or menstrual-cycle phase."
+}

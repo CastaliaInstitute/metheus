@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metheus.castalia.institute/schema/correspondence.schema.json",
+  "title": "Metheus symbolic-to-lived correspondence",
+  "description": "A versioned, source-attributed relation between a symbolic feature and a lived or physiological concept. It is not an observation, diagnosis, or proof of mechanism.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "sourceSystem", "sourceFeature", "targetConcept", "relationType", "evidenceStatus", "permittedUse", "claimText", "sourceCitations", "limitations"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "sourceSystem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "lineage": { "type": "string" },
+        "version": { "type": "string" }
+      }
+    },
+    "sourceFeature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "id"],
+      "properties": {
+        "kind": { "enum": ["center", "gate", "channel", "chakra", "chart_feature", "other"] },
+        "id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string" }
+      }
+    },
+    "targetConcept": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "id"],
+      "properties": {
+        "kind": { "enum": ["hormone", "neurochemical", "organ", "physiological_process", "experience", "developmental_context", "other"] },
+        "id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string" }
+      }
+    },
+    "relationType": { "enum": ["tradition_attributed", "reflective_association", "empirical_association", "physiological_mechanism"] },
+    "evidenceStatus": { "enum": ["not_evaluated", "under_review", "supported_for_scope", "not_supported", "conflicting"] },
+    "permittedUse": { "enum": ["optional_reflective_prompt", "research_hypothesis", "educational_context", "mechanism_explanation"] },
+    "claimText": { "type": "string", "minLength": 1 },
+    "sourceCitations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["title", "url"],
+        "properties": {
+          "title": { "type": "string", "minLength": 1 },
+          "url": { "type": "string", "format": "uri" },
+          "locator": { "type": "string" },
+          "accessedAt": { "type": "string", "format": "date" }
+        }
+      }
+    },
+    "limitations": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "reviewedAt": { "type": "string", "format": "date" },
+    "reviewerRole": { "type": "string" },
+    "supersedes": { "type": "string" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "relationType": { "const": "tradition_attributed" } } },
+      "then": { "properties": { "sourceCitations": { "minItems": 1 }, "permittedUse": { "const": "optional_reflective_prompt" } } }
+    },
+    {
+      "if": { "properties": { "relationType": { "const": "empirical_association" } } },
+      "then": { "properties": { "permittedUse": { "enum": ["research_hypothesis", "educational_context"] } } }
+    },
+    {
+      "if": { "properties": { "relationType": { "const": "physiological_mechanism" } } },
+      "then": { "properties": { "evidenceStatus": { "const": "supported_for_scope" }, "permittedUse": { "const": "mechanism_explanation" } } }
+    }
+  ]
+}

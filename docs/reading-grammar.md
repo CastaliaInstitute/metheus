@@ -77,6 +77,11 @@ Close with one or two questions or options the person can accept, reject, or rev
 - Do not say “your hormones caused,” “your body wants,” “you are a…,” or “this proves” without appropriate direct evidence and reviewed domain logic; in most reflective readings, avoid causal language entirely.
 - Do not generate a finding from a single noisy or isolated datapoint. If the input is sparse, say so and keep the reflection general.
 - Do not rank, shame, or moralize sleep timing, meal timing, feeding, cycle regularity, emotion, productivity, or development.
+- Treat a behavior intention, a behavior that occurred, and a later response as separate records. A time overlap between a behavior and a response does not establish the effect of that behavior or validate a symbolic correspondence.
+- When behavior or sensory exposures are relevant to the question, distinguish the person's intention from the recorded occurrence and response. For aromas and flavors, preserve whether the exposure was ambient, inhaled, taste-only, or part of swallowed food; never turn a named scent or flavor into a hormone-effect claim without evidence for that precise exposure and context. See the [behavior layer](behavior-layer.md) and [sensory exposure layer](sensory-aroma-flavor-layer.md).
+- For learning questions, use the task, developmental context, access needs, learner goals, and observed response to suggest revisable options. A Promethean feature may be an optional reflection prompt, but must not become a fixed learning style, ability prediction, school placement, or required teaching method. See the [developmental psychology and learning layer](developmental-learning-layer.md).
+- If the reading includes learning approaches, explain their basis in the learner's stated goal, task demands, developmental context, access needs, or cited learning evidence. A symbolic feature may support only a clearly labeled reflection question; it cannot be the basis for choosing an instructional approach. Present options for the learner to choose, decline, or revise, not as a prescription.
+- Do not recommend fasting, diets, exercise loads, supplements, hormone changes, or medication changes from a chart or a pattern summary. Keep the person's stated goal distinct from a recommendation.
 - Do not infer consent, desire, attachment, compatibility, fertility, diagnosis, identity, or destiny from symbolic features, proxies, correlations, or another person's report.
 - Do not use a child's observation to assign temperament, attachment quality, future ability, or an endocrine state.
 
@@ -142,6 +147,32 @@ All examples below are synthetic and illustrate wording, not validated rules or 
 
 **Why this fits:** the model refuses to infer neurochemistry from mood and still offers a useful next step.
 
+### E. Adult: a chosen sensory routine
+
+**Question:** “Does a scent routine help me settle before sleep?”
+
+**Available records:** on six evenings, the person logged using a lavender diffuser for about 20 minutes; on those evenings they also logged later screen use. They self-rated calmness after the routine and have wearable sleep estimates. There is no hormone assay and no comparison condition.
+
+**Reading:**
+
+> You recorded the diffuser and a calmness rating on six evenings. Those evenings also included later screen use, and the sleep times come from a wearable estimate. These records can help describe your experience, but they do not show that lavender changed cortisol or caused a sleep change. Would you like to keep tracking the routine, or would you rather reflect on the evening as a whole?
+
+**Why this fits:** the aroma exposure, reported experience, and wearable estimate remain distinct; concurrent context is named; no hormone response is inferred from calmness or sleep.
+
+### F. Child: learning support without chart-based labeling
+
+**Question:** “How can I support my child as they learn to solve simple puzzles?”
+
+**Available records:** the child has chosen two animal puzzles; caregiver notes show that the child sometimes tries different pieces and sometimes asks for help. The caregiver has selected a Promethean theme about experimentation as a family reflection prompt. There is no formal developmental or educational assessment.
+
+**Reading:**
+
+> Your notes show that your child sometimes explores different pieces and sometimes asks for help. That gives a picture of what happened in these moments, not a fixed ability level. If the experimentation theme is useful to you, it might prompt a question about leaving room for trying things out; it cannot tell us how your child learns or what they should be able to do. You could ask your child what feels fun or frustrating, offer help when requested, and notice what support they want next time. If you have a developmental concern, these notes are not a screening and can be discussed with your child's clinician or educator.
+
+**Why this fits:** the child's observed choices and caregiver's account remain primary; the symbolic theme is explicitly a family prompt, not a child trait; no age norm or diagnosis is inferred. See the [developmental learning layer](developmental-learning-layer.md) for the evidence base and limits.
+
+Possible reflection options could be to offer another puzzle the child has chosen, ask what kind of help they want, or simply continue observing what they do. These options arise from the child's stated/observed interest and the caregiver's question, not from the symbolic feature.
+
 ## Output shape
 
 A reading should carry these fields internally:
@@ -150,9 +181,12 @@ A reading should carry these fields internally:
 2. purpose/question and time window;
 3. selected input IDs and exclusions where useful;
 4. ordered claims, each with `claimType`, text, source IDs, confidence/coverage, and rationale;
-5. user-facing synthesis and optional reflective question;
-6. boundaries/limitations;
-7. generated timestamp and subject feedback/revision status.
+5. optional `reflectionOptions`, each labeled with its basis and the subject's status (not reviewed, chosen, declined, or revised);
+6. user-facing synthesis and optional reflective question;
+7. boundaries/limitations;
+8. generated timestamp and subject feedback/revision status.
+
+The reading schema prevents a symbolic prompt from serving as the basis for a learning approach. Symbolism may support a `reflection_question`; a `learning_approach` must be grounded in non-symbolic learning context or evidence.
 
 The draft output contract is [`../schema/reading.schema.json`](../schema/reading.schema.json).
 

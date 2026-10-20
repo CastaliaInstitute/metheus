@@ -10,7 +10,7 @@
     "id": { "type": "string", "minLength": 1 },
     "subjectId": { "type": "string", "minLength": 1, "description": "Pseudonymous local subject reference; avoid direct identifiers." },
     "recordType": { "enum": ["observation", "event", "estimate", "symbolic_feature", "context"] },
-    "eventType": { "enum": ["main_sleep", "sleep_episode", "nap", "meal", "feeding", "light_exposure", "activity", "bleeding_start", "symptom", "hormone_result", "developmental_note", "relationship_note", "other"] },
+    "eventType": { "enum": ["main_sleep", "sleep_episode", "nap", "wake", "meal", "feeding", "fasting_start", "fasting_end", "dietary_pattern", "learning_activity", "light_exposure", "sensory_exposure", "activity", "exercise_session", "supplement_use", "medication_change", "bleeding_start", "symptom", "hormone_result", "developmental_note", "relationship_note", "other"] },
     "epistemicClass": { "enum": ["measured", "self_reported", "caregiver_reported", "clinician_reported", "derived", "symbolic", "imported"] },
     "time": {
       "type": "object",
@@ -20,11 +20,25 @@
         "start": { "type": "string", "format": "date-time" },
         "end": { "type": "string", "format": "date-time" },
         "observedAt": { "type": "string", "format": "date-time" },
+        "date": { "type": "string", "format": "date", "description": "Local calendar date when an exact time is unknown; use with precision=date_only." },
         "timeZone": { "type": "string", "description": "IANA time-zone name when known, for example America/Denver." },
         "precision": { "enum": ["exact", "approximate", "date_only", "unknown"] },
         "scale": { "enum": ["instant", "interval", "ultradian", "circadian", "daily", "weekly", "reproductive", "developmental", "life_course", "unknown"] }
       },
-      "anyOf": [{ "required": ["observedAt"] }, { "required": ["start"] }]
+      "anyOf": [{ "required": ["observedAt"] }, { "required": ["start"] }, { "required": ["date"] }],
+      "allOf": [
+        {
+          "if": { "required": ["date"], "properties": { "date": { "type": "string" } } },
+          "then": { "properties": { "precision": { "const": "date_only" } } }
+        },
+        {
+          "if": { "required": ["precision"], "properties": { "precision": { "const": "date_only" } } },
+          "then": {
+            "required": ["date"],
+            "not": { "anyOf": [{ "required": ["observedAt"] }, { "required": ["start"] }, { "required": ["end"] }] }
+          }
+        }
+      ]
     },
     "source": {
       "type": "object",
@@ -38,7 +52,7 @@
         "reportedByRelation": { "enum": ["self", "parent_guardian", "caregiver", "clinician", "other", "unknown"] }
       }
     },
-    "domain": { "enum": ["circadian", "sleep", "feeding", "nutrition", "hydration", "activity", "physiology", "hormone_assay", "symptom", "reproductive", "development", "relationship", "environment", "life_event", "symbolic", "other"] },
+    "domain": { "enum": ["circadian", "sleep", "feeding", "nutrition", "hydration", "activity", "behavior", "learning", "sensory_exposure", "supplement", "medication", "physiology", "hormone_assay", "symptom", "reproductive", "development", "relationship", "environment", "life_event", "symbolic", "other"] },
     "label": { "type": "string", "minLength": 1 },
     "value": {
       "type": "object",
@@ -58,6 +72,114 @@
       "minProperties": 1
     },
     "methodDetails": { "type": "string" },
+    "behaviorContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Optional record of an intended or reported behavior. It does not imply that the behavior is fully controllable, safe, effective, or recommended.",
+      "properties": {
+        "kind": { "enum": ["dietary_pattern", "fasting", "exercise", "supplement_use", "medication_context", "sleep_routine", "light_routine", "sensory_exposure", "other"] },
+        "status": { "enum": ["planned", "attempted", "completed", "partial", "skipped", "unknown"] },
+        "agencyContext": { "enum": ["chosen", "constrained", "clinician_guided", "caregiver_directed", "externally_imposed", "unclear"] },
+        "intention": { "type": "string" },
+        "reportedAction": { "type": "string" },
+        "amount": { "type": "number" },
+        "amountUnit": { "type": "string" },
+        "perceivedIntensity": { "enum": ["very_light", "light", "moderate", "vigorous", "self_defined", "unknown"] },
+        "product": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "name": { "type": "string" },
+            "brand": { "type": "string" },
+            "formulation": { "type": "string" },
+            "route": { "type": "string" },
+            "ingredients": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["name"],
+                "properties": {
+                  "name": { "type": "string", "minLength": 1 },
+                  "amount": { "type": "number" },
+                  "unit": { "type": "string" }
+                }
+              }
+            },
+            "servingAmount": { "type": "number" },
+            "servingUnit": { "type": "string" },
+            "source": { "type": "string" }
+          }
+        },
+        "contextNote": { "type": "string", "description": "Optional, user-chosen context; avoid inferring adherence, motivation, or health meaning." }
+      }
+    },
+    "sensoryExposure": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Optional record of an aroma, taste, flavor, or combined sensory exposure. This records exposure, not a hormone effect or therapeutic recommendation.",
+      "properties": {
+        "modality": { "enum": ["ambient_aroma", "inhaled_aroma", "taste_only", "mouth_rinse_spit", "food_or_drink_flavor", "ingested_product", "multisensory", "unknown"] },
+        "stimulusName": { "type": "string", "description": "User-described aroma/flavor, plant, food, or product; retain uncertainty where composition is unknown." },
+        "chemicalComposition": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "route": { "enum": ["ambient_olfaction", "inhaled", "oral_contact_not_swallowed", "swallowed_food", "swallowed_supplement", "topical", "unknown"] },
+        "concentration": { "type": "number", "minimum": 0 },
+        "concentrationUnit": { "type": "string" },
+        "amount": { "type": "number", "minimum": 0 },
+        "amountUnit": { "type": "string" },
+        "durationMinutes": { "type": "number", "minimum": 0 },
+        "intensity": { "enum": ["very_faint", "faint", "moderate", "strong", "very_strong", "unknown"] },
+        "pleasantness": { "enum": ["very_unpleasant", "unpleasant", "neutral", "pleasant", "very_pleasant", "not_reported"] },
+        "expectation": { "type": "string", "description": "Optional expectation or familiarity noted by the person; not an objective property of the stimulus." },
+        "setting": { "type": "string" },
+        "product": { "type": "string" },
+        "swallowed": { "type": "boolean" }
+      }
+    },
+    "learningActivity": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Optional context about a learning activity. Records task and supports, not a fixed learning style, ability, or developmental score.",
+      "required": ["taskOrSkill", "activityKind"],
+      "properties": {
+        "taskOrSkill": { "type": "string", "minLength": 1 },
+        "activityKind": { "enum": ["play", "guided_practice", "lesson", "exploration", "reading", "conversation", "daily_routine", "other"] },
+        "approaches": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "enum": ["explanation", "demonstration", "guided_play", "hands_on_practice", "text", "diagram", "audio", "movement", "discussion", "retrieval_practice", "spaced_practice", "collaboration", "independent_practice", "other"] }
+        },
+        "supportLevel": { "enum": ["independent", "light_prompting", "guided", "modeled", "caregiver_supported", "unknown"] },
+        "learnerChoice": { "type": "boolean" },
+        "accessSupports": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "setting": { "type": "string" }
+      }
+    },
+    "measurementDetails": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Optional details for an instrument or assay result. Preserve only what is known; this metadata does not make a result clinically interpretable.",
+      "properties": {
+        "analyteOrSignal": { "type": "string" },
+        "specimen": { "type": "string", "description": "For example, blood, saliva, urine, or not applicable." },
+        "sensorLocation": { "type": "string", "description": "For example, wrist, finger, or oral measurement site." },
+        "deviceOrAssay": { "type": "string" },
+        "deviceModel": { "type": "string" },
+        "algorithmVersion": { "type": "string" },
+        "collectionConditions": { "type": "string", "description": "Optional user-chosen context such as fasting status or collection protocol." },
+        "referenceInterval": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "low": { "type": "number" },
+            "high": { "type": "number" },
+            "unit": { "type": "string" },
+            "source": { "type": "string", "description": "Reference interval source, such as the reporting laboratory." }
+          }
+        },
+        "qualityFlags": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+      }
+    },
     "uncertainty": {
       "type": "object",
       "additionalProperties": false,
@@ -96,16 +218,44 @@
   },
   "allOf": [
     {
-      "if": { "properties": { "epistemicClass": { "const": "derived" } } },
+      "if": { "required": ["epistemicClass"], "properties": { "epistemicClass": { "const": "derived" } } },
       "then": { "required": ["derivedFrom", "methodVersion", "uncertainty"] }
     },
     {
-      "if": { "properties": { "epistemicClass": { "const": "symbolic" } } },
+      "if": { "required": ["epistemicClass"], "properties": { "epistemicClass": { "const": "symbolic" } } },
       "then": { "properties": { "source": { "properties": { "kind": { "const": "symbolic_system" } } } } }
     },
     {
-      "if": { "properties": { "domain": { "const": "hormone_assay" } } },
+      "if": { "required": ["domain"], "properties": { "domain": { "const": "hormone_assay" } } },
       "then": { "required": ["value"], "properties": { "epistemicClass": { "const": "measured" }, "source": { "properties": { "kind": { "const": "laboratory" } } }, "value": { "required": ["unit"] } } }
+    },
+    {
+      "if": { "required": ["eventType"], "properties": { "eventType": { "const": "sensory_exposure" } } },
+      "then": { "required": ["sensoryExposure"], "properties": { "domain": { "const": "sensory_exposure" } } }
+    },
+    {
+      "if": { "required": ["domain"], "properties": { "domain": { "const": "sensory_exposure" } } },
+      "then": { "required": ["sensoryExposure"] }
+    },
+    {
+      "if": { "required": ["eventType"], "properties": { "eventType": { "enum": ["fasting_start", "fasting_end"] } } },
+      "then": { "required": ["behaviorContext"], "properties": { "behaviorContext": { "required": ["kind"], "properties": { "kind": { "const": "fasting" } } } } }
+    },
+    {
+      "if": { "required": ["eventType"], "properties": { "eventType": { "const": "dietary_pattern" } } },
+      "then": { "required": ["behaviorContext"], "properties": { "behaviorContext": { "required": ["kind"], "properties": { "kind": { "const": "dietary_pattern" } } } } }
+    },
+    {
+      "if": { "required": ["eventType"], "properties": { "eventType": { "const": "exercise_session" } } },
+      "then": { "required": ["behaviorContext"], "properties": { "behaviorContext": { "required": ["kind"], "properties": { "kind": { "const": "exercise" } } } } }
+    },
+    {
+      "if": { "required": ["eventType"], "properties": { "eventType": { "const": "supplement_use" } } },
+      "then": { "required": ["behaviorContext"], "properties": { "behaviorContext": { "required": ["kind"], "properties": { "kind": { "const": "supplement_use" } } } } }
+    },
+    {
+      "if": { "required": ["eventType"], "properties": { "eventType": { "const": "learning_activity" } } },
+      "then": { "required": ["learningActivity"], "properties": { "domain": { "const": "learning" } } }
     }
   ]
 }
