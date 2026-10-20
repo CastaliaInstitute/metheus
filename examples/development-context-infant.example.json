@@ -1,0 +1,25 @@
+{
+  "id": "development-context-infant-example",
+  "subjectId": "development-context-synthetic-subject",
+  "recordType": "observation",
+  "schemaVersion": "0.2",
+  "eventType": "developmental_note",
+  "epistemicClass": "caregiver_reported",
+  "time": {
+    "observedAt": "2026-10-20T10:00:00-06:00",
+    "timeZone": "America/Denver",
+    "precision": "approximate",
+    "scale": "instant"
+  },
+  "source": { "kind": "caregiver", "reportedByRelation": "parent_guardian" },
+  "domain": "development",
+  "label": "synthetic caregiver note about shared play",
+  "developmentContext": {
+    "lifeStage": "infancy",
+    "ageDays": 68,
+    "ageAnchor": "record_time_start",
+    "agePrecision": "approximate",
+    "basis": "reported"
+  },
+  "notes": "Synthetic contract example only. Age context does not represent an assessment, milestone score, or expectation."
+}

@@ -214,10 +214,14 @@
       "additionalProperties": false,
       "properties": {
         "lifeStage": { "enum": ["prenatal", "newborn", "infancy", "early_childhood", "middle_childhood", "adolescence", "adulthood", "pregnancy", "postpartum", "menopause_transition", "later_life", "unspecified"] },
-        "ageDays": { "type": "integer", "minimum": 0 },
-        "gestationalAgeDays": { "type": "integer", "minimum": 0 },
-        "correctedAgeDays": { "type": "integer", "minimum": 0 },
-        "basis": { "enum": ["reported", "calculated", "unknown"] }
+        "ageDays": { "type": "integer", "minimum": 0, "description": "Chronological age in days at the record time anchor; this is not inferred from an unrecorded date of birth." },
+        "gestationalAgeDays": { "type": "integer", "minimum": 0, "description": "Gestational age in days at the record time anchor, for a prenatal context only." },
+        "correctedAgeDays": { "type": "integer", "minimum": 0, "description": "A source-provided or explicitly calculated corrected age at the record time anchor; never inferred by Metheus." },
+        "ageAnchor": { "const": "record_time_start", "description": "Age values refer to time.observedAt, time.start, or the stated date, in that precedence." },
+        "agePrecision": { "enum": ["exact", "approximate"], "description": "Precision of numeric age values; do not convert approximate month/year reports into exact day counts." },
+        "basis": { "enum": ["reported", "calculated", "clinically_assessed"], "description": "Known basis for numeric age values in this context; omit when only lifeStage is supplied." },
+        "ageMethod": { "type": "string", "minLength": 1, "description": "Required when numeric age values are calculated; name the source method and version when known." },
+        "correctedAgeMethod": { "type": "string", "minLength": 1, "description": "Required with correctedAgeDays; identify who supplied it or how it was calculated. Metheus does not calculate corrected age." }
       }
     },
     "privacy": {
@@ -346,6 +350,37 @@
     {
       "if": { "required": ["eventType"], "properties": { "eventType": { "const": "learning_activity" } } },
       "then": { "required": ["learningActivity"], "properties": { "domain": { "const": "learning" } } }
+    },
+    {
+      "if": {
+        "required": ["developmentContext"],
+        "properties": { "developmentContext": { "anyOf": [{ "required": ["ageDays"] }, { "required": ["gestationalAgeDays"] }, { "required": ["correctedAgeDays"] }] } }
+      },
+      "then": { "properties": { "developmentContext": { "required": ["ageAnchor", "agePrecision", "basis"] } } }
+    },
+    {
+      "if": { "required": ["developmentContext"], "properties": { "developmentContext": { "required": ["gestationalAgeDays"] } } },
+      "then": { "properties": { "developmentContext": { "properties": { "lifeStage": { "const": "prenatal" } } } } }
+    },
+    {
+      "if": { "required": ["developmentContext"], "properties": { "developmentContext": { "required": ["correctedAgeDays"] } } },
+      "then": { "properties": { "developmentContext": { "required": ["ageDays", "correctedAgeMethod"], "properties": { "lifeStage": { "enum": ["newborn", "infancy"] } } } } }
+    },
+    {
+      "if": { "required": ["developmentContext"], "properties": { "developmentContext": { "required": ["correctedAgeMethod"] } } },
+      "then": { "properties": { "developmentContext": { "required": ["correctedAgeDays"] } } }
+    },
+    {
+      "if": { "required": ["developmentContext"], "properties": { "developmentContext": { "required": ["ageDays"], "properties": { "basis": { "const": "calculated" } } } } },
+      "then": { "properties": { "developmentContext": { "required": ["ageMethod"] } } }
+    },
+    {
+      "if": { "required": ["developmentContext"], "properties": { "developmentContext": { "required": ["gestationalAgeDays"], "properties": { "basis": { "const": "calculated" } } } } },
+      "then": { "properties": { "developmentContext": { "required": ["ageMethod"] } } }
+    },
+    {
+      "if": { "required": ["developmentContext"], "properties": { "developmentContext": { "required": ["correctedAgeDays"], "properties": { "basis": { "const": "calculated" } } } } },
+      "then": { "properties": { "developmentContext": { "required": ["ageMethod"] } } }
     },
     {
       "if": { "required": ["eventType"], "properties": { "eventType": { "const": "hormone_result" } } },

@@ -47,6 +47,7 @@ These are product design goals. Rules about guardianship, minors, education reco
 
 - Make every domain optional and off until the subject chooses to include it.
 - Ask only for fields needed by the current question. Exact birth location, complete menstrual/sexual histories, detailed food logs, or full wearable exports should not be defaults.
+- Treat a child's exact age and prematurity context as sensitive. Prefer an optional age anchored to an observation over collecting a date of birth when the calendar date is not needed; do not infer age or life stage from unrelated records.
 - Prefer a narrow event or user-described context over broad free-text diaries. Do not request a partner's identity for a subject's own relationship reflection.
 - Treat birth time and location, reproductive history, intimacy, child records, and clinical results as sensitive even if a user does not label them that way.
 - Keep exact or approximate birth-chart inputs in the separate [`birth-chart input schema`](../schema/birth-chart-input.schema.json), authorized under `birth_chart_inputs`; a subject index or symbolic-map pointer does not authorize their use. Do not copy birth details into the index or a reading. A calculated map and each feature record remain separately versioned resources.
