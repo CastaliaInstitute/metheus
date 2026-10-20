@@ -111,7 +111,7 @@ non-claims and user feedback
 1. Keep the current sleep and meal summaries as single-series descriptive primitives.
 2. Extend the event vocabulary for sleep episodes, light exposure, meal/snack, hydration, and activity only with clear source and privacy semantics. An explicit `wake` event and meal-to-wake summary are now represented in the schema and prototype.
 3. Add further behavior-relative timing features only when an explicit anchor exists and the output explicitly reports incomplete logging.
-4. Pairwise recorded temporal order and bounded cross-set temporal comparisons are executable helpers; broader multi-series co-occurrence, lag analysis, and change-point/context handling remain design work and must stay descriptive, not diagnostic or prescriptive.
+4. Pairwise recorded temporal order and bounded cross-set temporal comparisons are executable helpers for same-subject observations, including interaction events when individually selected and authorized; broader multi-series co-occurrence, lag analysis, and change-point/context handling remain design work and must stay descriptive, not diagnostic or prescriptive. Cross-set comparisons state only time order/overlap, never a relation between intimacy and physiology.
 5. Consider biological phase estimates only after method review and user testing. They are not required for a useful system.
 6. Review developmental and nutrition-related behavior with relevant domain experts before making product claims or recommendations.
 
