@@ -13,10 +13,14 @@ from typing import Any, Iterable
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from .phase_domains import phase_authorization_domain
-from .rhythms import measurement_series_source_matches, measurement_series_summary_valid
+from .rhythms import (
+    bleeding_onset_summary_boundary_valid,
+    measurement_series_source_matches,
+    measurement_series_summary_valid,
+)
 
 
-POLICY_VERSION = "metheus-consent-policy/0.4.0"
+POLICY_VERSION = "metheus-consent-policy/0.5.0"
 
 # A narrow permission may be covered by an explicit broad category for users
 # who chose that scope. Reproductive, intimacy, relationship, child, and chart
@@ -51,7 +55,7 @@ _CONSENT_DOMAINS = (_RECORD_DOMAINS - {"relationship"}) | {
 }
 _OBSERVATION_RECORD_TYPES = {"observation", "event", "estimate", "symbolic_feature", "context"}
 _SUMMARY_MEASURES = {
-    "bleeding_onset_intervals": ("reproductive", "metheus-bleeding-onset-gap/0.2.0"),
+    "bleeding_onset_intervals": ("reproductive", "metheus-bleeding-onset-gap/0.3.0"),
     "main_sleep": ("sleep", "metheus-rhythm-summary/0.2.0"),
     "meal_events": ("nutrition", "metheus-feeding-summary/0.3.0"),
     "caregiver_feeding_events": ("feeding", "metheus-feeding-summary/0.3.0"),
@@ -430,6 +434,9 @@ def evaluate_authorization(
                 decisions.append({"recordId": record_id, "authorized": False, "reason": "phase_basis_must_be_source_record"})
                 continue
         if record.get("recordType") == "rhythm_summary":
+            if not bleeding_onset_summary_boundary_valid(record, selected_record_index):
+                decisions.append({"recordId": record_id, "authorized": False, "reason": "invalid_rhythm_summary_boundary_input"})
+                continue
             basis_ids = record.get("inputRecordIds")
             if not isinstance(basis_ids, list) or not basis_ids or not all(isinstance(value, str) and value for value in basis_ids):
                 decisions.append({"recordId": record_id, "authorized": False, "reason": "missing_rhythm_summary_sources"})

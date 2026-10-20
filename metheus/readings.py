@@ -13,7 +13,7 @@ from typing import Any, Iterable
 from .affordances import validate_environmental_affordance_links
 from .authorization import evaluate_authorization, record_domain
 from .resources import resolve_subject_index
-from .rhythms import measurement_series_source_matches
+from .rhythms import bleeding_onset_summary_boundary_valid, measurement_series_source_matches
 from .schema_validation import validate_record_schema, validate_schema_instance
 
 
@@ -218,6 +218,8 @@ def validate_reading_references(
                 issue("phase_basis_subject_mismatch", support_id)
 
     def check_summary_basis(summary_id: str, summary: dict[str, Any]) -> None:
+        if not bleeding_onset_summary_boundary_valid(summary, record_index):
+            issue("invalid_rhythm_summary_boundary_input", summary_id)
         support_ids = summary.get("inputRecordIds")
         if not isinstance(support_ids, list) or not support_ids or not all(isinstance(x, str) and x for x in support_ids):
             issue("invalid_rhythm_summary_input_record_ids", summary_id)

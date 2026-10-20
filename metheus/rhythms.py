@@ -22,7 +22,7 @@ METHOD_VERSION = "metheus-rhythm-summary/0.2.0"
 SUMMARY_SCHEMA_VERSION = "0.1"
 FEEDING_METHOD_VERSION = "metheus-feeding-summary/0.3.0"
 WAKE_RELATIVE_METHOD_VERSION = "metheus-wake-relative-meal/0.2.0"
-BLEEDING_ONSET_METHOD_VERSION = "metheus-bleeding-onset-gap/0.2.0"
+BLEEDING_ONSET_METHOD_VERSION = "metheus-bleeding-onset-gap/0.3.0"
 MEASUREMENT_SERIES_METHOD_VERSION = "metheus-numeric-measurement-series/0.2.0"
 
 _MEASUREMENT_SIGNATURE_FIELDS = (
@@ -185,6 +185,58 @@ def _revision_resolution_metadata(resolution: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def bleeding_onset_summary_boundary_valid(
+    summary: dict[str, Any], source_records: dict[str, dict[str, Any]] | None = None
+) -> bool:
+    """Check that an optional out-of-window onset remains an authorized dependency."""
+    if summary.get("summaryMeasure") != "bleeding_onset_intervals":
+        return True
+    input_ids = summary.get("inputRecordIds")
+    boundary_ids = summary.get("boundaryOnsetRecordIds")
+    boundary_date = summary.get("boundaryOnsetDate")
+    window = summary.get("window")
+    if (
+        not isinstance(input_ids, list)
+        or not all(isinstance(value, str) and value for value in input_ids)
+        or len(set(input_ids)) != len(input_ids)
+        or not isinstance(boundary_ids, list)
+        or not all(isinstance(value, str) and value for value in boundary_ids)
+        or len(set(boundary_ids)) != len(boundary_ids)
+        or not isinstance(window, dict)
+    ):
+        return False
+    if boundary_date is None:
+        return not boundary_ids
+    if not isinstance(boundary_date, str) or not boundary_ids or not set(boundary_ids).issubset(input_ids):
+        return False
+    try:
+        parsed_boundary_date = date.fromisoformat(boundary_date)
+        if parsed_boundary_date >= date.fromisoformat(window["startDate"]):
+            return False
+    except (KeyError, TypeError, ValueError):
+        return False
+    if source_records is None:
+        return True
+    for record_id in boundary_ids:
+        record = source_records.get(record_id)
+        time_data = record.get("time") if isinstance(record, dict) else None
+        if not isinstance(time_data, dict):
+            return False
+        try:
+            if time_data.get("precision") == "date_only":
+                observed_date = date.fromisoformat(time_data["date"])
+            else:
+                stamp = time_data.get("observedAt") or time_data.get("start")
+                if not isinstance(stamp, str):
+                    return False
+                observed_date = _localize(record, stamp).date()
+        except (KeyError, TypeError, ValueError):
+            return False
+        if observed_date != parsed_boundary_date:
+            return False
+    return True
+
+
 def _parse_datetime(value: str) -> datetime:
     parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
     if parsed.tzinfo is None or parsed.utcoffset() is None:
@@ -276,10 +328,12 @@ def summarize_bleeding_onset_intervals(
 ) -> dict[str, Any]:
     """Describe gaps between explicitly logged bleeding-onset dates.
 
-    This reports calendar-day intervals between adjacent logged onset dates in
-    the inclusive window. It does not determine whether bleeding is menstrual,
-    infer ovulation or hormone phase, predict a future event, or evaluate health.
-    Exact times are unnecessary; date-only onset records are supported.
+    This reports calendar-day intervals ending at logged onset dates in the
+    inclusive window. The nearest earlier logged onset may fall before the
+    window and is exposed as a boundary input. This does not determine whether
+    bleeding is menstrual, infer ovulation or hormone phase, predict a future
+    event, or evaluate health. Exact times are unnecessary; date-only onset
+    records are supported.
     """
     if not subject_id:
         raise ValueError("subject_id is required to prevent cross-subject aggregation")
@@ -315,11 +369,9 @@ def summarize_bleeding_onset_intervals(
             onset_date = _localize(record, stamp).date()
             date_only = False
 
-        if not first_day <= onset_date <= last_day:
-            continue
-        if date_only:
+        if first_day <= onset_date <= last_day and date_only:
             date_only_count += 1
-        else:
+        elif first_day <= onset_date <= last_day:
             timed_count += 1
         onset_records.setdefault(onset_date, set())
         onset_record_counts[onset_date] = onset_record_counts.get(onset_date, 0) + 1
@@ -327,11 +379,24 @@ def summarize_bleeding_onset_intervals(
         if record_id:
             onset_records[onset_date].add(record_id)
 
-    onset_dates = sorted(onset_records)
-    interval_days = [(later - earlier).days for earlier, later in zip(onset_dates, onset_dates[1:])]
+    all_onset_dates = sorted(onset_records)
+    onset_dates = [onset_date for onset_date in all_onset_dates if first_day <= onset_date <= last_day]
+    interval_pairs = [
+        (earlier, later)
+        for earlier, later in zip(all_onset_dates, all_onset_dates[1:])
+        if first_day <= later <= last_day
+    ]
+    interval_days = [(later - earlier).days for earlier, later in interval_pairs]
     median_gap = median(interval_days) if interval_days else None
     deviations = [abs(value - median_gap) for value in interval_days] if median_gap is not None else []
-    input_ids = sorted({record_id for ids in onset_records.values() for record_id in ids})
+    boundary_onset_date = next(
+        (onset_date for onset_date in reversed(all_onset_dates) if onset_date < first_day), None
+    ) if onset_dates else None
+    included_dates = set(onset_dates)
+    if boundary_onset_date is not None:
+        included_dates.add(boundary_onset_date)
+    input_ids = sorted({record_id for onset_date in included_dates for record_id in onset_records[onset_date]})
+    boundary_input_ids = sorted(onset_records.get(boundary_onset_date, set())) if boundary_onset_date else []
 
     summary_id = f"bleeding-onset:{BLEEDING_ONSET_METHOD_VERSION}:{first_day.isoformat()}:{last_day.isoformat()}"
     return {
@@ -342,7 +407,9 @@ def summarize_bleeding_onset_intervals(
         "revisionResolution": _revision_resolution_metadata(revision_resolution),
         "window": {"startDate": first_day.isoformat(), "endDate": last_day.isoformat(), "inclusiveDays": window_days},
         "inputRecordIds": input_ids,
-        "nOnsetRecords": sum(onset_record_counts.values()),
+        "boundaryOnsetDate": boundary_onset_date.isoformat() if boundary_onset_date else None,
+        "boundaryOnsetRecordIds": boundary_input_ids,
+        "nOnsetRecords": sum(onset_record_counts.get(onset_date, 0) for onset_date in onset_dates),
         "nDistinctOnsetDates": len(onset_dates),
         "nIntervals": len(interval_days),
         "intervalsDays": interval_days,
@@ -355,7 +422,8 @@ def summarize_bleeding_onset_intervals(
             "A gap between bleeding-onset dates is a calendar interval, not proof of a menstrual cycle or its biological phase.",
             "Does not infer ovulation, fertility, pregnancy, hormone levels, menopause stage, diagnosis, or a future onset date.",
             "Date-only reports have less timing precision than timestamped events; the source's precision is retained in the input records.",
-            "Summarizes intervals whose adjacent onset dates both fall inside the selected window; boundary intervals are omitted.",
+            "Intervals are between adjacent logged dates and assigned to their later onset date; the nearest preceding logged date may be outside the selected window and is identified as a boundary input.",
+            "A preceding boundary input is only the nearest onset in supplied records; incomplete history may omit earlier events.",
         ],
     }
 

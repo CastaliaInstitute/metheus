@@ -68,11 +68,11 @@ summary = summarize_meal_timing_relative_to_wake(
 
 ### Gaps between logged bleeding-onset dates
 
-`summarize_bleeding_onset_intervals(records, subject_id=..., start_date=..., end_date=...)` describes calendar-day gaps between adjacent, explicitly logged `bleeding_start` records in the selected window. Records must belong to the requested subject and use `domain: "reproductive"`; symbolic and derived event records are excluded. Duplicate records on the same local date are grouped as one onset date. The summary returns interval values, median gap, median absolute deviation, date-precision counts, and input IDs.
+`summarize_bleeding_onset_intervals(records, subject_id=..., start_date=..., end_date=...)` describes calendar-day gaps between adjacent, explicitly logged `bleeding_start` dates, assigning each gap to its later onset date in the selected window. Records must belong to the requested subject and use `domain: "reproductive"`; symbolic and derived event records are excluded. Duplicate records on the same local date are grouped as one onset date. If an earlier onset is available before the window, the nearest such date is included as a `boundaryOnsetDate` and its source IDs are listed separately in `boundaryOnsetRecordIds`; those IDs are also part of `inputRecordIds` and require their own authorization. The boundary record is not counted in the in-window onset and precision counts. Incomplete history may omit earlier events, so the nearest logged date is not necessarily the person's actual previous onset.
 
-The output calls these **gaps between logged bleeding-onset dates**, not menstrual-cycle lengths. Bleeding may have different causes, entries may be missing, and the summary does not infer ovulation, hormone phase, fertility, pregnancy, menopause stage, diagnosis, or a future onset. It only includes adjacent onset dates that both fall inside the selected window.
+The output calls these **gaps between logged bleeding-onset dates**, not menstrual-cycle lengths. Bleeding may have different causes, entries may be missing, and the summary does not infer ovulation, hormone phase, fertility, pregnancy, menopause stage, diagnosis, or a future onset. Intervals ending inside the selected window may use one explicitly identified earlier boundary onset outside it.
 
-Date-only reports use `time.date` with `precision: "date_only"`; see the [synthetic date-only bleeding-onset record](../examples/bleeding-onset.example.json).
+Date-only reports use `time.date` with `precision: "date_only"`; see the [synthetic date-only bleeding-onset record](../examples/bleeding-onset.example.json) and [windowed summary with a boundary input](../examples/bleeding-onset-summary.example.json).
 
 ### Repeated numeric measurement series
 

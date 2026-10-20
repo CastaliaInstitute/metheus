@@ -1,0 +1,47 @@
+{
+  "id": "bleeding-onset:metheus-bleeding-onset-gap/0.3.0:2026-10-01:2026-11-30",
+  "summaryId": "bleeding-onset:metheus-bleeding-onset-gap/0.3.0:2026-10-01:2026-11-30",
+  "subjectId": "synthetic-cycle-subject",
+  "recordType": "rhythm_summary",
+  "schemaVersion": "0.1",
+  "summaryType": "derived_rhythm_summary",
+  "summaryMeasure": "bleeding_onset_intervals",
+  "epistemicClass": "derived",
+  "domain": "reproductive",
+  "label": "calendar-day gaps between logged bleeding-onset dates",
+  "methodVersion": "metheus-bleeding-onset-gap/0.3.0",
+  "revisionResolution": {
+    "strategy": "latest_visible_successor",
+    "supersededRecordCount": 0,
+    "unresolvedPredecessorCount": 0
+  },
+  "window": {
+    "startDate": "2026-10-01",
+    "endDate": "2026-11-30",
+    "inclusiveDays": 61
+  },
+  "inputRecordIds": [
+    "synthetic-onset-2026-09-20",
+    "synthetic-onset-2026-10-01",
+    "synthetic-onset-2026-10-29",
+    "synthetic-onset-2026-11-26"
+  ],
+  "boundaryOnsetDate": "2026-09-20",
+  "boundaryOnsetRecordIds": ["synthetic-onset-2026-09-20"],
+  "nOnsetRecords": 3,
+  "nDistinctOnsetDates": 3,
+  "nIntervals": 3,
+  "intervalsDays": [11, 28, 28],
+  "medianGapDays": 28,
+  "medianAbsoluteDeviationDays": 0,
+  "dateOnlyRecordCount": 3,
+  "timedRecordCount": 0,
+  "limitations": [
+    "Synthetic summary; IDs refer to no real person or source record.",
+    "Only explicitly logged bleeding-onset records are represented; missing logs are not evidence that bleeding did not occur.",
+    "A gap between bleeding-onset dates is a calendar interval, not proof of a menstrual cycle or its biological phase.",
+    "No ovulation, fertility, pregnancy, hormone level, menopause stage, diagnosis, or future onset is inferred.",
+    "The boundary onset is the nearest logged date in supplied history; incomplete history may omit earlier events.",
+    "The boundary record is outside the selected window but remains an input requiring separate selection and authorization."
+  ]
+}

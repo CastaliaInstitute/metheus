@@ -6,7 +6,11 @@ from datetime import datetime
 from typing import Any, Iterable
 
 from .authorization import evaluate_authorization
-from .rhythms import measurement_series_source_matches, measurement_series_summary_valid
+from .rhythms import (
+    bleeding_onset_summary_boundary_valid,
+    measurement_series_source_matches,
+    measurement_series_summary_valid,
+)
 from .schema_validation import validate_record_schema, validate_schema_instance
 
 
@@ -113,7 +117,7 @@ def _resolve_index(
         if resource.get("recordType") == "rhythm_summary":
             measure = resource.get("summaryMeasure")
             expected_summary_shapes = {
-                "bleeding_onset_intervals": ("reproductive", "metheus-bleeding-onset-gap/0.2.0"),
+                "bleeding_onset_intervals": ("reproductive", "metheus-bleeding-onset-gap/0.3.0"),
                 "main_sleep": ("sleep", "metheus-rhythm-summary/0.2.0"),
                 "meal_events": ("nutrition", "metheus-feeding-summary/0.3.0"),
                 "caregiver_feeding_events": ("feeding", "metheus-feeding-summary/0.3.0"),
@@ -135,6 +139,8 @@ def _resolve_index(
                 or (measure == "measurement_series" and not measurement_series_summary_valid(resource))
             ):
                 issue("rhythm_summary_metadata_mismatch", resource_id)
+            if measure == "bleeding_onset_intervals" and not bleeding_onset_summary_boundary_valid(resource, by_id):
+                issue("rhythm_summary_boundary_input_mismatch", resource_id)
             input_ids = resource.get("inputRecordIds")
             if not isinstance(input_ids, list) or not all(isinstance(value, str) and value for value in input_ids):
                 issue("rhythm_summary_invalid_input_record_ids", resource_id)
