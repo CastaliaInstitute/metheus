@@ -80,6 +80,7 @@ EXAMPLE_SCHEMAS = {
 }
 
 CATALOG_SCHEMAS = {
+    "gate-endocrine-correspondences.json": "correspondence-catalog.schema.json",
     "endocrine-relations.json": "endocrine-relations-catalog.schema.json",
     "evidence-claims.json": "evidence-catalog.schema.json",
     "human-design-bodygraph-topology.json": "human-design-bodygraph-topology.schema.json",
@@ -87,6 +88,7 @@ CATALOG_SCHEMAS = {
 }
 
 CATALOG_ITEM_SCHEMAS = {
+    "gate-endocrine-correspondences.json": ("correspondences", "correspondence.schema.json"),
     "endocrine-relations.json": ("relations", "endocrine-relation.schema.json"),
     "evidence-claims.json": ("claims", "evidence-claim.schema.json"),
 }

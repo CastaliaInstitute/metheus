@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metheus.castalia.institute/schema/correspondence-catalog.schema.json",
+  "title": "Metheus source-attributed correspondence catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "catalogVersion", "catalogStatus", "policy", "correspondences"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "catalogVersion": { "type": "string", "minLength": 1 },
+    "catalogStatus": { "enum": ["source_attributed", "candidate_only"] },
+    "policy": { "type": "string", "minLength": 1 },
+    "correspondences": {
+      "type": "array",
+      "items": { "$ref": "correspondence.schema.json" }
+    }
+  }
+}

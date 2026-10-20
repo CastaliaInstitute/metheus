@@ -42,7 +42,7 @@ The organ/biology pairings in the table come from one Human Design school's acco
 
 ## Why not map hormones directly to gates?
 
-Begin with source-specific mappings only where a named Human Design source actually defines them. Do not invent a hormone for each gate, or assign one biochemical meaning to every gate in a channel. A hormone may be produced in one tissue, regulated by several axes, released in pulses or daily rhythms, and act at receptors throughout the body. A symbolic gate is a different kind of object. Even when a source describes a gate's “biology,” store that description as lineage doctrine unless independent evidence supports a specific empirical claim.
+Begin with source-specific mappings only where a named Human Design source actually defines them. Do not invent a hormone for each gate, or assign one biochemical meaning to every gate in a channel. A hormone may be produced in one tissue, regulated by several axes, released in pulses or daily rhythms, and act at receptors throughout the body. A symbolic gate is a different kind of object. Even when a source describes a gate's “biology,” store that description as lineage doctrine unless independent evidence supports a specific empirical claim. The current [gate endocrine-correspondence catalog](../catalog/gate-endocrine-correspondences.json) provides two source-attributed examples; neither is treated as a biological mechanism or Metheus-validated association.
 
 For a proposed mapping such as `Gate → hormone` or `Channel → endocrine pathway`, require all of the following before treating it as more than a symbolic prompt:
 
@@ -105,7 +105,7 @@ A future relation record should be versioned and separate from observations and 
 }
 ```
 
-This is illustrative and should not be loaded as a real Human Design correspondence. The machine-readable contract is [`../schema/correspondence.schema.json`](../schema/correspondence.schema.json). A clinical assay record remains a separate observation. A user's consent to reflect on one link does not turn the link into a validated biological relation.
+This example remains illustrative and should not be loaded as a real Human Design correspondence. Actual source-attributed entries are held in the separate [gate endocrine-correspondence catalog](../catalog/gate-endocrine-correspondences.json). Its items use the machine-readable [`correspondence schema`](../schema/correspondence.schema.json), wrapped by the [`correspondence catalog schema`](../schema/correspondence-catalog.schema.json). A clinical assay record remains a separate observation. A user's consent to reflect on one link does not turn the link into a validated biological relation.
 
 ## Design decisions to carry forward
 

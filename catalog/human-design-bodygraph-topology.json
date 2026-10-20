@@ -3,7 +3,7 @@
   "catalogStatus": "source_attributed_symbolism",
   "version": "1.0.0",
   "description": "Source-specific gate titles and Human Design BodyGraph topology. This catalog is symbolic reference data, not a biological model.",
-  "biologyBoundary": "No gate, center, or channel in this catalog is assigned a hormone, gland, neurochemical, physiological mechanism, developmental outcome, or predictive effect. Any future correspondence requires a separate source-attributed and reviewed record.",
+  "biologyBoundary": "This topology catalog assigns no hormone, gland, neurochemical, physiological mechanism, developmental outcome, or predictive effect to any gate, center, or channel. Source-attributed teachings are stored separately in the correspondence catalog and do not establish biological mechanisms or individual predictions.",
   "centers": [
     {
       "id": "head",

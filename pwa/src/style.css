@@ -82,7 +82,7 @@ a { color:inherit; }
 .bodygraph-panel>summary::-webkit-details-marker { display:none; }
 .bodygraph-panel>summary>span:first-child { display:flex;flex-direction:column;gap:.3rem; }
 .bodygraph-panel>summary strong { font:1.3rem var(--serif);font-weight:400; }
-.map-mode { display:grid;grid-template-columns:1fr 1fr;gap:.3rem;margin:.65rem 0 .4rem; }
+.map-mode { display:grid;grid-template-columns:1fr 1fr 1fr;gap:.3rem;margin:.65rem 0 .4rem; }
 .map-mode-button { border:1px solid var(--line);border-radius:6px;padding:.45rem .35rem;background:transparent;color:var(--muted);font-size:.62rem;cursor:pointer; }
 .map-mode-button.is-selected { border-color:#75c8be;color:#b4e0da;background:rgba(117,200,190,.08); }
 .map-boundary { margin:.35rem 0 .55rem;padding:.55rem;border-left:2px solid #d6ac75;background:rgba(214,172,117,.07);color:var(--muted);font-size:.58rem;line-height:1.5; }

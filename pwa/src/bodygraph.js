@@ -3,6 +3,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 const SVG_URL = '/chat/bodygraph-reference.svg?v=2';
 const ENDOCRINE_URL = '/chat/endocrine-relations.json?v=0.2.3';
+const CORRESPONDENCE_URL = '/chat/gate-endocrine-correspondences.json?v=0.1.0';
 const $ = (selector) => document.querySelector(selector);
 
 function pointInRoot(root, element, x, y) {
@@ -48,6 +49,7 @@ export async function mountBodygraph() {
   const canvas = $('#bodygraph-canvas');
   const detail = $('#bodygraph-detail');
   const modeBodygraph = $('#map-mode-bodygraph');
+  const modeCorrespondence = $('#map-mode-correspondence');
   const modeEndocrine = $('#map-mode-endocrine');
   const boundary = $('#map-boundary');
   const endocrineControls = $('#endocrine-controls');
@@ -97,13 +99,68 @@ export async function mountBodygraph() {
   endocrineGroup.visible = false;
   endocrineGroup.position.z = 4;
   scene.add(endocrineGroup);
+  const correspondenceGroup = new THREE.Group();
+  correspondenceGroup.visible = false;
+  correspondenceGroup.position.z = 2.8;
+  scene.add(correspondenceGroup);
   let endocrineRecords = [];
+  let gateCorrespondences = [];
   const endocrineDomainLabels = {
     hpt: 'Thyroid regulation', hpa: 'Stress-axis regulation', hpg: 'Reproductive-axis regulation',
     circadian: 'Circadian regulation', glucose: 'Glucose regulation', gut: 'Gut-incretin signaling',
     reproductive: 'Reproductive-cycle regulation',
   };
   const colorsByType = { hormone: 0x75c8be, process: 0xf0b66d, hormone_group: 0xd99fc8, receptor: 0x9eacd8 };
+
+  function clearCorrespondences() {
+    while (correspondenceGroup.children.length) {
+      const object = correspondenceGroup.children.pop();
+      object.geometry?.dispose();
+      if (Array.isArray(object.material)) object.material.forEach((material) => { material.map?.dispose(); material.dispose(); });
+      else { object.material?.map?.dispose(); object.material?.dispose(); }
+    }
+  }
+
+  function renderCorrespondences() {
+    clearCorrespondences();
+    const byGate = new Map(gateCorrespondences.map((item) => [item.sourceFeature.id, item]));
+    for (const [gateId, item] of byGate) {
+      const target = targets.find((entry) => entry.kind === 'gate' && entry.id === gateId);
+      if (!target) continue;
+      const [x, y] = toPlane(target.point);
+      const marker = new THREE.Mesh(new THREE.RingGeometry(6, 9, 28), new THREE.MeshBasicMaterial({ color: 0x9a5eac, side: THREE.DoubleSide, depthTest: false }));
+      marker.position.set(x, y, 2);
+      marker.userData.gateId = gateId;
+      correspondenceGroup.add(marker);
+      const labelCanvas = document.createElement('canvas');
+      labelCanvas.width = 512;
+      labelCanvas.height = 72;
+      const context = labelCanvas.getContext('2d');
+      context.font = 'bold 23px system-ui, sans-serif';
+      context.fillStyle = '#51335d';
+      const targetLabel = item.targetConcept.label.length > 34 ? `${item.targetConcept.label.slice(0, 31)}…` : item.targetConcept.label;
+      context.fillText(`Gate ${gateId} · ${targetLabel}`, 8, 42);
+      const texture = new THREE.CanvasTexture(labelCanvas);
+      texture.colorSpace = THREE.SRGBColorSpace;
+      const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: false }));
+      sprite.position.set(x + 30, y + (y > 0 ? -12 : 12), 3);
+      sprite.scale.set(104, 14.6, 1);
+      correspondenceGroup.add(sprite);
+    }
+  }
+
+  async function loadCorrespondences() {
+    try {
+      const response = await fetch(CORRESPONDENCE_URL, { cache: 'force-cache' });
+      if (!response.ok) throw new Error('Gate correspondence catalog could not be loaded.');
+      const catalog = await response.json();
+      gateCorrespondences = catalog.correspondences;
+      renderCorrespondences();
+      detail.textContent = `${gateCorrespondences.length} source-attributed gate correspondences. Select a marked gate to read the source wording and limitations. These are symbolic teachings, not biological mechanisms or personal measurements.`;
+    } catch {
+      detail.textContent = 'The gate correspondence catalog could not be loaded. The generic BodyGraph is still available.';
+    }
+  }
 
   function clearEndocrine() {
     while (endocrineGroup.children.length) {
@@ -203,25 +260,33 @@ export async function mountBodygraph() {
 
   function setMapMode(mode) {
     const endocrine = mode === 'endocrine';
+    const correspondence = mode === 'correspondence';
     plane.visible = !endocrine;
-    highlightObjects.visible = !endocrine;
+    highlightObjects.visible = !endocrine && !correspondence;
     endocrineGroup.visible = endocrine;
+    correspondenceGroup.visible = correspondence;
     sourceHost.hidden = endocrine;
-    modeBodygraph.classList.toggle('is-selected', !endocrine);
-    modeBodygraph.setAttribute('aria-pressed', String(!endocrine));
+    modeBodygraph.classList.toggle('is-selected', mode === 'bodygraph');
+    modeBodygraph.setAttribute('aria-pressed', String(mode === 'bodygraph'));
+    modeCorrespondence.classList.toggle('is-selected', correspondence);
+    modeCorrespondence.setAttribute('aria-pressed', String(correspondence));
     modeEndocrine.classList.toggle('is-selected', endocrine);
     modeEndocrine.setAttribute('aria-pressed', String(endocrine));
     endocrineControls.hidden = !endocrine;
-    search.hidden = endocrine;
-    $('#bodygraph-clear').hidden = endocrine;
+    search.hidden = endocrine || correspondence;
+    $('#bodygraph-clear').hidden = endocrine || correspondence;
     boundary.textContent = endocrine
       ? 'Separate candidate biology network · under review · internal only. Node positions are diagram layout, not anatomy. No gate/channel equivalence or personal inference.'
-      : 'The endocrine network is a separate candidate biology graph. It does not map hormones or glands to Human Design centers, gates, or channels.';
+      : correspondence
+        ? 'Source-attributed Human Design gate teachings over the symbolic map. Each link names its source and limits; it does not assert a gate-to-hormone mechanism or describe a person’s biology.'
+        : 'The endocrine network is a separate candidate biology graph. Gate links are shown only in the distinct Correspondence view.';
     if (endocrine) { if (!endocrineRecords.length) loadEndocrine(); else renderEndocrine(); }
+    else if (correspondence) { if (!gateCorrespondences.length) loadCorrespondences(); else renderCorrespondences(); }
     else detail.textContent = 'Choose a gate or channel to explore its place in the map.';
   }
 
   modeBodygraph.addEventListener('click', () => setMapMode('bodygraph'));
+  modeCorrespondence.addEventListener('click', () => setMapMode('correspondence'));
   modeEndocrine.addEventListener('click', () => setMapMode('endocrine'));
   filter.addEventListener('change', renderEndocrine);
 
@@ -406,11 +471,37 @@ export async function mountBodygraph() {
     const citation = relation?.sourceCitations?.[0];
     detail.textContent = `${entity.label} · ${entity.entityType} · ${entity.compartment}. ${related.length} candidate relation${related.length === 1 ? '' : 's'}. ${relation?.statement || ''}${citation ? ` Source: ${citation.title} (${citation.locator}).` : ''} Catalog status: under review; internal only.`;
   }
+  function selectCorrespondence(event) {
+    const bounds = canvas.getBoundingClientRect();
+    if (!bounds.width || !bounds.height) return;
+    pointer.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
+    pointer.y = -((event.clientY - bounds.top) / bounds.height) * 2 + 1;
+    raycaster.setFromCamera(pointer, camera);
+    const marker = raycaster.intersectObjects(correspondenceGroup.children.filter((object) => object.userData.gateId))[0]?.object;
+    if (!marker) return;
+    const item = gateCorrespondences.find((entry) => entry.sourceFeature.id === marker.userData.gateId);
+    if (!item) return;
+    const citation = item.sourceCitations[0];
+    detail.replaceChildren();
+    const summary = document.createElement('span');
+    summary.textContent = `${item.sourceFeature.label} → ${item.targetConcept.label}. ${item.claimText} `;
+    detail.append(summary);
+    const link = document.createElement('a');
+    link.href = citation.url;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.textContent = `${citation.title} · ${citation.locator || 'Source'}`;
+    detail.append(link);
+    const limitations = document.createElement('span');
+    limitations.textContent = ` Limits: ${item.limitations.join(' ')}`;
+    detail.append(limitations);
+  }
   canvas.addEventListener('pointerdown', (event) => { down = { x: event.clientX, y: event.clientY }; });
   canvas.addEventListener('pointerup', (event) => {
     if (!down || Math.hypot(event.clientX - down.x, event.clientY - down.y) > 6) { down = null; return; }
     const target = hitTarget(event);
     if (endocrineGroup.visible) { selectEndocrineNode(event); down = null; return; }
+    if (correspondenceGroup.visible) { selectCorrespondence(event); down = null; return; }
     down = null;
     if (!target) return;
     if (target.kind === 'gate') {

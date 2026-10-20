@@ -71,7 +71,9 @@ The rows contain 36 unique channels. Their machine-readable transcription is che
 
 The machine-readable [BodyGraph topology catalog](../catalog/human-design-bodygraph-topology.json) now covers all 64 source-specific gate titles, their nine-center membership, and the 36 symbolic channel connections. Contract validation compares its center and channel assignments with the PWA's adapted generic SVG. Gate titles are lineage-specific labels, not biological constructs. The catalog deliberately assigns no gate a hormone, gland, neurochemical, or physiological mechanism, and the channel graph is not yet suitable as a chart-calculation source.
 
-Only three gate-level reflective comparisons have been drafted so far. Keep them separate from the complete topology catalog and treat them as examples, not validated correspondences:
+The separate [gate endocrine-correspondence catalog](../catalog/gate-endocrine-correspondences.json) currently records two explicit source attributions: Gate 6 linked by one contemporary Human Design source to female reproductive hormone production, and a reproduced Gate 41.1 teaching that describes the Root as dealing with adrenaline. They are different source claims, not one unified lineage doctrine. Each is marked `tradition_attributed` and `not_evaluated`; neither says a gate regulates, measures, or predicts a hormone. The topology catalog remains free of physiology assignments.
+
+The earlier gate-level reflective comparisons below are analogies only, not sourced endocrine correspondences:
 
 | Gate | Traditional theme | Optional reflective analogy | Status |
 |---|---|---|---|
@@ -96,7 +98,7 @@ Metheus now has an initial, source-attributed [candidate endocrine-relations gra
 
 ### PWA visualization
 
-The Circle PWA reference panel has a **BodyGraph / Endocrine network** switch. The endocrine view renders entities and candidate directed relations from the endocrine catalog as a separate, interactive graph plane; selecting a node shows its compartment and one source-attributed relation summary. A domain filter groups the displayed relations. The view is not laid over anatomical body coordinates and does not connect endocrine entities to Human Design centers, gates, or channels. Catalog entries remain `under_review` and `internal_only`; this visualization is exploratory and not eligible for personal readings, health inference, or clinical use. The PWA bundles a versioned copy of the current catalog for static deployment, so update that copy when the catalog changes.
+The Circle PWA reference panel has **BodyGraph**, **Gate links**, and **Endocrine network** views. Gate links pins sourced correspondence markers to their symbolic gate positions; selecting a marker displays the named source, its attribution, and limitations. These are source-specific teachings, not biological connections. The endocrine view renders entities and candidate directed relations from the endocrine catalog on a separate graph plane; selecting a node shows its compartment and a source-attributed relation summary. A domain filter groups the displayed relations. Endocrine node positions are diagram layout, not body coordinates. The two catalogs remain distinct and neither view supports personal health inference. The PWA bundles versioned copies for static deployment; update them when their source catalogs change.
 
 ## Research questions and validation
 
