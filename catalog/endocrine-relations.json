@@ -1,6 +1,6 @@
 {
   "$schema": "../schema/endocrine-relations-catalog.schema.json",
-  "catalogVersion": "0.2.2",
+  "catalogVersion": "0.2.3",
   "catalogStatus": "candidate_only",
   "policy": "Every edge is under review and internal only. Relations are source-attributed summaries of general physiology across selected endocrine networks, not an exhaustive pathway database. They do not estimate a person's hormone state, explain an individual observation, or establish an individual causal effect of behavior. Symbolic Human Design features are not nodes in this biological network. Do not expose catalog entries in readings until appropriate domain review approves the exact claim and use.",
   "relations": [
@@ -1073,6 +1073,404 @@
         "Candidate summary of general physiology; it does not estimate a person's hormone concentration, physiological state, or response.",
         "The relation is context-dependent and omits relevant regulators, tissue specificity, developmental variation, disease, medications, and measurement conditions.",
         "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "late-follicular-estradiol-feedback-stimulates-lh-surge-candidate",
+      "sourceEntity": {
+        "id": "estradiol",
+        "label": "Estradiol (E2)",
+        "entityType": "hormone",
+        "compartment": "dominant preovulatory follicle / circulation"
+      },
+      "targetEntity": {
+        "id": "preovulatory-lh-surge",
+        "label": "Preovulatory luteinizing-hormone (LH) surge",
+        "entityType": "process",
+        "compartment": "hypothalamic-pituitary-ovarian axis"
+      },
+      "relationType": "feedback_stimulates",
+      "statement": "Sustained high estradiol from the dominant preovulatory follicle can switch hypothalamic-pituitary feedback toward positive feedback and help trigger the mid-cycle LH surge.",
+      "context": {
+        "organism": "human",
+        "setting": "Human spontaneous ovulatory menstrual cycles; late follicular phase",
+        "timescale": "Sustained signaling over the late-follicular interval; timing varies and no individual timing is inferred",
+        "lifeStage": "reproductive adult"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: The Normal Menstrual Cycle and the Control of Ovulation",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279054/",
+          "locator": "Follicular phase, ovulation, luteal phase, and pregnancy rescue of the corpus luteum",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology, not an estimate of an individual hormone level, cycle phase, fertility, or clinical state.",
+        "Human cycle physiology varies across individuals and cycles; this relation does not assume a fixed 28-day cycle or universal ovulation.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review.",
+        "The switch depends on duration and physiological context, not a single universally applicable wearable or calendar threshold."
+      ]
+    },
+    {
+      "id": "lh-surge-promotes-ovulation-and-luteinization-candidate",
+      "sourceEntity": {
+        "id": "lh",
+        "label": "Luteinizing hormone (LH)",
+        "entityType": "hormone",
+        "compartment": "anterior pituitary / circulation"
+      },
+      "targetEntity": {
+        "id": "ovulation-and-luteinization",
+        "label": "Ovulation and follicular luteinization",
+        "entityType": "process",
+        "compartment": "ovary"
+      },
+      "relationType": "modulates",
+      "statement": "The preovulatory LH surge promotes ovulation and luteinization of follicular cells, including progesterone synthesis around mid-cycle.",
+      "context": {
+        "organism": "human",
+        "setting": "Human spontaneous ovulatory menstrual cycles; periovulatory interval",
+        "timescale": "The surge precedes ovulation by a variable interval; no personal ovulation time is inferred",
+        "lifeStage": "reproductive adult"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: The Normal Menstrual Cycle and the Control of Ovulation",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279054/",
+          "locator": "Follicular phase, ovulation, luteal phase, and pregnancy rescue of the corpus luteum",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology, not an estimate of an individual hormone level, cycle phase, fertility, or clinical state.",
+        "Human cycle physiology varies across individuals and cycles; this relation does not assume a fixed 28-day cycle or universal ovulation.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review.",
+        "A reported bleed, calendar estimate, or urinary LH test alone does not prove that ovulation occurred."
+      ]
+    },
+    {
+      "id": "follicular-inhibin-b-inhibits-fsh-secretion-candidate",
+      "sourceEntity": {
+        "id": "inhibin-b",
+        "label": "Inhibin B",
+        "entityType": "hormone",
+        "compartment": "developing ovarian follicles / circulation"
+      },
+      "targetEntity": {
+        "id": "fsh",
+        "label": "Follicle-stimulating hormone (FSH)",
+        "entityType": "hormone",
+        "compartment": "anterior pituitary"
+      },
+      "relationType": "inhibits_secretion",
+      "statement": "Inhibin B from developing follicles contributes to negative feedback that suppresses pituitary FSH during the follicular phase.",
+      "context": {
+        "organism": "human",
+        "setting": "Human spontaneous menstrual cycles; follicular phase",
+        "timescale": "Phase-varying endocrine feedback; no individual phase or level inferred",
+        "lifeStage": "reproductive adult"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: The Normal Menstrual Cycle and the Control of Ovulation",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279054/",
+          "locator": "Follicular phase, ovulation, luteal phase, and pregnancy rescue of the corpus luteum",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology, not an estimate of an individual hormone level, cycle phase, fertility, or clinical state.",
+        "Human cycle physiology varies across individuals and cycles; this relation does not assume a fixed 28-day cycle or universal ovulation.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review.",
+        "Inhibin B is one part of FSH regulation; estradiol, activin, GnRH, follicular state, age, and other contexts also matter."
+      ]
+    },
+    {
+      "id": "luteal-inhibin-a-inhibits-fsh-secretion-candidate",
+      "sourceEntity": {
+        "id": "inhibin-a",
+        "label": "Inhibin A",
+        "entityType": "hormone",
+        "compartment": "corpus luteum / circulation"
+      },
+      "targetEntity": {
+        "id": "fsh",
+        "label": "Follicle-stimulating hormone (FSH)",
+        "entityType": "hormone",
+        "compartment": "anterior pituitary"
+      },
+      "relationType": "inhibits_secretion",
+      "statement": "Inhibin A is a luteal-phase ovarian signal that contributes to negative feedback on FSH; its fall near corpus-luteum regression participates in the late-luteal FSH rise.",
+      "context": {
+        "organism": "human",
+        "setting": "Human spontaneous menstrual cycles; luteal and luteal-follicular transition",
+        "timescale": "Late-cycle feedback; cycle length and ovulatory status vary",
+        "lifeStage": "reproductive adult"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: The Normal Menstrual Cycle and the Control of Ovulation",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279054/",
+          "locator": "Follicular phase, ovulation, luteal phase, and pregnancy rescue of the corpus luteum",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology, not an estimate of an individual hormone level, cycle phase, fertility, or clinical state.",
+        "Human cycle physiology varies across individuals and cycles; this relation does not assume a fixed 28-day cycle or universal ovulation.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review.",
+        "This relation describes population physiology and does not identify an individual cycle phase from symptoms or dates."
+      ]
+    },
+    {
+      "id": "luteal-progesterone-reduces-gnrh-pulse-frequency-candidate",
+      "sourceEntity": {
+        "id": "progesterone",
+        "label": "Progesterone",
+        "entityType": "hormone",
+        "compartment": "corpus luteum / circulation"
+      },
+      "targetEntity": {
+        "id": "gnrh-pulse-frequency",
+        "label": "Gonadotropin-releasing hormone (GnRH) pulse frequency",
+        "entityType": "process",
+        "compartment": "hypothalamic neuroendocrine network"
+      },
+      "relationType": "feedback_inhibits",
+      "statement": "Luteal progesterone contributes to slower GnRH pulse frequency after ovulation; progesterone decline near luteolysis is associated with a rise in GnRH pulsatility.",
+      "context": {
+        "organism": "human",
+        "setting": "Human spontaneous ovulatory menstrual cycles; luteal phase and luteal-follicular transition",
+        "timescale": "Pulsatile regulation across the luteal phase; no personal timing inferred",
+        "lifeStage": "reproductive adult"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: The Normal Menstrual Cycle and the Control of Ovulation",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279054/",
+          "locator": "Follicular phase, ovulation, luteal phase, and pregnancy rescue of the corpus luteum",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology, not an estimate of an individual hormone level, cycle phase, fertility, or clinical state.",
+        "Human cycle physiology varies across individuals and cycles; this relation does not assume a fixed 28-day cycle or universal ovulation.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review.",
+        "Pulse generation is a distributed neuroendocrine process; a peripheral progesterone value alone does not specify GnRH pulse pattern."
+      ]
+    },
+    {
+      "id": "corpus-luteum-regression-reduces-ovarian-steroid-and-inhibin-output-candidate",
+      "sourceEntity": {
+        "id": "corpus-luteum-regression",
+        "label": "Corpus luteum regression (luteolysis)",
+        "entityType": "process",
+        "compartment": "ovary"
+      },
+      "targetEntity": {
+        "id": "luteal-hormone-output",
+        "label": "Luteal progesterone, estradiol, and inhibin A output",
+        "entityType": "hormone_group",
+        "compartment": "corpus luteum / circulation"
+      },
+      "relationType": "modulates",
+      "statement": "Without pregnancy-related rescue, corpus-luteum function declines and circulating progesterone, estradiol, and inhibin A fall toward the end of the luteal phase.",
+      "context": {
+        "organism": "human",
+        "setting": "Human spontaneous menstrual cycles without conception; late luteal phase",
+        "timescale": "End-of-luteal transition; exact duration varies",
+        "lifeStage": "reproductive adult"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: The Normal Menstrual Cycle and the Control of Ovulation",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279054/",
+          "locator": "Follicular phase, ovulation, luteal phase, and pregnancy rescue of the corpus luteum",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology, not an estimate of an individual hormone level, cycle phase, fertility, or clinical state.",
+        "Human cycle physiology varies across individuals and cycles; this relation does not assume a fixed 28-day cycle or universal ovulation.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review.",
+        "The causes and timing of corpus-luteum regression are multifactorial and not fully represented by this edge."
+      ]
+    },
+    {
+      "id": "loss-of-luteal-feedback-allows-fsh-rise-candidate",
+      "sourceEntity": {
+        "id": "luteal-feedback-decline",
+        "label": "Decline in luteal estradiol, progesterone, and inhibin A feedback",
+        "entityType": "process",
+        "compartment": "ovary-to-hypothalamic-pituitary axis"
+      },
+      "targetEntity": {
+        "id": "fsh-rise-and-follicular-recruitment",
+        "label": "Late-luteal FSH rise and next-cycle follicle recruitment",
+        "entityType": "process",
+        "compartment": "anterior pituitary and ovary"
+      },
+      "relationType": "modulates",
+      "statement": "Declining corpus-luteum signals reduce negative feedback, permitting FSH to rise in the late luteal interval and contributing to recruitment of follicles for a subsequent cycle.",
+      "context": {
+        "organism": "human",
+        "setting": "Human spontaneous menstrual cycles without conception; luteal-follicular transition",
+        "timescale": "Last days of the luteal phase into the next follicular phase; no calendar prediction inferred",
+        "lifeStage": "reproductive adult"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: The Normal Menstrual Cycle and the Control of Ovulation",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279054/",
+          "locator": "Follicular phase, ovulation, luteal phase, and pregnancy rescue of the corpus luteum",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology, not an estimate of an individual hormone level, cycle phase, fertility, or clinical state.",
+        "Human cycle physiology varies across individuals and cycles; this relation does not assume a fixed 28-day cycle or universal ovulation.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review.",
+        "This does not establish that every cycle is ovulatory or that every bleeding event follows this endocrine sequence."
+      ]
+    },
+    {
+      "id": "early-pregnancy-hcg-supports-corpus-luteum-candidate",
+      "sourceEntity": {
+        "id": "hcg",
+        "label": "Human chorionic gonadotropin (hCG)",
+        "entityType": "hormone",
+        "compartment": "trophoblast / maternal circulation"
+      },
+      "targetEntity": {
+        "id": "corpus-luteum-function",
+        "label": "Corpus luteum function and progesterone production",
+        "entityType": "process",
+        "compartment": "ovary during early pregnancy"
+      },
+      "relationType": "modulates",
+      "statement": "After implantation, pregnancy-derived hCG supports corpus-luteum function and progesterone production during early pregnancy until placental steroid production becomes sufficient.",
+      "context": {
+        "organism": "human",
+        "setting": "Human early pregnancy after implantation",
+        "timescale": "Early gestational interval; individual timing and outcome are not inferred",
+        "lifeStage": "early pregnancy"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: The Normal Menstrual Cycle and the Control of Ovulation",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279054/",
+          "locator": "Follicular phase, ovulation, luteal phase, and pregnancy rescue of the corpus luteum",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general reproductive physiology; it does not detect pregnancy or predict pregnancy outcome.",
+        "hCG measurements require their actual assay, collection time, and clinical context; this network edge is not an interpretation rule.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "menopause-follicular-depletion-associated-with-higher-fsh-candidate",
+      "sourceEntity": {
+        "id": "ovarian-follicular-pool-depletion",
+        "label": "Ovarian follicular-pool depletion",
+        "entityType": "process",
+        "compartment": "ovary"
+      },
+      "targetEntity": {
+        "id": "fsh",
+        "label": "Follicle-stimulating hormone (FSH)",
+        "entityType": "hormone",
+        "compartment": "anterior pituitary / circulation"
+      },
+      "relationType": "modulates",
+      "statement": "After menopause-associated depletion of the ovarian follicular pool, loss of ovarian estradiol and inhibin feedback contributes to elevated FSH; hormone patterns during the menopausal transition can fluctuate.",
+      "context": {
+        "organism": "human",
+        "setting": "Human reproductive aging and postmenopause; distinguish the transition from established postmenopause",
+        "timescale": "Life-stage transition over years; no individual stage inferred",
+        "lifeStage": "reproductive aging"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: The Postmenopausal Women",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279050/",
+          "locator": "Menopause and ovarian follicular depletion",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general reproductive-aging physiology; a single FSH measurement does not determine menopausal stage in this catalog.",
+        "The menopausal transition is variable and can include irregular or anovulatory cycles; the postmenopausal pattern is not interchangeable with perimenopause.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "progesterone-withdrawal-modulates-menstrual-shedding-candidate",
+      "sourceEntity": {
+        "id": "progesterone-withdrawal",
+        "label": "Withdrawal of progesterone after corpus-luteum regression",
+        "entityType": "process",
+        "compartment": "ovary / endometrial exposure"
+      },
+      "targetEntity": {
+        "id": "menstrual-endometrial-shedding",
+        "label": "Endometrial breakdown and menstrual shedding",
+        "entityType": "process",
+        "compartment": "uterus / endometrium"
+      },
+      "relationType": "modulates",
+      "statement": "In a non-pregnant cycle, luteal progesterone withdrawal contributes to endometrial vascular and tissue changes that lead to menstrual shedding, alongside local prostaglandin and tissue processes.",
+      "context": {
+        "organism": "human",
+        "setting": "Human spontaneous menstrual cycles without conception; late luteal and menstrual interval",
+        "timescale": "Luteal withdrawal followed by endometrial response; bleeding duration and amount vary",
+        "lifeStage": "reproductive adult"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: The Normal Menstrual Cycle and the Control of Ovulation",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279054/",
+          "locator": "Follicular phase, ovulation, luteal phase, and pregnancy rescue of the corpus luteum",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology, not an estimate of an individual hormone level, cycle phase, fertility, or clinical state.",
+        "Human cycle physiology varies across individuals and cycles; this relation does not assume a fixed 28-day cycle or universal ovulation.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review.",
+        "Menstrual bleeding is not by itself proof of ovulation or a complete hormonal pattern."
       ]
     }
   ]
