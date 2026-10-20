@@ -65,11 +65,11 @@ In Human Design the 36 channels connect pairs of gates in the bodygraph. The lis
 | Heart ↔ Spleen | 26–44 | Learned associations, effort, and perception |
 | Heart ↔ Solar Plexus | 37–40 | Social bonds, reciprocity, effort and recovery |
 
-The rows contain 36 unique channels. Their machine-readable transcription records its source limits and must be checked against a versioned canonical BodyGraph reference before it is used for chart calculation. Biological topics here are prompts for discussion, not correspondence claims eligible for inference.
+The rows contain 36 unique channels. Their machine-readable transcription is checked against the PWA's adapted generic SVG for internal consistency; that check does not establish canonical lineage or scientific authority. Verify it against a versioned canonical BodyGraph reference before using it for chart calculation. Biological topics here are prompts for discussion, not correspondence claims eligible for inference.
 
 ## Gate-level annotations
 
-The machine-readable [BodyGraph topology catalog](../catalog/human-design-bodygraph-topology.json) now covers all 64 source-specific gate titles, their nine-center membership, and a transcription of the 36 symbolic channel connections. Gate titles are lineage-specific labels, not biological constructs. The catalog deliberately assigns no gate a hormone, gland, neurochemical, or physiological mechanism, and its channel transcription is not yet suitable as a chart-calculation source.
+The machine-readable [BodyGraph topology catalog](../catalog/human-design-bodygraph-topology.json) now covers all 64 source-specific gate titles, their nine-center membership, and the 36 symbolic channel connections. Contract validation compares its center and channel assignments with the PWA's adapted generic SVG. Gate titles are lineage-specific labels, not biological constructs. The catalog deliberately assigns no gate a hormone, gland, neurochemical, or physiological mechanism, and the channel graph is not yet suitable as a chart-calculation source.
 
 Only three gate-level reflective comparisons have been drafted so far. Keep them separate from the complete topology catalog and treat them as examples, not validated correspondences:
 

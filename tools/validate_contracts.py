@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import json
 import sys
+import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Any
 
@@ -93,6 +94,17 @@ EXPECTED_CENTER_GATE_COUNTS = {
     "sacral": 9,
     "spleen": 7,
     "root": 9,
+}
+SVG_CENTER_IDS = {
+    "head": "head",
+    "ajna": "ajna",
+    "throat": "throat",
+    "g": "g_identity",
+    "ego": "heart",
+    "solar": "solar_plexus",
+    "sacral": "sacral",
+    "spleen": "spleen",
+    "root": "root",
 }
 
 
@@ -185,6 +197,54 @@ def validate_bodygraph_topology(catalog: Any) -> list[str]:
         declared = gate.get("channelIds")
         if isinstance(declared, list) and all(isinstance(item, str) for item in declared) and set(declared) != gate_channels.get(number, set()):
             errors.append(f"catalog/human-design-bodygraph-topology.json: gate {number} channel references are inconsistent")
+
+    reference_path = ROOT / "chat" / "bodygraph-reference.svg"
+    try:
+        reference_root = ET.parse(reference_path).getroot()
+    except (ET.ParseError, OSError) as exc:
+        return [*errors, f"chat/bodygraph-reference.svg: cannot parse reference topology: {exc}"]
+
+    svg_gate_centers: dict[int, str] = {}
+    for element in reference_root.iter():
+        gate_value = element.get("data-gate")
+        if gate_value is None:
+            continue
+        try:
+            gate_number = int(gate_value)
+        except ValueError:
+            errors.append(f"chat/bodygraph-reference.svg: invalid data-gate value {gate_value!r}")
+            continue
+        center_id = SVG_CENTER_IDS.get(element.get("data-center", ""))
+        if gate_number in svg_gate_centers:
+            errors.append(f"chat/bodygraph-reference.svg: duplicate gate marker {gate_number}")
+        elif center_id is None:
+            errors.append(f"chat/bodygraph-reference.svg: gate {gate_number} has an unknown center marker")
+        else:
+            svg_gate_centers[gate_number] = center_id
+
+    if set(svg_gate_centers) != set(range(1, 65)):
+        errors.append("chat/bodygraph-reference.svg: expected one marker for every gate from 1 through 64")
+    for number in range(1, 65):
+        catalog_gate = gate_by_number.get(number)
+        if catalog_gate is not None and catalog_gate.get("centerId") != svg_gate_centers.get(number):
+            errors.append(f"catalog/human-design-bodygraph-topology.json: gate {number} center differs from the PWA reference graphic")
+
+    svg_channel_pairs: set[tuple[int, int]] = set()
+    for element in reference_root.iter():
+        if "channel-group" not in element.get("class", "").split():
+            continue
+        channel_value = element.get("data-channel")
+        try:
+            gate_a, gate_b = (int(part) for part in (channel_value or "").split("-", maxsplit=1))
+        except (ValueError, TypeError):
+            errors.append(f"chat/bodygraph-reference.svg: invalid data-channel value {channel_value!r}")
+            continue
+        pair = tuple(sorted((gate_a, gate_b)))
+        if pair in svg_channel_pairs:
+            errors.append(f"chat/bodygraph-reference.svg: duplicate channel marker {channel_value}")
+        svg_channel_pairs.add(pair)
+    if svg_channel_pairs != unordered_pairs:
+        errors.append("catalog/human-design-bodygraph-topology.json: channel pairs differ from the PWA reference graphic")
     return errors
 
 

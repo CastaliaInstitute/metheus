@@ -920,5 +920,5 @@
       "scope": "The Human Design definition of a channel as a two-gate connection between centers and the stated total of 36 channels."
     }
   ],
-  "topologyProvenance": "The channel endpoint list is transcribed from the channel inventory in the Metheus atlas. The cited overview sources establish the system vocabulary and totals, but do not individually verify every endpoint pair; independently verify this transcription against a canonical licensed BodyGraph reference before using it for chart calculation."
+  "topologyProvenance": "Gate-center assignments and the 36 unordered channel pairs are checked against chat/bodygraph-reference.svg by tools/validate_contracts.py. The SVG is an adapted generic reference, not an independent canonical or scientific authority. This confirms internal graphic/catalog consistency only; independently verify lineage and channel definitions before chart-calculation use."
 }
