@@ -10,6 +10,9 @@ import affordanceTrialExample from '../../examples/affordance-trial-summary.exam
 const $ = (selector) => document.querySelector(selector);
 const connectForm = $('#connect-form');
 const connectPanel = $('#connection-panel');
+const roomPicker = $('#room-picker');
+const roomPickerSelect = $('#room-picker-select');
+const roomPickerRoomInput = $('#room-picker-room');
 const conversation = $('#conversation');
 const settingsPanel = $('#settings-panel');
 const bodygraphPanel = $('#bodygraph-panel');
@@ -1407,7 +1410,7 @@ async function connectToMatrixRoom(login, roomInput) {
     await client.initRustCrypto();
     session.client = client;
     session.userId = login.user_id;
-    session.roomId = roomInput;
+    session.roomId = roomInput || null;
     client.on(sdk.RoomEvent.Timeline, (matrixEvent, room) => {
       if (!room || room.roomId !== session.roomId) return;
       matrixEvent.once('Event.decrypted', () => displayEvent(matrixEvent));
@@ -1416,42 +1419,19 @@ async function connectToMatrixRoom(login, roomInput) {
     const ready = onceSyncReady(client, sdk);
     client.startClient({ initialSyncLimit: 30 });
     await ready;
-    let room = client.getRoom(roomInput);
-    if (!room) {
-      const joined = await client.joinRoom(roomInput);
-      room = joined;
-      session.roomId = joined.roomId;
-    }
-    if (!room) throw new Error('The room is not available to this Castalia account. Check the room ID or ask its admin to invite you.');
-    const cryptoApi = client.getCrypto();
-    session.encrypted = cryptoApi ? await cryptoApi.isEncryptionEnabledInRoom(room.roomId) : false;
-    const liveEvents = room.getLiveTimeline()?.getEvents?.() || [];
-    liveEvents.forEach(displayEvent);
-    $('#room-title').textContent = room.name || 'The Hearth';
-    $('#room-subtitle').textContent = `${room.getJoinedMembers().length} people in this room · ${session.encrypted ? 'end-to-end encryption on' : 'encryption off — sending disabled'}`;
-    messageInput.disabled = !session.encrypted;
-    messageInput.placeholder = session.encrypted ? 'Write a message to your room…' : 'Sending is disabled until this room is end-to-end encrypted.';
-    messageForm.querySelector('button').disabled = !session.encrypted;
-    $('.composer-note').textContent = session.encrypted
-      ? 'The Mētheus bot must be joined to this room to reply. Messages are shared with the whole room.'
-      : 'This room is not end-to-end encrypted. Sending is disabled in this prototype.';
-    $('#session-details').replaceChildren();
-    [['Account', login.user_id], ['Room', room.roomId], ['Homeserver', baseUrl], ['Encryption', session.encrypted ? 'Matrix reports end-to-end encryption is enabled for this room.' : 'Not enabled. Sending is disabled.']].forEach(([term, value]) => {
-      safeText($('#session-details'), 'dt', term);
-      safeText($('#session-details'), 'dd', value);
-    });
-    connectPanel.hidden = true;
-    conversation.hidden = false;
-    $('#settings-toggle').hidden = false;
-    $('#logout-button').hidden = false;
-    $('#install-button').hidden = false;
-    syncIndicator.textContent = 'Connected to Matrix';
-    await loadGateAiIdeas();
-    if (bodygraphPanel.open) await ensureBodygraph();
     client.on(sdk.ClientEvent.Sync, (state) => {
       if (state === 'SYNCING' || state === 'PREPARED') syncIndicator.textContent = 'Live · Matrix';
       else if (state === 'ERROR') syncIndicator.textContent = 'Reconnecting…';
     });
+    if (!roomInput) {
+      showMatrixRoomPicker(login, client);
+      return false;
+    }
+    let room = client.getRoom(roomInput);
+    if (!room) room = await client.joinRoom(roomInput);
+    if (!room) throw new Error('The room is not available to this Castalia account. Check the room ID or ask its admin to invite you.');
+    await openMatrixRoom(room, login);
+    return true;
   } catch (error) {
     client.stopClient();
     session.client = null;
@@ -1463,6 +1443,57 @@ async function connectToMatrixRoom(login, roomInput) {
   }
 }
 
+function showMatrixRoomPicker(login, client) {
+  const rooms = client.getRooms()
+    .filter((room) => room.getMyMembership?.() === 'join')
+    .sort((a, b) => (a.name || a.roomId).localeCompare(b.name || b.roomId));
+  roomPickerSelect.replaceChildren();
+  for (const room of rooms) {
+    const option = document.createElement('option');
+    option.value = room.roomId;
+    option.textContent = `${room.name || 'Unnamed room'} · ${room.roomId}`;
+    roomPickerSelect.append(option);
+  }
+  roomPickerSelect.hidden = rooms.length === 0;
+  $('#room-picker-open').disabled = rooms.length === 0;
+  $('#room-picker-empty').hidden = rooms.length > 0;
+  connectForm.hidden = true;
+  roomPicker.hidden = false;
+  syncIndicator.textContent = 'Live · Matrix';
+  setStatus(`Signed in to Castalia as ${login.user_id}. Choose a room or join one by ID or alias.`);
+}
+
+async function openMatrixRoom(room, login) {
+  const client = session.client;
+  if (!room || !client) throw new Error('Sign in again before opening a Matrix room.');
+  session.roomId = room.roomId;
+  const cryptoApi = client.getCrypto();
+  session.encrypted = cryptoApi ? await cryptoApi.isEncryptionEnabledInRoom(room.roomId) : false;
+  const liveEvents = room.getLiveTimeline()?.getEvents?.() || [];
+  liveEvents.forEach(displayEvent);
+  $('#room-title').textContent = room.name || 'The Hearth';
+  $('#room-subtitle').textContent = `${room.getJoinedMembers().length} people in this room · ${session.encrypted ? 'end-to-end encryption on' : 'encryption off — sending disabled'}`;
+  messageInput.disabled = !session.encrypted;
+  messageInput.placeholder = session.encrypted ? 'Write a message to your room…' : 'Sending is disabled until this room is end-to-end encrypted.';
+  messageForm.querySelector('button').disabled = !session.encrypted;
+  $('.composer-note').textContent = session.encrypted
+    ? 'Messages are shared with everyone in this room. The Mētheus bot must also be joined to reply as AI.'
+    : 'This room is not end-to-end encrypted. Sending is disabled in this prototype.';
+  $('#session-details').replaceChildren();
+  [['Account', login.user_id], ['Room', room.roomId], ['Homeserver', CASTALIA_HOMESERVER], ['Encryption', session.encrypted ? 'Matrix reports end-to-end encryption is enabled for this room.' : 'Not enabled. Sending is disabled.']].forEach(([term, value]) => {
+    safeText($('#session-details'), 'dt', term);
+    safeText($('#session-details'), 'dd', value);
+  });
+  connectPanel.hidden = true;
+  conversation.hidden = false;
+  $('#settings-toggle').hidden = false;
+  $('#logout-button').hidden = false;
+  $('#install-button').hidden = false;
+  syncIndicator.textContent = 'Connected to Matrix';
+  await loadGateAiIdeas();
+  if (bodygraphPanel.open) await ensureBodygraph();
+}
+
 async function exchangeCastaliaLoginToken(loginToken, roomInput) {
   const sdk = await import('matrix-js-sdk');
   session.sdk = sdk;
@@ -1471,7 +1502,7 @@ async function exchangeCastaliaLoginToken(loginToken, roomInput) {
     token: loginToken,
     initial_device_display_name: 'Mētheus Circle PWA',
   });
-  await connectToMatrixRoom(login, roomInput);
+  return connectToMatrixRoom(login, roomInput);
 }
 
 function createSsoState() {
@@ -1514,8 +1545,9 @@ async function handleCastaliaSsoCallback(callback) {
   submit.disabled = true;
   setStatus('Finishing Castalia sign-in and preparing Matrix encryption support in this browser…');
   try {
-    await exchangeCastaliaLoginToken(callback.loginToken, transaction.roomInput.trim());
-    setStatus('Connected to your Castalia Matrix room.');
+    const roomOpened = await exchangeCastaliaLoginToken(callback.loginToken, transaction.roomInput.trim());
+    if (roomOpened) setStatus('Connected to your Castalia Matrix room.');
+    else setStatus(`Signed in to Castalia as ${session.userId}. Choose a room or join one by ID or alias.`);
   } catch (error) {
     setStatus(getPlainBody(error), true);
   } finally {
@@ -1535,6 +1567,37 @@ connectForm.addEventListener('submit', (event) => {
     setStatus(getPlainBody(error), true);
   }
 });
+
+$('#room-picker-open').addEventListener('click', async () => {
+  const room = session.client?.getRoom(roomPickerSelect.value);
+  if (!room) {
+    setStatus('That room is no longer available in this Matrix session. Refresh the room list by signing in again.', true);
+    return;
+  }
+  try { await openMatrixRoom(room, { user_id: session.userId }); }
+  catch (error) { setStatus(getPlainBody(error), true); }
+});
+
+$('#room-picker-join').addEventListener('click', async (event) => {
+  const roomInput = roomPickerRoomInput.value.trim();
+  if (!roomInput || !session.client) {
+    setStatus('Enter a room ID or alias after signing in.', true);
+    return;
+  }
+  const button = event.currentTarget;
+  button.disabled = true;
+  setStatus('Joining the selected Matrix room…');
+  try {
+    const room = await session.client.joinRoom(roomInput);
+    await openMatrixRoom(room, { user_id: session.userId });
+  } catch (error) {
+    setStatus(getPlainBody(error), true);
+  } finally {
+    button.disabled = false;
+  }
+});
+
+$('#room-picker-switch-account').addEventListener('click', () => $('#logout-button').click());
 
 messageForm.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -1662,6 +1725,9 @@ $('#logout-button').addEventListener('click', async () => {
   timeline.querySelectorAll('.message').forEach((message) => message.remove());
   $('#welcome-card').hidden = false;
   connectForm.reset();
+  connectForm.hidden = false;
+  roomPicker.hidden = true;
+  roomPickerRoomInput.value = '';
   sessionStorage.removeItem(CASTALIA_SSO_TRANSACTION_KEY);
   conversation.hidden = true;
   settingsPanel.hidden = true;

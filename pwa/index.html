@@ -43,11 +43,23 @@
               <p>Sign in with your Castalia.Institute account to join a Matrix room where the Mētheus bot is present. Mētheus is a reflective companion, not a clinician or relationship referee.</p>
             </div>
             <form id="connect-form" class="connect-form">
-              <label>Matrix room ID or alias<input name="room" type="text" placeholder="#metheus-family:castalia.institute" required autocomplete="off" /></label>
+              <label>Room ID or alias (optional)<input name="room" type="text" placeholder="Leave blank to choose a room after sign-in" autocomplete="off" /></label>
               <button class="primary-button" type="submit">Sign in with Castalia.Institute <span aria-hidden="true">→</span></button>
               <p class="form-note">Castalia handles sign-in. Mētheus receives a short-lived, single-use Matrix login token after authentication; the client exchanges it, removes it from the address bar, and keeps the Matrix session token in memory. Encryption keys are managed by the Matrix SDK in this browser. Disconnect to sign out.</p>
               <p class="status-line" id="connect-status" role="status" aria-live="polite"></p>
             </form>
+            <section class="room-picker" id="room-picker" hidden aria-labelledby="room-picker-heading">
+              <h3 id="room-picker-heading">Choose a Matrix room</h3>
+              <p>Your joined rooms are listed here. Opening a room shows its shared messages to this browser.</p>
+              <label for="room-picker-select">Your rooms</label>
+              <select id="room-picker-select"></select>
+              <button class="primary-button" id="room-picker-open" type="button">Open selected room <span aria-hidden="true">→</span></button>
+              <p class="form-note" id="room-picker-empty" hidden>No joined rooms were found yet. Ask a room administrator to invite this account, or join an invited room by ID or alias below.</p>
+              <label for="room-picker-room">Join by room ID or alias</label>
+              <input id="room-picker-room" type="text" placeholder="#circle:castalia.institute or !roomid:castalia.institute" autocomplete="off" />
+              <button class="secondary-button" id="room-picker-join" type="button">Join room</button>
+              <button class="secondary-button" id="room-picker-switch-account" type="button">Use a different account</button>
+            </section>
           </div>
 
           <section class="conversation" id="conversation" hidden>
