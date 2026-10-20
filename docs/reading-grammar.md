@@ -37,6 +37,8 @@ The user-facing text need not show enum names, but the system should preserve cl
 
 Phase annotations may be cited with `phaseAnnotationIds` on a claim. Readings should display the annotation's canonical phase beside any optional evocative name, plus its time window, basis, method, source, and uncertainty. A Promethean transit can support a source-attributed `symbolic_prompt`; an Epimethean phase can support a reported observation or method-qualified estimate. Do not treat a phase's poetic name as evidence, and do not imply the annotation establishes a hormone level or causal link. See the [phase naming framework](phase-naming-framework.md) and [phase annotation schema](../schema/phase-annotation.schema.json).
 
+Before presentation, `validate_reading_references` can check that selected input IDs resolve, that each claim's source and phase references were selected, and that phase annotations and their supporting records belong to the reading subject. It returns issue codes and IDs without record contents. This is a referential-integrity check only: it does not validate the full reading schema, prove the caller may access the records, or replace [`evaluate_authorization`](../metheus/authorization.py) and storage-layer access controls.
+
 ## Construction sequence
 
 ### 1. Establish scope
