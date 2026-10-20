@@ -94,6 +94,10 @@ For example, HPT, HPA, HPG, circadian, gut–brain, immune-endocrine, and autono
 
 Metheus now has an initial, source-attributed [candidate endocrine-relations graph](../catalog/endocrine-relations.json) for selected HPT, HPA, HPG, circadian–melatonin, glucose-regulation, and gut-incretin relations. Its edges remain under review, internal only, and ineligible for readings. This is a starting set for network analysis, not an exhaustive pathway map or individual model.
 
+### PWA visualization
+
+The Circle PWA reference panel has a **BodyGraph / Endocrine network** switch. The endocrine view renders entities and candidate directed relations from the endocrine catalog as a separate, interactive graph plane; selecting a node shows its compartment and one source-attributed relation summary. A domain filter groups the displayed relations. The view is not laid over anatomical body coordinates and does not connect endocrine entities to Human Design centers, gates, or channels. Catalog entries remain `under_review` and `internal_only`; this visualization is exploratory and not eligible for personal readings, health inference, or clinical use. The PWA bundles a versioned copy of the current catalog for static deployment, so update that copy when the catalog changes.
+
 ## Research questions and validation
 
 One possible research question is whether prespecified chart features are associated with within-person variability in a named, validly measured outcome. This would test a statistical association, not a biological mechanism or individual diagnostic value.

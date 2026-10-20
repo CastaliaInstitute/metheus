@@ -1,0 +1,1477 @@
+{
+  "$schema": "../schema/endocrine-relations-catalog.schema.json",
+  "catalogVersion": "0.2.3",
+  "catalogStatus": "candidate_only",
+  "policy": "Every edge is under review and internal only. Relations are source-attributed summaries of general physiology across selected endocrine networks, not an exhaustive pathway database. They do not estimate a person's hormone state, explain an individual observation, or establish an individual causal effect of behavior. Symbolic Human Design features are not nodes in this biological network. Do not expose catalog entries in readings until appropriate domain review approves the exact claim and use.",
+  "relations": [
+    {
+      "id": "trh-stimulates-tsh-secretion-candidate",
+      "sourceEntity": {
+        "id": "trh",
+        "label": "Thyrotropin-releasing hormone (TRH)",
+        "entityType": "hormone",
+        "compartment": "hypothalamus"
+      },
+      "targetEntity": {
+        "id": "tsh",
+        "label": "Thyroid-stimulating hormone (TSH; thyrotropin)",
+        "entityType": "hormone",
+        "compartment": "anterior pituitary"
+      },
+      "relationType": "stimulates_secretion",
+      "statement": "Hypothalamic TRH stimulates pituitary release of TSH.",
+      "context": {
+        "organism": "human",
+        "setting": "General hypothalamic-pituitary-thyroid physiology",
+        "timescale": "Regulatory signaling; no individual timing inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Physiology of the Hypothalamic-Pituitary-Thyroid Axis: Endotext",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK278958/",
+          "locator": "Regulation of TSH Synthesis and Secretion",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of a general regulatory pathway; not an individualized prediction or measured TRH/TSH relation.",
+        "Does not represent all feedback, disease, medication, developmental, or assay contexts.",
+        "Catalog presence and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "tsh-stimulates-thyroid-hormone-production-candidate",
+      "sourceEntity": {
+        "id": "tsh",
+        "label": "Thyroid-stimulating hormone (TSH; thyrotropin)",
+        "entityType": "hormone",
+        "compartment": "pituitary circulation"
+      },
+      "targetEntity": {
+        "id": "thyroid-hormones-t4-t3",
+        "label": "Thyroid hormones T4 and T3",
+        "entityType": "hormone_group",
+        "compartment": "thyroid gland"
+      },
+      "relationType": "stimulates_secretion",
+      "statement": "TSH signals the thyroid gland to produce and release thyroid hormones, including T4 and T3.",
+      "context": {
+        "organism": "human",
+        "setting": "General hypothalamic-pituitary-thyroid physiology",
+        "timescale": "Regulatory signaling; no individual timing inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "TSH (Thyroid-stimulating hormone) Test: MedlinePlus Medical Test",
+          "url": "https://www.medlineplus.gov/lab-tests/tsh-thyroid-stimulating-hormone-test/",
+          "locator": "What is a TSH Test?",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        },
+        {
+          "title": "Physiology of the Hypothalamic-Pituitary-Thyroid Axis: Endotext",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK278958/",
+          "locator": "Figure 5 and Regulation of TSH Synthesis and Secretion",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology, not a claim that a TSH result alone determines circulating T4/T3 or thyroid function.",
+        "Does not encode negative feedback or clinical interpretation of any assay result.",
+        "Catalog presence and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "thyroid-hormones-feedback-inhibit-tsh-candidate",
+      "sourceEntity": {
+        "id": "thyroid-hormones-t4-t3",
+        "label": "Thyroid hormones T4 and T3",
+        "entityType": "hormone_group",
+        "compartment": "circulation and tissues"
+      },
+      "targetEntity": {
+        "id": "tsh",
+        "label": "Thyroid-stimulating hormone (TSH; thyrotropin)",
+        "entityType": "hormone",
+        "compartment": "anterior pituitary"
+      },
+      "relationType": "feedback_inhibits",
+      "statement": "Thyroid hormone signaling participates in negative feedback that inhibits pituitary TSH synthesis and release.",
+      "context": {
+        "organism": "human",
+        "setting": "General hypothalamic-pituitary-thyroid physiology",
+        "timescale": "Feedback regulation; no individual timing inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Physiology of the Hypothalamic-Pituitary-Thyroid Axis: Endotext",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK278958/",
+          "locator": "Regulation of TSH Synthesis and Secretion",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "General feedback mechanism; an individual's TSH and T4/T3 values cannot be interpreted from this edge alone.",
+        "Does not encode assay differences, illness, medication, pregnancy, developmental context, or other regulators.",
+        "Catalog presence and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "thyroid-hormones-feedback-inhibit-trh-candidate",
+      "sourceEntity": {
+        "id": "thyroid-hormones-t4-t3",
+        "label": "Thyroid hormones T4 and T3",
+        "entityType": "hormone_group",
+        "compartment": "circulation and tissues"
+      },
+      "targetEntity": {
+        "id": "trh",
+        "label": "Thyrotropin-releasing hormone (TRH)",
+        "entityType": "hormone",
+        "compartment": "hypothalamus"
+      },
+      "relationType": "feedback_inhibits",
+      "statement": "Thyroid hormone signaling participates in negative feedback that inhibits hypothalamic TRH synthesis and secretion.",
+      "context": {
+        "organism": "human",
+        "setting": "General hypothalamic-pituitary-thyroid physiology",
+        "timescale": "Feedback regulation; no individual timing inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Physiology of the Hypothalamic-Pituitary-Thyroid Axis: Endotext",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK278958/",
+          "locator": "Regulation of TSH Synthesis and Secretion",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "General feedback mechanism; an individual's TSH and T4/T3 values cannot be interpreted from this edge alone.",
+        "Does not represent all hypothalamic regulators or tissue-specific conversion and receptor activity.",
+        "Catalog presence and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "crh-stimulates-acth-candidate",
+      "sourceEntity": {
+        "id": "crh",
+        "label": "Corticotropin-releasing hormone (CRH)",
+        "entityType": "hormone",
+        "compartment": "hypothalamic paraventricular nucleus"
+      },
+      "targetEntity": {
+        "id": "acth",
+        "label": "Adrenocorticotropic hormone (ACTH)",
+        "entityType": "hormone",
+        "compartment": "anterior pituitary"
+      },
+      "relationType": "stimulates_secretion",
+      "statement": "Hypothalamic CRH stimulates anterior-pituitary ACTH secretion.",
+      "context": {
+        "organism": "human",
+        "setting": "General human hypothalamic-pituitary-adrenal axis",
+        "timescale": "Pulsatile regulatory signaling; no individual timing inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: AIDS and HPA Axis",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279014/",
+          "locator": "Organization of the HPA Axis",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology; it does not estimate a person's hormone concentration, physiological state, or response.",
+        "The relation is context-dependent and omits relevant regulators, tissue specificity, developmental variation, disease, medications, and measurement conditions.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "avp-potentiates-acth-candidate",
+      "sourceEntity": {
+        "id": "avp",
+        "label": "Arginine vasopressin (AVP)",
+        "entityType": "hormone",
+        "compartment": "hypothalamus / hypophyseal portal system"
+      },
+      "targetEntity": {
+        "id": "acth",
+        "label": "Adrenocorticotropic hormone (ACTH)",
+        "entityType": "hormone",
+        "compartment": "anterior pituitary"
+      },
+      "relationType": "modulates",
+      "statement": "Hypothalamic AVP can act with CRH to stimulate ACTH secretion.",
+      "context": {
+        "organism": "human",
+        "setting": "General human HPA-axis regulation",
+        "timescale": "Regulatory signaling; context-dependent"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: AIDS and HPA Axis",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279014/",
+          "locator": "Organization of the HPA Axis",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology; it does not estimate a person's hormone concentration, physiological state, or response.",
+        "The relation is context-dependent and omits relevant regulators, tissue specificity, developmental variation, disease, medications, and measurement conditions.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "acth-stimulates-cortisol-candidate",
+      "sourceEntity": {
+        "id": "acth",
+        "label": "Adrenocorticotropic hormone (ACTH)",
+        "entityType": "hormone",
+        "compartment": "anterior pituitary"
+      },
+      "targetEntity": {
+        "id": "cortisol",
+        "label": "Cortisol",
+        "entityType": "hormone",
+        "compartment": "adrenal cortex / circulation"
+      },
+      "relationType": "stimulates_secretion",
+      "statement": "ACTH stimulates glucocorticoid (including cortisol in humans) production and secretion from the adrenal cortex.",
+      "context": {
+        "organism": "human",
+        "setting": "General human hypothalamic-pituitary-adrenal axis",
+        "timescale": "Pulsatile and circadian regulation; no individual timing inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: AIDS and HPA Axis",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279014/",
+          "locator": "Organization of the HPA Axis",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology; it does not estimate a person's hormone concentration, physiological state, or response.",
+        "The relation is context-dependent and omits relevant regulators, tissue specificity, developmental variation, disease, medications, and measurement conditions.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "cortisol-feedback-inhibits-acth-candidate",
+      "sourceEntity": {
+        "id": "cortisol",
+        "label": "Cortisol",
+        "entityType": "hormone",
+        "compartment": "adrenal cortex / circulation"
+      },
+      "targetEntity": {
+        "id": "acth",
+        "label": "Adrenocorticotropic hormone (ACTH)",
+        "entityType": "hormone",
+        "compartment": "anterior pituitary"
+      },
+      "relationType": "feedback_inhibits",
+      "statement": "Glucocorticoid signaling participates in negative feedback on pituitary ACTH secretion.",
+      "context": {
+        "organism": "human",
+        "setting": "General human HPA-axis feedback",
+        "timescale": "Feedback regulation; no individual timing inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: AIDS and HPA Axis",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279014/",
+          "locator": "Organization of the HPA Axis",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology; it does not estimate a person's hormone concentration, physiological state, or response.",
+        "The relation is context-dependent and omits relevant regulators, tissue specificity, developmental variation, disease, medications, and measurement conditions.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "cortisol-feedback-inhibits-crh-candidate",
+      "sourceEntity": {
+        "id": "cortisol",
+        "label": "Cortisol",
+        "entityType": "hormone",
+        "compartment": "adrenal cortex / circulation"
+      },
+      "targetEntity": {
+        "id": "crh",
+        "label": "Corticotropin-releasing hormone (CRH)",
+        "entityType": "hormone",
+        "compartment": "hypothalamic paraventricular nucleus"
+      },
+      "relationType": "feedback_inhibits",
+      "statement": "Glucocorticoid signaling participates in negative feedback on hypothalamic CRH activity.",
+      "context": {
+        "organism": "human",
+        "setting": "General human HPA-axis feedback",
+        "timescale": "Feedback regulation; no individual timing inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: AIDS and HPA Axis",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279014/",
+          "locator": "Organization of the HPA Axis",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology; it does not estimate a person's hormone concentration, physiological state, or response.",
+        "The relation is context-dependent and omits relevant regulators, tissue specificity, developmental variation, disease, medications, and measurement conditions.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "gnrh-stimulates-lh-candidate",
+      "sourceEntity": {
+        "id": "gnrh",
+        "label": "Gonadotropin-releasing hormone (GnRH)",
+        "entityType": "hormone",
+        "compartment": "hypothalamus"
+      },
+      "targetEntity": {
+        "id": "lh",
+        "label": "Luteinizing hormone (LH)",
+        "entityType": "hormone",
+        "compartment": "anterior pituitary"
+      },
+      "relationType": "stimulates_secretion",
+      "statement": "Pulsatile GnRH stimulates pituitary LH secretion.",
+      "context": {
+        "organism": "human",
+        "setting": "General human hypothalamic-pituitary-gonadal axis",
+        "timescale": "Pulsatile signaling; frequency and amplitude matter"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: Physiology of GnRH and Gonadotrophin Secretion",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279070/",
+          "locator": "The HPG axis anatomically comprises; GnRH – the principal regulator of reproduction",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology; it does not estimate a person's hormone concentration, physiological state, or response.",
+        "The relation is context-dependent and omits relevant regulators, tissue specificity, developmental variation, disease, medications, and measurement conditions.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "gnrh-stimulates-fsh-candidate",
+      "sourceEntity": {
+        "id": "gnrh",
+        "label": "Gonadotropin-releasing hormone (GnRH)",
+        "entityType": "hormone",
+        "compartment": "hypothalamus"
+      },
+      "targetEntity": {
+        "id": "fsh",
+        "label": "Follicle-stimulating hormone (FSH)",
+        "entityType": "hormone",
+        "compartment": "anterior pituitary"
+      },
+      "relationType": "stimulates_secretion",
+      "statement": "Pulsatile GnRH stimulates pituitary FSH secretion.",
+      "context": {
+        "organism": "human",
+        "setting": "General human hypothalamic-pituitary-gonadal axis",
+        "timescale": "Pulsatile signaling; frequency and amplitude matter"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: Physiology of GnRH and Gonadotrophin Secretion",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279070/",
+          "locator": "The HPG axis anatomically comprises; GnRH – the principal regulator of reproduction",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology; it does not estimate a person's hormone concentration, physiological state, or response.",
+        "The relation is context-dependent and omits relevant regulators, tissue specificity, developmental variation, disease, medications, and measurement conditions.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "lh-fsh-act-on-gonads-candidate",
+      "sourceEntity": {
+        "id": "lh",
+        "label": "Luteinizing hormone (LH)",
+        "entityType": "hormone",
+        "compartment": "anterior pituitary"
+      },
+      "targetEntity": {
+        "id": "gonads",
+        "label": "Gonads",
+        "entityType": "gland",
+        "compartment": "ovaries or testes"
+      },
+      "relationType": "acts_on",
+      "statement": "LH acts on gonadal tissues in the regulation of steroidogenesis and gametogenesis.",
+      "context": {
+        "organism": "human",
+        "setting": "General human reproductive physiology",
+        "timescale": "Depends on gonadal tissue, developmental stage, and physiological context"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: Physiology of GnRH and Gonadotrophin Secretion",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279070/",
+          "locator": "The HPG axis anatomically comprises; GnRH – the principal regulator of reproduction",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology; it does not estimate a person's hormone concentration, physiological state, or response.",
+        "The relation is context-dependent and omits relevant regulators, tissue specificity, developmental variation, disease, medications, and measurement conditions.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "gonads-synthesize-sex-steroids-candidate",
+      "sourceEntity": {
+        "id": "gonads",
+        "label": "Gonads",
+        "entityType": "gland",
+        "compartment": "ovaries or testes"
+      },
+      "targetEntity": {
+        "id": "gonadal-sex-steroids",
+        "label": "Gonadal sex steroids",
+        "entityType": "hormone_group",
+        "compartment": "gonads / circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "Gonadal tissues produce sex steroids under regulation by gonadotropins.",
+      "context": {
+        "organism": "human",
+        "setting": "General human hypothalamic-pituitary-gonadal axis",
+        "timescale": "Dynamic across life stages and reproductive contexts"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: Physiology of GnRH and Gonadotrophin Secretion",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279070/",
+          "locator": "The HPG axis anatomically comprises; GnRH – the principal regulator of reproduction",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology; it does not estimate a person's hormone concentration, physiological state, or response.",
+        "The relation is context-dependent and omits relevant regulators, tissue specificity, developmental variation, disease, medications, and measurement conditions.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "sex-steroids-feedback-gonadotropin-axis-candidate",
+      "sourceEntity": {
+        "id": "gonadal-sex-steroids",
+        "label": "Gonadal sex steroids",
+        "entityType": "hormone_group",
+        "compartment": "gonads / circulation"
+      },
+      "targetEntity": {
+        "id": "gnrh",
+        "label": "Gonadotropin-releasing hormone (GnRH)",
+        "entityType": "hormone",
+        "compartment": "hypothalamus"
+      },
+      "relationType": "modulates",
+      "statement": "Gonadal sex-steroid signals modulate hypothalamic GnRH regulation; direction and magnitude depend on hormone, concentration, pattern, and reproductive context.",
+      "context": {
+        "organism": "human",
+        "setting": "General human HPG-axis regulation",
+        "timescale": "Context-dependent feedback; this edge does not specify a cycle phase"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: Physiology of GnRH and Gonadotrophin Secretion",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279070/",
+          "locator": "The HPG axis anatomically comprises; GnRH – the principal regulator of reproduction",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology; it does not estimate a person's hormone concentration, physiological state, or response.",
+        "The relation is context-dependent and omits relevant regulators, tissue specificity, developmental variation, disease, medications, and measurement conditions.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "scn-regulates-pineal-output-candidate",
+      "sourceEntity": {
+        "id": "scn",
+        "label": "Suprachiasmatic nucleus (SCN)",
+        "entityType": "tissue",
+        "compartment": "hypothalamus"
+      },
+      "targetEntity": {
+        "id": "pineal-gland",
+        "label": "Pineal gland",
+        "entityType": "gland",
+        "compartment": "pineal gland"
+      },
+      "relationType": "modulates",
+      "statement": "SCN timing signals regulate pineal output through a multisynaptic autonomic pathway.",
+      "context": {
+        "organism": "human",
+        "setting": "Human light-dark and circadian signaling",
+        "timescale": "Circadian; phase depends on timing and light history"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: Physiology of the Pineal Gland and Melatonin",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK550972/",
+          "locator": "Pineal physiology; Main Function of the Pineal Gland",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology; it does not estimate a person's hormone concentration, physiological state, or response.",
+        "The relation is context-dependent and omits relevant regulators, tissue specificity, developmental variation, disease, medications, and measurement conditions.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "pineal-synthesizes-melatonin-candidate",
+      "sourceEntity": {
+        "id": "pineal-gland",
+        "label": "Pineal gland",
+        "entityType": "gland",
+        "compartment": "pineal gland"
+      },
+      "targetEntity": {
+        "id": "melatonin",
+        "label": "Melatonin",
+        "entityType": "hormone",
+        "compartment": "pineal gland / circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "Pinealocytes synthesize and secrete melatonin with a strong dark-phase rhythm in typical light-dark conditions.",
+      "context": {
+        "organism": "human",
+        "setting": "General human pineal physiology",
+        "timescale": "Circadian; individual phase cannot be inferred from clock time alone"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: Physiology of the Pineal Gland and Melatonin",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK550972/",
+          "locator": "Pineal physiology; Main Function of the Pineal Gland",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology; it does not estimate a person's hormone concentration, physiological state, or response.",
+        "The relation is context-dependent and omits relevant regulators, tissue specificity, developmental variation, disease, medications, and measurement conditions.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "retinal-light-modulates-melatonin-candidate",
+      "sourceEntity": {
+        "id": "retinal-light-input",
+        "label": "Retinal light input",
+        "entityType": "exposure",
+        "compartment": "retina / retinohypothalamic pathway"
+      },
+      "targetEntity": {
+        "id": "melatonin",
+        "label": "Melatonin",
+        "entityType": "hormone",
+        "compartment": "pineal gland / circulation"
+      },
+      "relationType": "inhibits_release",
+      "statement": "Retinal light input can suppress or shift melatonin secretion through circadian pathways; effects depend on timing, intensity, spectrum, and prior light exposure.",
+      "context": {
+        "organism": "human",
+        "setting": "Human photic regulation of melatonin",
+        "timescale": "Timing-dependent; no universal response magnitude inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: Physiology of the Pineal Gland and Melatonin",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK550972/",
+          "locator": "Pineal physiology; Main Function of the Pineal Gland",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology; it does not estimate a person's hormone concentration, physiological state, or response.",
+        "The relation is context-dependent and omits relevant regulators, tissue specificity, developmental variation, disease, medications, and measurement conditions.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "glucose-stimulates-insulin-candidate",
+      "sourceEntity": {
+        "id": "plasma-glucose",
+        "label": "Plasma glucose",
+        "entityType": "process",
+        "compartment": "circulation"
+      },
+      "targetEntity": {
+        "id": "insulin",
+        "label": "Insulin",
+        "entityType": "hormone",
+        "compartment": "pancreatic beta cells / circulation"
+      },
+      "relationType": "stimulates_secretion",
+      "statement": "Rising glucose stimulates pancreatic beta-cell insulin secretion through nutrient-coupled cellular processes.",
+      "context": {
+        "organism": "human",
+        "setting": "General human pancreatic islet physiology",
+        "timescale": "Minutes-scale response; depends on glucose and physiological context"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: Insulin Biosynthesis, Secretion, Structure, and Structure-Activity Relationships",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279029/",
+          "locator": "Biochemistry and Electrophysiology of Insulin Secretion",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology; it does not estimate a person's hormone concentration, physiological state, or response.",
+        "The relation is context-dependent and omits relevant regulators, tissue specificity, developmental variation, disease, medications, and measurement conditions.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "glucose-inhibits-glucagon-candidate",
+      "sourceEntity": {
+        "id": "plasma-glucose",
+        "label": "Plasma glucose",
+        "entityType": "process",
+        "compartment": "circulation"
+      },
+      "targetEntity": {
+        "id": "glucagon",
+        "label": "Glucagon",
+        "entityType": "hormone",
+        "compartment": "pancreatic alpha cells / circulation"
+      },
+      "relationType": "inhibits_secretion",
+      "statement": "Higher glucose inhibits glucagon secretion in normal glucose regulation; low glucose is a potent stimulus.",
+      "context": {
+        "organism": "human",
+        "setting": "General human pancreatic islet physiology",
+        "timescale": "Glucose-dependent; not a personal glucose-status inference"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: Glucagon Physiology",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279127/",
+          "locator": "Introduction; Summary and Conclusions",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology; it does not estimate a person's hormone concentration, physiological state, or response.",
+        "The relation is context-dependent and omits relevant regulators, tissue specificity, developmental variation, disease, medications, and measurement conditions.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "glucagon-stimulates-hepatic-glucose-production-candidate",
+      "sourceEntity": {
+        "id": "glucagon",
+        "label": "Glucagon",
+        "entityType": "hormone",
+        "compartment": "pancreatic alpha cells / circulation"
+      },
+      "targetEntity": {
+        "id": "hepatic-glucose-production",
+        "label": "Hepatic glucose production",
+        "entityType": "process",
+        "compartment": "liver"
+      },
+      "relationType": "modulates",
+      "statement": "Glucagon stimulates hepatic glucose production and helps maintain circulating glucose.",
+      "context": {
+        "organism": "human",
+        "setting": "General human glucose homeostasis",
+        "timescale": "Context-dependent, including nutrient availability"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: Glucagon Physiology",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279127/",
+          "locator": "Introduction; Summary and Conclusions",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology; it does not estimate a person's hormone concentration, physiological state, or response.",
+        "The relation is context-dependent and omits relevant regulators, tissue specificity, developmental variation, disease, medications, and measurement conditions.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "insulin-inhibits-hepatic-glucose-production-candidate",
+      "sourceEntity": {
+        "id": "insulin",
+        "label": "Insulin",
+        "entityType": "hormone",
+        "compartment": "pancreatic beta cells / circulation"
+      },
+      "targetEntity": {
+        "id": "hepatic-glucose-production",
+        "label": "Hepatic glucose production",
+        "entityType": "process",
+        "compartment": "liver"
+      },
+      "relationType": "modulates",
+      "statement": "Insulin signaling suppresses hepatic glucose output through direct and indirect mechanisms.",
+      "context": {
+        "organism": "human",
+        "setting": "General human glucose homeostasis",
+        "timescale": "Depends on insulin sensitivity, nutrient state, and other regulators"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: Glucagon Physiology",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279127/",
+          "locator": "Introduction; Summary and Conclusions",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology; it does not estimate a person's hormone concentration, physiological state, or response.",
+        "The relation is context-dependent and omits relevant regulators, tissue specificity, developmental variation, disease, medications, and measurement conditions.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "nutrients-stimulate-glp1-release-candidate",
+      "sourceEntity": {
+        "id": "nutrient-ingestion",
+        "label": "Nutrient ingestion",
+        "entityType": "exposure",
+        "compartment": "gastrointestinal tract"
+      },
+      "targetEntity": {
+        "id": "glp-1",
+        "label": "Glucagon-like peptide-1 (GLP-1)",
+        "entityType": "hormone",
+        "compartment": "intestinal L cells / gut-brain axis"
+      },
+      "relationType": "stimulates_release",
+      "statement": "Nutrient delivery and neurohormonal signals associated with eating stimulate GLP-1 release from intestinal L cells.",
+      "context": {
+        "organism": "human",
+        "setting": "General human gut incretin physiology",
+        "timescale": "Post-ingestion; response varies with nutrient and context"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: Oral and Injectable (Non-Insulin) Pharmacological Agents for the Treatment of Type 2 Diabetes",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279141/",
+          "locator": "Overview of the Incretin System; Glucagon Like Peptide-1",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology; it does not estimate a person's hormone concentration, physiological state, or response.",
+        "The relation is context-dependent and omits relevant regulators, tissue specificity, developmental variation, disease, medications, and measurement conditions.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "l-cells-produce-glp1-candidate",
+      "sourceEntity": {
+        "id": "intestinal-l-cells",
+        "label": "Intestinal enteroendocrine L cells",
+        "entityType": "tissue",
+        "compartment": "ileum and colon (predominantly)"
+      },
+      "targetEntity": {
+        "id": "glp-1",
+        "label": "Glucagon-like peptide-1 (GLP-1)",
+        "entityType": "hormone",
+        "compartment": "intestinal L cells / gut-brain axis"
+      },
+      "relationType": "synthesizes",
+      "statement": "Intestinal enteroendocrine L cells produce GLP-1 from proglucagon.",
+      "context": {
+        "organism": "human",
+        "setting": "General human gut incretin physiology",
+        "timescale": "Cell-specific processing; GLP-1 is rapidly degraded"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: Oral and Injectable (Non-Insulin) Pharmacological Agents for the Treatment of Type 2 Diabetes",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279141/",
+          "locator": "Overview of the Incretin System; Glucagon Like Peptide-1",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology; it does not estimate a person's hormone concentration, physiological state, or response.",
+        "The relation is context-dependent and omits relevant regulators, tissue specificity, developmental variation, disease, medications, and measurement conditions.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "glp1-potentiates-insulin-candidate",
+      "sourceEntity": {
+        "id": "glp-1",
+        "label": "Glucagon-like peptide-1 (GLP-1)",
+        "entityType": "hormone",
+        "compartment": "intestinal L cells / gut-brain axis"
+      },
+      "targetEntity": {
+        "id": "insulin",
+        "label": "Insulin",
+        "entityType": "hormone",
+        "compartment": "pancreatic beta cells / circulation"
+      },
+      "relationType": "modulates",
+      "statement": "GLP-1 potentiates beta-cell insulin secretion in a glucose-dependent manner.",
+      "context": {
+        "organism": "human",
+        "setting": "General human postprandial incretin physiology",
+        "timescale": "Glucose-dependent; not a general insulin-level predictor"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: Oral and Injectable (Non-Insulin) Pharmacological Agents for the Treatment of Type 2 Diabetes",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279141/",
+          "locator": "Overview of the Incretin System; Glucagon Like Peptide-1",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology; it does not estimate a person's hormone concentration, physiological state, or response.",
+        "The relation is context-dependent and omits relevant regulators, tissue specificity, developmental variation, disease, medications, and measurement conditions.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "glp1-inhibits-glucagon-candidate",
+      "sourceEntity": {
+        "id": "glp-1",
+        "label": "Glucagon-like peptide-1 (GLP-1)",
+        "entityType": "hormone",
+        "compartment": "intestinal L cells / gut-brain axis"
+      },
+      "targetEntity": {
+        "id": "glucagon",
+        "label": "Glucagon",
+        "entityType": "hormone",
+        "compartment": "pancreatic alpha cells / circulation"
+      },
+      "relationType": "inhibits_secretion",
+      "statement": "GLP-1 can inhibit postprandial alpha-cell glucagon secretion in a glucose-dependent manner.",
+      "context": {
+        "organism": "human",
+        "setting": "General human postprandial incretin physiology",
+        "timescale": "Glucose- and context-dependent"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: Oral and Injectable (Non-Insulin) Pharmacological Agents for the Treatment of Type 2 Diabetes",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279141/",
+          "locator": "Overview of the Incretin System; Glucagon Like Peptide-1",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology; it does not estimate a person's hormone concentration, physiological state, or response.",
+        "The relation is context-dependent and omits relevant regulators, tissue specificity, developmental variation, disease, medications, and measurement conditions.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "fsh-acts-on-gonads-candidate",
+      "sourceEntity": {
+        "id": "fsh",
+        "label": "Follicle-stimulating hormone (FSH)",
+        "entityType": "hormone",
+        "compartment": "anterior pituitary"
+      },
+      "targetEntity": {
+        "id": "gonads",
+        "label": "Gonads",
+        "entityType": "gland",
+        "compartment": "ovaries or testes"
+      },
+      "relationType": "acts_on",
+      "statement": "FSH acts on gonadal tissues in the regulation of steroidogenesis and gametogenesis.",
+      "context": {
+        "organism": "human",
+        "setting": "General human reproductive physiology",
+        "timescale": "Depends on gonadal tissue, developmental stage, and physiological context"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: Physiology of GnRH and Gonadotrophin Secretion",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279070/",
+          "locator": "The HPG axis anatomically comprises; GnRH – the principal regulator of reproduction",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology; it does not estimate a person's hormone concentration, physiological state, or response.",
+        "The relation is context-dependent and omits relevant regulators, tissue specificity, developmental variation, disease, medications, and measurement conditions.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "sex-steroid-feedback-regulates-lh-candidate",
+      "sourceEntity": {
+        "id": "gonadal-sex-steroids",
+        "label": "Gonadal sex steroids",
+        "entityType": "hormone_group",
+        "compartment": "gonads / circulation"
+      },
+      "targetEntity": {
+        "id": "lh",
+        "label": "Luteinizing hormone (LH)",
+        "entityType": "hormone",
+        "compartment": "anterior pituitary"
+      },
+      "relationType": "modulates",
+      "statement": "Gonadal sex-steroid signals modulate pituitary LH secretion; positive or negative feedback depends on hormone, pattern, and reproductive context.",
+      "context": {
+        "organism": "human",
+        "setting": "General human HPG-axis regulation",
+        "timescale": "Context-dependent feedback; this edge does not specify a cycle phase"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: Physiology of GnRH and Gonadotrophin Secretion",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279070/",
+          "locator": "The HPG axis anatomically comprises; GnRH – the principal regulator of reproduction",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology; it does not estimate a person's hormone concentration, physiological state, or response.",
+        "The relation is context-dependent and omits relevant regulators, tissue specificity, developmental variation, disease, medications, and measurement conditions.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "sex-steroid-feedback-regulates-fsh-candidate",
+      "sourceEntity": {
+        "id": "gonadal-sex-steroids",
+        "label": "Gonadal sex steroids",
+        "entityType": "hormone_group",
+        "compartment": "gonads / circulation"
+      },
+      "targetEntity": {
+        "id": "fsh",
+        "label": "Follicle-stimulating hormone (FSH)",
+        "entityType": "hormone",
+        "compartment": "anterior pituitary"
+      },
+      "relationType": "modulates",
+      "statement": "Gonadal sex-steroid signals modulate pituitary FSH secretion; feedback depends on hormone, pattern, and reproductive context.",
+      "context": {
+        "organism": "human",
+        "setting": "General human HPG-axis regulation",
+        "timescale": "Context-dependent feedback; this edge does not specify a cycle phase"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: Physiology of GnRH and Gonadotrophin Secretion",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279070/",
+          "locator": "The HPG axis anatomically comprises; GnRH – the principal regulator of reproduction",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology; it does not estimate a person's hormone concentration, physiological state, or response.",
+        "The relation is context-dependent and omits relevant regulators, tissue specificity, developmental variation, disease, medications, and measurement conditions.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "late-follicular-estradiol-feedback-stimulates-lh-surge-candidate",
+      "sourceEntity": {
+        "id": "estradiol",
+        "label": "Estradiol (E2)",
+        "entityType": "hormone",
+        "compartment": "dominant preovulatory follicle / circulation"
+      },
+      "targetEntity": {
+        "id": "preovulatory-lh-surge",
+        "label": "Preovulatory luteinizing-hormone (LH) surge",
+        "entityType": "process",
+        "compartment": "hypothalamic-pituitary-ovarian axis"
+      },
+      "relationType": "feedback_stimulates",
+      "statement": "Sustained high estradiol from the dominant preovulatory follicle can switch hypothalamic-pituitary feedback toward positive feedback and help trigger the mid-cycle LH surge.",
+      "context": {
+        "organism": "human",
+        "setting": "Human spontaneous ovulatory menstrual cycles; late follicular phase",
+        "timescale": "Sustained signaling over the late-follicular interval; timing varies and no individual timing is inferred",
+        "lifeStage": "reproductive adult"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: The Normal Menstrual Cycle and the Control of Ovulation",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279054/",
+          "locator": "Follicular phase, ovulation, luteal phase, and pregnancy rescue of the corpus luteum",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology, not an estimate of an individual hormone level, cycle phase, fertility, or clinical state.",
+        "Human cycle physiology varies across individuals and cycles; this relation does not assume a fixed 28-day cycle or universal ovulation.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review.",
+        "The switch depends on duration and physiological context, not a single universally applicable wearable or calendar threshold."
+      ]
+    },
+    {
+      "id": "lh-surge-promotes-ovulation-and-luteinization-candidate",
+      "sourceEntity": {
+        "id": "lh",
+        "label": "Luteinizing hormone (LH)",
+        "entityType": "hormone",
+        "compartment": "anterior pituitary / circulation"
+      },
+      "targetEntity": {
+        "id": "ovulation-and-luteinization",
+        "label": "Ovulation and follicular luteinization",
+        "entityType": "process",
+        "compartment": "ovary"
+      },
+      "relationType": "modulates",
+      "statement": "The preovulatory LH surge promotes ovulation and luteinization of follicular cells, including progesterone synthesis around mid-cycle.",
+      "context": {
+        "organism": "human",
+        "setting": "Human spontaneous ovulatory menstrual cycles; periovulatory interval",
+        "timescale": "The surge precedes ovulation by a variable interval; no personal ovulation time is inferred",
+        "lifeStage": "reproductive adult"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: The Normal Menstrual Cycle and the Control of Ovulation",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279054/",
+          "locator": "Follicular phase, ovulation, luteal phase, and pregnancy rescue of the corpus luteum",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology, not an estimate of an individual hormone level, cycle phase, fertility, or clinical state.",
+        "Human cycle physiology varies across individuals and cycles; this relation does not assume a fixed 28-day cycle or universal ovulation.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review.",
+        "A reported bleed, calendar estimate, or urinary LH test alone does not prove that ovulation occurred."
+      ]
+    },
+    {
+      "id": "follicular-inhibin-b-inhibits-fsh-secretion-candidate",
+      "sourceEntity": {
+        "id": "inhibin-b",
+        "label": "Inhibin B",
+        "entityType": "hormone",
+        "compartment": "developing ovarian follicles / circulation"
+      },
+      "targetEntity": {
+        "id": "fsh",
+        "label": "Follicle-stimulating hormone (FSH)",
+        "entityType": "hormone",
+        "compartment": "anterior pituitary"
+      },
+      "relationType": "inhibits_secretion",
+      "statement": "Inhibin B from developing follicles contributes to negative feedback that suppresses pituitary FSH during the follicular phase.",
+      "context": {
+        "organism": "human",
+        "setting": "Human spontaneous menstrual cycles; follicular phase",
+        "timescale": "Phase-varying endocrine feedback; no individual phase or level inferred",
+        "lifeStage": "reproductive adult"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: The Normal Menstrual Cycle and the Control of Ovulation",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279054/",
+          "locator": "Follicular phase, ovulation, luteal phase, and pregnancy rescue of the corpus luteum",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology, not an estimate of an individual hormone level, cycle phase, fertility, or clinical state.",
+        "Human cycle physiology varies across individuals and cycles; this relation does not assume a fixed 28-day cycle or universal ovulation.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review.",
+        "Inhibin B is one part of FSH regulation; estradiol, activin, GnRH, follicular state, age, and other contexts also matter."
+      ]
+    },
+    {
+      "id": "luteal-inhibin-a-inhibits-fsh-secretion-candidate",
+      "sourceEntity": {
+        "id": "inhibin-a",
+        "label": "Inhibin A",
+        "entityType": "hormone",
+        "compartment": "corpus luteum / circulation"
+      },
+      "targetEntity": {
+        "id": "fsh",
+        "label": "Follicle-stimulating hormone (FSH)",
+        "entityType": "hormone",
+        "compartment": "anterior pituitary"
+      },
+      "relationType": "inhibits_secretion",
+      "statement": "Inhibin A is a luteal-phase ovarian signal that contributes to negative feedback on FSH; its fall near corpus-luteum regression participates in the late-luteal FSH rise.",
+      "context": {
+        "organism": "human",
+        "setting": "Human spontaneous menstrual cycles; luteal and luteal-follicular transition",
+        "timescale": "Late-cycle feedback; cycle length and ovulatory status vary",
+        "lifeStage": "reproductive adult"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: The Normal Menstrual Cycle and the Control of Ovulation",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279054/",
+          "locator": "Follicular phase, ovulation, luteal phase, and pregnancy rescue of the corpus luteum",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology, not an estimate of an individual hormone level, cycle phase, fertility, or clinical state.",
+        "Human cycle physiology varies across individuals and cycles; this relation does not assume a fixed 28-day cycle or universal ovulation.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review.",
+        "This relation describes population physiology and does not identify an individual cycle phase from symptoms or dates."
+      ]
+    },
+    {
+      "id": "luteal-progesterone-reduces-gnrh-pulse-frequency-candidate",
+      "sourceEntity": {
+        "id": "progesterone",
+        "label": "Progesterone",
+        "entityType": "hormone",
+        "compartment": "corpus luteum / circulation"
+      },
+      "targetEntity": {
+        "id": "gnrh-pulse-frequency",
+        "label": "Gonadotropin-releasing hormone (GnRH) pulse frequency",
+        "entityType": "process",
+        "compartment": "hypothalamic neuroendocrine network"
+      },
+      "relationType": "feedback_inhibits",
+      "statement": "Luteal progesterone contributes to slower GnRH pulse frequency after ovulation; progesterone decline near luteolysis is associated with a rise in GnRH pulsatility.",
+      "context": {
+        "organism": "human",
+        "setting": "Human spontaneous ovulatory menstrual cycles; luteal phase and luteal-follicular transition",
+        "timescale": "Pulsatile regulation across the luteal phase; no personal timing inferred",
+        "lifeStage": "reproductive adult"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: The Normal Menstrual Cycle and the Control of Ovulation",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279054/",
+          "locator": "Follicular phase, ovulation, luteal phase, and pregnancy rescue of the corpus luteum",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology, not an estimate of an individual hormone level, cycle phase, fertility, or clinical state.",
+        "Human cycle physiology varies across individuals and cycles; this relation does not assume a fixed 28-day cycle or universal ovulation.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review.",
+        "Pulse generation is a distributed neuroendocrine process; a peripheral progesterone value alone does not specify GnRH pulse pattern."
+      ]
+    },
+    {
+      "id": "corpus-luteum-regression-reduces-ovarian-steroid-and-inhibin-output-candidate",
+      "sourceEntity": {
+        "id": "corpus-luteum-regression",
+        "label": "Corpus luteum regression (luteolysis)",
+        "entityType": "process",
+        "compartment": "ovary"
+      },
+      "targetEntity": {
+        "id": "luteal-hormone-output",
+        "label": "Luteal progesterone, estradiol, and inhibin A output",
+        "entityType": "hormone_group",
+        "compartment": "corpus luteum / circulation"
+      },
+      "relationType": "modulates",
+      "statement": "Without pregnancy-related rescue, corpus-luteum function declines and circulating progesterone, estradiol, and inhibin A fall toward the end of the luteal phase.",
+      "context": {
+        "organism": "human",
+        "setting": "Human spontaneous menstrual cycles without conception; late luteal phase",
+        "timescale": "End-of-luteal transition; exact duration varies",
+        "lifeStage": "reproductive adult"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: The Normal Menstrual Cycle and the Control of Ovulation",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279054/",
+          "locator": "Follicular phase, ovulation, luteal phase, and pregnancy rescue of the corpus luteum",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology, not an estimate of an individual hormone level, cycle phase, fertility, or clinical state.",
+        "Human cycle physiology varies across individuals and cycles; this relation does not assume a fixed 28-day cycle or universal ovulation.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review.",
+        "The causes and timing of corpus-luteum regression are multifactorial and not fully represented by this edge."
+      ]
+    },
+    {
+      "id": "loss-of-luteal-feedback-allows-fsh-rise-candidate",
+      "sourceEntity": {
+        "id": "luteal-feedback-decline",
+        "label": "Decline in luteal estradiol, progesterone, and inhibin A feedback",
+        "entityType": "process",
+        "compartment": "ovary-to-hypothalamic-pituitary axis"
+      },
+      "targetEntity": {
+        "id": "fsh-rise-and-follicular-recruitment",
+        "label": "Late-luteal FSH rise and next-cycle follicle recruitment",
+        "entityType": "process",
+        "compartment": "anterior pituitary and ovary"
+      },
+      "relationType": "modulates",
+      "statement": "Declining corpus-luteum signals reduce negative feedback, permitting FSH to rise in the late luteal interval and contributing to recruitment of follicles for a subsequent cycle.",
+      "context": {
+        "organism": "human",
+        "setting": "Human spontaneous menstrual cycles without conception; luteal-follicular transition",
+        "timescale": "Last days of the luteal phase into the next follicular phase; no calendar prediction inferred",
+        "lifeStage": "reproductive adult"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: The Normal Menstrual Cycle and the Control of Ovulation",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279054/",
+          "locator": "Follicular phase, ovulation, luteal phase, and pregnancy rescue of the corpus luteum",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology, not an estimate of an individual hormone level, cycle phase, fertility, or clinical state.",
+        "Human cycle physiology varies across individuals and cycles; this relation does not assume a fixed 28-day cycle or universal ovulation.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review.",
+        "This does not establish that every cycle is ovulatory or that every bleeding event follows this endocrine sequence."
+      ]
+    },
+    {
+      "id": "early-pregnancy-hcg-supports-corpus-luteum-candidate",
+      "sourceEntity": {
+        "id": "hcg",
+        "label": "Human chorionic gonadotropin (hCG)",
+        "entityType": "hormone",
+        "compartment": "trophoblast / maternal circulation"
+      },
+      "targetEntity": {
+        "id": "corpus-luteum-function",
+        "label": "Corpus luteum function and progesterone production",
+        "entityType": "process",
+        "compartment": "ovary during early pregnancy"
+      },
+      "relationType": "modulates",
+      "statement": "After implantation, pregnancy-derived hCG supports corpus-luteum function and progesterone production during early pregnancy until placental steroid production becomes sufficient.",
+      "context": {
+        "organism": "human",
+        "setting": "Human early pregnancy after implantation",
+        "timescale": "Early gestational interval; individual timing and outcome are not inferred",
+        "lifeStage": "early pregnancy"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: The Normal Menstrual Cycle and the Control of Ovulation",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279054/",
+          "locator": "Follicular phase, ovulation, luteal phase, and pregnancy rescue of the corpus luteum",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general reproductive physiology; it does not detect pregnancy or predict pregnancy outcome.",
+        "hCG measurements require their actual assay, collection time, and clinical context; this network edge is not an interpretation rule.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "menopause-follicular-depletion-associated-with-higher-fsh-candidate",
+      "sourceEntity": {
+        "id": "ovarian-follicular-pool-depletion",
+        "label": "Ovarian follicular-pool depletion",
+        "entityType": "process",
+        "compartment": "ovary"
+      },
+      "targetEntity": {
+        "id": "fsh",
+        "label": "Follicle-stimulating hormone (FSH)",
+        "entityType": "hormone",
+        "compartment": "anterior pituitary / circulation"
+      },
+      "relationType": "modulates",
+      "statement": "After menopause-associated depletion of the ovarian follicular pool, loss of ovarian estradiol and inhibin feedback contributes to elevated FSH; hormone patterns during the menopausal transition can fluctuate.",
+      "context": {
+        "organism": "human",
+        "setting": "Human reproductive aging and postmenopause; distinguish the transition from established postmenopause",
+        "timescale": "Life-stage transition over years; no individual stage inferred",
+        "lifeStage": "reproductive aging"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: The Postmenopausal Women",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279050/",
+          "locator": "Menopause and ovarian follicular depletion",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general reproductive-aging physiology; a single FSH measurement does not determine menopausal stage in this catalog.",
+        "The menopausal transition is variable and can include irregular or anovulatory cycles; the postmenopausal pattern is not interchangeable with perimenopause.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "progesterone-withdrawal-modulates-menstrual-shedding-candidate",
+      "sourceEntity": {
+        "id": "progesterone-withdrawal",
+        "label": "Withdrawal of progesterone after corpus-luteum regression",
+        "entityType": "process",
+        "compartment": "ovary / endometrial exposure"
+      },
+      "targetEntity": {
+        "id": "menstrual-endometrial-shedding",
+        "label": "Endometrial breakdown and menstrual shedding",
+        "entityType": "process",
+        "compartment": "uterus / endometrium"
+      },
+      "relationType": "modulates",
+      "statement": "In a non-pregnant cycle, luteal progesterone withdrawal contributes to endometrial vascular and tissue changes that lead to menstrual shedding, alongside local prostaglandin and tissue processes.",
+      "context": {
+        "organism": "human",
+        "setting": "Human spontaneous menstrual cycles without conception; late luteal and menstrual interval",
+        "timescale": "Luteal withdrawal followed by endometrial response; bleeding duration and amount vary",
+        "lifeStage": "reproductive adult"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: The Normal Menstrual Cycle and the Control of Ovulation",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279054/",
+          "locator": "Follicular phase, ovulation, luteal phase, and pregnancy rescue of the corpus luteum",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology, not an estimate of an individual hormone level, cycle phase, fertility, or clinical state.",
+        "Human cycle physiology varies across individuals and cycles; this relation does not assume a fixed 28-day cycle or universal ovulation.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review.",
+        "Menstrual bleeding is not by itself proof of ovulation or a complete hormonal pattern."
+      ]
+    }
+  ]
+}
