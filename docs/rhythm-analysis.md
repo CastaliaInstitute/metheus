@@ -137,6 +137,7 @@ from metheus import (
     summarize_bleeding_onset_intervals,
     summarize_feeding_events,
     summarize_main_sleep,
+    summarize_numeric_measurements,
 )
 
 sleep_summary = summarize_main_sleep(
@@ -157,6 +158,13 @@ bleeding_gap_summary = summarize_bleeding_onset_intervals(
     start_date="2026-01-01",
     end_date="2026-10-31",
 )
+heart_rate_series = summarize_numeric_measurements(
+    records,
+    subject_id="local-subject-7f23",
+    start_date="2026-10-12",
+    end_date="2026-10-18",
+    analyte_or_signal="heart_rate",
+)
 ```
 
 These function outputs are now **versioned derived rhythm-summary resources**, not ordinary observations. Each has `id` (equal to the compatibility field `summaryId`), `recordType: rhythm_summary`, `schemaVersion`, `summaryMeasure`, `methodVersion`, `inputRecordIds`, chosen window, coverage, metrics, and limitations. The [`rhythm summary schema`](../schema/rhythm-summary.schema.json) defines the output contract. A subject index may reference the summary only when every input event is also indexed as an observation and matches the declared measure. The [synthetic sleep-summary set](../examples/rhythm-summary-reading.example.json) shows the complete index/consent/reading path.
@@ -165,4 +173,4 @@ Selecting a summary for a reading requires selecting its `inputRecordIds` too. B
 
 ## Current boundary
 
-This prototype computes descriptive timing summaries only, including a meal-to-wake comparison based on explicit wake events and calendar gaps between reported bleeding onsets. It does not calculate light-based circadian phase, infer menstrual phase or ovulation, model endocrine dynamics, estimate personal baselines, generate readings, or store any data. Those require separate, reviewed methods and must not be implied by these functions.
+This prototype computes descriptive timing summaries and same-signature numeric measurement series. It does not calculate light-based circadian phase, infer menstrual phase or ovulation, model endocrine dynamics, estimate personal baselines, generate readings, or store any data. Those require separate, reviewed methods and must not be implied by these functions.
