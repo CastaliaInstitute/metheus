@@ -1,0 +1,20 @@
+{
+  "id": "synthetic-chart-feature",
+  "subjectId": "synthetic-subject",
+  "recordType": "symbolic_feature",
+  "epistemicClass": "symbolic",
+  "time": {
+    "observedAt": "2026-04-03T00:00:00Z",
+    "precision": "approximate",
+    "scale": "life_course"
+  },
+  "source": {
+    "kind": "symbolic_system",
+    "name": "Human Design",
+    "method": "synthetic example feature; no chart claim asserted",
+    "version": "example-v1"
+  },
+  "domain": "symbolic",
+  "label": "Synthetic chart feature used only to illustrate phase provenance.",
+  "notes": "No real person's chart or transit calculation is represented."
+}

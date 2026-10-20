@@ -9,7 +9,7 @@
     "timeZone": "UTC",
     "precision": "approximate"
   },
-  "inputIds": ["phase-promethean-example", "phase-epimethean-example", "synthetic-bleeding-observation"],
+  "inputIds": ["phase-promethean-example", "phase-epimethean-example", "synthetic-chart-feature", "synthetic-bleeding-observation"],
   "claims": [
     {
       "claimType": "symbolic_prompt",

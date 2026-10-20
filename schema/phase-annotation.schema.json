@@ -5,10 +5,11 @@
   "description": "An optional evocative label attached to a time-bounded symbolic or lived phase. It does not replace canonical terminology, source provenance, or uncertainty.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["id", "subjectId", "layer", "phaseSystem", "canonicalPhase", "window", "basis", "interpretation", "method", "limitations"],
+  "required": ["id", "subjectId", "recordType", "layer", "phaseSystem", "canonicalPhase", "window", "basis", "interpretation", "basisRecordIds", "method", "limitations"],
   "properties": {
     "id": { "type": "string", "minLength": 1 },
     "subjectId": { "type": "string", "minLength": 1 },
+    "recordType": { "const": "phase_annotation" },
     "layer": { "enum": ["promethean", "epimethean"] },
     "phaseSystem": { "enum": ["human_design_transit", "astrological_transit", "menstrual_cycle", "pregnancy", "postpartum", "menopause", "development", "sleep_wake", "other"] },
     "canonicalPhase": { "type": "string", "minLength": 1 },
@@ -26,7 +27,15 @@
     },
     "basis": { "enum": ["reported", "observed", "derived", "clinically_assessed"] },
     "interpretation": { "enum": ["descriptive", "symbolic", "reflective"] },
-    "basisRecordIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+    "basisRecordIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true, "minItems": 1 },
+    "developmentContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lifeStage"],
+      "properties": {
+        "lifeStage": { "enum": ["prenatal", "newborn", "infancy", "early_childhood", "middle_childhood", "adolescence", "adulthood", "pregnancy", "postpartum", "menopause_transition", "later_life", "unspecified"] }
+      }
+    },
     "sourceSystem": {
       "type": "object",
       "additionalProperties": false,
@@ -65,6 +74,10 @@
           "interpretation": { "enum": ["descriptive", "reflective"] }
         }
       }
+    },
+    {
+      "if": { "properties": { "phaseSystem": { "const": "development" } } },
+      "then": { "required": ["developmentContext"] }
     }
   ]
 }

@@ -55,6 +55,7 @@ A phase annotation is separate from the observation records that support it. It 
 {
   "id": "phase-annotation-example",
   "subjectId": "subject-example",
+  "recordType": "phase_annotation",
   "layer": "epimethean",
   "phaseSystem": "menstrual_cycle",
   "canonicalPhase": "bleeding_reported",

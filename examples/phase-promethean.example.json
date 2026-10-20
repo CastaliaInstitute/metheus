@@ -1,6 +1,7 @@
 {
   "id": "phase-promethean-example",
   "subjectId": "synthetic-subject",
+  "recordType": "phase_annotation",
   "layer": "promethean",
   "phaseSystem": "human_design_transit",
   "canonicalPhase": "transit_to_gate_18",
@@ -12,6 +13,7 @@
   },
   "basis": "derived",
   "interpretation": "symbolic",
+  "basisRecordIds": ["synthetic-chart-feature"],
   "sourceSystem": {
     "name": "Human Design",
     "lineage": "synthetic named lineage",

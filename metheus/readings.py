@@ -75,6 +75,9 @@ def validate_reading_references(
         if not isinstance(annotation_id, str) or not annotation_id:
             issue("missing_phase_annotation_id")
             continue
+        if annotation.get("recordType") != "phase_annotation":
+            issue("invalid_phase_annotation_type", annotation_id)
+            continue
         if annotation_id in phase_index:
             issue("duplicate_phase_annotation_id", annotation_id)
             continue

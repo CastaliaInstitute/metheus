@@ -12,7 +12,7 @@ from typing import Any, Iterable
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 
-POLICY_VERSION = "metheus-consent-policy/0.1.0"
+POLICY_VERSION = "metheus-consent-policy/0.2.0"
 
 # A narrow permission may be covered by an explicit broad category for users
 # who chose that scope. Reproductive, intimacy, relationship, child, and chart
@@ -37,7 +37,23 @@ _BROAD_SCOPES: dict[str, set[str]] = {
 
 _DOMAIN_ALIASES = {"relationship": "relationships"}
 
+_PHASE_SYSTEM_DOMAINS = {
+    "human_design_transit": "symbolic",
+    "astrological_transit": "symbolic",
+    "menstrual_cycle": "reproductive",
+    "pregnancy": "reproductive",
+    "postpartum": "reproductive",
+    "menopause": "reproductive",
+    "development": "development",
+    "sleep_wake": "sleep",
+    "other": "other",
+}
+
 _CHILD_STEWARD_ROLES = {"parent_guardian", "legally_authorized_representative"}
+
+
+def _is_phase_annotation(record: dict[str, Any]) -> bool:
+    return record.get("recordType") == "phase_annotation"
 
 
 def _parse_instant(value: Any) -> datetime | None:
@@ -52,26 +68,55 @@ def _parse_instant(value: Any) -> datetime | None:
     return instant.astimezone(timezone.utc)
 
 
-def _record_date(record: dict[str, Any]) -> date | None:
-    time_data = record.get("time")
-    if not isinstance(time_data, dict):
+def _local_date(value: Any, zone_name: Any = None) -> date | None:
+    if not isinstance(value, str):
         return None
-    if time_data.get("precision") == "date_only":
-        try:
-            return date.fromisoformat(time_data["date"])
-        except (KeyError, TypeError, ValueError):
-            return None
-
-    instant = _parse_instant(time_data.get("observedAt") or time_data.get("start"))
+    try:
+        return date.fromisoformat(value)
+    except ValueError:
+        pass
+    instant = _parse_instant(value)
     if instant is None:
         return None
-    zone_name = time_data.get("timeZone")
     if isinstance(zone_name, str):
         try:
             return instant.astimezone(ZoneInfo(zone_name)).date()
         except (ZoneInfoNotFoundError, ValueError):
             pass
     return instant.date()
+
+
+def _record_dates(record: dict[str, Any]) -> tuple[date, date] | None:
+    # Do not let an added/malformed `time` field narrow a phase annotation's
+    # authorization window; its declared phase window is authoritative.
+    if "phaseSystem" in record:
+        if not _is_phase_annotation(record) or record.get("phaseSystem") not in _PHASE_SYSTEM_DOMAINS:
+            return None
+        window = record.get("window")
+        if not isinstance(window, dict):
+            return None
+        zone_name = window.get("timeZone")
+        start_date = _local_date(window.get("start"), zone_name)
+        end_date = _local_date(window.get("end", window.get("start")), zone_name)
+        if start_date is None or end_date is None or end_date < start_date:
+            return None
+        return start_date, end_date
+
+    time_data = record.get("time")
+    if isinstance(time_data, dict):
+        if time_data.get("precision") == "date_only":
+            observed = _local_date(time_data.get("date"))
+            return (observed, observed) if observed is not None else None
+        zone_name = time_data.get("timeZone")
+        start_value = time_data.get("observedAt") or time_data.get("start")
+        if start_value is not None:
+            start_date = _local_date(start_value, zone_name)
+            end_date = _local_date(time_data.get("end", start_value), zone_name)
+            if start_date is None or end_date is None or end_date < start_date:
+                return None
+            return start_date, end_date
+
+    return None
 
 
 def _grant_time_matches(grant: dict[str, Any], now: datetime) -> bool:
@@ -99,8 +144,8 @@ def _time_scope_matches(grant: dict[str, Any], record: dict[str, Any]) -> bool:
         return False
     if end < start:
         return False
-    observed_day = _record_date(record)
-    return observed_day is not None and start <= observed_day <= end
+    record_dates = _record_dates(record)
+    return record_dates is not None and start <= record_dates[0] and record_dates[1] <= end
 
 
 def _record_scope_matches(grant: dict[str, Any], record: dict[str, Any]) -> bool:
@@ -122,6 +167,17 @@ def _covers_domain(grant_domains: Any, record_domain: Any) -> bool:
     return required in grant_domains or bool(_BROAD_SCOPES.get(record_domain, set()) & set(grant_domains))
 
 
+def _record_domain(record: dict[str, Any]) -> str | None:
+    if "phaseSystem" in record:
+        if not _is_phase_annotation(record):
+            return None
+        return _PHASE_SYSTEM_DOMAINS.get(record.get("phaseSystem"))
+    domain = record.get("domain")
+    if isinstance(domain, str):
+        return domain
+    return None
+
+
 def _grantor_is_usable(grant: dict[str, Any], record: dict[str, Any]) -> bool:
     grantor = grant.get("grantor")
     if not isinstance(grantor, dict):
@@ -130,7 +186,11 @@ def _grantor_is_usable(grant: dict[str, Any], record: dict[str, Any]) -> bool:
     reference = grantor.get("reference")
     development = record.get("developmentContext", {})
     life_stage = development.get("lifeStage") if isinstance(development, dict) else None
-    early_child_stages = {"prenatal", "newborn", "infancy", "early_childhood", "middle_childhood"}
+    early_child_stages = {"prenatal", "newborn", "infancy", "early_childhood", "middle_childhood", "adolescence"}
+    if _is_phase_annotation(record) and record.get("phaseSystem") == "development":
+        adult_stages = {"adulthood", "pregnancy", "postpartum", "menopause_transition", "later_life"}
+        if life_stage not in adult_stages:
+            return role in _CHILD_STEWARD_ROLES
     if (
         "child_development" in grant.get("domains", [])
         or life_stage in early_child_stages
@@ -180,9 +240,10 @@ def evaluate_authorization(
 
     Supported actions are `collect`, `analyze`, `share`, and
     `remote_processing`. A share requires an exact recipient reference and
-    role. `records` should contain the source records used by the requested
-    operation; derived outputs alone are not sufficient authorization inputs.
-    The result contains only identifiers and policy reasons, not record data.
+    role. `records` may contain observations/events and phase annotations; for
+    derived annotations, callers should include the source records in
+    `basisRecordIds` as well. Every supplied item must be authorized. The result
+    contains only identifiers and policy reasons, not record data.
     """
     if not isinstance(subject_id, str) or not subject_id.strip():
         raise ValueError("subject_id is required")
@@ -196,6 +257,10 @@ def evaluate_authorization(
     evaluated_at = evaluated_at.astimezone(timezone.utc)
 
     selected_records = list(records)
+    selected_record_ids = {
+        record.get("id") for record in selected_records
+        if isinstance(record, dict) and isinstance(record.get("id"), str)
+    }
     grant_list = [grant for grant in grants if isinstance(grant, dict)]
     inactive_ids = _inactive_grant_ids(grant_list)
     decisions: list[dict[str, Any]] = []
@@ -221,10 +286,21 @@ def evaluate_authorization(
         if record.get("subjectId") != subject_id:
             decisions.append({"recordId": record_id, "authorized": False, "reason": "subject_mismatch"})
             continue
-        domain = record.get("domain")
+        domain = _record_domain(record)
         if not isinstance(domain, str):
             decisions.append({"recordId": record_id, "authorized": False, "reason": "missing_record_domain"})
             continue
+        if _is_phase_annotation(record) and record.get("phaseSystem") in _PHASE_SYSTEM_DOMAINS:
+            basis_ids = record.get("basisRecordIds")
+            if not isinstance(basis_ids, list) or not basis_ids or not all(isinstance(value, str) and value for value in basis_ids):
+                decisions.append({"recordId": record_id, "authorized": False, "reason": "missing_phase_basis_records"})
+                continue
+            if record_id in basis_ids:
+                decisions.append({"recordId": record_id, "authorized": False, "reason": "self_referential_phase_basis"})
+                continue
+            if any(value not in selected_record_ids for value in basis_ids):
+                decisions.append({"recordId": record_id, "authorized": False, "reason": "phase_basis_record_not_selected"})
+                continue
 
         matching_grant: dict[str, Any] | None = None
         declined_grant_applies = False

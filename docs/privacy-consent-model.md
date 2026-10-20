@@ -76,7 +76,9 @@ A consent grant must not be assumed from device connection, chart calculation, p
 
 In the draft schema, `permittedActions` means currently authorized actions, not requested actions: it must be empty while permission is pending, denied, withdrawn, or expired. An expired grant must carry its expiry time. These structural checks do not enforce authorization at runtime; a future service must check the subject, domain, purpose, time window, recipient, and requested action against active grants before every collection, analysis, export, or remote-processing operation.
 
-The current in-memory policy prototype is [`metheus/authorization.py`](../metheus/authorization.py). `evaluate_authorization` requires every selected source record to match an active grant for the same subject, purpose, action, and domain; it checks creation/expiry time, record-ID/date scopes, share recipient, remote-processing disclosure, supersession/revocation references, and explicit child dissent. Narrow consent domains are preferred; legacy broad scopes cover only the subdomains listed in that module. For a remote analysis, callers must require both `analyze` and `remote_processing`; for sharing, they must pass the exact recipient. Any denied record makes the batch unauthorized. Date scopes compare date-only reports on their declared date and timestamped or interval records on the local date of `observedAt` or `start`.
+The current in-memory policy prototype is [`metheus/authorization.py`](../metheus/authorization.py). `evaluate_authorization` requires every selected source record or phase annotation to match an active grant for the same subject, purpose, action, and domain; it checks creation/expiry time, record-ID/date scopes, share recipient, remote-processing disclosure, supersession/revocation references, and explicit child dissent. Known phase systems map to narrow domains: symbolic transits to `symbolic`, menstrual/pregnancy/postpartum/menopause contexts to `reproductive`, development to `development`, and sleep/wake to `sleep`. A phase annotation and its basis records are separate selected items and each must be authorized; derived outputs alone are not sufficient authorization inputs. Date scopes must contain the full date span of an interval, including phase-annotation windows, not just the start date. Narrow consent domains are preferred; legacy broad scopes cover only the subdomains listed in that module. For a remote analysis, callers must require both `analyze` and `remote_processing`; for sharing, they must pass the exact recipient. Any denied record makes the batch unauthorized.
+
+Development phase annotations require an explicit life stage. Child stages remain subject to the guardian-steward check even when represented by a derived phase label. The evaluator still cannot verify that the label is accurate or that the grantor has legal authority.
 
 Example call shape:
 
@@ -93,6 +95,8 @@ decision = evaluate_authorization(
 if not decision["authorized"]:
     raise PermissionError("Selected records are outside the active consent scope")
 ```
+
+When a reading includes phase annotations, pass each annotation itself and every supporting record named by its `basisRecordIds` in the evaluator's `records` argument. The evaluator checks that those supporting records are included, then evaluates each item's own consent scope.
 
 The synthetic [consent example](../examples/consent-grant.example.json) demonstrates record-ID and date-window scope. Subject-directed export is a data-access capability, not an additional consent action; a share with another recipient still requires `share` authorization.
 
