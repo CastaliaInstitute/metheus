@@ -1,6 +1,6 @@
 {
   "$schema": "../schema/correspondence-catalog.schema.json",
-  "catalogVersion": "0.3.0",
+  "catalogVersion": "0.3.1",
   "catalogStatus": "source_attributed",
   "policy": "These entries record specific Human Design sources' gate-level organ, tissue, or hormonal correspondences. They are not established biology, assay interpretation, or evidence that a gate causes, measures, or predicts a hormone. Preserve each source and its wording; do not generalize one source's teaching to all Human Design lineages. Conflicting source attributions are retained separately and must not be summarized as lineage consensus.",
   "correspondences": [
@@ -2209,6 +2209,321 @@
         "The source names a physiological correspondence but does not establish that the gate regulates, measures, or predicts the named organ or any hormone.",
         "The source wording includes associated anatomy where shown; this record does not infer function from that wording or estimate an individual health state."
       ]
+    },
+    {
+      "id": "gate-1-liver-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "1",
+        "label": "Gate 1"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "liver",
+        "label": "Liver"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” table lists Liver as the organ associated with Gate 1. This records that source’s gate-to-organ assignment; it does not establish that Gate 1 regulates the organ or its hormone output.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 2",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
+    },
+    {
+      "id": "gate-2-liver-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "2",
+        "label": "Gate 2"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "liver",
+        "label": "Liver"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” table lists Liver as the organ associated with Gate 2. This records that source’s gate-to-organ assignment; it does not establish that Gate 2 regulates the organ or its hormone output.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 2",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
+    },
+    {
+      "id": "gate-7-liver-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "7",
+        "label": "Gate 7"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "liver",
+        "label": "Liver"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” table lists Liver as the organ associated with Gate 7. This records that source’s gate-to-organ assignment; it does not establish that Gate 7 regulates the organ or its hormone output.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 2",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
+    },
+    {
+      "id": "gate-10-liver-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "10",
+        "label": "Gate 10"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "liver",
+        "label": "Liver"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” table lists Liver as the organ associated with Gate 10. This records that source’s gate-to-organ assignment; it does not establish that Gate 10 regulates the organ or its hormone output.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 2",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
+    },
+    {
+      "id": "gate-13-liver-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "13",
+        "label": "Gate 13"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "liver",
+        "label": "Liver"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” table lists Liver as the organ associated with Gate 13. This records that source’s gate-to-organ assignment; it does not establish that Gate 13 regulates the organ or its hormone output.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 2",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
+    },
+    {
+      "id": "gate-15-liver-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "15",
+        "label": "Gate 15"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "liver",
+        "label": "Liver"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” table lists Liver as the organ associated with Gate 15. This records that source’s gate-to-organ assignment; it does not establish that Gate 15 regulates the organ or its hormone output.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 2",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
+    },
+    {
+      "id": "gate-25-liver-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "25",
+        "label": "Gate 25"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "liver",
+        "label": "Liver"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” table lists Liver as the organ associated with Gate 25. This records that source’s gate-to-organ assignment; it does not establish that Gate 25 regulates the organ or its hormone output.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 3",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
+    },
+    {
+      "id": "gate-40-stomach-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "40",
+        "label": "Gate 40"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "stomach",
+        "label": "Stomach"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” table lists Stomach as the organ associated with Gate 40. This records that source’s gate-to-organ assignment; it does not establish that Gate 40 regulates the organ or its hormone output.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 4",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
+    },
+    {
+      "id": "gate-46-liver-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "46",
+        "label": "Gate 46"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "liver",
+        "label": "Liver"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” table lists Liver as the organ associated with Gate 46. This records that source’s gate-to-organ assignment; it does not establish that Gate 46 regulates the organ or its hormone output.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 4",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
     }
   ],
   "sourceRegister": [
@@ -2232,7 +2547,8 @@
       "reviewStatus": "not_independently_reviewed",
       "citationUrlPrefix": "https://www.humandesignapp.com/human-design-gates/gate-6-human-design/",
       "lineage": "Human Design App / Healing Shore LLC",
-      "sourceScope": "One consulted Gate 6 article; not a complete gate physiology map."
+      "sourceScope": "One consulted Gate 6 article; not a complete gate physiology map.",
+      "scopeCitations": []
     },
     {
       "id": "hd-navigator-ra-uru-hu-gate-41-line-1",
@@ -2254,7 +2570,8 @@
       "reviewStatus": "not_independently_reviewed",
       "citationUrlPrefix": "https://hdnavigator.ru/en/blog/post/449/41-vorota-1-liniya-обоснованность",
       "lineage": "Ra Uru Hu teaching as reproduced by HD Navigator",
-      "sourceScope": "One reproduced Gate 41.1 lecture/article; not a complete gate physiology map."
+      "sourceScope": "One reproduced Gate 41.1 lecture/article; not a complete gate physiology map.",
+      "scopeCitations": []
     },
     {
       "id": "humdes-gate-physiology-reference",
@@ -2312,7 +2629,8 @@
       "reviewStatus": "not_independently_reviewed",
       "citationUrlPrefix": "https://www.humdes.com/en/kb/gates/",
       "lineage": "HumDes reference catalog",
-      "sourceScope": "Selected individual gate articles consulted; this register is not a complete extraction of all 64 HumDes gate pages."
+      "sourceScope": "Selected individual gate articles consulted; this register is not a complete extraction of all 64 HumDes gate pages.",
+      "scopeCitations": []
     },
     {
       "id": "7-jewels-64-gate-organ-table",
@@ -2370,18 +2688,33 @@
         "gate-55-kidneys-pancreas-7-jewels-source-attribution",
         "gate-61-pineal-gland-7-jewels-source-attribution",
         "gate-63-pineal-gland-7-jewels-source-attribution",
-        "gate-64-pineal-gland-7-jewels-source-attribution"
+        "gate-64-pineal-gland-7-jewels-source-attribution",
+        "gate-1-liver-7-jewels-source-attribution",
+        "gate-2-liver-7-jewels-source-attribution",
+        "gate-7-liver-7-jewels-source-attribution",
+        "gate-10-liver-7-jewels-source-attribution",
+        "gate-13-liver-7-jewels-source-attribution",
+        "gate-15-liver-7-jewels-source-attribution",
+        "gate-25-liver-7-jewels-source-attribution",
+        "gate-40-stomach-7-jewels-source-attribution",
+        "gate-46-liver-7-jewels-source-attribution"
       ],
       "includedGateIds": [
+        "1",
+        "2",
         "3",
         "4",
         "5",
         "6",
+        "7",
         "8",
         "9",
+        "10",
         "11",
         "12",
+        "13",
         "14",
+        "15",
         "16",
         "17",
         "19",
@@ -2390,6 +2723,7 @@
         "22",
         "23",
         "24",
+        "25",
         "26",
         "27",
         "29",
@@ -2402,10 +2736,12 @@
         "37",
         "38",
         "39",
+        "40",
         "41",
         "42",
         "43",
         "45",
+        "46",
         "47",
         "49",
         "51",
@@ -2489,19 +2825,10 @@
         "64"
       ],
       "excludedGateIds": [
-        "1",
-        "2",
-        "7",
-        "10",
-        "13",
-        "15",
         "18",
-        "25",
         "28",
         "32",
-        "40",
         "44",
-        "46",
         "48",
         "50",
         "57"
@@ -2509,7 +2836,21 @@
       "reviewStatus": "not_independently_reviewed",
       "citationUrlPrefix": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
       "lineage": "7 Jewels · Michelle Rene’ Robinson",
-      "sourceScope": "The source states that its table lists all 64 gates and their associated physical part/organ; the Metheus endocrine-focused catalog includes the 48 assigned gates whose listed organ set is endocrine-related."
+      "sourceScope": "The source states that its table lists all 64 gates and their associated physical part/organ. The Metheus endocrine-focused subset includes 57 source assignments whose organs are classical endocrine organs or have documented endocrine hormone secretion; seven spleen/lymphatic assignments are excluded. This classification scope does not validate any gate-to-organ association.",
+      "scopeCitations": [
+        {
+          "title": "Normal Physiology of Growth Hormone in Normal Adults: Endotext",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279056/",
+          "locator": "Insulin-like Growth Factor-I: about 75% of circulating IGF-I is liver-derived",
+          "accessedAt": "2026-10-20"
+        },
+        {
+          "title": "Physiology, Gastrointestinal Hormonal Control: NCBI Bookshelf",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK537284/",
+          "locator": "Gastrin and other gastrointestinal hormones; enteroendocrine cells in stomach and intestine",
+          "accessedAt": "2026-10-20"
+        }
+      ]
     }
   ]
 }
