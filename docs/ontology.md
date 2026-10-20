@@ -66,6 +66,8 @@ Store timestamps in an unambiguous format with offset/time zone when available. 
 - **Alignment / co-variation:** temporal relation between two series. This may suggest a question but does not demonstrate causation.
 - **Missingness:** absent or unavailable observations, with reason only when known (not tracked, device off, declined, unknown).
 
+The observation schema uses `eventType` to distinguish `main_sleep`, `sleep_episode`, `nap`, `meal`, `feeding`, `light_exposure`, `activity`, `bleeding_start`, and other point or interval events. `main_sleep` is a person's or data-source's designation for the principal sleep interval in a cycle; it is not inferred automatically from clock time. A `meal` event is a logged meal, not proof that all food intake was logged. A `feeding` event is separate and may represent caregiver-reported infant feeding; adult meal-window and fasting summaries must never be applied to infant feeds. A device-derived event must use `epistemicClass: "derived"` and preserve its method and source records, even if the originating sensor measurements were direct.
+
 ## Reading model
 
 A reading is a versioned object with:

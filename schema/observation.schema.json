@@ -10,6 +10,7 @@
     "id": { "type": "string", "minLength": 1 },
     "subjectId": { "type": "string", "minLength": 1, "description": "Pseudonymous local subject reference; avoid direct identifiers." },
     "recordType": { "enum": ["observation", "event", "estimate", "symbolic_feature", "context"] },
+    "eventType": { "enum": ["main_sleep", "sleep_episode", "nap", "meal", "feeding", "light_exposure", "activity", "bleeding_start", "symptom", "hormone_result", "developmental_note", "relationship_note", "other"] },
     "epistemicClass": { "enum": ["measured", "self_reported", "caregiver_reported", "clinician_reported", "derived", "symbolic", "imported"] },
     "time": {
       "type": "object",
@@ -104,7 +105,7 @@
     },
     {
       "if": { "properties": { "domain": { "const": "hormone_assay" } } },
-      "then": { "properties": { "epistemicClass": { "const": "measured" }, "source": { "properties": { "kind": { "const": "laboratory" } } }, "value": { "required": ["unit"] } } }
+      "then": { "required": ["value"], "properties": { "epistemicClass": { "const": "measured" }, "source": { "properties": { "kind": { "const": "laboratory" } } }, "value": { "required": ["unit"] } } }
     }
   ]
 }

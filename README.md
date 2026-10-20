@@ -35,6 +35,8 @@ See [Metheus ontology](docs/ontology.md) for core entities and epistemic classes
 
 See [Metheus reading grammar](docs/reading-grammar.md) for synthesis rules and worked examples, with a draft [reading schema](schema/reading.schema.json) for sourced claims and limitations.
 
+See [First executable rhythm summaries](docs/rhythm-analysis.md) for the current deterministic code prototype for logged sleep and meal/feeding timing.
+
 ## Site
 
 - GitHub Pages: https://castaliainstitute.github.io/metheus/
