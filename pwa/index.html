@@ -89,6 +89,11 @@
                   <button type="button" class="map-mode-button" id="map-mode-endocrine" aria-pressed="false">Endocrine network</button>
                 </div>
                 <p class="map-boundary" id="map-boundary">The endocrine network is a separate candidate biology graph. It does not map hormones or glands to Human Design centers, gates, or channels.</p>
+                <div class="gate-correspondence-tools" id="gate-correspondence-tools" hidden>
+                  <label for="gate-correspondence-filter">Find a gate link</label>
+                  <input id="gate-correspondence-filter" type="search" placeholder="Gate, organ, hormone, or source" autocomplete="off" />
+                  <p id="gate-correspondence-count" role="status" aria-live="polite"></p>
+                </div>
                 <div class="gate-correspondence-list" id="gate-correspondence-list" aria-label="Sourced gate correspondences" hidden></div>
                 <div class="endocrine-controls" id="endocrine-controls" hidden>
                   <label for="endocrine-filter">Network domain</label>

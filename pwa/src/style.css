@@ -86,6 +86,10 @@ a { color:inherit; }
 .map-mode-button { border:1px solid var(--line);border-radius:6px;padding:.45rem .35rem;background:transparent;color:var(--muted);font-size:.62rem;cursor:pointer; }
 .map-mode-button.is-selected { border-color:#75c8be;color:#b4e0da;background:rgba(117,200,190,.08); }
 .map-boundary { margin:.35rem 0 .55rem;padding:.55rem;border-left:2px solid #d6ac75;background:rgba(214,172,117,.07);color:var(--muted);font-size:.58rem;line-height:1.5; }
+.gate-correspondence-tools { display:grid;gap:.25rem;margin:.45rem 0;color:var(--muted);font-size:.62rem; }
+.gate-correspondence-tools input { min-width:0;border:1px solid var(--line);border-radius:6px;background:#111a21;color:var(--ink);padding:.5rem .6rem;font-size:.67rem; }
+.gate-correspondence-tools input:focus { border-color:#c293d0;outline:2px solid rgba(194,147,208,.25); }
+.gate-correspondence-tools p { margin:0;color:var(--faint); }
 .gate-correspondence-list { display:grid;gap:.3rem;margin:.45rem 0; }
 .gate-correspondence-list button { border:1px solid rgba(154,94,172,.45);border-radius:6px;background:rgba(154,94,172,.08);color:var(--ink);padding:.48rem .55rem;text-align:left;font-size:.62rem;line-height:1.4;cursor:pointer; }
 .gate-correspondence-list button:hover,.gate-correspondence-list button:focus-visible { border-color:#c293d0;outline:2px solid rgba(194,147,208,.35);outline-offset:1px; }

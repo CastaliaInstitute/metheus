@@ -124,13 +124,19 @@ export async function mountBodygraph() {
   function renderCorrespondences() {
     clearCorrespondences();
     const list = $('#gate-correspondence-list');
+    const query = $('#gate-correspondence-filter').value.trim().toLocaleLowerCase();
+    const visibleItems = gateCorrespondences.filter((item) => {
+      const searchable = [item.sourceFeature.label, item.sourceFeature.id, item.targetConcept.label, item.sourceSystem.name, item.sourceSystem.lineage, item.claimText].join(' ').toLocaleLowerCase();
+      return !query || searchable.includes(query);
+    });
     list.replaceChildren();
     const byGate = new Map();
-    for (const item of gateCorrespondences) {
+    for (const item of visibleItems) {
       const group = byGate.get(item.sourceFeature.id) || [];
       group.push(item);
       byGate.set(item.sourceFeature.id, group);
     }
+    $('#gate-correspondence-count').textContent = `Showing ${visibleItems.length} of ${gateCorrespondences.length} source-attributed entries across ${byGate.size} gates.`;
     for (const [gateId, items] of byGate) {
       const target = targets.find((entry) => entry.kind === 'gate' && entry.id === gateId);
       if (!target) continue;
@@ -215,7 +221,7 @@ export async function mountBodygraph() {
       const catalog = await response.json();
       gateCorrespondences = catalog.correspondences;
       renderCorrespondences();
-      detail.textContent = `${gateCorrespondences.length} source-attributed gate correspondences across ${byGate.size} gates. Select a ring or source-list entry to read the attributed wording and limitations. Dense overlays omit on-map labels for readability; the accessible list keeps every entry.`;
+      detail.textContent = `Select a ring or source-list entry to read the attributed wording and limitations. Dense overlays omit on-map labels for readability; use the filter to find a gate, organ, or source.`;
     } catch {
       detail.textContent = 'The gate correspondence catalog could not be loaded. The generic BodyGraph is still available.';
     }
@@ -333,12 +339,13 @@ export async function mountBodygraph() {
     modeEndocrine.setAttribute('aria-pressed', String(endocrine));
     endocrineControls.hidden = !endocrine;
     $('#gate-correspondence-list').hidden = !correspondence;
+    $('#gate-correspondence-tools').hidden = !correspondence;
     search.hidden = endocrine || correspondence;
     $('#bodygraph-clear').hidden = endocrine || correspondence;
     boundary.textContent = endocrine
       ? 'Separate candidate biology network · under review · internal only. Node positions are diagram layout, not anatomy. No gate/channel equivalence or personal inference.'
       : correspondence
-        ? 'Source-attributed Human Design gate teachings over the symbolic map. Each link names its source and limits; it does not assert a gate-to-hormone mechanism or describe a person’s biology.'
+        ? 'Source-attributed Human Design gate-to-organ teachings. Sources may differ; compare each lineage’s claim and limits. The overlay does not assert a gate-to-hormone mechanism or describe a person’s biology.'
         : 'The endocrine network is a separate candidate biology graph. Gate links are shown only in the distinct Correspondence view.';
     if (endocrine) { if (!endocrineRecords.length) loadEndocrine(); else renderEndocrine(); }
     else if (correspondence) { if (!gateCorrespondences.length) loadCorrespondences(); else renderCorrespondences(); }
@@ -349,6 +356,7 @@ export async function mountBodygraph() {
   modeCorrespondence.addEventListener('click', () => setMapMode('correspondence'));
   modeEndocrine.addEventListener('click', () => setMapMode('endocrine'));
   filter.addEventListener('change', renderEndocrine);
+  $('#gate-correspondence-filter').addEventListener('input', renderCorrespondences);
   $('#gate-correspondence-list').addEventListener('click', (event) => {
     const button = event.target.closest('[data-correspondence-id]');
     if (!button) return;
