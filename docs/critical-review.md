@@ -70,18 +70,18 @@ The project appropriately says that one person cannot represent a partner's cons
 
 **Recommendation:** Keep each person's record independent. If a genuinely shared record is ever needed, require each participant's separate contribution and permission, and define withdrawal and deletion behavior for the shared artifact before implementation.
 
-### 8. There is no evidence of implementation-level quality gates
+### 8. Contract validation now runs in CI; behavioral assurance is still missing
 
-The tracked repository has no automated test suite or schema/example-validation workflow; its only GitHub Actions workflow deploys the static Pages site. The docs themselves say the consent evaluator is not covered by behavioral tests. Static schemas and examples are helpful but do not verify temporal edge cases, permission revocation, duplicate IDs, child stewardship, reference eligibility, or the claims they are meant to prevent.
+The Pages workflow now checks all JSON Schemas and their explicitly paired examples with a Draft 2020-12 validator on pull requests and before deployment. The repository still has no behavioral suite for the consent evaluator, resource resolver, reading preflight, or assembler. Static schema validation does not verify temporal edge cases, permission revocation, duplicate IDs, child stewardship, reference eligibility, or whether claim text is supported by the selected sources.
 
 **Impact:** A future contributor can change a safety boundary without an executable signal that the behavior changed.
 
-**Recommendation:** Before expanding data collection, add schema/example validation and a focused behavioral suite for authorization and reference resolution, including adversarial and missing-data cases. Then add contract tests from synthetic observation through derived summary to rendered reading. The current review turn did not add or run tests.
+**Recommendation:** Before expanding data collection, add a focused behavioral suite for authorization and reference resolution, including adversarial and missing-data cases. Then add contract tests from synthetic observation through derived summary to assembled reading, including claim/source integrity and temporal edge cases. The current work adds schema/example validation but does not add or run behavioral tests.
 
 ## Recommended order of work
 
 1. **Close data-contract seams:** add a minimal profile/index schema and define versioning, correction, and references across profiles, symbolic maps, observations, summaries, readings, and consent.
-2. **Make contracts executable:** validate each schema and example; add behavioral coverage for reference resolution, consent, temporal windows, and child/relationship boundaries.
+2. **Make contracts executable:** schema/example validation now runs in CI; add behavioral coverage for reference resolution, consent, temporal windows, and child/relationship boundaries.
 3. **Complete one synthetic vertical slice:** profile references → consented synthetic observations → one deterministic rhythm summary → typed reading claims → provenance-carrying assembled output. The preflight and initial assembler now exist; schema validation, source-rendered display, and claim text evaluation remain. Keep persistence and real user data out of this prototype.
 4. **Govern evidence:** create the review process and a small curated evidence catalog; do not treat citation presence as evidence quality.
 5. **Review high-stakes populations/domains:** infant development, reproductive health, intimate data, and any future intervention-related display with appropriate lived-experience and domain reviewers.
@@ -89,4 +89,4 @@ The tracked repository has no automated test suite or schema/example-validation 
 
 ## Current capability statement
 
-At this review, Metheus can present its concept and documentation, represent draft subject-index, birth-input, symbolic-map, observation, phase, reading, consent, and reference records, summarize selected logged rhythms descriptively, run caller-supplied in-memory reference/index/consent preflights, and assemble authored claims with source/phase/reference provenance. It cannot generate or entailment-check reading text, validate the complete reading schema at runtime, ingest device or laboratory data, retain personal histories, enforce authorization at a storage boundary, produce validated endocrine or developmental models, or provide a secure health-data service. That limitation should remain prominent until the corresponding capabilities are implemented and verified.
+At this review, Metheus can present its concept and documentation, represent draft subject-index, birth-input, symbolic-map, observation, phase, reading, consent, and reference records, validate repository schemas and mapped examples in CI, summarize selected logged rhythms descriptively, run caller-supplied in-memory reference/index/consent preflights, and assemble authored claims with source/phase/reference provenance. It cannot generate or entailment-check reading text, validate arbitrary runtime reading instances through the Python API, ingest device or laboratory data, retain personal histories, enforce authorization at a storage boundary, produce validated endocrine or developmental models, or provide a secure health-data service. That limitation should remain prominent until the corresponding capabilities are implemented and verified.
