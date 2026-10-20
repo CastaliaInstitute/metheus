@@ -1,4 +1,4 @@
-"""Cross-object resolution for Metheus subject indexes and symbolic maps."""
+"""Cross-object resolution for Metheus indexes, symbolic maps, and summaries."""
 
 from __future__ import annotations
 
@@ -13,6 +13,7 @@ _KIND_RECORD_TYPES = {
     "symbolic_map": {"symbolic_map"},
     "observation": {"observation", "event", "estimate", "symbolic_feature", "context"},
     "phase_annotation": {"phase_annotation"},
+    "rhythm_summary": {"rhythm_summary"},
 }
 _KIND_DOMAINS = {
     "birth_chart_input": "birth_chart_inputs",
@@ -106,6 +107,61 @@ def _resolve_index(
             issue("resource_schema_version_mismatch", resource_id)
 
     for resource_id, resource in resolved.items():
+        if resource.get("recordType") == "rhythm_summary":
+            measure = resource.get("summaryMeasure")
+            expected_summary_shapes = {
+                "bleeding_onset_intervals": ("reproductive", "metheus-bleeding-onset-gap/0.1.0"),
+                "main_sleep": ("sleep", "metheus-rhythm-summary/0.1.0"),
+                "meal_events": ("nutrition", "metheus-feeding-summary/0.2.0"),
+                "caregiver_feeding_events": ("feeding", "metheus-feeding-summary/0.2.0"),
+                "meal_timing_relative_to_wake": ("nutrition", "metheus-wake-relative-meal/0.1.0"),
+            }
+            if not isinstance(measure, str) or measure not in expected_summary_shapes:
+                issue("rhythm_summary_unknown_measure", resource_id)
+                continue
+            expected_domain, expected_method = expected_summary_shapes[measure]
+            if resource.get("domain") != expected_domain:
+                issue("rhythm_summary_measure_domain_mismatch", resource_id)
+            if (
+                resource.get("id") != resource.get("summaryId")
+                or resource.get("schemaVersion") != "0.1"
+                or resource.get("summaryType") != "derived_rhythm_summary"
+                or resource.get("epistemicClass") != "derived"
+                or resource.get("methodVersion") != expected_method
+            ):
+                issue("rhythm_summary_metadata_mismatch", resource_id)
+            input_ids = resource.get("inputRecordIds")
+            if not isinstance(input_ids, list) or not all(isinstance(value, str) and value for value in input_ids):
+                issue("rhythm_summary_invalid_input_record_ids", resource_id)
+                continue
+            if len(set(input_ids)) != len(input_ids):
+                issue("rhythm_summary_duplicate_input_record_ids", resource_id)
+            for input_id in input_ids:
+                target = by_id.get(input_id)
+                if target is None:
+                    issue("rhythm_summary_dependency_unresolved", input_id)
+                    continue
+                if target.get("subjectId") != subject_id:
+                    issue("rhythm_summary_dependency_subject_mismatch", input_id)
+                if target.get("recordType") not in {"observation", "event"}:
+                    issue("rhythm_summary_dependency_kind_mismatch", input_id)
+                if input_id not in ref_by_id or ref_by_id[input_id].get("kind") != "observation":
+                    issue("rhythm_summary_dependency_not_indexed", input_id)
+                event_type = target.get("eventType")
+                domain = target.get("domain")
+                expected_sources = {
+                    "bleeding_onset_intervals": {("bleeding_start", "reproductive")},
+                    "main_sleep": {("main_sleep", "sleep")},
+                    "meal_events": {("meal", "feeding"), ("meal", "nutrition")},
+                    "caregiver_feeding_events": {("feeding", "feeding")},
+                    "meal_timing_relative_to_wake": {
+                        ("wake", "sleep"), ("wake", "circadian"),
+                        ("meal", "feeding"), ("meal", "nutrition"),
+                    },
+                }
+                if measure in expected_sources and (event_type, domain) not in expected_sources[measure]:
+                    issue("rhythm_summary_dependency_measure_mismatch", input_id)
+            continue
         if resource.get("recordType") != "symbolic_map":
             continue
         calculation = resource.get("calculation")
@@ -157,8 +213,10 @@ def resolve_subject_index(
 ) -> dict[str, Any]:
     """Resolve index pointers and validate kind, schema version, and ownership.
 
-    Symbolic-map calculation inputs and feature records must also resolve,
-    belong to the same subject, and appear in the index under the expected kind.
+    Symbolic-map calculation inputs/features and rhythm-summary source events
+    must also resolve, belong to the same subject, and appear in the index under
+    the expected kind. Summary measure, method, and source event/domain pairings
+    receive narrow cross-object checks; this is not complete schema validation.
     The returned object contains identifiers and issue codes, not record bodies.
     Resolution does not imply authorization; use
     :func:`authorize_subject_index_resources` for a separately selected set.

@@ -31,7 +31,7 @@
         "required": ["id", "kind", "schemaVersion"],
         "properties": {
           "id": { "type": "string", "minLength": 1 },
-          "kind": { "enum": ["birth_chart_input", "symbolic_map", "observation", "phase_annotation"] },
+          "kind": { "enum": ["birth_chart_input", "symbolic_map", "observation", "phase_annotation", "rhythm_summary"] },
           "schemaVersion": { "type": "string", "minLength": 1 }
         }
       },

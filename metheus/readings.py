@@ -20,6 +20,16 @@ _READING_DOMAINS = {
     "physiology", "hormone_assay", "symptom", "reproductive", "development",
     "relationship", "relationships", "intimacy", "environment", "life_event", "symbolic", "other",
 }
+_SUMMARY_SOURCE_TYPES = {
+    "bleeding_onset_intervals": {("bleeding_start", "reproductive")},
+    "main_sleep": {("main_sleep", "sleep")},
+    "meal_events": {("meal", "feeding"), ("meal", "nutrition")},
+    "caregiver_feeding_events": {("feeding", "feeding")},
+    "meal_timing_relative_to_wake": {
+        ("wake", "sleep"), ("wake", "circadian"),
+        ("meal", "feeding"), ("meal", "nutrition"),
+    },
+}
 
 
 def validate_reading_references(
@@ -204,10 +214,39 @@ def validate_reading_references(
             elif support_record.get("subjectId") != subject_id:
                 issue("phase_basis_subject_mismatch", support_id)
 
+    def check_summary_basis(summary_id: str, summary: dict[str, Any]) -> None:
+        support_ids = summary.get("inputRecordIds")
+        if not isinstance(support_ids, list) or not support_ids or not all(isinstance(x, str) and x for x in support_ids):
+            issue("invalid_rhythm_summary_input_record_ids", summary_id)
+            return
+        if len(set(support_ids)) != len(support_ids):
+            issue("duplicate_rhythm_summary_input_record_ids", summary_id)
+        for support_id in support_ids:
+            if support_id == summary_id:
+                issue("self_referential_rhythm_summary", summary_id)
+            if support_id not in selected_ids:
+                issue("rhythm_summary_basis_record_not_selected", support_id)
+            support_record = record_index.get(support_id)
+            if support_record is None:
+                issue("unresolved_rhythm_summary_basis_record", support_id)
+            elif support_record.get("subjectId") != subject_id:
+                issue("rhythm_summary_basis_subject_mismatch", support_id)
+            elif support_record.get("recordType") not in {"observation", "event"}:
+                issue("invalid_rhythm_summary_basis_type", support_id)
+            elif (
+                support_record.get("eventType"), support_record.get("domain")
+            ) not in _SUMMARY_SOURCE_TYPES.get(summary.get("summaryMeasure"), set()):
+                issue("rhythm_summary_basis_measure_mismatch", support_id)
+
     for phase_id in selected_ids.intersection(phase_index):
         annotation = phase_index[phase_id]
         if annotation.get("subjectId") == subject_id:
             check_phase_basis(phase_id, annotation)
+
+    for summary_id in selected_ids.intersection(record_index):
+        summary = record_index[summary_id]
+        if summary.get("recordType") == "rhythm_summary" and summary.get("subjectId") == subject_id:
+            check_summary_basis(summary_id, summary)
 
     claims = reading.get("claims", [])
     if not isinstance(claims, list):
@@ -570,6 +609,8 @@ def assemble_reading(
     source_fields = (
         "id", "recordType", "eventType", "domain", "label", "epistemicClass",
         "time", "source", "methodDetails", "uncertainty", "limitations",
+        "schemaVersion", "summaryType", "summaryMeasure", "methodVersion",
+        "window", "inputRecordIds",
     )
     phase_index = {
         item.get("id"): item for item in resource_list
@@ -662,15 +703,28 @@ def assemble_reading(
                     "limitations": evidence.get("limitations", []),
                 })
 
+        sources = []
+        for source_id in source_ids:
+            source = record_index.get(source_id)
+            if source is None:
+                continue
+            source_entry = {key: source[key] for key in source_fields if key in source}
+            if source.get("recordType") == "rhythm_summary":
+                summary_metadata = {
+                    "id", "summaryId", "subjectId", "recordType", "schemaVersion",
+                    "summaryType", "summaryMeasure", "epistemicClass", "domain", "label",
+                }
+                source_entry["derivedSummary"] = {
+                    key: value for key, value in source.items() if key not in summary_metadata
+                }
+            sources.append(source_entry)
+
         assembled_claims.append({
             "position": position,
             "claimType": claim.get("claimType"),
             "text": claim.get("text"),
             "sourceIds": [source_id for source_id in source_ids if source_id in selected_ids],
-            "sources": [
-                {key: record_index[source_id][key] for key in source_fields if key in record_index[source_id]}
-                for source_id in source_ids if source_id in record_index
-            ],
+            "sources": sources,
             "phaseAnnotations": phases,
             "references": claim_refs,
             "support": claim.get("support"),

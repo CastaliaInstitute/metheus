@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metheus.castalia.institute/schema/rhythm-summary.schema.json",
+  "title": "Metheus derived rhythm summary",
+  "description": "A versioned, subject-scoped summary derived from selected observation/event records. Descriptive only; not a clinical or endocrine assessment.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "summaryId", "subjectId", "recordType", "schemaVersion", "summaryType", "summaryMeasure", "epistemicClass", "domain", "label", "methodVersion", "window", "inputRecordIds", "limitations"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "summaryId": { "type": "string", "minLength": 1 },
+    "subjectId": { "type": "string", "minLength": 1 },
+    "recordType": { "const": "rhythm_summary" },
+    "schemaVersion": { "const": "0.1" },
+    "summaryType": { "const": "derived_rhythm_summary" },
+    "summaryMeasure": { "enum": ["bleeding_onset_intervals", "main_sleep", "meal_events", "caregiver_feeding_events", "meal_timing_relative_to_wake"] },
+    "epistemicClass": { "const": "derived" },
+    "domain": { "enum": ["reproductive", "sleep", "feeding", "nutrition"] },
+    "label": { "type": "string", "minLength": 1 },
+    "methodVersion": { "type": "string", "minLength": 1 },
+    "window": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["startDate", "endDate", "inclusiveDays"],
+      "properties": {
+        "startDate": { "type": "string", "format": "date" },
+        "endDate": { "type": "string", "format": "date" },
+        "inclusiveDays": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "inputRecordIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+    "limitations": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
+    "nOnsetRecords": { "type": "integer", "minimum": 0 },
+    "nDistinctOnsetDates": { "type": "integer", "minimum": 0 },
+    "nIntervals": { "type": "integer", "minimum": 0 },
+    "intervalsDays": { "type": "array", "items": { "type": "number", "minimum": 0 } },
+    "medianGapDays": { "type": ["number", "null"], "minimum": 0 },
+    "medianAbsoluteDeviationDays": { "type": ["number", "null"], "minimum": 0 },
+    "dateOnlyRecordCount": { "type": "integer", "minimum": 0 },
+    "timedRecordCount": { "type": "integer", "minimum": 0 },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "daysWithAtLeastOneRecord": { "type": "integer", "minimum": 0 },
+        "daysWithEvents": { "type": "integer", "minimum": 0 },
+        "wakeDatesWithCompleteWakeToWakeInterval": { "type": "integer", "minimum": 0 },
+        "calendarDaysInWindow": { "type": "integer", "minimum": 1 },
+        "fractionOfDaysWithARecord": { "type": "number", "minimum": 0, "maximum": 1 },
+        "fractionOfDaysWithEvents": { "type": "number", "minimum": 0, "maximum": 1 },
+        "fractionOfDaysWithCompleteInterval": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "medianLoggedDurationMinutes": { "type": ["number", "null"], "minimum": 0 },
+    "medianLoggedStartClockTime": { "type": ["string", "null"], "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$" },
+    "medianLoggedMidpointClockTime": { "type": ["string", "null"], "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$" },
+    "medianAbsoluteMidpointDeviationMinutes": { "type": ["number", "null"], "minimum": 0 },
+    "clockTimesComparable": { "type": "boolean" },
+    "clockTimeContextCount": { "type": "integer", "minimum": 0 },
+    "clockTimeContexts": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+    "nEvents": { "type": "integer", "minimum": 0 },
+    "medianEventsPerObservedDay": { "type": ["number", "null"], "minimum": 0 },
+    "medianEventClockTime": { "type": ["string", "null"], "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$" },
+    "medianAbsoluteEventTimeDeviationMinutes": { "type": ["number", "null"], "minimum": 0 },
+    "medianRecordedWithinDaySpanMinutes": { "type": ["number", "null"], "minimum": 0 },
+    "timeReference": { "const": "elapsed_minutes_from_explicit_wake_event" },
+    "nWakeToWakeIntervals": { "type": "integer", "minimum": 0 },
+    "nCandidateWakeToWakeIntervals": { "type": "integer", "minimum": 0 },
+    "nIntervalsExcludedForGap": { "type": "integer", "minimum": 0 },
+    "maximumIntervalHours": { "type": "number", "exclusiveMinimum": 0 },
+    "nIntervalsWithLoggedMeals": { "type": "integer", "minimum": 0 },
+    "nLoggedMeals": { "type": "integer", "minimum": 0 },
+    "medianFirstLoggedMealMinutesAfterWake": { "type": ["number", "null"], "minimum": 0 },
+    "medianLoggedMealMinutesAfterWake": { "type": ["number", "null"], "minimum": 0 }
+  },
+  "allOf": [
+    { "if": { "required": ["summaryMeasure"], "properties": { "summaryMeasure": { "const": "bleeding_onset_intervals" } } }, "then": { "properties": { "domain": { "const": "reproductive" }, "methodVersion": { "const": "metheus-bleeding-onset-gap/0.1.0" } }, "required": ["nIntervals", "nOnsetRecords", "nDistinctOnsetDates", "intervalsDays", "medianGapDays", "medianAbsoluteDeviationDays", "dateOnlyRecordCount", "timedRecordCount"] } },
+    { "if": { "required": ["summaryMeasure"], "properties": { "summaryMeasure": { "const": "main_sleep" } } }, "then": { "properties": { "domain": { "const": "sleep" }, "methodVersion": { "const": "metheus-rhythm-summary/0.1.0" } }, "required": ["nIntervals", "coverage", "medianLoggedDurationMinutes", "medianLoggedStartClockTime", "medianLoggedMidpointClockTime", "medianAbsoluteMidpointDeviationMinutes", "clockTimesComparable", "clockTimeContextCount", "clockTimeContexts"] } },
+    { "if": { "required": ["summaryMeasure"], "properties": { "summaryMeasure": { "const": "meal_events" } } }, "then": { "properties": { "domain": { "const": "nutrition" }, "methodVersion": { "const": "metheus-feeding-summary/0.2.0" } }, "required": ["coverage", "nEvents", "daysWithEvents", "medianEventsPerObservedDay", "medianEventClockTime", "medianAbsoluteEventTimeDeviationMinutes", "medianRecordedWithinDaySpanMinutes", "clockTimesComparable", "clockTimeContextCount", "clockTimeContexts"] } },
+    { "if": { "required": ["summaryMeasure"], "properties": { "summaryMeasure": { "const": "caregiver_feeding_events" } } }, "then": { "properties": { "domain": { "const": "feeding" }, "methodVersion": { "const": "metheus-feeding-summary/0.2.0" } }, "required": ["coverage", "nEvents", "daysWithEvents", "medianEventsPerObservedDay", "medianEventClockTime", "medianAbsoluteEventTimeDeviationMinutes", "medianRecordedWithinDaySpanMinutes", "clockTimesComparable", "clockTimeContextCount", "clockTimeContexts"] } },
+    { "if": { "required": ["summaryMeasure"], "properties": { "summaryMeasure": { "const": "meal_timing_relative_to_wake" } } }, "then": { "properties": { "domain": { "const": "nutrition" }, "methodVersion": { "const": "metheus-wake-relative-meal/0.1.0" }, "timeReference": { "const": "elapsed_minutes_from_explicit_wake_event" } }, "required": ["nWakeToWakeIntervals", "nCandidateWakeToWakeIntervals", "nIntervalsExcludedForGap", "maximumIntervalHours", "nIntervalsWithLoggedMeals", "nLoggedMeals", "coverage", "medianFirstLoggedMealMinutesAfterWake", "medianLoggedMealMinutesAfterWake"] } }
+  ]
+}

@@ -16,6 +16,7 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 
 METHOD_VERSION = "metheus-rhythm-summary/0.1.0"
+SUMMARY_SCHEMA_VERSION = "0.1"
 FEEDING_METHOD_VERSION = "metheus-feeding-summary/0.2.0"
 WAKE_RELATIVE_METHOD_VERSION = "metheus-wake-relative-meal/0.1.0"
 BLEEDING_ONSET_METHOD_VERSION = "metheus-bleeding-onset-gap/0.1.0"
@@ -94,6 +95,19 @@ def _summary_id(domain: str, start: date, end: date) -> str:
     return f"{domain}:{METHOD_VERSION}:{start.isoformat()}:{end.isoformat()}"
 
 
+def _summary_metadata(summary_id: str, subject_id: str, measure: str) -> dict[str, Any]:
+    return {
+        "id": summary_id,
+        "summaryId": summary_id,
+        "subjectId": subject_id,
+        "recordType": "rhythm_summary",
+        "schemaVersion": SUMMARY_SCHEMA_VERSION,
+        "summaryType": "derived_rhythm_summary",
+        "summaryMeasure": measure,
+        "epistemicClass": "derived",
+    }
+
+
 def summarize_bleeding_onset_intervals(
     records: Iterable[dict[str, Any]], *, subject_id: str, start_date: str, end_date: str
 ) -> dict[str, Any]:
@@ -154,11 +168,9 @@ def summarize_bleeding_onset_intervals(
     deviations = [abs(value - median_gap) for value in interval_days] if median_gap is not None else []
     input_ids = sorted({record_id for ids in onset_records.values() for record_id in ids})
 
+    summary_id = f"bleeding-onset:{BLEEDING_ONSET_METHOD_VERSION}:{first_day.isoformat()}:{last_day.isoformat()}"
     return {
-        "summaryId": f"bleeding-onset:{BLEEDING_ONSET_METHOD_VERSION}:{first_day.isoformat()}:{last_day.isoformat()}",
-        "subjectId": subject_id,
-        "summaryType": "derived_rhythm_summary",
-        "epistemicClass": "derived",
+        **_summary_metadata(summary_id, subject_id, "bleeding_onset_intervals"),
         "domain": "reproductive",
         "label": "calendar-day gaps between logged bleeding-onset dates",
         "methodVersion": BLEEDING_ONSET_METHOD_VERSION,
@@ -239,10 +251,7 @@ def summarize_main_sleep(
     midpoint_deviations = [float(_clock_distance(item, median_midpoint)) for item in midpoints] if median_midpoint is not None else []
     median_start = _clock_medoid(start_times) if clock_comparable else None
     return {
-        "summaryId": _summary_id("sleep", first_day, last_day),
-        "subjectId": subject_id,
-        "summaryType": "derived_rhythm_summary",
-        "epistemicClass": "derived",
+        **_summary_metadata(_summary_id("sleep", first_day, last_day), subject_id, "main_sleep"),
         "domain": "sleep",
         "label": "logged main-sleep timing summary",
         "methodVersion": METHOD_VERSION,
@@ -256,6 +265,7 @@ def summarize_main_sleep(
         "medianAbsoluteMidpointDeviationMinutes": round(median(midpoint_deviations), 1) if midpoint_deviations else None,
         "clockTimesComparable": clock_comparable,
         "clockTimeContextCount": len(clock_contexts),
+        "clockTimeContexts": sorted(clock_contexts),
         "limitations": [
             "Summarizes logged intervals only; missing logs are not evidence that sleep did not occur.",
             "Clock-time summary is not an estimate of endogenous circadian phase.",
@@ -324,11 +334,10 @@ def summarize_feeding_events(
     center = _clock_medoid(time_values) if clock_comparable else None
     deviations = [float(_clock_distance(item, center)) for item in time_values] if center is not None else []
     source_ids = [record_id for events in events_by_day.values() for _, record_id in events if record_id]
+    measure = "caregiver_feeding_events" if event_kind == "feeding" else "meal_events"
+    summary_id = f"{event_kind}:{FEEDING_METHOD_VERSION}:{first_day.isoformat()}:{last_day.isoformat()}"
     return {
-        "summaryId": f"{event_kind}:{FEEDING_METHOD_VERSION}:{first_day.isoformat()}:{last_day.isoformat()}",
-        "subjectId": subject_id,
-        "summaryType": "derived_rhythm_summary",
-        "epistemicClass": "derived",
+        **_summary_metadata(summary_id, subject_id, measure),
         "domain": "feeding" if event_kind == "feeding" else "nutrition",
         "label": event_type_label,
         "methodVersion": FEEDING_METHOD_VERSION,
@@ -343,6 +352,7 @@ def summarize_feeding_events(
         "medianRecordedWithinDaySpanMinutes": round(median(recorded_spans), 1) if recorded_spans else None,
         "clockTimesComparable": clock_comparable,
         "clockTimeContextCount": len(clock_contexts),
+        "clockTimeContexts": sorted(clock_contexts),
         "limitations": [
             "Summarizes logged events only; it does not establish that all meals or feeds were recorded.",
             "Within-day span is not a fasting interval and is not an eating-window recommendation.",
@@ -449,11 +459,9 @@ def summarize_meal_timing_relative_to_wake(
     input_ids.update(excluded_gap_ids)
     observed_days = {cycle[2] for cycle in eligible_cycles}
 
+    summary_id = f"meal-wake-relative:{WAKE_RELATIVE_METHOD_VERSION}:{first_day.isoformat()}:{last_day.isoformat()}"
     return {
-        "summaryId": f"meal-wake-relative:{WAKE_RELATIVE_METHOD_VERSION}:{first_day.isoformat()}:{last_day.isoformat()}",
-        "subjectId": subject_id,
-        "summaryType": "derived_rhythm_summary",
-        "epistemicClass": "derived",
+        **_summary_metadata(summary_id, subject_id, "meal_timing_relative_to_wake"),
         "domain": "nutrition",
         "label": "logged meal timing relative to explicit wake events",
         "methodVersion": WAKE_RELATIVE_METHOD_VERSION,

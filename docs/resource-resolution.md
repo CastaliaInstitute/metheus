@@ -12,8 +12,9 @@ The subject index is a pseudonymous navigation record. Each `resourceRefs` entry
 | `symbolic_map` | `symbolic_map` | `schemaVersion` |
 | `observation` | `observation`, `event`, `estimate`, `symbolic_feature`, or `context` | `schemaVersion` |
 | `phase_annotation` | `phase_annotation` | `schemaVersion` |
+| `rhythm_summary` | `rhythm_summary` | `schemaVersion` |
 
-Readings, consent grants, and derived summaries are not currently index resource kinds. Consent grants remain in the authorization store rather than ordinary profile navigation; readings need an output-access/share contract; derived summaries need a persistence schema before they can be added safely.
+Readings and consent grants are not index resource kinds. Consent grants remain in the authorization store rather than ordinary profile navigation; readings need an output-access/share contract. Rhythm summaries have a dedicated [`derived summary schema`](../schema/rhythm-summary.schema.json) and may be indexed, but this does not mean Metheus persists them to a store.
 
 A symbolic map also has two explicit dependency lists:
 
@@ -21,6 +22,8 @@ A symbolic map also has two explicit dependency lists:
 - `calculation.featureRecordIds` must resolve to same-subject `symbolic_feature` observations under the `symbolic` domain.
 
 Both sets of dependencies must appear in the subject index under the expected kinds. The resolver checks the IDs, declared type, schema version and ownership. It does not recalculate a chart or verify the symbolic source's claims.
+
+A `rhythm_summary` also carries `summaryMeasure`, domain, method/schema versions, window, limitations, and `inputRecordIds`. The resolver requires each source ID to resolve to a same-subject observation/event indexed as `observation`, and checks that each event type/domain is compatible with the summary measure. A reading that selects a rhythm summary must also explicitly select those source records. The consent evaluator then checks the summary and each source record under their own grants; the summary never inherits permission from its inputs.
 
 ## Resolution is not permission
 
@@ -49,11 +52,11 @@ if not decision["authorized"]:
 
 This reflection selection does not include the raw birth input. The synthetic [`map reflection grant`](../examples/symbolic-map-reflection-consent.example.json) scopes `analyze` to the map and its feature under `symbolic` + `personal_reflection`. Recalculating the map requires its own `symbolic_calculation` purpose and `birth_chart_inputs` consent, as shown in the separate synthetic [birth-input calculation grant](../examples/birth-input-calculation-consent.example.json). The two domains have no broad fallback to one another.
 
-The [synthetic reading example](../examples/symbolic-map-reading.example.json) adds a selected reading with explicit exclusions. To gate that reading before presentation, pass it with the example index, the three synthetic resources, and the map-reflection grant to `preflight_subject_reading`. A passing result means the references and consent inputs passed this prototype; it does not mean the reading text was generated or proven to follow from its sources.
+The [synthetic reading example](../examples/symbolic-map-reading.example.json) adds a selected reading with explicit exclusions. To gate that reading before presentation, pass it with the example index, the three synthetic resources, and the map-reflection grant to `preflight_subject_reading`. The [sleep-summary example set](../examples/rhythm-summary-reading.example.json) shows a derived summary, its three synthetic source events, index pointers, narrow consent grant, and reading claims. A passing result means the references and consent inputs passed this prototype; it does not mean the reading text was generated or proven to follow from its sources.
 
 ## Failure behavior
 
-Resolution fails closed when an index pointer is missing, duplicated, ambiguous, has a mismatched kind or schema version, or points to a different subject. It also fails when a symbolic map dependency is unresolved, belongs to another subject, uses the wrong resource type/domain, or is missing from the index. Authorization fails when any explicit selection is absent from the index or any selected object lacks a matching active grant.
+Resolution fails closed when an index pointer is missing, duplicated, ambiguous, has a mismatched kind or schema version, or points to a different subject. It also fails when a symbolic-map or rhythm-summary dependency is unresolved, belongs to another subject, uses the wrong resource type/domain, or is missing from the index. Authorization fails when any explicit selection is absent from the index or any selected object lacks a matching active grant.
 
 The result includes issue codes and resource IDs, not record contents. No record is automatically selected just because another resource refers to it. For example, the map resolver confirms that birth inputs exist, but a reflection reading over the calculated map does not thereby receive or authorize the raw birth values.
 
@@ -65,4 +68,4 @@ The result includes issue codes and resource IDs, not record contents. No record
 - Authorization is still in-memory. Authentication, database row-level enforcement, storage encryption, audit logging, revocation propagation, export, and deletion remain unimplemented.
 - All pointers in an index must resolve before this prototype authorizes any selection. A production resolver may need a carefully designed partial-availability model without weakening authorization.
 
-See the [`subject index schema`](../schema/subject-index.schema.json), [`birth-chart input schema`](../schema/birth-chart-input.schema.json), [`symbolic map schema`](../schema/symbolic-map.schema.json), and the synthetic [index](../examples/subject-index.example.json), [birth input](../examples/birth-chart-input.example.json), and [map](../examples/symbolic-map.example.json).
+See the [`subject index schema`](../schema/subject-index.schema.json), [`birth-chart input schema`](../schema/birth-chart-input.schema.json), [`symbolic map schema`](../schema/symbolic-map.schema.json), [`rhythm summary schema`](../schema/rhythm-summary.schema.json), and the synthetic [index](../examples/subject-index.example.json), [birth input](../examples/birth-chart-input.example.json), [map](../examples/symbolic-map.example.json), and [rhythm summary reading](../examples/rhythm-summary-reading.example.json).

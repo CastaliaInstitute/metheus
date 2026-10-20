@@ -39,7 +39,7 @@ The draft [subject index](schema/subject-index.schema.json) links separately ver
 
 See [Metheus reading grammar](docs/reading-grammar.md) for synthesis rules and worked examples, with a draft [reading schema](schema/reading.schema.json) for sourced claims, limitations, and subject-controlled reflection options.
 
-See [First executable rhythm summaries](docs/rhythm-analysis.md) for deterministic descriptions of logged sleep, meal/feeding timing, meal timing relative to wake, and gaps between reported bleeding-onset dates.
+See [First executable rhythm summaries](docs/rhythm-analysis.md) for deterministic descriptions of logged sleep, meal/feeding timing, meal timing relative to wake, and gaps between reported bleeding-onset dates. These now have a dedicated [derived rhythm-summary schema](schema/rhythm-summary.schema.json), subject-index references, source-record dependencies, and a fully synthetic [consented sleep-summary reading example](examples/rhythm-summary-reading.example.json).
 
 See [Measurement landscape](docs/measurement-landscape.md) for a modality-by-modality account of what Metheus could record, what is only an estimate, and the limits of wearables, urine tests, laboratory results, self-reports, and developmental records.
 
@@ -67,7 +67,7 @@ The Python package includes an in-memory [`evaluate_authorization`](metheus/auth
 
 The [contract validation script](tools/validate_contracts.py) checks every JSON Schema and every explicitly mapped example with the Draft 2020-12 validator. Run it with `python -m pip install -r requirements-validation.txt && python tools/validate_contracts.py`. GitHub Actions runs this gate for pull requests to `main` and before a Pages deployment; this is schema/example validation, not behavioral coverage of the Python policy functions.
 
-[`resolve_subject_index`](metheus/resources.py) checks resource pointers, kinds, schema versions, ownership, and symbolic-map dependencies. [`authorize_subject_index_resources`](metheus/resources.py) checks consent only for an explicit selection; index membership alone never authorizes access. See the [resource resolution contract](docs/resource-resolution.md) for the supported kinds and remaining limitations.
+[`resolve_subject_index`](metheus/resources.py) checks resource pointers, kinds, schema versions, ownership, symbolic-map dependencies, and rhythm-summary source events. [`authorize_subject_index_resources`](metheus/resources.py) checks consent only for an explicit selection; index membership alone never authorizes access. Selecting a summary also requires selecting and separately authorizing each of its source records. See the [resource resolution contract](docs/resource-resolution.md) for the supported kinds and remaining limitations.
 
 [`preflight_subject_reading`](metheus/readings.py) combines index resolution, reading citations, exact domain exclusions, and consent for a subject-selected reading. The [synthetic symbolic-map reading](examples/symbolic-map-reading.example.json) illustrates a reading that cites the derived map and feature while excluding raw birth inputs; it is not an automatically generated interpretation.
 

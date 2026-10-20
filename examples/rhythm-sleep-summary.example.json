@@ -1,0 +1,35 @@
+{
+  "id": "sleep:metheus-rhythm-summary/0.1.0:2026-10-18:2026-10-20",
+  "summaryId": "sleep:metheus-rhythm-summary/0.1.0:2026-10-18:2026-10-20",
+  "subjectId": "rhythm-example-subject",
+  "recordType": "rhythm_summary",
+  "schemaVersion": "0.1",
+  "summaryType": "derived_rhythm_summary",
+  "summaryMeasure": "main_sleep",
+  "epistemicClass": "derived",
+  "domain": "sleep",
+  "label": "logged main-sleep timing summary",
+  "methodVersion": "metheus-rhythm-summary/0.1.0",
+  "window": { "startDate": "2026-10-18", "endDate": "2026-10-20", "inclusiveDays": 3 },
+  "inputRecordIds": ["rhythm-sleep-2026-10-18", "rhythm-sleep-2026-10-19", "rhythm-sleep-2026-10-20"],
+  "nIntervals": 3,
+  "coverage": {
+    "daysWithAtLeastOneRecord": 3,
+    "calendarDaysInWindow": 3,
+    "fractionOfDaysWithARecord": 1.0
+  },
+  "medianLoggedDurationMinutes": 480.0,
+  "medianLoggedStartClockTime": "22:30",
+  "medianLoggedMidpointClockTime": "02:30",
+  "medianAbsoluteMidpointDeviationMinutes": 30.0,
+  "clockTimesComparable": true,
+  "clockTimeContextCount": 1,
+  "clockTimeContexts": ["America/Denver"],
+  "limitations": [
+    "Summarizes logged intervals only; missing logs are not evidence that sleep did not occur.",
+    "Clock-time summary is not an estimate of endogenous circadian phase.",
+    "Does not assess sleep quality, health, or whether this schedule is appropriate.",
+    "Clock time uses the record's IANA time zone when valid, otherwise its supplied UTC offset; callers should retain source time-zone metadata.",
+    "Synthetic fixture only; no person or device export is represented."
+  ]
+}

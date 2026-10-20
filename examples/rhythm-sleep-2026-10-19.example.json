@@ -1,0 +1,19 @@
+{
+  "id": "rhythm-sleep-2026-10-19",
+  "subjectId": "rhythm-example-subject",
+  "recordType": "event",
+  "schemaVersion": "0.2",
+  "eventType": "main_sleep",
+  "epistemicClass": "imported",
+  "time": {
+    "start": "2026-10-19T23:00:00-06:00",
+    "end": "2026-10-20T07:00:00-06:00",
+    "timeZone": "America/Denver",
+    "precision": "approximate",
+    "scale": "interval"
+  },
+  "source": { "kind": "external_import", "name": "synthetic fixture", "method": "constructed for schema illustration" },
+  "domain": "sleep",
+  "label": "synthetic logged main-sleep interval",
+  "notes": "Synthetic fixture only; no person or device export is represented."
+}

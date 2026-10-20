@@ -151,7 +151,9 @@ bleeding_gap_summary = summarize_bleeding_onset_intervals(
 )
 ```
 
-These function outputs are **derived feature summaries**, not persisted observation records. If a future reading refers to one, it should cite the returned `summaryId`, `methodVersion`, and `inputRecordIds`. The subject, chosen window, coverage, and limitations must remain attached. A future storage adapter can map each numeric feature into the observation schema once feature-level units and validity rules are reviewed.
+These function outputs are now **versioned derived rhythm-summary resources**, not ordinary observations. Each has `id` (equal to the compatibility field `summaryId`), `recordType: rhythm_summary`, `schemaVersion`, `summaryMeasure`, `methodVersion`, `inputRecordIds`, chosen window, coverage, metrics, and limitations. The [`rhythm summary schema`](../schema/rhythm-summary.schema.json) defines the output contract. A subject index may reference the summary only when every input event is also indexed as an observation and matches the declared measure. The [synthetic sleep-summary set](../examples/rhythm-summary-reading.example.json) shows the complete index/consent/reading path.
+
+Selecting a summary for a reading requires selecting its `inputRecordIds` too. Both the derived summary and every source event require their own active consent coverage; the summary does not inherit its inputs' permission. The current code returns summaries in memory and does not persist them. No automatic reading-text generation or storage adapter is implemented.
 
 ## Current boundary
 

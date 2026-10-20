@@ -1,0 +1,18 @@
+{
+  "id": "rhythm-example-consent",
+  "subjectId": "rhythm-example-subject",
+  "grantor": { "reference": "rhythm-example-subject", "role": "subject" },
+  "domains": ["sleep"],
+  "purposes": ["rhythm_summary"],
+  "permittedActions": ["analyze"],
+  "recordIds": [
+    "rhythm-sleep-2026-10-18",
+    "rhythm-sleep-2026-10-19",
+    "rhythm-sleep-2026-10-20",
+    "sleep:metheus-rhythm-summary/0.1.0:2026-10-18:2026-10-20"
+  ],
+  "status": "granted",
+  "consentTextVersion": "synthetic-example-only/0.1",
+  "createdAt": "2026-10-17T00:00:00Z",
+  "expiresAt": "2027-01-01T00:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "subjectId": "rhythm-example-subject",
+  "recordType": "subject_index",
+  "schemaVersion": "0.1",
+  "revision": 1,
+  "steward": { "reference": "rhythm-example-subject", "role": "subject" },
+  "resourceRefs": [
+    { "id": "rhythm-sleep-2026-10-18", "kind": "observation", "schemaVersion": "0.2" },
+    { "id": "rhythm-sleep-2026-10-19", "kind": "observation", "schemaVersion": "0.2" },
+    { "id": "rhythm-sleep-2026-10-20", "kind": "observation", "schemaVersion": "0.2" },
+    { "id": "sleep:metheus-rhythm-summary/0.1.0:2026-10-18:2026-10-20", "kind": "rhythm_summary", "schemaVersion": "0.1" }
+  ],
+  "preferences": { "timeZone": "America/Denver" },
+  "createdAt": "2026-10-21T12:00:00Z",
+  "updatedAt": "2026-10-21T12:00:00Z"
+}

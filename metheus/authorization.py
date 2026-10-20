@@ -47,6 +47,23 @@ _CONSENT_DOMAINS = (_RECORD_DOMAINS - {"relationship"}) | {
     "biometrics", "clinical_results", "nutrition_behavior", "child_development",
 }
 _OBSERVATION_RECORD_TYPES = {"observation", "event", "estimate", "symbolic_feature", "context"}
+_SUMMARY_MEASURES = {
+    "bleeding_onset_intervals": ("reproductive", "metheus-bleeding-onset-gap/0.1.0"),
+    "main_sleep": ("sleep", "metheus-rhythm-summary/0.1.0"),
+    "meal_events": ("nutrition", "metheus-feeding-summary/0.2.0"),
+    "caregiver_feeding_events": ("feeding", "metheus-feeding-summary/0.2.0"),
+    "meal_timing_relative_to_wake": ("nutrition", "metheus-wake-relative-meal/0.1.0"),
+}
+_SUMMARY_SOURCE_TYPES = {
+    "bleeding_onset_intervals": {("bleeding_start", "reproductive")},
+    "main_sleep": {("main_sleep", "sleep")},
+    "meal_events": {("meal", "feeding"), ("meal", "nutrition")},
+    "caregiver_feeding_events": {("feeding", "feeding")},
+    "meal_timing_relative_to_wake": {
+        ("wake", "sleep"), ("wake", "circadian"),
+        ("meal", "feeding"), ("meal", "nutrition"),
+    },
+}
 
 _PHASE_SYSTEM_DOMAINS = {
     "human_design_transit": "symbolic",
@@ -224,6 +241,20 @@ def record_domain(record: dict[str, Any]) -> str | None:
         return domain if domain == "birth_chart_inputs" else None
     if record_type == "symbolic_map":
         return domain if domain == "symbolic" else None
+    if record_type == "rhythm_summary":
+        measure = record.get("summaryMeasure")
+        expected = _SUMMARY_MEASURES.get(measure) if isinstance(measure, str) else None
+        if (
+            expected is None
+            or record.get("summaryType") != "derived_rhythm_summary"
+            or record.get("epistemicClass") != "derived"
+            or record.get("schemaVersion") != "0.1"
+            or record.get("summaryId") != record.get("id")
+            or domain != expected[0]
+            or record.get("methodVersion") != expected[1]
+        ):
+            return None
+        return domain
     if record_type in _OBSERVATION_RECORD_TYPES:
         if record_type == "symbolic_feature" and domain != "symbolic":
             return None
@@ -340,6 +371,11 @@ def evaluate_authorization(
         record.get("id") for record in selected_records
         if isinstance(record, dict) and _is_phase_annotation(record) and isinstance(record.get("id"), str)
     }
+    selected_record_index = {
+        record.get("id"): record
+        for record in selected_records
+        if isinstance(record, dict) and isinstance(record.get("id"), str)
+    }
     grant_list = [grant for grant in grants if isinstance(grant, dict)]
     inactive_ids = _inactive_grant_ids(grant_list)
     grant_identity_counts = Counter(
@@ -395,6 +431,35 @@ def evaluate_authorization(
                 continue
             if any(value in selected_phase_ids for value in basis_ids):
                 decisions.append({"recordId": record_id, "authorized": False, "reason": "phase_basis_must_be_source_record"})
+                continue
+        if record.get("recordType") == "rhythm_summary":
+            basis_ids = record.get("inputRecordIds")
+            if not isinstance(basis_ids, list) or not basis_ids or not all(isinstance(value, str) and value for value in basis_ids):
+                decisions.append({"recordId": record_id, "authorized": False, "reason": "missing_rhythm_summary_sources"})
+                continue
+            if len(set(basis_ids)) != len(basis_ids):
+                decisions.append({"recordId": record_id, "authorized": False, "reason": "duplicate_rhythm_summary_sources"})
+                continue
+            if record_id in basis_ids:
+                decisions.append({"recordId": record_id, "authorized": False, "reason": "self_referential_rhythm_summary"})
+                continue
+            if any(value not in selected_record_ids for value in basis_ids):
+                decisions.append({"recordId": record_id, "authorized": False, "reason": "rhythm_summary_source_not_selected"})
+                continue
+            invalid_source = False
+            for value in basis_ids:
+                source = selected_record_index.get(value)
+                if (
+                    source is None
+                    or source.get("recordType") not in {"observation", "event"}
+                    or source.get("subjectId") != subject_id
+                    or (source.get("eventType"), source.get("domain"))
+                    not in _SUMMARY_SOURCE_TYPES.get(record.get("summaryMeasure"), set())
+                ):
+                    invalid_source = True
+                    break
+            if invalid_source:
+                decisions.append({"recordId": record_id, "authorized": False, "reason": "invalid_rhythm_summary_source"})
                 continue
 
         matching_grant: dict[str, Any] | None = None

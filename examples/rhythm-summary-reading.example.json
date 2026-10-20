@@ -1,0 +1,47 @@
+{
+  "id": "rhythm-summary-reading-example",
+  "subjectId": "rhythm-example-subject",
+  "version": "0.1",
+  "purpose": "rhythm_summary",
+  "timeWindow": {
+    "start": "2026-10-18T00:00:00-06:00",
+    "end": "2026-10-21T00:00:00-06:00",
+    "timeZone": "America/Denver",
+    "precision": "exact"
+  },
+  "inputIds": [
+    "rhythm-sleep-2026-10-18",
+    "rhythm-sleep-2026-10-19",
+    "rhythm-sleep-2026-10-20",
+    "sleep:metheus-rhythm-summary/0.1.0:2026-10-18:2026-10-20"
+  ],
+  "claims": [
+    {
+      "claimType": "estimate",
+      "text": "Across three logged main-sleep intervals from October 18–20, the median recorded duration was 480 minutes and the median logged midpoint was 02:30 in America/Denver.",
+      "sourceIds": ["sleep:metheus-rhythm-summary/0.1.0:2026-10-18:2026-10-20"],
+      "support": {
+        "confidence": "moderate",
+        "coverage": "adequate",
+        "rationale": "This is the deterministic summary of three synthetic input intervals; the calculation describes logs only.",
+        "alternatives": []
+      }
+    },
+    {
+      "claimType": "boundary",
+      "text": "These logs do not estimate circadian phase or establish sleep quality, health, or schedule adequacy.",
+      "sourceIds": ["sleep:metheus-rhythm-summary/0.1.0:2026-10-18:2026-10-20"],
+      "support": {
+        "confidence": "high",
+        "coverage": "adequate",
+        "rationale": "The summary method explicitly limits its interpretation to logged interval timing and duration.",
+        "alternatives": []
+      }
+    }
+  ],
+  "limitations": [
+    "Synthetic example only; no person or device export is represented.",
+    "The reading must select, index, and authorize the summary's input records as well as the derived summary."
+  ],
+  "generatedAt": "2026-10-21T12:00:00Z"
+}
