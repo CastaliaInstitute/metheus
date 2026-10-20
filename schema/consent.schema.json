@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://metheus.castalia.institute/schema/consent.schema.json",
   "title": "Metheus scoped consent grant",
-  "description": "Draft v0.1 consent and permission record. It does not establish legal authority or legal compliance.",
+  "description": "Draft v0.2 consent and permission record with optional record/date scoping. It does not establish identity, legal authority, or legal compliance.",
   "type": "object",
   "additionalProperties": false,
   "required": ["id", "subjectId", "grantor", "domains", "purposes", "permittedActions", "status", "consentTextVersion", "createdAt"],
@@ -22,7 +22,8 @@
       "type": "array",
       "minItems": 1,
       "uniqueItems": true,
-      "items": { "enum": ["birth_chart_inputs", "biometrics", "reproductive", "intimacy", "clinical_results", "nutrition_behavior", "learning", "child_development", "relationships", "other"] }
+      "description": "Choose the narrowest matching domains. Broad legacy scopes such as biometrics and nutrition_behavior may cover documented subdomains in the authorization policy.",
+      "items": { "enum": ["birth_chart_inputs", "biometrics", "circadian", "sleep", "reproductive", "intimacy", "clinical_results", "hormone_assay", "symptom", "nutrition_behavior", "feeding", "nutrition", "hydration", "activity", "behavior", "sensory_exposure", "supplement", "medication", "physiology", "learning", "child_development", "development", "relationships", "environment", "life_event", "symbolic", "other"] }
     },
     "purposes": {
       "type": "array",
@@ -34,6 +35,16 @@
       "type": "array",
       "uniqueItems": true,
       "items": { "enum": ["collect", "analyze", "share", "remote_processing"] }
+    },
+    "recordIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+    "timeScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["startDate", "endDate"],
+      "properties": {
+        "startDate": { "type": "string", "format": "date" },
+        "endDate": { "type": "string", "format": "date" }
+      }
     },
     "recipient": {
       "type": "object",
@@ -92,6 +103,24 @@
     {
       "if": { "required": ["permittedActions"], "properties": { "permittedActions": { "contains": { "const": "remote_processing" } } } },
       "then": { "required": ["remoteProcessingDisclosureVersion"] }
+    },
+    {
+      "if": { "required": ["permittedActions"], "properties": { "permittedActions": { "contains": { "const": "share" } } } },
+      "then": {
+        "anyOf": [
+          { "required": ["recordIds"], "properties": { "recordIds": { "minItems": 1 } } },
+          { "required": ["timeScope"] }
+        ]
+      }
+    },
+    {
+      "if": { "required": ["permittedActions"], "properties": { "permittedActions": { "contains": { "const": "remote_processing" } } } },
+      "then": {
+        "anyOf": [
+          { "required": ["recordIds"], "properties": { "recordIds": { "minItems": 1 } } },
+          { "required": ["timeScope"] }
+        ]
+      }
     }
   ]
 }

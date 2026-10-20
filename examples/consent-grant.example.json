@@ -8,6 +8,15 @@
   "domains": ["learning", "birth_chart_inputs"],
   "purposes": ["learning_support", "personal_reflection"],
   "permittedActions": ["collect", "analyze"],
+  "recordIds": [
+    "learning-activity-2026-10-20-01",
+    "learner-feedback-example-01",
+    "promethean-feature-example-01"
+  ],
+  "timeScope": {
+    "startDate": "2026-10-20",
+    "endDate": "2026-10-20"
+  },
   "status": "granted",
   "consentTextVersion": "metheus-local-learning-consent/0.1.0",
   "createdAt": "2026-10-20T18:00:00-06:00",

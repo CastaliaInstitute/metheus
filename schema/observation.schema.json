@@ -68,7 +68,7 @@
         "reportedByRelation": { "enum": ["self", "parent_guardian", "caregiver", "clinician", "other", "unknown"] }
       }
     },
-    "domain": { "enum": ["circadian", "sleep", "feeding", "nutrition", "hydration", "activity", "behavior", "learning", "sensory_exposure", "supplement", "medication", "physiology", "hormone_assay", "symptom", "reproductive", "development", "relationship", "environment", "life_event", "symbolic", "other"] },
+    "domain": { "enum": ["circadian", "sleep", "feeding", "nutrition", "hydration", "activity", "behavior", "learning", "sensory_exposure", "supplement", "medication", "physiology", "hormone_assay", "symptom", "reproductive", "development", "relationship", "intimacy", "environment", "life_event", "symbolic", "other"] },
     "label": { "type": "string", "minLength": 1 },
     "value": {
       "type": "object",

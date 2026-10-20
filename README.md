@@ -55,6 +55,8 @@ The [synthetic learning example set](examples/learning-reading.example.json) sho
 
 See the [privacy, consent, and data stewardship model](docs/privacy-consent-model.md) and draft [consent-grant schema](schema/consent.schema.json) for scoped permissions, child participation, relationship-data boundaries, and required data lifecycle controls.
 
+The Python package includes an in-memory [`evaluate_authorization`](metheus/authorization.py) policy prototype. It evaluates selected records against grants but does not authenticate users or enforce access to storage.
+
 ## Site
 
 - GitHub Pages: https://castaliainstitute.github.io/metheus/

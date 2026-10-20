@@ -1,6 +1,6 @@
 # Metheus privacy, consent, and data stewardship model
 
-**Status:** product design requirements, version 0.1. These requirements are not a privacy policy, security certification, or statement of legal compliance. The current Metheus site is a static concept site and does not implement personal record collection, storage, wearable connections, consent management, export, or deletion.
+**Status:** product design requirements, version 0.2. These requirements are not a privacy policy, security certification, or statement of legal compliance. The current Metheus site is a static concept site and does not implement personal record collection, storage, wearable connections, consent management, export, or deletion.
 
 ## Why this is part of the system
 
@@ -15,7 +15,7 @@ Represent these separately:
 1. **Collection:** permission to create or import a record.
 2. **Analysis:** permission to include selected records in a derived summary or reading.
 3. **Sharing:** permission to disclose selected records or readings to a named role/recipient.
-4. **Processing:** whether a task runs on the local device or sends selected data to a remote service.
+4. **Processing:** whether a task runs on the local device or sends selected data to a remote service. Remote processing is a separate permission from analysis; a remote reading requires both `analyze` and `remote_processing` authorization.
 
 The permission state must be inspectable and revocable. Withdrawing permission stops future use within that scope. Deletion, retention, or records required by a connected service depend on the actual storage architecture and must be made explicit before collection begins.
 
@@ -66,7 +66,7 @@ A future `consentGrant` record should include:
 - pseudonymous subject and grantor references, and the grantor's relationship/authority;
 - requested domains and purposes;
 - allowed actions: collect, analyze, share, remote-process;
-- scope/recipient when sharing is involved;
+- explicit record IDs or a date window when sharing or remote processing is involved, plus recipient when sharing is involved;
 - status: pending, granted, denied, withdrawn, expired;
 - grant time, optional expiry, withdrawal time, and the consent-text/version shown;
 - child assent or dissent state when relevant, without treating guardian permission as the child's own assent;
@@ -75,6 +75,28 @@ A future `consentGrant` record should include:
 A consent grant must not be assumed from device connection, chart calculation, prior use, a caregiver's relationship, or a general service account. A permission to analyze one reading does not silently authorize future readings or sharing.
 
 In the draft schema, `permittedActions` means currently authorized actions, not requested actions: it must be empty while permission is pending, denied, withdrawn, or expired. An expired grant must carry its expiry time. These structural checks do not enforce authorization at runtime; a future service must check the subject, domain, purpose, time window, recipient, and requested action against active grants before every collection, analysis, export, or remote-processing operation.
+
+The current in-memory policy prototype is [`metheus/authorization.py`](../metheus/authorization.py). `evaluate_authorization` requires every selected source record to match an active grant for the same subject, purpose, action, and domain; it checks creation/expiry time, record-ID/date scopes, share recipient, remote-processing disclosure, supersession/revocation references, and explicit child dissent. Narrow consent domains are preferred; legacy broad scopes cover only the subdomains listed in that module. For a remote analysis, callers must require both `analyze` and `remote_processing`; for sharing, they must pass the exact recipient. Any denied record makes the batch unauthorized. Date scopes compare date-only reports on their declared date and timestamped or interval records on the local date of `observedAt` or `start`.
+
+Example call shape:
+
+```python
+from metheus import evaluate_authorization
+
+decision = evaluate_authorization(
+    selected_source_records,
+    consent_grants,
+    subject_id="example-subject-01",
+    purpose="learning_support",
+    action="analyze",
+)
+if not decision["authorized"]:
+    raise PermissionError("Selected records are outside the active consent scope")
+```
+
+The synthetic [consent example](../examples/consent-grant.example.json) demonstrates record-ID and date-window scope. Subject-directed export is a data-access capability, not an additional consent action; a share with another recipient still requires `share` authorization.
+
+This is a policy evaluator, not a complete authorization service: it does not authenticate a subject or grantor, verify guardian authority, validate incoming records against JSON Schema, persist an audit trail, mediate database access, or execute deletion/export. `authorized_delegate` grants also fail closed until their delegated authority can be verified. Callers must fail closed and enforce its decision at the storage and processing boundary. The evaluator is not yet covered by behavioral tests.
 
 The [synthetic consent example](../examples/consent-grant.example.json) permits local collection and analysis for learning support and personal reflection, while granting no sharing or remote processing. It is an illustration of the data shape, not an active permission or deployed consent flow.
 
