@@ -37,6 +37,22 @@
             "required": ["date"],
             "not": { "anyOf": [{ "required": ["observedAt"] }, { "required": ["start"] }, { "required": ["end"] }] }
           }
+        },
+        {
+          "if": { "required": ["start"] },
+          "then": { "required": ["end"], "not": { "required": ["observedAt"] } }
+        },
+        {
+          "if": { "required": ["end"] },
+          "then": { "required": ["start"] }
+        },
+        {
+          "if": { "required": ["observedAt"] },
+          "then": { "not": { "anyOf": [{ "required": ["start"] }, { "required": ["end"] }] } }
+        },
+        {
+          "if": { "required": ["precision"], "properties": { "precision": { "enum": ["exact", "approximate"] } } },
+          "then": { "anyOf": [{ "required": ["observedAt"] }, { "required": ["start"] }] }
         }
       ]
     },
@@ -219,11 +235,84 @@
   "allOf": [
     {
       "if": { "required": ["epistemicClass"], "properties": { "epistemicClass": { "const": "derived" } } },
-      "then": { "required": ["derivedFrom", "methodVersion", "uncertainty"] }
+      "then": {
+        "required": ["derivedFrom", "methodVersion", "uncertainty"],
+        "properties": { "source": { "properties": { "kind": { "const": "algorithm" } } } }
+      }
     },
     {
       "if": { "required": ["epistemicClass"], "properties": { "epistemicClass": { "const": "symbolic" } } },
-      "then": { "properties": { "source": { "properties": { "kind": { "const": "symbolic_system" } } } } }
+      "then": {
+        "properties": {
+          "recordType": { "const": "symbolic_feature" },
+          "domain": { "const": "symbolic" },
+          "source": { "properties": { "kind": { "const": "symbolic_system" } } }
+        }
+      }
+    },
+    {
+      "if": { "required": ["recordType"], "properties": { "recordType": { "const": "symbolic_feature" } } },
+      "then": { "properties": { "epistemicClass": { "const": "symbolic" }, "domain": { "const": "symbolic" } } }
+    },
+    {
+      "if": { "required": ["epistemicClass"], "properties": { "epistemicClass": { "const": "self_reported" } } },
+      "then": {
+        "properties": {
+          "source": {
+            "required": ["reportedByRelation"],
+            "properties": {
+              "kind": { "const": "subject" },
+              "reportedByRelation": { "const": "self" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "required": ["epistemicClass"], "properties": { "epistemicClass": { "const": "caregiver_reported" } } },
+      "then": {
+        "properties": {
+          "source": {
+            "required": ["reportedByRelation"],
+            "properties": {
+              "kind": { "const": "caregiver" },
+              "reportedByRelation": { "enum": ["parent_guardian", "caregiver"] }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "required": ["epistemicClass"], "properties": { "epistemicClass": { "const": "clinician_reported" } } },
+      "then": {
+        "properties": {
+          "source": {
+            "required": ["reportedByRelation"],
+            "properties": {
+              "kind": { "const": "clinician" },
+              "reportedByRelation": { "const": "clinician" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "required": ["epistemicClass"], "properties": { "epistemicClass": { "const": "measured" } } },
+      "then": {
+        "required": ["value", "measurementDetails"],
+        "properties": {
+          "measurementDetails": { "required": ["analyteOrSignal"] },
+          "source": { "properties": { "kind": { "enum": ["sensor", "laboratory", "clinician"] } } }
+        }
+      }
+    },
+    {
+      "if": { "required": ["epistemicClass"], "properties": { "epistemicClass": { "const": "imported" } } },
+      "then": {
+        "properties": {
+          "source": { "properties": { "kind": { "const": "external_import" } } }
+        }
+      }
     },
     {
       "if": { "required": ["domain"], "properties": { "domain": { "const": "hormone_assay" } } },
@@ -256,6 +345,10 @@
     {
       "if": { "required": ["eventType"], "properties": { "eventType": { "const": "learning_activity" } } },
       "then": { "required": ["learningActivity"], "properties": { "domain": { "const": "learning" } } }
+    },
+    {
+      "if": { "required": ["eventType"], "properties": { "eventType": { "const": "hormone_result" } } },
+      "then": { "required": ["measurementDetails", "value"], "properties": { "domain": { "const": "hormone_assay" }, "epistemicClass": { "const": "measured" } } }
     }
   ]
 }

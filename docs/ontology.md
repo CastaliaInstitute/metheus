@@ -36,7 +36,7 @@
 
 Every record MUST have one class:
 
-- `measured`: sensor or laboratory result. Include method, units, and instrument when known.
+- `measured`: sensor, laboratory, or clinician-produced instrument result. Include signal/analyte, method, units, and instrument when known. A clinician's narrative finding remains `clinician_reported`.
 - `self_reported`: the subject's account of their own experience.
 - `caregiver_reported`: a caregiver's observation or account about a child or dependent.
 - `clinician_reported`: a clinician-provided finding or interpretation. Preserve its author/source and date.
@@ -45,6 +45,8 @@ Every record MUST have one class:
 - `imported`: a record from an external source whose original class is not known; preserve original source and avoid upgrading its certainty.
 
 Do not combine distinct classes into one unlabeled score. An interpretation may cite several classes, but each underlying input remains separately inspectable.
+
+The draft schema also checks basic source/class agreement: self-reports identify the subject as reporter; caregiver and clinician reports identify their reporter relation; measured values name an instrument signal and come from a sensor, laboratory, or clinician source; derived records identify an algorithm and input records; imported records preserve an external source; and symbolic features remain in the symbolic domain. These constraints catch contradictory metadata, not inaccurate observations or untrustworthy sources. A valid record is not thereby complete, clinically interpretable, authorized for processing, or true.
 
 ## Correspondence evidence status
 
