@@ -33,6 +33,8 @@ See [Metheus as a systems model](docs/systems-model.md) for the intended archite
 
 See the [critical review](docs/critical-review.md) for the current implementation limits, unresolved architecture and validation gaps, and a prioritized path toward an end-to-end Metheus prototype.
 
+See the [capability matrix](docs/capability-matrix.md) for a domain-by-domain distinction between documented concepts, data contracts, executable summaries, validated models, and product services.
+
 See [Metheus ontology](docs/ontology.md) for core entities and epistemic classes, with a draft [observation schema](schema/observation.schema.json) for time-bounded records.
 
 The draft [subject index](schema/subject-index.schema.json) links separately versioned resources without embedding a full profile. Sensitive birth inputs and their derived symbolic map have distinct contracts in the [birth-chart input schema](schema/birth-chart-input.schema.json) and [symbolic map schema](schema/symbolic-map.schema.json), with synthetic examples for the [index](examples/subject-index.example.json), [birth input](examples/birth-chart-input.example.json), and [map](examples/symbolic-map.example.json).

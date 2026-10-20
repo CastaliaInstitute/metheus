@@ -48,6 +48,8 @@ The hormone and rhythm references are broad, and the rhythm functions intentiona
 
 **Recommendation:** Keep a capability matrix that marks each domain as conceptual, recordable, summarizable, experimentally modeled, or clinically validated. Do not describe a domain as modeled until equations/methods, validation population, uncertainty, and failure cases are documented.
 
+**Change in this update:** The [capability matrix](capability-matrix.md) now distinguishes concept, schema contract, executable operation, validated model, and product service for the major Metheus domains. It documents the four current rhythm summaries and identifies measurement, endocrine, developmental, evidence-governance, reading, and privacy capabilities that remain absent or unvalidated.
+
 ### 5. Evidence review is a schema, not a governed knowledge base
 
 The evidence-claim schema provides status, scope, citations, reviewer role, and limitations. The repository has an in-memory resolver, but no reviewed evidence library, qualified review workflow, or trusted catalog service. A schema-valid item is not proof of scientific quality, and a reviewer-role string is not credential verification.

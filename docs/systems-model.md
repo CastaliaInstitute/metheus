@@ -171,3 +171,5 @@ Sensitive data are included only for a subject-selected purpose and scope. Colle
 6. **Review:** Seek input from people with lived experience, pediatric/developmental experts for child contexts, and endocrine expertise for physiology claims.
 
 Metheus is currently a concept, not a validated model or clinical product. This document describes a direction for design and research.
+
+For the current implementation boundary by domain—including which rhythm summaries are executable and which physiology/development layers remain conceptual—see the [capability matrix](capability-matrix.md).
