@@ -162,7 +162,7 @@ Before any M2 or higher feature, publish a model card describing target, intende
 | Time-window and measurement summaries | Sleep, meal/feed, meal-to-wake, bleeding-onset-gap, same-signature numeric-series summaries, and pairwise temporal order | Selected M1 descriptive operations; no biological phase estimate, trend model, or clinical interpretation |
 | Cross-layer reading | Typed claims, evidence/correspondence references, preflight, deterministic assembly | M1 assembly of authored claims; no prose generation or entailment check |
 | Physiological/developmental latent state | Documentation and hormone/reference catalogs | M0 conceptual vocabulary; no fitted or validated model |
-| Evidence governance | Candidate-only claim catalog and written review protocol | No completed Metheus claim reviews; no authenticated review/catalog service |
+| Evidence governance | Candidate-only claim catalog, candidate-only typed endocrine-relation catalog, and written review protocol | No completed Metheus claim reviews; no authenticated review/catalog service; endocrine edges remain internal and are not reading-eligible |
 | Personal data product | Static Pages site and caller-supplied in-memory functions | No ingestion, persistence, authentication, or storage authorization |
 
 Related specifications: [systems model](systems-model.md), [ontology](ontology.md), [rhythm system](rhythm-system.md), [measurement landscape](measurement-landscape.md), [reading grammar](reading-grammar.md), [evidence review protocol](evidence-review-protocol.md), [capability matrix](capability-matrix.md), and [privacy/consent model](privacy-consent-model.md).

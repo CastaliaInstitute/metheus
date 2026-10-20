@@ -62,11 +62,13 @@ EXAMPLE_SCHEMAS = {
 }
 
 CATALOG_SCHEMAS = {
+    "endocrine-relations.json": "endocrine-relations-catalog.schema.json",
     "evidence-claims.json": "evidence-catalog.schema.json",
     "phase-vocabulary.json": "phase-vocabulary.schema.json",
 }
 
 CATALOG_ITEM_SCHEMAS = {
+    "endocrine-relations.json": ("relations", "endocrine-relation.schema.json"),
     "evidence-claims.json": ("claims", "evidence-claim.schema.json"),
 }
 

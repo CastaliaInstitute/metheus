@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metheus.castalia.institute/schema/endocrine-relation.schema.json",
+  "title": "Metheus candidate endocrine relation",
+  "description": "An attributed, scope-limited pathway relation. Candidate entries are internal only and are not individual-level causal claims.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "sourceEntity", "targetEntity", "relationType", "statement", "context", "evidenceStatus", "permittedUse", "sourceCitations", "limitations"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "sourceEntity": { "$ref": "#/$defs/entity" },
+    "targetEntity": { "$ref": "#/$defs/entity" },
+    "relationType": { "enum": ["stimulates_secretion", "inhibits_secretion", "stimulates_release", "inhibits_release", "acts_on", "synthesizes", "converts_to", "feedback_inhibits", "feedback_stimulates", "modulates"] },
+    "statement": { "type": "string", "minLength": 1 },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["organism", "setting"],
+      "properties": {
+        "organism": { "type": "string", "minLength": 1 },
+        "lifeStage": { "type": "string" },
+        "setting": { "type": "string", "minLength": 1 },
+        "conditions": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "timescale": { "type": "string" }
+      }
+    },
+    "evidenceStatus": { "enum": ["not_evaluated", "under_review", "supported_for_scope", "not_supported", "conflicting"] },
+    "permittedUse": { "const": "internal_only" },
+    "sourceCitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["title", "url", "sourceType"],
+        "properties": {
+          "title": { "type": "string", "minLength": 1 },
+          "url": { "type": "string", "format": "uri" },
+          "locator": { "type": "string" },
+          "sourceType": { "enum": ["primary_study", "systematic_review", "guideline", "official_reference", "other"] },
+          "accessedAt": { "type": "string", "format": "date" }
+        }
+      }
+    },
+    "limitations": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 }
+  },
+  "$defs": {
+    "entity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "entityType"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 1 },
+        "entityType": { "enum": ["hormone", "hormone_group", "gland", "tissue", "receptor", "process", "exposure", "behavior", "specimen", "assay"] },
+        "compartment": { "type": "string" }
+      }
+    }
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "$schema": "../schema/endocrine-relations-catalog.schema.json",
+  "catalogVersion": "0.1.0",
+  "catalogStatus": "candidate_only",
+  "policy": "Every edge is under review and internal only. A pathway relation summarizes general physiology within a stated scope; it does not estimate a person's hormone state, explain an individual observation, or establish a causal effect of a behavior. Do not expose catalog entries in readings until an appropriate domain review approves the exact claim and use.",
+  "relations": [
+    {
+      "id": "trh-stimulates-tsh-secretion-candidate",
+      "sourceEntity": { "id": "trh", "label": "Thyrotropin-releasing hormone (TRH)", "entityType": "hormone", "compartment": "hypothalamus" },
+      "targetEntity": { "id": "tsh", "label": "Thyroid-stimulating hormone (TSH; thyrotropin)", "entityType": "hormone", "compartment": "anterior pituitary" },
+      "relationType": "stimulates_secretion",
+      "statement": "Hypothalamic TRH stimulates pituitary release of TSH.",
+      "context": { "organism": "human", "setting": "General hypothalamic-pituitary-thyroid physiology", "timescale": "Regulatory signaling; no individual timing inferred" },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        { "title": "Physiology of the Hypothalamic-Pituitary-Thyroid Axis: Endotext", "url": "https://www.ncbi.nlm.nih.gov/books/NBK278958/", "locator": "Regulation of TSH Synthesis and Secretion", "sourceType": "official_reference", "accessedAt": "2026-10-20" }
+      ],
+      "limitations": [
+        "Candidate summary of a general regulatory pathway; not an individualized prediction or measured TRH/TSH relation.",
+        "Does not represent all feedback, disease, medication, developmental, or assay contexts.",
+        "Catalog presence and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "tsh-stimulates-thyroid-hormone-production-candidate",
+      "sourceEntity": { "id": "tsh", "label": "Thyroid-stimulating hormone (TSH; thyrotropin)", "entityType": "hormone", "compartment": "pituitary circulation" },
+      "targetEntity": { "id": "thyroid-hormones-t4-t3", "label": "Thyroid hormones T4 and T3", "entityType": "hormone_group", "compartment": "thyroid gland" },
+      "relationType": "stimulates_secretion",
+      "statement": "TSH signals the thyroid gland to produce and release thyroid hormones, including T4 and T3.",
+      "context": { "organism": "human", "setting": "General hypothalamic-pituitary-thyroid physiology", "timescale": "Regulatory signaling; no individual timing inferred" },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        { "title": "TSH (Thyroid-stimulating hormone) Test: MedlinePlus Medical Test", "url": "https://www.medlineplus.gov/lab-tests/tsh-thyroid-stimulating-hormone-test/", "locator": "What is a TSH Test?", "sourceType": "official_reference", "accessedAt": "2026-10-20" },
+        { "title": "Physiology of the Hypothalamic-Pituitary-Thyroid Axis: Endotext", "url": "https://www.ncbi.nlm.nih.gov/books/NBK278958/", "locator": "Figure 5 and Regulation of TSH Synthesis and Secretion", "sourceType": "official_reference", "accessedAt": "2026-10-20" }
+      ],
+      "limitations": [
+        "Candidate summary of general physiology, not a claim that a TSH result alone determines circulating T4/T3 or thyroid function.",
+        "Does not encode negative feedback or clinical interpretation of any assay result.",
+        "Catalog presence and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "thyroid-hormones-feedback-inhibit-tsh-candidate",
+      "sourceEntity": { "id": "thyroid-hormones-t4-t3", "label": "Thyroid hormones T4 and T3", "entityType": "hormone_group", "compartment": "circulation and tissues" },
+      "targetEntity": { "id": "tsh", "label": "Thyroid-stimulating hormone (TSH; thyrotropin)", "entityType": "hormone", "compartment": "anterior pituitary" },
+      "relationType": "feedback_inhibits",
+      "statement": "Thyroid hormone signaling participates in negative feedback that inhibits pituitary TSH synthesis and release.",
+      "context": { "organism": "human", "setting": "General hypothalamic-pituitary-thyroid physiology", "timescale": "Feedback regulation; no individual timing inferred" },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        { "title": "Physiology of the Hypothalamic-Pituitary-Thyroid Axis: Endotext", "url": "https://www.ncbi.nlm.nih.gov/books/NBK278958/", "locator": "Regulation of TSH Synthesis and Secretion", "sourceType": "official_reference", "accessedAt": "2026-10-20" }
+      ],
+      "limitations": [
+        "General feedback mechanism; an individual's TSH and T4/T3 values cannot be interpreted from this edge alone.",
+        "Does not encode assay differences, illness, medication, pregnancy, developmental context, or other regulators.",
+        "Catalog presence and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "thyroid-hormones-feedback-inhibit-trh-candidate",
+      "sourceEntity": { "id": "thyroid-hormones-t4-t3", "label": "Thyroid hormones T4 and T3", "entityType": "hormone_group", "compartment": "circulation and tissues" },
+      "targetEntity": { "id": "trh", "label": "Thyrotropin-releasing hormone (TRH)", "entityType": "hormone", "compartment": "hypothalamus" },
+      "relationType": "feedback_inhibits",
+      "statement": "Thyroid hormone signaling participates in negative feedback that inhibits hypothalamic TRH synthesis and secretion.",
+      "context": { "organism": "human", "setting": "General hypothalamic-pituitary-thyroid physiology", "timescale": "Feedback regulation; no individual timing inferred" },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        { "title": "Physiology of the Hypothalamic-Pituitary-Thyroid Axis: Endotext", "url": "https://www.ncbi.nlm.nih.gov/books/NBK278958/", "locator": "Regulation of TSH Synthesis and Secretion", "sourceType": "official_reference", "accessedAt": "2026-10-20" }
+      ],
+      "limitations": [
+        "General feedback mechanism; an individual's TSH and T4/T3 values cannot be interpreted from this edge alone.",
+        "Does not represent all hypothalamic regulators or tissue-specific conversion and receptor activity.",
+        "Catalog presence and citation do not constitute independent Metheus scientific review."
+      ]
+    }
+  ]
+}

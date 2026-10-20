@@ -2,6 +2,8 @@
 
 This is a broad working inventory for Metheus, not a claim that every listed molecule is a classical blood-borne hormone or is suitable for personal tracking. The endocrine system is open-ended: many tissues release signals that act locally, at a distance, or both. Names, categories, and evidence levels will need domain review before this becomes a product taxonomy.
 
+The machine-readable [candidate endocrine-relations catalog](../catalog/endocrine-relations.json) begins to represent selected axis relationships as typed, directed, sourced edges. It currently contains four internal-only hypothalamic-pituitary-thyroid edges, including upstream stimulation and thyroid-hormone negative feedback. The catalog is an ontology scaffold, not a complete pathway map, evidence synthesis, individual hormone model, or behavior-to-hormone response model; its edges are not eligible for readings.
+
 ## How to read the inventory
 
 - **Hormone** is used broadly for a chemical messenger released by cells and acting on other cells. Endocrine signals travel through blood; paracrine and autocrine signals act locally; neurohormones are released by neurons into circulation or other tissues.
