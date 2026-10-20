@@ -110,6 +110,8 @@ Every relation between quantities must be typed before it can appear in a model 
 
 The default relation produced by a timeline is `temporal_order` or `co_occurrence`, never mechanism or cause. An exploratory within-person association is a question-generating feature, not a health recommendation or a transferable profile of other people.
 
+The draft [experience-pathway graph contract](../schema/experience-pathway.schema.json) implements only a restricted subset of this vocabulary. It supports time-based order/co-occurrence, subject-reported links, evidence-cited general mechanisms, explicit model hypotheses, and reappraisal links. It deliberately has no `causal_effect` or `within_person_association` relation type; those require separate analysis designs and review.
+
 ## 7. Personal reference patterns
 
 When enough observations exist, Metheus may compare records with that person's own historical distribution. This must be described as a reference pattern, not an ideal or normal range. A reference window should:

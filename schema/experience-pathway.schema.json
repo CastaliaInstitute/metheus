@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metheus.castalia.institute/schema/experience-pathway.schema.json",
+  "title": "Metheus reflective experience pathway map",
+  "description": "A subject-scoped graph of reported, measured, and interpretive episode elements. It is not a psychological assessment or causal model.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "subjectId", "schemaVersion", "modelVersion", "dataStatus", "window", "nodes", "relations", "privacy", "limitations"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "subjectId": { "type": "string", "minLength": 1 },
+    "schemaVersion": { "const": "0.1" },
+    "modelVersion": { "type": "string", "minLength": 1 },
+    "dataStatus": { "enum": ["synthetic_fixture", "subject_authored"] },
+    "window": {
+      "type": "object", "additionalProperties": false,
+      "required": ["start", "end", "precision"],
+      "properties": {
+        "start": { "type": "string", "format": "date-time" },
+        "end": { "type": "string", "format": "date-time" },
+        "timeZone": { "type": "string" },
+        "precision": { "enum": ["exact", "approximate", "unknown"] }
+      }
+    },
+    "nodes": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["nodeId", "construct", "epistemicKind", "label", "basisRecordIds"],
+        "properties": {
+          "nodeId": { "type": "string", "minLength": 1 },
+          "construct": { "enum": ["context", "situation", "noticed_cue", "appraisal", "perceived_stress", "emotion", "hostile_orientation", "bodily_sensation", "measured_response", "action_or_inhibition", "consequence", "suffering", "reappraisal", "reflection"] },
+          "epistemicKind": { "enum": ["person_reported", "caregiver_reported", "observed", "measured", "derived", "clinician_reported"] },
+          "label": { "type": "string", "minLength": 1 },
+          "basisRecordIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1, "uniqueItems": true },
+          "timeReference": { "type": "string" },
+          "notes": { "type": "string", "description": "Optional minimal context; sensitive narrative remains in its separately governed source record." }
+        }
+      }
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["relationId", "fromNodeId", "toNodeId", "relationType", "basis", "uncertainty"],
+        "properties": {
+          "relationId": { "type": "string", "minLength": 1 },
+          "fromNodeId": { "type": "string", "minLength": 1 },
+          "toNodeId": { "type": "string", "minLength": 1 },
+          "relationType": { "enum": ["temporal_order", "co_occurrence", "person_reported_link", "literature_mechanism", "model_hypothesis", "reappraisal"] },
+          "basis": { "enum": ["record_times", "person_report", "cited_evidence", "explicit_hypothesis"] },
+          "basisRecordIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+          "evidenceClaimIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+          "uncertainty": { "enum": ["low", "moderate", "high", "unknown"] },
+          "notes": { "type": "string" }
+        },
+        "allOf": [
+          { "if": { "properties": { "relationType": { "const": "temporal_order" } }, "required": ["relationType"] }, "then": { "required": ["basisRecordIds"], "properties": { "basis": { "const": "record_times" }, "basisRecordIds": { "minItems": 2 } } } },
+          { "if": { "properties": { "relationType": { "const": "co_occurrence" } }, "required": ["relationType"] }, "then": { "required": ["basisRecordIds"], "properties": { "basis": { "const": "record_times" }, "basisRecordIds": { "minItems": 2 } } } },
+          { "if": { "properties": { "relationType": { "const": "person_reported_link" } }, "required": ["relationType"] }, "then": { "required": ["basisRecordIds"], "properties": { "basis": { "const": "person_report" }, "basisRecordIds": { "minItems": 1 } } } },
+          { "if": { "properties": { "relationType": { "const": "literature_mechanism" } }, "required": ["relationType"] }, "then": { "required": ["evidenceClaimIds"], "properties": { "basis": { "const": "cited_evidence" }, "evidenceClaimIds": { "minItems": 1 } } } },
+          { "if": { "properties": { "relationType": { "const": "model_hypothesis" } }, "required": ["relationType"] }, "then": { "required": ["basisRecordIds"], "properties": { "basis": { "const": "explicit_hypothesis" }, "basisRecordIds": { "minItems": 1 } } } },
+          { "if": { "properties": { "relationType": { "const": "reappraisal" } }, "required": ["relationType"] }, "then": { "required": ["basisRecordIds"], "properties": { "basis": { "const": "person_report" }, "basisRecordIds": { "minItems": 1 } } } }
+        ]
+      }
+    },
+    "privacy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["sensitivity", "subjectControlled", "sharing"],
+      "properties": {
+        "sensitivity": { "enum": ["personal", "sensitive", "highly_sensitive"] },
+        "subjectControlled": { "const": true },
+        "sharing": { "enum": ["private", "explicitly_shared"] }
+      }
+    },
+    "limitations": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 }
+  }
+}

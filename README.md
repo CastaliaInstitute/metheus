@@ -33,6 +33,10 @@ The [candidate endocrine-relations catalog](catalog/endocrine-relations.json) de
 
 See [Metheus as a systems model](docs/systems-model.md) for the intended architecture: a stable symbolic map in conversation with physiology, development, circadian and feeding rhythms, relationships, circumstances, and observations that change over time.
 
+See [Perception, stress, emotion, and suffering](docs/perception-stress-pathway.md) for a provisional, branching map that separates subjective appraisal and feeling from physiology, behavior, and later meaning.
+
+The [synthetic experience-pathway example](examples/experience-pathway-synthetic.example.json) demonstrates the draft graph contract at [experience-pathway.schema.json](schema/experience-pathway.schema.json); nodes refer to separately sourced observations, and relation types distinguish personal reports from timing overlap.
+
 See the [Methean model core specification](docs/model-core-spec.md) for the computational boundary between symbolic prompts, source observations, descriptive features, latent-state estimates, and readings, including typed relation classes and maturity gates for future inference.
 
 See the [critical review](docs/critical-review.md) for the current implementation limits, unresolved architecture and validation gaps, and a prioritized path toward an end-to-end Metheus prototype.

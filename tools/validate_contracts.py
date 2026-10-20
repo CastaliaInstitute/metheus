@@ -29,6 +29,7 @@ EXAMPLE_SCHEMAS = {
     "bleeding-onset-correction.example.json": "observation.schema.json",
     "consent-grant.example.json": "consent.schema.json",
     "development-context-infant.example.json": "observation.schema.json",
+    "experience-pathway-synthetic.example.json": "experience-pathway.schema.json",
     "learner-feedback.example.json": "observation.schema.json",
     "learning-activity.example.json": "observation.schema.json",
     "learning-reading.example.json": "reading.schema.json",
@@ -112,6 +113,25 @@ def main() -> int:
         for error in sorted(validator.iter_errors(instance), key=lambda item: tuple(map(str, item.absolute_path))):
             location = "/".join(str(part) for part in error.absolute_path) or "$"
             errors.append(f"examples/{filename} at {location}: {error.message}")
+        if filename == "experience-pathway-synthetic.example.json" and isinstance(instance, dict):
+            nodes = instance.get("nodes", [])
+            relations = instance.get("relations", [])
+            nodes = nodes if isinstance(nodes, list) else []
+            relations = relations if isinstance(relations, list) else []
+            node_ids = [node.get("nodeId") for node in nodes if isinstance(node, dict) and isinstance(node.get("nodeId"), str)]
+            relation_ids = [relation.get("relationId") for relation in relations if isinstance(relation, dict) and isinstance(relation.get("relationId"), str)]
+            if len(node_ids) != len(set(node_ids)):
+                errors.append(f"examples/{filename}: duplicate pathway node IDs")
+            if len(relation_ids) != len(set(relation_ids)):
+                errors.append(f"examples/{filename}: duplicate pathway relation IDs")
+            known_node_ids = set(node_ids)
+            for index, relation in enumerate(relations):
+                if not isinstance(relation, dict):
+                    continue
+                for endpoint in ("fromNodeId", "toNodeId"):
+                    endpoint_id = relation.get(endpoint)
+                    if not isinstance(endpoint_id, str) or endpoint_id not in known_node_ids:
+                        errors.append(f"examples/{filename} at relations/{index}/{endpoint}: unresolved pathway node")
 
     actual_catalogs = {path.name for path in CATALOG_DIR.glob("*.json")} if CATALOG_DIR.exists() else set()
     mapped_catalogs = set(CATALOG_SCHEMAS)

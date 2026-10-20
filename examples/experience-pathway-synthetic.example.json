@@ -1,0 +1,43 @@
+{
+  "id": "synthetic-experience-pathway",
+  "subjectId": "synthetic-subject",
+  "schemaVersion": "0.1",
+  "modelVersion": "reflective-experience-pathway/0.1.0",
+  "dataStatus": "synthetic_fixture",
+  "window": {
+    "start": "2026-10-20T14:00:00-06:00",
+    "end": "2026-10-20T15:30:00-06:00",
+    "timeZone": "America/Denver",
+    "precision": "approximate"
+  },
+  "nodes": [
+    { "nodeId": "cue", "construct": "noticed_cue", "epistemicKind": "person_reported", "label": "A comment was experienced as dismissive", "basisRecordIds": ["synthetic-record-cue"] },
+    { "nodeId": "appraisal", "construct": "appraisal", "epistemicKind": "person_reported", "label": "The person interpreted it as unfair", "basisRecordIds": ["synthetic-record-appraisal"] },
+    { "nodeId": "stress", "construct": "perceived_stress", "epistemicKind": "person_reported", "label": "The person described feeling stressed", "basisRecordIds": ["synthetic-record-stress"] },
+    { "nodeId": "anxiety", "construct": "emotion", "epistemicKind": "person_reported", "label": "Anxiety", "basisRecordIds": ["synthetic-record-anxiety"] },
+    { "nodeId": "anger", "construct": "emotion", "epistemicKind": "person_reported", "label": "Anger", "basisRecordIds": ["synthetic-record-anger"] },
+    { "nodeId": "hostility", "construct": "hostile_orientation", "epistemicKind": "person_reported", "label": "The person used the word hate for a later judgment", "basisRecordIds": ["synthetic-record-hostility"] },
+    { "nodeId": "suffering", "construct": "suffering", "epistemicKind": "person_reported", "label": "The episode felt burdensome", "basisRecordIds": ["synthetic-record-suffering"] },
+    { "nodeId": "arousal", "construct": "measured_response", "epistemicKind": "measured", "label": "Synthetic heart-rate observation", "basisRecordIds": ["synthetic-record-heart-rate"] },
+    { "nodeId": "reflection", "construct": "reappraisal", "epistemicKind": "person_reported", "label": "A later reflection changed how the interaction was understood", "basisRecordIds": ["synthetic-record-reflection"] }
+  ],
+  "relations": [
+    { "relationId": "cue-appraisal", "fromNodeId": "cue", "toNodeId": "appraisal", "relationType": "person_reported_link", "basis": "person_report", "basisRecordIds": ["synthetic-record-appraisal"], "uncertainty": "unknown" },
+    { "relationId": "appraisal-stress", "fromNodeId": "appraisal", "toNodeId": "stress", "relationType": "person_reported_link", "basis": "person_report", "basisRecordIds": ["synthetic-record-stress"], "uncertainty": "unknown" },
+    { "relationId": "stress-anxiety", "fromNodeId": "stress", "toNodeId": "anxiety", "relationType": "person_reported_link", "basis": "person_report", "basisRecordIds": ["synthetic-record-anxiety"], "uncertainty": "unknown" },
+    { "relationId": "appraisal-anxiety", "fromNodeId": "appraisal", "toNodeId": "anxiety", "relationType": "person_reported_link", "basis": "person_report", "basisRecordIds": ["synthetic-record-anxiety"], "uncertainty": "unknown" },
+    { "relationId": "appraisal-anger", "fromNodeId": "appraisal", "toNodeId": "anger", "relationType": "person_reported_link", "basis": "person_report", "basisRecordIds": ["synthetic-record-anger"], "uncertainty": "unknown" },
+    { "relationId": "anger-hostility", "fromNodeId": "anger", "toNodeId": "hostility", "relationType": "person_reported_link", "basis": "person_report", "basisRecordIds": ["synthetic-record-hostility"], "uncertainty": "unknown", "notes": "This is one synthetic person's reported link, not an expected transition." },
+    { "relationId": "hostility-suffering", "fromNodeId": "hostility", "toNodeId": "suffering", "relationType": "person_reported_link", "basis": "person_report", "basisRecordIds": ["synthetic-record-suffering"], "uncertainty": "unknown" },
+    { "relationId": "anxiety-suffering", "fromNodeId": "anxiety", "toNodeId": "suffering", "relationType": "person_reported_link", "basis": "person_report", "basisRecordIds": ["synthetic-record-suffering"], "uncertainty": "unknown", "notes": "Suffering can be reported without a hate or anger node." },
+    { "relationId": "appraisal-arousal-hypothesis", "fromNodeId": "appraisal", "toNodeId": "arousal", "relationType": "model_hypothesis", "basis": "explicit_hypothesis", "basisRecordIds": ["synthetic-record-appraisal", "synthetic-record-heart-rate"], "uncertainty": "unknown", "notes": "Illustrative question only; this fixture contains no measured association." },
+    { "relationId": "reflection-reappraisal", "fromNodeId": "reflection", "toNodeId": "appraisal", "relationType": "reappraisal", "basis": "person_report", "basisRecordIds": ["synthetic-record-reflection"], "uncertainty": "unknown" }
+  ],
+  "privacy": { "sensitivity": "highly_sensitive", "subjectControlled": true, "sharing": "private" },
+  "limitations": [
+    "Entire object is a synthetic schema fixture; IDs do not refer to real source records.",
+    "Relations demonstrate one possible reported pathway, not a universal chain, diagnosis, mechanism, or causal finding.",
+    "The heart-rate observation does not measure stress, anxiety, anger, hate, or suffering.",
+    "The current repository has no runtime pathway builder or process-relations analyzer."
+  ]
+}
