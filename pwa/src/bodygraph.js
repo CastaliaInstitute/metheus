@@ -123,6 +123,8 @@ export async function mountBodygraph() {
 
   function renderCorrespondences() {
     clearCorrespondences();
+    const list = $('#gate-correspondence-list');
+    list.replaceChildren();
     const byGate = new Map(gateCorrespondences.map((item) => [item.sourceFeature.id, item]));
     for (const [gateId, item] of byGate) {
       const target = targets.find((entry) => entry.kind === 'gate' && entry.id === gateId);
@@ -146,7 +148,31 @@ export async function mountBodygraph() {
       sprite.position.set(x + 30, y + (y > 0 ? -12 : 12), 3);
       sprite.scale.set(104, 14.6, 1);
       correspondenceGroup.add(sprite);
+
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.dataset.correspondenceId = item.id;
+      button.textContent = `${item.sourceFeature.label} → ${item.targetConcept.label} · source-attributed; select for details`;
+      list.append(button);
     }
+  }
+
+  function displayCorrespondence(item) {
+    if (!item) return;
+    const citation = item.sourceCitations[0];
+    detail.replaceChildren();
+    const summary = document.createElement('span');
+    summary.textContent = `${item.sourceFeature.label} → ${item.targetConcept.label}. ${item.claimText} `;
+    detail.append(summary);
+    const link = document.createElement('a');
+    link.href = citation.url;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.textContent = `${citation.title} · ${citation.locator || 'Source'}`;
+    detail.append(link);
+    const limitations = document.createElement('span');
+    limitations.textContent = ` Limits: ${item.limitations.join(' ')}`;
+    detail.append(limitations);
   }
 
   async function loadCorrespondences() {
@@ -273,6 +299,7 @@ export async function mountBodygraph() {
     modeEndocrine.classList.toggle('is-selected', endocrine);
     modeEndocrine.setAttribute('aria-pressed', String(endocrine));
     endocrineControls.hidden = !endocrine;
+    $('#gate-correspondence-list').hidden = !correspondence;
     search.hidden = endocrine || correspondence;
     $('#bodygraph-clear').hidden = endocrine || correspondence;
     boundary.textContent = endocrine
@@ -289,6 +316,12 @@ export async function mountBodygraph() {
   modeCorrespondence.addEventListener('click', () => setMapMode('correspondence'));
   modeEndocrine.addEventListener('click', () => setMapMode('endocrine'));
   filter.addEventListener('change', renderEndocrine);
+  $('#gate-correspondence-list').addEventListener('click', (event) => {
+    const button = event.target.closest('[data-correspondence-id]');
+    if (!button) return;
+    const item = gateCorrespondences.find((entry) => entry.id === button.dataset.correspondenceId);
+    displayCorrespondence(item);
+  });
 
   const targets = [];
   for (const gateNode of source.querySelectorAll('.gate[data-gate]')) {
@@ -480,21 +513,7 @@ export async function mountBodygraph() {
     const marker = raycaster.intersectObjects(correspondenceGroup.children.filter((object) => object.userData.gateId))[0]?.object;
     if (!marker) return;
     const item = gateCorrespondences.find((entry) => entry.sourceFeature.id === marker.userData.gateId);
-    if (!item) return;
-    const citation = item.sourceCitations[0];
-    detail.replaceChildren();
-    const summary = document.createElement('span');
-    summary.textContent = `${item.sourceFeature.label} → ${item.targetConcept.label}. ${item.claimText} `;
-    detail.append(summary);
-    const link = document.createElement('a');
-    link.href = citation.url;
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-    link.textContent = `${citation.title} · ${citation.locator || 'Source'}`;
-    detail.append(link);
-    const limitations = document.createElement('span');
-    limitations.textContent = ` Limits: ${item.limitations.join(' ')}`;
-    detail.append(limitations);
+    displayCorrespondence(item);
   }
   canvas.addEventListener('pointerdown', (event) => { down = { x: event.clientX, y: event.clientY }; });
   canvas.addEventListener('pointerup', (event) => {
