@@ -31,7 +31,7 @@ These labels are not a quality score. A domain may have a useful schema and no v
 | Relationships and intimacy | Optional single-subject reports and reflections | Observation and consent domains | Reading preflight preserves selected records; no inference about a partner | No | No multi-party record or shared consent service |
 | Evidence and symbolic crosswalks | Source-attributed evidence claims and symbolic correspondences | Evidence-claim and correspondence schemas, candidate-only measurement-boundary catalog, and written review protocol | In-memory eligibility and reference checks; candidate claims remain internal and under review | No Metheus-reviewed evidence claims; protocol has not been executed | No authenticated reviewer, audit, expiry, or trusted catalog service |
 | Methean computational core | Separate symbolic map, lived records, descriptive features, optional future latent estimates, and readings | Model core specification, typed relation classes, and M0–M4 maturity gates | No general state-transition, latent-state, association, or causal model; selected descriptive operations only | No validated physiology, development, or cross-layer model | No user-data application or model-serving service |
-| Reading assembly | Typed claims that combine selected records and optional symbolic prompts | Input and assembled-reading schemas | In-memory consent/index preflight, provenance checks, schema-validated deterministic package assembly | No sentence-level entailment or text quality evaluation | No generated-reading service |
+| Reading assembly and presentation | Atomic typed claims that combine selected records and optional symbolic prompts | Input and assembled-reading schemas | In-memory consent/index preflight, provenance checks, deterministic package assembly, and escaped HTML presentation of the validated package | No sentence-boundary enforcement, entailment verification, or text quality evaluation | No generated-reading service, authenticated user flow, or storage boundary |
 | Privacy, authorization, and data lifecycle | Minimization, scoped consent, child stewardship, intimacy boundaries | Consent and subject-index contracts; design documents | Caller-supplied in-memory decisions and same-subject revision resolution for rhythm summaries | Not applicable | No authentication, persistent storage, encryption, audit, deletion, or access-control service |
 
 ## What the system may say today
@@ -41,7 +41,7 @@ The runtime may describe the records it receives and the four timing summaries l
 ## Development order
 
 1. Add focused behavioral assurance for authorization, revision chains, temporal edge cases, and provenance invariants before expanding real-data collection.
-2. Complete the synthetic end-to-end reading path, including source-rendered presentation and review of sentence-level attribution.
+2. The synthetic path now includes a source-rendered HTML presenter; review claim-to-source attribution and rendering behavior before expanding it beyond synthetic use.
 3. Establish a governed, source-reviewed evidence catalog with explicit reviewer roles, conflict handling, and re-review dates.
 4. Evaluate any proposed physiology or development model against suitable reference data and diverse populations; document calibration, uncertainty, exclusions, and failure cases before calling it validated.
 5. Design privacy/security/storage and device/lab integrations only with operational threat, consent, retention, deletion, correction, and audit controls.

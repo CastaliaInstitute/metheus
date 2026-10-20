@@ -47,6 +47,16 @@ Before presentation, `validate_reading_references` can check that selected input
 
 `assemble_reading` is the first deterministic output step: it runs the subject-index and consent preflight, then assembles the supplied claims in their authored order with their resolved subject source IDs, phase metadata, general-reference citations, support fields, and limitations. It validates the presentation package against a distinct [assembled-reading schema](../schema/assembled-reading.schema.json), with a [synthetic output fixture](../examples/assembled-reading.example.json). Schema validation checks structure, not whether a sentence is entailed by its sources. The function does not write or generate claim text, and its `assembly` metadata states these limits explicitly. The result is therefore a provenance-carrying rendering package for synthetic/prototype use, not a complete or production reading engine. See [`examples/symbolic-map-reading.example.json`](../examples/symbolic-map-reading.example.json) for the synthetic input shape.
 
+`render_assembled_reading_html` takes that assembled package and returns a self-contained HTML string. It revalidates the output schema, HTML-escapes supplied text, presents claim types and support/coverage, and places resolved record IDs, phase context, general citations, alternatives, and limitations in disclosure sections. Citation URLs are shown as text, not active links. The renderer neither changes nor verifies authored claims and does not write or persist the returned HTML; the caller controls where it is displayed or saved. It does not authenticate a package or re-check consent/cross-object references, so pass it only the direct result of a successful `assemble_reading` call.
+
+```python
+from metheus import assemble_reading, render_assembled_reading_html
+
+package = assemble_reading(reading, subject_index, resources, grants)
+if package.get("assembled"):
+    document = render_assembled_reading_html(package)
+```
+
 ## Construction sequence
 
 ### 1. Establish scope

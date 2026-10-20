@@ -650,7 +650,7 @@ def assemble_reading(
 ) -> dict[str, Any]:
     """Assemble an authorized reading into typed, provenance-carrying claims.
 
-    This deterministic renderer preserves supplied claim text; it does not
+    This deterministic assembler preserves supplied claim text; it does not
     generate or verify that text. Input contracts are schema-validated during
     preflight and the assembled package is checked against its output schema.
     The result is still an in-memory prototype, not a storage authorization
