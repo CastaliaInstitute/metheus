@@ -309,6 +309,54 @@ Rather than treating the list as one trackable stream, organize it by what a per
 
 Hormone results may vary with sampling time, pulsatile secretion, menstrual or reproductive stage, age, medications, illness, sleep, food intake, assay method, and binding proteins. A wearable proxy cannot establish a hormone concentration. Metheus should never use these data to diagnose, predict fertility, infer consent or desire, or assign personality.
 
+## 15. What regulates or stimulates hormone release?
+
+Hormones are generally regulated by networks, not isolated “boost” triggers. The same cue can increase one signal and inhibit another; feedback from the target gland, target-organ response, time of day, pulse timing, and life stage all matter. The table gives common physiological controls, not a self-treatment guide.
+
+| Hormone or system | Main upstream regulators / release cues | Feedback or important context |
+|---|---|---|
+| **TRH → TSH → T4/T3** | Hypothalamic TRH stimulates pituitary TSH; TSH stimulates thyroid synthesis/release. Cold exposure can affect the axis, especially in early life. | T4/T3 feed back to reduce TRH and TSH. Iodine availability is required for thyroid hormone synthesis; it is a substrate, not a “thyroid booster.” |
+| **CRH → ACTH → cortisol** | Circadian clock and wake timing regulate CRH/ACTH; physical or psychological stressors can activate the axis. ACTH stimulates adrenal cortisol synthesis. | Cortisol feeds back at pituitary and hypothalamus. Secretion is pulsatile and time-dependent; one reading cannot represent the whole axis. |
+| **Sympathetic drive → epinephrine / norepinephrine** | Acute sympathetic activation, including exertion, threat, pain, hypoglycemia, and other demands, stimulates adrenal medulla secretion and nerve release. | These catecholamines also act as neurotransmitters. A pulse or HRV change cannot identify a specific catecholamine level. |
+| **Renin → angiotensin II → aldosterone** | Reduced renal perfusion/pressure, reduced sodium chloride delivery to macula densa, and sympathetic β1 input stimulate renin; angiotensin II and elevated potassium stimulate aldosterone. | Sodium, potassium, kidney function, posture, medications, and volume status alter the system. Aldosterone feeds into sodium/potassium and volume regulation. |
+| **GnRH → LH/FSH → gonadal steroids** | GnRH pulse pattern regulates LH and FSH. Kisspeptin/KNDy networks and gonadal feedback shape GnRH pulses. Puberty, energy availability, stress, pregnancy, lactation, and life stage alter the axis. | Estradiol, progesterone, testosterone, inhibins, and activins feed back at hypothalamus/pituitary. This is not a simple linear cycle; timing and pulse pattern matter. |
+| **Estradiol, progesterone, testosterone, DHT** | Production is stimulated by LH/FSH in gonads, with tissue-specific steroid-enzyme pathways and precursor supply; pregnancy adds placental production. | Levels change with gonadal function, age, cycle/life stage, medications, binding proteins, and conversion in tissues. Peripheral production means “source” is not one gland alone. |
+| **Inhibin / activin / follistatin** | Gonadotropin signaling and gonadal/placental cell activity regulate production; activin stimulates FSH synthesis, while inhibin suppresses it; follistatin binds activin. | Effects depend on local tissue concentrations and binding; measured blood levels do not directly represent local signaling. |
+| **AMH** | Secreted by ovarian granulosa cells of growing follicles and Sertoli cells in testes; production depends on gonadal cell population and developmental/life stage. | It is not a moment-to-moment cycle trigger and should not be interpreted as a direct countdown to fertility or menopause. |
+| **Prolactin** | Suckling and nipple stimulation, pregnancy, sleep, and estrogen can increase release; hypothalamic dopamine tonically inhibits it. | Stress, medications, thyroid status, and sampling conditions can affect levels. A “high prolactin” impression cannot be inferred from mood or behavior. |
+| **Oxytocin** | Cervical/uterine stretch and suckling stimulate peripheral release through positive-feedback reflexes; touch and social/sensory contexts can influence central/peripheral oxytocin signaling. | Central and blood oxytocin are not interchangeable measures. Effects vary with context; touch or intimacy does not prove a particular level or emotional state. |
+| **Vasopressin / ADH** | Increased plasma osmolality and reduced effective circulating volume stimulate release; nausea and other physiological inputs can also be potent. | Water intake, kidney response, osmolality, medications, and illness matter. This is not the same as “stress hormone.” |
+| **GH → IGF-I** | GHRH stimulates and somatostatin inhibits GH; ghrelin can stimulate. GH release is pulsatile and associated with deep sleep; exercise and fasting can affect pulses. GH stimulates hepatic and local IGF-I production. | Age, puberty, nutrition, sleep architecture, sex steroids, and illness shape the axis; a consumer sleep score cannot measure GH. |
+| **Melatonin** | Darkness permits pineal melatonin production through the circadian system; light at night suppresses it. | Timing is more central than a generic “amount.” Circadian phase, light exposure, age, and some medicines matter. It signals biological night; it does not itself guarantee sleep. |
+| **Insulin** | Rising blood glucose after meals stimulates β-cell secretion; amino acids, incretins (GLP-1/GIP), and vagal input also contribute. | Glucose, meal composition, activity, insulin sensitivity, medications, and counter-regulatory signals interact. |
+| **Glucagon** | Low glucose, amino acids, and autonomic inputs stimulate α-cell secretion; insulin and somatostatin inhibit it. | The response differs with meals, fasting, exercise, diabetes, and medication. |
+| **Amylin** | Co-secreted with insulin from pancreatic β cells, especially in response to meals/glucose. | Its level tracks β-cell secretion context; it is not a standalone fullness switch. |
+| **Ghrelin** | Often rises before meals and during fasting; meal intake suppresses it. Sleep, energy balance, and stomach signals influence release. | Hunger is multi-signal and context-dependent; ghrelin alone does not explain appetite or food choice. |
+| **GIP / GLP-1** | Nutrients in the gut after eating stimulate K cells (GIP) and L cells (GLP-1); neural and bile-acid signals contribute. | These incretins enhance glucose-dependent insulin secretion; effects depend on glucose and physiological state. |
+| **CCK / secretin / gastrin / motilin** | CCK responds to fats and amino acids in small intestine; secretin to acid entering duodenum; gastrin to peptides, distension, and vagal/GRP input; motilin cycles during fasting between meals. | Gut hormones operate with enteric nerves, local mediators, and meal state; they do not reduce to single food cravings or moods. |
+| **PYY / oxyntomodulin / GLP-2** | Nutrients entering distal gut stimulate L-cell release; neural and gut transit signals modulate responses. | Meal size, composition, transit, and individual physiology affect patterns. |
+| **Leptin / adiponectin** | Leptin broadly reflects energy stores and is affected by feeding, fasting, and inflammation; adiponectin release relates to adipose tissue function and metabolic context. | These are not immediate “fullness” switches. Levels and responses vary with body composition, sex steroids, inflammation, and metabolic health. |
+| **FGF21** | Fasting, ketogenic state, protein restriction, and metabolic stress can stimulate FGF21 in particular tissues; regulation differs by tissue and species. | Human physiological effects and measurement interpretation are still an active area; avoid turning dietary states into a recommendation. |
+| **PTH / calcitriol / FGF23** | Low ionized calcium stimulates PTH; PTH stimulates renal calcitriol production. Phosphate and vitamin D status regulate FGF23, largely from bone. | Calcium, phosphate, kidney function, vitamin D, and feedback loops jointly regulate the system. |
+| **Calcitonin** | Elevated blood calcium stimulates thyroid C-cell secretion. | Its role in routine adult calcium homeostasis is more limited than popular summaries imply. |
+| **EPO** | Reduced oxygen delivery to kidney tissue stimulates erythropoietin production. | Anemia, altitude, kidney function, and oxygenation affect levels; altitude is not a safe or universal “hormone hack.” |
+| **ANP / BNP** | Stretch of cardiac chambers with increased filling/volume stimulates natriuretic peptide release. | Kidney function, cardiac structure, age, and volume status affect measured concentrations. |
+| **Erythropoietin, TPO, and immune cytokines** | Blood-cell demand, oxygen status, inflammatory signals, and bone marrow feedback regulate these systems. | They are regulated by tissue need and complex immune/bone-marrow networks, not ordinary wellness cues. |
+| **Oxytocin, prolactin, reproductive hormones and intimacy** | Sensory and relational events may coincide with changes in neural, autonomic, and endocrine signaling, but effects are highly context-dependent and not reliably inferable from an event log. | Personal notes can support reflection about an individual's experience; they cannot establish hormone levels, causal effects, desire, consent, or another person's state. |
+
+### Everyday cues are context, not hormone controls
+
+- **Light and darkness** are strong timing cues for melatonin and circadian organization; they affect more than one hormone system.
+- **Sleep timing and sleep stages** shape several hormonal rhythms, including GH and prolactin; sleep is not a direct assay of either.
+- **Meals, fasting, and nutrient composition** influence insulin, glucagon, incretins, ghrelin, and other gut signals.
+- **Movement, exertion, and recovery** can alter catecholamines and pulses of GH and other signals; response depends on intensity, timing, fitness, food, sleep, and health.
+- **Stressors** can recruit HPA and sympathetic systems, but subjective stress is not a cortisol measurement.
+- **Touch, suckling, and reproductive events** can engage oxytocin/prolactin reflexes; emotional meanings cannot be read from those hormones alone.
+- **Hydration, salt balance, blood pressure, and kidney function** influence vasopressin and renin-angiotensin-aldosterone regulation.
+- **Pregnancy, postpartum life, lactation, puberty, aging, and menopause** reorganize endocrine baselines and feedback loops; they should be represented as context the person provides, not assumed from identity.
+
+Do not frame foods, supplements, sexual activity, exercise, or light exposure as ways to “hack” hormones in a general reading. In people with a medical condition or medication regimen, intentional hormone manipulation belongs with a qualified clinician.
+
 ## Sources and further reading
 
 - [MedlinePlus: Hormones](https://medlineplus.gov/hormones.html) — accessible overview and common clinical hormone tests.
@@ -323,5 +371,7 @@ Hormone results may vary with sampling time, pulsatile secretion, menstrual or r
 - [Endotext: Calcium and Phosphate Homeostasis](https://www.ncbi.nlm.nih.gov/books/NBK279023/) — PTH, FGF23, calcitonin, and vitamin D signaling.
 - [Endotext: Neuroendocrine Control of Energy Homeostasis](https://www.ncbi.nlm.nih.gov/books/NBK570658/) — peripheral energy-status signals and hypothalamic integration.
 - [Circadian Clock Control of Endocrine Factors](https://pmc.ncbi.nlm.nih.gov/articles/PMC4304769/) — daily variation across endocrine systems.
+- [Endotext: The Pituitary Gland](https://www.ncbi.nlm.nih.gov/books/NBK27/) — releasing/inhibiting inputs and pituitary secretion patterns.
+- [NCBI Bookshelf: Endocrine System: Hormones and Regulation](https://www.ncbi.nlm.nih.gov/books/NBK613062/) — overview of hypothalamic-pituitary and peripheral regulation.
 
 This reference is an educational starting point, not medical advice. It should be reviewed by an endocrinologist or other qualified subject-matter expert before driving product claims or individual recommendations.
