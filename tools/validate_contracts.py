@@ -119,6 +119,77 @@ SVG_CENTER_IDS = {
 }
 
 
+
+def validate_correspondence_source_register(catalog: Any) -> list[str]:
+    errors: list[str] = []
+    if not isinstance(catalog, dict):
+        return errors
+    correspondences = catalog.get("correspondences")
+    sources = catalog.get("sourceRegister")
+    if not isinstance(correspondences, list) or not isinstance(sources, list):
+        return errors
+    entries = {item.get("id"): item for item in correspondences if isinstance(item, dict) and isinstance(item.get("id"), str)}
+    def string_set(value: Any) -> set[str]:
+        return {item for item in value if isinstance(item, str)} if isinstance(value, list) else set()
+
+    seen_source_ids: set[str] = set()
+    registered_entries: dict[str, str] = {}
+    for source_index, source in enumerate(sources):
+        if not isinstance(source, dict):
+            continue
+        source_id = source.get("id")
+        path = f"catalog/gate-endocrine-correspondences.json at sourceRegister/{source_index}"
+        if isinstance(source_id, str):
+            if source_id in seen_source_ids:
+                errors.append(f"{path}/id: duplicate source ID {source_id}")
+            seen_source_ids.add(source_id)
+        included_ids = source.get("includedEntryIds", [])
+        if not isinstance(included_ids, list):
+            continue
+        included_gates: set[str] = set()
+        for entry_id in included_ids:
+            if not isinstance(entry_id, str):
+                continue
+            if entry_id in registered_entries:
+                errors.append(f"{path}/includedEntryIds: entry {entry_id} is registered more than once")
+            registered_entries[entry_id] = source_id if isinstance(source_id, str) else "<unknown>"
+            entry = entries.get(entry_id)
+            if entry is None:
+                errors.append(f"{path}/includedEntryIds: unresolved correspondence {entry_id}")
+                continue
+            source_system = entry.get("sourceSystem")
+            source_system = source_system if isinstance(source_system, dict) else {}
+            if source_system.get("lineage") != source.get("lineage"):
+                errors.append(f"{path}/lineage: does not match correspondence {entry_id}")
+            feature = entry.get("sourceFeature")
+            feature = feature if isinstance(feature, dict) else {}
+            gate_id = feature.get("id")
+            if feature.get("kind") != "gate" or not isinstance(gate_id, str):
+                errors.append(f"{path}/includedEntryIds: correspondence {entry_id} is not a gate entry")
+                continue
+            included_gates.add(gate_id)
+            if gate_id not in string_set(source.get("coveredGateIds")):
+                errors.append(f"{path}/coveredGateIds: does not cover correspondence gate {gate_id}")
+            prefix = source.get("citationUrlPrefix")
+            citations = entry.get("sourceCitations", [])
+            if isinstance(prefix, str) and not any(
+                isinstance(citation, dict) and isinstance(citation.get("url"), str) and citation["url"].startswith(prefix)
+                for citation in citations
+            ):
+                errors.append(f"{path}/citationUrlPrefix: no source citation for correspondence {entry_id} matches the registered source")
+        declared_gates = string_set(source.get("includedGateIds"))
+        if included_gates != declared_gates:
+            errors.append(f"{path}/includedGateIds: does not match gates in includedEntryIds")
+        covered_gates = string_set(source.get("coveredGateIds"))
+        excluded_gates = string_set(source.get("excludedGateIds"))
+        if declared_gates & excluded_gates or declared_gates | excluded_gates != covered_gates:
+            errors.append(f"{path}: included and excluded gates must partition coveredGateIds")
+    for entry_id in entries:
+        if entry_id not in registered_entries:
+            errors.append(f"catalog/gate-endocrine-correspondences.json: correspondence {entry_id} is absent from sourceRegister")
+    return errors
+
+
 def validate_bodygraph_topology(catalog: Any) -> list[str]:
     """Check graph integrity beyond what JSON Schema can express."""
     if not isinstance(catalog, dict):
@@ -374,6 +445,8 @@ def main() -> int:
             errors.append(f"catalog/{filename} at {location}: {error.message}")
         if filename == "human-design-bodygraph-topology.json":
             errors.extend(validate_bodygraph_topology(catalog))
+        if filename == "gate-endocrine-correspondences.json":
+            errors.extend(validate_correspondence_source_register(catalog))
         item_schema_mapping = CATALOG_ITEM_SCHEMAS.get(filename)
         if item_schema_mapping is not None and isinstance(catalog, dict):
             collection_key, item_schema_filename = item_schema_mapping

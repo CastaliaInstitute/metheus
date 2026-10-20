@@ -4,15 +4,127 @@
   "title": "Metheus source-attributed correspondence catalog",
   "type": "object",
   "additionalProperties": false,
-  "required": ["$schema", "catalogVersion", "catalogStatus", "policy", "correspondences"],
+  "required": [
+    "$schema",
+    "catalogVersion",
+    "catalogStatus",
+    "policy",
+    "correspondences",
+    "sourceRegister"
+  ],
   "properties": {
-    "$schema": { "type": "string" },
-    "catalogVersion": { "type": "string", "minLength": 1 },
-    "catalogStatus": { "enum": ["source_attributed", "candidate_only"] },
-    "policy": { "type": "string", "minLength": 1 },
+    "$schema": {
+      "type": "string"
+    },
+    "catalogVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "catalogStatus": {
+      "enum": [
+        "source_attributed",
+        "candidate_only"
+      ]
+    },
+    "policy": {
+      "type": "string",
+      "minLength": 1
+    },
     "correspondences": {
       "type": "array",
-      "items": { "$ref": "correspondence.schema.json" }
+      "items": {
+        "$ref": "correspondence.schema.json"
+      }
+    },
+    "sourceRegister": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title",
+          "lineage",
+          "citationUrlPrefix",
+          "sourceScope",
+          "coveredGateIds",
+          "includedGateIds",
+          "includedEntryIds",
+          "excludedGateIds",
+          "reviewStatus",
+          "limitations"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "lineage": {
+            "type": "string",
+            "minLength": 1
+          },
+          "citationUrlPrefix": {
+            "type": "string",
+            "format": "uri"
+          },
+          "sourceScope": {
+            "type": "string",
+            "minLength": 1
+          },
+          "coveredGateIds": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^(?:[1-9]|[1-5][0-9]|6[0-4])$"
+            }
+          },
+          "includedGateIds": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^(?:[1-9]|[1-5][0-9]|6[0-4])$"
+            }
+          },
+          "includedEntryIds": {
+            "type": "array",
+            "uniqueItems": true,
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "excludedGateIds": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^(?:[1-9]|[1-5][0-9]|6[0-4])$"
+            }
+          },
+          "reviewStatus": {
+            "enum": [
+              "not_independently_reviewed",
+              "independently_reviewed"
+            ]
+          },
+          "limitations": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          }
+        }
+      }
     }
   }
 }
