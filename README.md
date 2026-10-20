@@ -41,6 +41,8 @@ See [Measurement landscape](docs/measurement-landscape.md) for a modality-by-mod
 
 See [Rhythm system model](docs/rhythm-system.md) for how circadian, sleep/wake, eating/feeding, activity, reproductive, developmental, and social rhythms may be represented and compared over time.
 
+See [Promethean and Epimethean phase names](docs/phase-naming-framework.md) for optional evocative labels paired with canonical phase terms, timing, evidence basis, and uncertainty. The draft [phase annotation schema](schema/phase-annotation.schema.json) keeps symbolic transit labels separate from lived-cycle and life-stage context.
+
 See [Promethean–Epimethean bridge](docs/promethean-epimethean-bridge.md) for a source-attributed way to place gates, channels, centers, chakra traditions, and lived physiology in conversation without conflating symbolism with endocrine mechanisms. The draft [correspondence schema](schema/correspondence.schema.json) keeps these crosswalks distinct from measured observations.
 
 See the [evidence-claim model](docs/evidence-claim-model.md) and [scoped evidence-claim schema](schema/evidence-claim.schema.json) for separately sourced biomedical, measurement-validity, intervention, and developmental claims. General scientific evidence does not turn a symbolic correspondence into a biological finding.
