@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 const SVG_URL = '/chat/bodygraph-reference.svg?v=2';
-const ENDOCRINE_URL = '/chat/endocrine-relations.json?v=0.2.3';
+const ENDOCRINE_URL = '/chat/endocrine-relations.json?v=0.3.0';
 const CORRESPONDENCE_URL = '/chat/gate-endocrine-correspondences.json?v=0.4.0';
 const $ = (selector) => document.querySelector(selector);
 
@@ -110,9 +110,9 @@ export async function mountBodygraph() {
   const endocrineDomainLabels = {
     hpt: 'Thyroid regulation', hpa: 'Stress-axis regulation', hpg: 'Reproductive-axis regulation',
     circadian: 'Circadian regulation', glucose: 'Glucose regulation', gut: 'Gut-incretin signaling',
-    reproductive: 'Reproductive-cycle regulation',
+    reproductive: 'Reproductive-cycle regulation', organ_context: 'Organ-to-signal context',
   };
-  const colorsByType = { hormone: 0x75c8be, process: 0xf0b66d, hormone_group: 0xd99fc8, receptor: 0x9eacd8 };
+  const colorsByType = { hormone: 0x75c8be, process: 0xf0b66d, hormone_group: 0xd99fc8, receptor: 0x9eacd8, gland: 0xc990ac, organ: 0x8caad4, tissue: 0xd0b271 };
 
   function clearCorrespondences() {
     while (correspondenceGroup.children.length) {
@@ -286,6 +286,7 @@ export async function mountBodygraph() {
   function renderEndocrine() {
     clearEndocrine();
     const selectedDomain = filter.value;
+    const entityList = $('#endocrine-entity-list');
     const relations = endocrineRecords.filter((record) => selectedDomain === 'all' || record.domain === selectedDomain);
     const entities = new Map();
     for (const relation of relations) {
@@ -293,6 +294,15 @@ export async function mountBodygraph() {
       entities.set(relation.targetEntity.id, relation.targetEntity);
     }
     const nodes = [...entities.values()];
+    entityList.replaceChildren();
+    entityList.hidden = modeEndocrine.getAttribute('aria-pressed') !== 'true';
+    [...nodes].sort((a, b) => a.label.localeCompare(b.label)).forEach((entity) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.dataset.endocrineEntityId = entity.id;
+      button.textContent = `${entity.label} · ${entity.entityType}`;
+      entityList.append(button);
+    });
     if (!nodes.length) {
       detail.textContent = 'No candidate relations are available in this domain.';
       return;
@@ -319,23 +329,25 @@ export async function mountBodygraph() {
       sphere.userData.entityId = entity.id;
       endocrineGroup.add(sphere);
 
-      const labelCanvas = document.createElement('canvas');
-      labelCanvas.width = 512;
-      labelCanvas.height = 64;
-      const labelContext = labelCanvas.getContext('2d');
-      labelContext.font = '22px system-ui, sans-serif';
-      labelContext.fillStyle = '#17252b';
-      const label = entity.label.length > 43 ? `${entity.label.slice(0, 40)}…` : entity.label;
-      labelContext.fillText(label, 8, 39);
-      const texture = new THREE.CanvasTexture(labelCanvas);
-      texture.colorSpace = THREE.SRGBColorSpace;
-      const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: false }));
-      sprite.position.set(position.x + 5, position.y - 6, 3);
-      sprite.scale.set(76, 9.5, 1);
-      endocrineGroup.add(sprite);
+      if (nodes.length <= 18) {
+        const labelCanvas = document.createElement('canvas');
+        labelCanvas.width = 512;
+        labelCanvas.height = 64;
+        const labelContext = labelCanvas.getContext('2d');
+        labelContext.font = '22px system-ui, sans-serif';
+        labelContext.fillStyle = '#17252b';
+        const label = entity.label.length > 43 ? `${entity.label.slice(0, 40)}…` : entity.label;
+        labelContext.fillText(label, 8, 39);
+        const texture = new THREE.CanvasTexture(labelCanvas);
+        texture.colorSpace = THREE.SRGBColorSpace;
+        const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: false }));
+        sprite.position.set(position.x + 5, position.y - 6, 3);
+        sprite.scale.set(76, 9.5, 1);
+        endocrineGroup.add(sprite);
+      }
     });
     const domainName = selectedDomain === 'all' ? 'all listed domains' : endocrineDomainLabels[selectedDomain] || selectedDomain;
-    detail.textContent = `${nodes.length} candidate entities · ${relations.length} relations · ${domainName}. Select a node for catalog context. All entries are under review and internal only.`;
+    detail.textContent = `${nodes.length} candidate entities · ${relations.length} relations · ${domainName}. Select a node or an entity in the list for catalog context. ${nodes.length > 18 ? 'The dense map hides labels; use the list or filter to identify nodes. ' : ''}All entries are under review and internal only.`;
     endocrineGroup.userData.relations = relations;
     endocrineGroup.userData.entities = entities;
     endocrineGroup.userData.positions = positions;
@@ -351,7 +363,8 @@ export async function mountBodygraph() {
         endocrineRecords = catalog.relations.map((relation) => {
           const text = `${relation.context?.setting || ''} ${relation.statement || ''}`.toLowerCase();
           let domain = 'other';
-          if (/thyroid|\bhpt\b|trh|tsh/.test(text)) domain = 'hpt';
+          if (relation.relationType === 'synthesizes' && ['gland', 'organ', 'tissue'].includes(relation.sourceEntity.entityType)) domain = 'organ_context';
+          else if (/thyroid|\bhpt\b|trh|tsh/.test(text)) domain = 'hpt';
           else if (/menstrual|ovarian|follicular|luteal|pregnancy|menopause|\bhpg\b|gonadotropin/.test(text)) domain = 'reproductive';
           else if (/circadian|melatonin|sleep timing/.test(text)) domain = 'circadian';
           else if (/glucose|insulin|glucagon/.test(text)) domain = 'glucose';
@@ -399,9 +412,13 @@ export async function mountBodygraph() {
     modeCorrespondence.setAttribute('aria-pressed', String(correspondence));
     modeEndocrine.classList.toggle('is-selected', endocrine);
     modeEndocrine.setAttribute('aria-pressed', String(endocrine));
+    canvas.setAttribute('aria-label', endocrine
+      ? 'Candidate endocrine network under review. Select an entity in the list or map to read its physiology context.'
+      : 'Generic Human Design BodyGraph. Click a gate or channel to highlight it; drag to orbit and scroll to zoom.');
     endocrineControls.hidden = !endocrine;
     $('#gate-correspondence-list').hidden = !correspondence;
     $('#gate-correspondence-tools').hidden = !correspondence;
+    if (!endocrine) $('#endocrine-entity-list').hidden = true;
     search.hidden = endocrine || correspondence;
     $('#bodygraph-clear').hidden = endocrine || correspondence;
     boundary.textContent = endocrine
@@ -418,6 +435,10 @@ export async function mountBodygraph() {
   modeCorrespondence.addEventListener('click', () => setMapMode('correspondence'));
   modeEndocrine.addEventListener('click', () => setMapMode('endocrine'));
   filter.addEventListener('change', renderEndocrine);
+  $('#endocrine-entity-list').addEventListener('click', (event) => {
+    const button = event.target.closest('[data-endocrine-entity-id]');
+    if (button) displayEndocrineEntity(button.dataset.endocrineEntityId);
+  });
   $('#gate-correspondence-filter').addEventListener('input', renderCorrespondences);
   $('#gate-correspondence-list').addEventListener('click', (event) => {
     const button = event.target.closest('[data-correspondence-id]');
@@ -593,6 +614,32 @@ export async function mountBodygraph() {
     const intersection = raycaster.intersectObject(plane)[0];
     return intersection ? targetAt(graphPointFromIntersection(intersection)) : null;
   }
+  function displayEndocrineEntity(entityId) {
+    const entity = endocrineGroup.userData.entities?.get(entityId);
+    if (!entity) return;
+    const related = endocrineGroup.userData.relations.filter((relation) => relation.sourceEntity.id === entity.id || relation.targetEntity.id === entity.id);
+    detail.replaceChildren();
+    const heading = document.createElement('strong');
+    heading.textContent = `${entity.label} · ${entity.entityType} · ${entity.compartment}`;
+    const status = document.createElement('span');
+    status.textContent = `${related.length} candidate relation${related.length === 1 ? '' : 's'}; under review and internal only.`;
+    detail.append(heading, status);
+    for (const relation of related) {
+      const section = document.createElement('section');
+      const statement = document.createElement('span');
+      statement.textContent = relation.statement;
+      section.append(statement);
+      for (const citation of relation.sourceCitations || []) {
+        const link = document.createElement('a');
+        link.href = citation.url;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = `${citation.title} · ${citation.locator || 'Source'}`;
+        section.append(link);
+      }
+      detail.append(section);
+    }
+  }
   function selectEndocrineNode(event) {
     const bounds = canvas.getBoundingClientRect();
     if (!bounds.width || !bounds.height) return;
@@ -601,11 +648,7 @@ export async function mountBodygraph() {
     raycaster.setFromCamera(pointer, camera);
     const node = raycaster.intersectObjects(endocrineGroup.children.filter((object) => object.userData.entityId))[0]?.object;
     if (!node) return;
-    const entity = endocrineGroup.userData.entities.get(node.userData.entityId);
-    const related = endocrineGroup.userData.relations.filter((relation) => relation.sourceEntity.id === entity.id || relation.targetEntity.id === entity.id);
-    const relation = related[0];
-    const citation = relation?.sourceCitations?.[0];
-    detail.textContent = `${entity.label} · ${entity.entityType} · ${entity.compartment}. ${related.length} candidate relation${related.length === 1 ? '' : 's'}. ${relation?.statement || ''}${citation ? ` Source: ${citation.title} (${citation.locator}).` : ''} Catalog status: under review; internal only.`;
+    displayEndocrineEntity(node.userData.entityId);
   }
   function selectCorrespondence(event) {
     const bounds = canvas.getBoundingClientRect();

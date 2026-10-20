@@ -52,7 +52,7 @@
       "properties": {
         "id": { "type": "string", "minLength": 1 },
         "label": { "type": "string", "minLength": 1 },
-        "entityType": { "enum": ["hormone", "hormone_group", "gland", "tissue", "receptor", "process", "exposure", "behavior", "specimen", "assay"] },
+        "entityType": { "enum": ["hormone", "hormone_group", "gland", "organ", "tissue", "receptor", "process", "exposure", "behavior", "specimen", "assay"] },
         "compartment": { "type": "string" }
       }
     }

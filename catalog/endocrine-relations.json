@@ -1,6 +1,6 @@
 {
   "$schema": "../schema/endocrine-relations-catalog.schema.json",
-  "catalogVersion": "0.2.3",
+  "catalogVersion": "0.3.0",
   "catalogStatus": "candidate_only",
   "policy": "Every edge is under review and internal only. Relations are source-attributed summaries of general physiology across selected endocrine networks, not an exhaustive pathway database. They do not estimate a person's hormone state, explain an individual observation, or establish an individual causal effect of behavior. Symbolic Human Design features are not nodes in this biological network. Do not expose catalog entries in readings until appropriate domain review approves the exact claim and use.",
   "relations": [
@@ -1471,6 +1471,1215 @@
         "Human cycle physiology varies across individuals and cycles; this relation does not assume a fixed 28-day cycle or universal ovulation.",
         "Catalog inclusion and citation do not constitute independent Metheus scientific review.",
         "Menstrual bleeding is not by itself proof of ovulation or a complete hormonal pattern."
+      ]
+    },
+    {
+      "id": "pituitary-gland-synthesizes-acth-candidate",
+      "sourceEntity": {
+        "id": "pituitary-gland",
+        "label": "Pituitary gland",
+        "entityType": "gland",
+        "compartment": "anterior pituitary"
+      },
+      "targetEntity": {
+        "id": "acth",
+        "label": "Adrenocorticotropic hormone (ACTH)",
+        "entityType": "hormone",
+        "compartment": "anterior pituitary"
+      },
+      "relationType": "synthesizes",
+      "statement": "Anterior-pituitary endocrine cells synthesize and secrete Adrenocorticotropic hormone (ACTH); its hypothalamic regulation and target effects vary by hormone.",
+      "context": {
+        "organism": "human",
+        "setting": "General human anterior-pituitary physiology",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Functional Anatomy of the Hypothalamus and Pituitary · Endotext",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279126/",
+          "locator": "Anterior pituitary cell types and secretory products",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "pituitary-gland-synthesizes-tsh-candidate",
+      "sourceEntity": {
+        "id": "pituitary-gland",
+        "label": "Pituitary gland",
+        "entityType": "gland",
+        "compartment": "anterior pituitary"
+      },
+      "targetEntity": {
+        "id": "tsh",
+        "label": "Thyroid-stimulating hormone (TSH; thyrotropin)",
+        "entityType": "hormone",
+        "compartment": "anterior pituitary"
+      },
+      "relationType": "synthesizes",
+      "statement": "Anterior-pituitary endocrine cells synthesize and secrete Thyroid-stimulating hormone (TSH); its hypothalamic regulation and target effects vary by hormone.",
+      "context": {
+        "organism": "human",
+        "setting": "General human anterior-pituitary physiology",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Functional Anatomy of the Hypothalamus and Pituitary · Endotext",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279126/",
+          "locator": "Anterior pituitary cell types and secretory products",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "pituitary-gland-synthesizes-fsh-candidate",
+      "sourceEntity": {
+        "id": "pituitary-gland",
+        "label": "Pituitary gland",
+        "entityType": "gland",
+        "compartment": "anterior pituitary"
+      },
+      "targetEntity": {
+        "id": "fsh",
+        "label": "Follicle-stimulating hormone (FSH)",
+        "entityType": "hormone",
+        "compartment": "anterior pituitary / circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "Anterior-pituitary endocrine cells synthesize and secrete Follicle-stimulating hormone (FSH); its hypothalamic regulation and target effects vary by hormone.",
+      "context": {
+        "organism": "human",
+        "setting": "General human anterior-pituitary physiology",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Functional Anatomy of the Hypothalamus and Pituitary · Endotext",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279126/",
+          "locator": "Anterior pituitary cell types and secretory products",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "pituitary-gland-synthesizes-lh-candidate",
+      "sourceEntity": {
+        "id": "pituitary-gland",
+        "label": "Pituitary gland",
+        "entityType": "gland",
+        "compartment": "anterior pituitary"
+      },
+      "targetEntity": {
+        "id": "lh",
+        "label": "Luteinizing hormone (LH)",
+        "entityType": "hormone",
+        "compartment": "anterior pituitary / circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "Anterior-pituitary endocrine cells synthesize and secrete Luteinizing hormone (LH); its hypothalamic regulation and target effects vary by hormone.",
+      "context": {
+        "organism": "human",
+        "setting": "General human anterior-pituitary physiology",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Functional Anatomy of the Hypothalamus and Pituitary · Endotext",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279126/",
+          "locator": "Anterior pituitary cell types and secretory products",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "pituitary-gland-synthesizes-growth-hormone-candidate",
+      "sourceEntity": {
+        "id": "pituitary-gland",
+        "label": "Pituitary gland",
+        "entityType": "gland",
+        "compartment": "anterior pituitary"
+      },
+      "targetEntity": {
+        "id": "growth-hormone",
+        "label": "Growth hormone (GH)",
+        "entityType": "hormone",
+        "compartment": "circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "Anterior-pituitary endocrine cells synthesize and secrete Growth hormone (GH); its hypothalamic regulation and target effects vary by hormone.",
+      "context": {
+        "organism": "human",
+        "setting": "General human anterior-pituitary physiology",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Functional Anatomy of the Hypothalamus and Pituitary · Endotext",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279126/",
+          "locator": "Anterior pituitary cell types and secretory products",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "pituitary-gland-synthesizes-prolactin-candidate",
+      "sourceEntity": {
+        "id": "pituitary-gland",
+        "label": "Pituitary gland",
+        "entityType": "gland",
+        "compartment": "anterior pituitary"
+      },
+      "targetEntity": {
+        "id": "prolactin",
+        "label": "Prolactin (PRL)",
+        "entityType": "hormone",
+        "compartment": "circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "Anterior-pituitary endocrine cells synthesize and secrete Prolactin (PRL); its hypothalamic regulation and target effects vary by hormone.",
+      "context": {
+        "organism": "human",
+        "setting": "General human anterior-pituitary physiology",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Functional Anatomy of the Hypothalamus and Pituitary · Endotext",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279126/",
+          "locator": "Anterior pituitary cell types and secretory products",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "thyroid-gland-synthesizes-thyroid-hormones-t4-t3-candidate",
+      "sourceEntity": {
+        "id": "thyroid-gland",
+        "label": "Thyroid gland",
+        "entityType": "gland",
+        "compartment": "thyroid follicular cells"
+      },
+      "targetEntity": {
+        "id": "thyroid-hormones-t4-t3",
+        "label": "Thyroid hormones T4 and T3",
+        "entityType": "hormone_group",
+        "compartment": "circulation and tissues"
+      },
+      "relationType": "synthesizes",
+      "statement": "Thyroid follicular cells synthesize and secrete T4 and T3 under hypothalamic-pituitary-thyroid regulation.",
+      "context": {
+        "organism": "human",
+        "setting": "General human thyroid physiology",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "The Thyroid Gland · Endocrinology: An Integrated Approach",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK28/",
+          "locator": "Thyroid hormone synthesis and secretion",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "parathyroid-gland-synthesizes-pth-candidate",
+      "sourceEntity": {
+        "id": "parathyroid-gland",
+        "label": "Parathyroid gland",
+        "entityType": "gland",
+        "compartment": "parathyroid chief cells"
+      },
+      "targetEntity": {
+        "id": "pth",
+        "label": "Parathyroid hormone (PTH)",
+        "entityType": "hormone",
+        "compartment": "circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "Parathyroid chief cells synthesize and secrete PTH; calcium and vitamin-D feedback are central regulators.",
+      "context": {
+        "organism": "human",
+        "setting": "General human calcium homeostasis",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Physiology, Parathyroid · NCBI Bookshelf",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK482510/",
+          "locator": "PTH production and secretion",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "thyroid-parathyroid-glands-synthesizes-thyroid-hormones-t4-t3-candidate",
+      "sourceEntity": {
+        "id": "thyroid-parathyroid-glands",
+        "label": "Thyroid and parathyroid glands (composite source target)",
+        "entityType": "gland",
+        "compartment": "thyroid and parathyroid components; see relation statements"
+      },
+      "targetEntity": {
+        "id": "thyroid-hormones-t4-t3",
+        "label": "Thyroid hormones T4 and T3",
+        "entityType": "hormone_group",
+        "compartment": "circulation and tissues"
+      },
+      "relationType": "synthesizes",
+      "statement": "This composite source target includes thyroid and parathyroid glands. This relation refers specifically to the thyroid component, whose follicular cells synthesize T4 and T3.",
+      "context": {
+        "organism": "human",
+        "setting": "Component-specific context for a composite source target",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "The Thyroid Gland · Endocrinology: An Integrated Approach",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK28/",
+          "locator": "Thyroid hormone synthesis and secretion",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "thyroid-parathyroid-glands-synthesizes-pth-candidate",
+      "sourceEntity": {
+        "id": "thyroid-parathyroid-glands",
+        "label": "Thyroid and parathyroid glands (composite source target)",
+        "entityType": "gland",
+        "compartment": "thyroid and parathyroid components; see relation statements"
+      },
+      "targetEntity": {
+        "id": "pth",
+        "label": "Parathyroid hormone (PTH)",
+        "entityType": "hormone",
+        "compartment": "circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "This composite source target includes thyroid and parathyroid glands. This relation refers specifically to the parathyroid component, whose chief cells secrete PTH.",
+      "context": {
+        "organism": "human",
+        "setting": "Component-specific context for a composite source target",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Physiology, Parathyroid · NCBI Bookshelf",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK482510/",
+          "locator": "PTH production and secretion",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "adrenal-glands-synthesizes-cortisol-candidate",
+      "sourceEntity": {
+        "id": "adrenal-glands",
+        "label": "Adrenal glands",
+        "entityType": "gland",
+        "compartment": "adrenal cortex and medulla; relation statements identify the component"
+      },
+      "targetEntity": {
+        "id": "cortisol",
+        "label": "Cortisol",
+        "entityType": "hormone",
+        "compartment": "adrenal cortex / circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "The adrenal cortex synthesizes cortisol, principally in the zona fasciculata under HPA-axis regulation.",
+      "context": {
+        "organism": "human",
+        "setting": "General human adrenal cortical or medullary physiology",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "The Adrenal Gland · Endocrinology: An Integrated Approach",
+          "url": "https://ncbi.nlm.nih.gov/sites/books/NBK26/",
+          "locator": "Cortical zones and adrenal medullary catecholamine secretion",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "adrenal-glands-synthesizes-aldosterone-candidate",
+      "sourceEntity": {
+        "id": "adrenal-glands",
+        "label": "Adrenal glands",
+        "entityType": "gland",
+        "compartment": "adrenal cortex and medulla; relation statements identify the component"
+      },
+      "targetEntity": {
+        "id": "aldosterone",
+        "label": "Aldosterone",
+        "entityType": "hormone",
+        "compartment": "adrenal cortex or medulla / circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "The adrenal cortex synthesizes aldosterone, principally in the zona glomerulosa under renin–angiotensin and potassium regulation.",
+      "context": {
+        "organism": "human",
+        "setting": "General human adrenal cortical or medullary physiology",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "The Adrenal Gland · Endocrinology: An Integrated Approach",
+          "url": "https://ncbi.nlm.nih.gov/sites/books/NBK26/",
+          "locator": "Cortical zones and adrenal medullary catecholamine secretion",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "adrenal-glands-synthesizes-adrenal-androgens-candidate",
+      "sourceEntity": {
+        "id": "adrenal-glands",
+        "label": "Adrenal glands",
+        "entityType": "gland",
+        "compartment": "adrenal cortex and medulla; relation statements identify the component"
+      },
+      "targetEntity": {
+        "id": "adrenal-androgens",
+        "label": "Adrenal androgens",
+        "entityType": "hormone_group",
+        "compartment": "adrenal cortex or medulla / circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "The adrenal cortex synthesizes weak androgens, including DHEA and androstenedione.",
+      "context": {
+        "organism": "human",
+        "setting": "General human adrenal cortical or medullary physiology",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "The Adrenal Gland · Endocrinology: An Integrated Approach",
+          "url": "https://ncbi.nlm.nih.gov/sites/books/NBK26/",
+          "locator": "Cortical zones and adrenal medullary catecholamine secretion",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "adrenal-glands-synthesizes-adrenal-catecholamines-candidate",
+      "sourceEntity": {
+        "id": "adrenal-glands",
+        "label": "Adrenal glands",
+        "entityType": "gland",
+        "compartment": "adrenal cortex and medulla; relation statements identify the component"
+      },
+      "targetEntity": {
+        "id": "adrenal-catecholamines",
+        "label": "Adrenal catecholamines (epinephrine and norepinephrine)",
+        "entityType": "hormone_group",
+        "compartment": "adrenal cortex or medulla / circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "The adrenal medulla synthesizes and secretes epinephrine and norepinephrine in response to sympathetic preganglionic input.",
+      "context": {
+        "organism": "human",
+        "setting": "General human adrenal cortical or medullary physiology",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "The Adrenal Gland · Endocrinology: An Integrated Approach",
+          "url": "https://ncbi.nlm.nih.gov/sites/books/NBK26/",
+          "locator": "Cortical zones and adrenal medullary catecholamine secretion",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "kidney-synthesizes-renin-candidate",
+      "sourceEntity": {
+        "id": "kidney",
+        "label": "Kidney",
+        "entityType": "organ",
+        "compartment": "renal cortex / juxtaglomerular apparatus"
+      },
+      "targetEntity": {
+        "id": "renin",
+        "label": "Renin",
+        "entityType": "hormone",
+        "compartment": "juxtaglomerular cells / circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "Juxtaglomerular cells release renin as part of the renin–angiotensin system.",
+      "context": {
+        "organism": "human",
+        "setting": "General human renal endocrine physiology",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "The Kidney as an Endocrine Organ",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6369613/",
+          "locator": "Renin and erythropoietin production; renal endocrine functions",
+          "sourceType": "other",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "kidney-synthesizes-erythropoietin-candidate",
+      "sourceEntity": {
+        "id": "kidney",
+        "label": "Kidney",
+        "entityType": "organ",
+        "compartment": "renal cortex / juxtaglomerular apparatus"
+      },
+      "targetEntity": {
+        "id": "erythropoietin",
+        "label": "Erythropoietin (EPO)",
+        "entityType": "hormone",
+        "compartment": "renal cortex / circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "Renal interstitial cells produce EPO, which regulates erythropoiesis.",
+      "context": {
+        "organism": "human",
+        "setting": "General human renal endocrine physiology",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "The Kidney as an Endocrine Organ",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6369613/",
+          "locator": "Renin and erythropoietin production; renal endocrine functions",
+          "sourceType": "other",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "kidney-synthesizes-calcitriol-candidate",
+      "sourceEntity": {
+        "id": "kidney",
+        "label": "Kidney",
+        "entityType": "organ",
+        "compartment": "renal cortex / juxtaglomerular apparatus"
+      },
+      "targetEntity": {
+        "id": "calcitriol",
+        "label": "Calcitriol (1,25-dihydroxyvitamin D)",
+        "entityType": "hormone",
+        "compartment": "kidney / circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "Renal proximal tubules contribute the regulated final activation step that produces calcitriol.",
+      "context": {
+        "organism": "human",
+        "setting": "General human renal endocrine physiology",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "The Kidney as an Endocrine Organ",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6369613/",
+          "locator": "Renin and erythropoietin production; renal endocrine functions",
+          "sourceType": "other",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "kidneys-pancreas-synthesizes-renin-candidate",
+      "sourceEntity": {
+        "id": "kidneys-pancreas",
+        "label": "Kidneys and pancreas (composite source target)",
+        "entityType": "organ",
+        "compartment": "kidney and pancreatic islets; relation statements identify the component"
+      },
+      "targetEntity": {
+        "id": "renin",
+        "label": "Renin",
+        "entityType": "hormone",
+        "compartment": "juxtaglomerular cells / circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "The composite source target includes kidneys and pancreas; this relation refers only to the kidney component, whose juxtaglomerular cells release renin.",
+      "context": {
+        "organism": "human",
+        "setting": "Component-specific context for a composite source target",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "The Kidney as an Endocrine Organ",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6369613/",
+          "locator": "Renin and erythropoietin production; renal endocrine functions",
+          "sourceType": "other",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "kidneys-pancreas-synthesizes-erythropoietin-candidate",
+      "sourceEntity": {
+        "id": "kidneys-pancreas",
+        "label": "Kidneys and pancreas (composite source target)",
+        "entityType": "organ",
+        "compartment": "kidney and pancreatic islets; relation statements identify the component"
+      },
+      "targetEntity": {
+        "id": "erythropoietin",
+        "label": "Erythropoietin (EPO)",
+        "entityType": "hormone",
+        "compartment": "renal cortex / circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "The composite source target includes kidneys and pancreas; this relation refers only to the kidney component, which produces EPO.",
+      "context": {
+        "organism": "human",
+        "setting": "Component-specific context for a composite source target",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "The Kidney as an Endocrine Organ",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6369613/",
+          "locator": "Renin and erythropoietin production; renal endocrine functions",
+          "sourceType": "other",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "kidneys-pancreas-synthesizes-calcitriol-candidate",
+      "sourceEntity": {
+        "id": "kidneys-pancreas",
+        "label": "Kidneys and pancreas (composite source target)",
+        "entityType": "organ",
+        "compartment": "kidney and pancreatic islets; relation statements identify the component"
+      },
+      "targetEntity": {
+        "id": "calcitriol",
+        "label": "Calcitriol (1,25-dihydroxyvitamin D)",
+        "entityType": "hormone",
+        "compartment": "kidney / circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "The composite source target includes kidneys and pancreas; this relation refers only to the kidney component, which contributes the regulated final activation step for calcitriol.",
+      "context": {
+        "organism": "human",
+        "setting": "Component-specific context for a composite source target",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "The Kidney as an Endocrine Organ",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6369613/",
+          "locator": "Renin and erythropoietin production; renal endocrine functions",
+          "sourceType": "other",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "kidneys-pancreas-synthesizes-insulin-candidate",
+      "sourceEntity": {
+        "id": "kidneys-pancreas",
+        "label": "Kidneys and pancreas (composite source target)",
+        "entityType": "organ",
+        "compartment": "kidney and pancreatic islets; relation statements identify the component"
+      },
+      "targetEntity": {
+        "id": "insulin",
+        "label": "Insulin",
+        "entityType": "hormone",
+        "compartment": "pancreatic beta cells / circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "The composite source target includes kidneys and pancreas; this relation refers only to pancreatic islet beta cells, which secrete insulin in response to nutrient and glucose signals.",
+      "context": {
+        "organism": "human",
+        "setting": "Component-specific context for a composite source target",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: Insulin Biosynthesis, Secretion, Structure, and Structure-Activity Relationships",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279029/",
+          "locator": "Biochemistry and Electrophysiology of Insulin Secretion",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "kidneys-pancreas-synthesizes-glucagon-candidate",
+      "sourceEntity": {
+        "id": "kidneys-pancreas",
+        "label": "Kidneys and pancreas (composite source target)",
+        "entityType": "organ",
+        "compartment": "kidney and pancreatic islets; relation statements identify the component"
+      },
+      "targetEntity": {
+        "id": "glucagon",
+        "label": "Glucagon",
+        "entityType": "hormone",
+        "compartment": "pancreatic alpha cells / circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "The composite source target includes kidneys and pancreas; this relation refers only to pancreatic islet alpha cells, which secrete glucagon.",
+      "context": {
+        "organism": "human",
+        "setting": "Component-specific context for a composite source target",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Endotext: Glucagon Physiology",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK279127/",
+          "locator": "Pancreatic alpha-cell glucagon secretion; Summary and Conclusions",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "liver-synthesizes-igf-1-candidate",
+      "sourceEntity": {
+        "id": "liver",
+        "label": "Liver",
+        "entityType": "organ",
+        "compartment": "hepatocytes and hepatic endocrine cells"
+      },
+      "targetEntity": {
+        "id": "igf-1",
+        "label": "Insulin-like growth factor 1 (IGF-1)",
+        "entityType": "hormone",
+        "compartment": "circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "The liver is the primary source of circulating IGF-1 in typical human physiology.",
+      "context": {
+        "organism": "human",
+        "setting": "General human hepatic endocrine physiology",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Newly discovered endocrine functions of the liver",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8637678/",
+          "locator": "Direct hormone production by the liver",
+          "sourceType": "other",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "liver-synthesizes-hepcidin-candidate",
+      "sourceEntity": {
+        "id": "liver",
+        "label": "Liver",
+        "entityType": "organ",
+        "compartment": "hepatocytes and hepatic endocrine cells"
+      },
+      "targetEntity": {
+        "id": "hepcidin",
+        "label": "Hepcidin",
+        "entityType": "hormone",
+        "compartment": "circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "The liver produces hepcidin, a peptide hormone central to systemic iron regulation.",
+      "context": {
+        "organism": "human",
+        "setting": "General human hepatic endocrine physiology",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Newly discovered endocrine functions of the liver",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8637678/",
+          "locator": "Direct hormone production by the liver",
+          "sourceType": "other",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "heart-synthesizes-anp-candidate",
+      "sourceEntity": {
+        "id": "heart",
+        "label": "Heart",
+        "entityType": "organ",
+        "compartment": "atrial and ventricular myocardium"
+      },
+      "targetEntity": {
+        "id": "anp",
+        "label": "Atrial natriuretic peptide (ANP)",
+        "entityType": "hormone",
+        "compartment": "circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "Cardiac myocytes produce Atrial natriuretic peptide (ANP); secretion responds to cardiac wall stretch and contributes to volume and blood-pressure regulation.",
+      "context": {
+        "organism": "human",
+        "setting": "General human cardiac endocrine physiology",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "The heart as an endocrine organ",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3987289/",
+          "locator": "Cardiac natriuretic peptides",
+          "sourceType": "other",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "heart-synthesizes-bnp-candidate",
+      "sourceEntity": {
+        "id": "heart",
+        "label": "Heart",
+        "entityType": "organ",
+        "compartment": "atrial and ventricular myocardium"
+      },
+      "targetEntity": {
+        "id": "bnp",
+        "label": "B-type natriuretic peptide (BNP)",
+        "entityType": "hormone",
+        "compartment": "circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "Cardiac myocytes produce B-type natriuretic peptide (BNP); secretion responds to cardiac wall stretch and contributes to volume and blood-pressure regulation.",
+      "context": {
+        "organism": "human",
+        "setting": "General human cardiac endocrine physiology",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "The heart as an endocrine organ",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3987289/",
+          "locator": "Cardiac natriuretic peptides",
+          "sourceType": "other",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "stomach-synthesizes-gastrin-candidate",
+      "sourceEntity": {
+        "id": "stomach",
+        "label": "Stomach",
+        "entityType": "organ",
+        "compartment": "gastric enteroendocrine cells"
+      },
+      "targetEntity": {
+        "id": "gastrin",
+        "label": "Gastrin",
+        "entityType": "hormone",
+        "compartment": "circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "Gastric G cells synthesize and release gastrin in response to luminal and neural signals.",
+      "context": {
+        "organism": "human",
+        "setting": "General human gastrointestinal endocrine physiology",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Physiology, Gastrointestinal Hormonal Control · NCBI Bookshelf",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK537284/",
+          "locator": "Gastric and intestinal enteroendocrine cells and hormone secretion",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "small-intestine-synthesizes-glp-1-candidate",
+      "sourceEntity": {
+        "id": "small-intestine",
+        "label": "Small intestine",
+        "entityType": "organ",
+        "compartment": "intestinal epithelium including enteroendocrine cells"
+      },
+      "targetEntity": {
+        "id": "glp-1",
+        "label": "Glucagon-like peptide-1 (GLP-1)",
+        "entityType": "hormone",
+        "compartment": "intestinal L cells / gut-brain axis"
+      },
+      "relationType": "synthesizes",
+      "statement": "Enteroendocrine L cells in the intestine produce GLP-1; nutrient exposure is one stimulus for secretion.",
+      "context": {
+        "organism": "human",
+        "setting": "General human intestinal incretin physiology",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Physiology, Gastrointestinal Hormonal Control · NCBI Bookshelf",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK537284/",
+          "locator": "Gastric and intestinal enteroendocrine cells and hormone secretion",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "gastrointestinal-tract-synthesizes-gastrin-candidate",
+      "sourceEntity": {
+        "id": "gastrointestinal-tract",
+        "label": "Gastrointestinal tract",
+        "entityType": "organ",
+        "compartment": "stomach and intestine; distributed enteroendocrine cells"
+      },
+      "targetEntity": {
+        "id": "gastrin",
+        "label": "Gastrin",
+        "entityType": "hormone",
+        "compartment": "circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "The gastrointestinal tract includes gastric G cells, which synthesize and release gastrin; the listed output is stomach-cell specific.",
+      "context": {
+        "organism": "human",
+        "setting": "Component-specific context for distributed gastrointestinal endocrine tissue",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Physiology, Gastrointestinal Hormonal Control · NCBI Bookshelf",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK537284/",
+          "locator": "Gastric and intestinal enteroendocrine cells and hormone secretion",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "gastrointestinal-tract-synthesizes-glp-1-candidate",
+      "sourceEntity": {
+        "id": "gastrointestinal-tract",
+        "label": "Gastrointestinal tract",
+        "entityType": "organ",
+        "compartment": "stomach and intestine; distributed enteroendocrine cells"
+      },
+      "targetEntity": {
+        "id": "glp-1",
+        "label": "Glucagon-like peptide-1 (GLP-1)",
+        "entityType": "hormone",
+        "compartment": "intestinal L cells / gut-brain axis"
+      },
+      "relationType": "synthesizes",
+      "statement": "The gastrointestinal tract includes intestinal L cells, which produce GLP-1; the listed output is cell- and region-specific.",
+      "context": {
+        "organism": "human",
+        "setting": "Component-specific context for distributed gastrointestinal endocrine tissue",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Physiology, Gastrointestinal Hormonal Control · NCBI Bookshelf",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK537284/",
+          "locator": "Gastric and intestinal enteroendocrine cells and hormone secretion",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "thymus-synthesizes-thymic-hormones-candidate",
+      "sourceEntity": {
+        "id": "thymus",
+        "label": "Thymus",
+        "entityType": "gland",
+        "compartment": "thymic epithelial compartment"
+      },
+      "targetEntity": {
+        "id": "thymic-hormones",
+        "label": "Thymus-derived humoral factors",
+        "entityType": "hormone_group",
+        "compartment": "thymic tissue / local and systemic context"
+      },
+      "relationType": "synthesizes",
+      "statement": "The thymus is associated with secreted thymic humoral factors; the identity, circulation, and endocrine status of individual factors vary and are not uniformly settled.",
+      "context": {
+        "organism": "human",
+        "setting": "General thymic endocrine/immune context",
+        "timescale": "General physiology; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Thymus Hormones · NCBI MeSH",
+          "url": "https://www.ncbi.nlm.nih.gov/mesh/D013951",
+          "locator": "Thymus-secreted humoral factors classified as thymus hormones",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
+        "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
+        "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
       ]
     }
   ]

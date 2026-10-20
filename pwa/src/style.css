@@ -95,6 +95,10 @@ a { color:inherit; }
 .gate-correspondence-list button:hover,.gate-correspondence-list button:focus-visible { border-color:#c293d0;outline:2px solid rgba(194,147,208,.35);outline-offset:1px; }
 .endocrine-controls { display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin:.55rem 0;color:var(--muted);font-size:.62rem; }
 .endocrine-controls select { max-width:64%;border:1px solid var(--line);border-radius:6px;background:#111a21;color:var(--ink);padding:.4rem;font-size:.62rem; }
+.endocrine-entity-list { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.25rem;max-height:10rem;overflow:auto;margin:.45rem 0;padding:.2rem; }
+.endocrine-entity-list[hidden] { display:none; }
+.endocrine-entity-list button { min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border:1px solid var(--line);border-radius:5px;background:rgba(17,26,33,.72);color:var(--muted);padding:.35rem .4rem;text-align:left;font-size:.56rem;cursor:pointer; }
+.endocrine-entity-list button:hover,.endocrine-entity-list button:focus-visible { border-color:#75c8be;color:var(--ink);outline:none; }
 .bodygraph-badge { border:1px solid var(--line);border-radius:999px;padding:.25rem .4rem;color:var(--faint);font-size:.49rem;letter-spacing:.08em;white-space:nowrap; }
 .bodygraph-viewer { width:100%;aspect-ratio:1/1;max-height:340px;margin:.65rem auto 0;overflow:hidden;border-radius:7px;background:#efefe2;touch-action:none; }
 .bodygraph-viewer canvas,.bodygraph-viewer img { display:block;width:100%;height:100%;object-fit:contain;outline:none; }
