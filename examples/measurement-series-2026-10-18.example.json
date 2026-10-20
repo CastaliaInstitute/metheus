@@ -1,0 +1,20 @@
+{
+  "id": "measurement-series-2026-10-18",
+  "subjectId": "measurement-series-example-subject",
+  "recordType": "observation",
+  "schemaVersion": "0.2",
+  "eventType": "other",
+  "epistemicClass": "imported",
+  "time": {
+    "observedAt": "2026-10-18T07:00:00-06:00",
+    "timeZone": "America/Denver",
+    "precision": "exact",
+    "scale": "instant"
+  },
+  "source": { "kind": "external_import", "name": "synthetic wearable export", "method": "device-exported heart-rate field", "version": "1" },
+  "domain": "physiology",
+  "label": "synthetic heart-rate observation",
+  "value": { "number": 70, "unit": "beats/min" },
+  "measurementDetails": { "analyteOrSignal": "heart_rate", "sensorLocation": "wrist", "deviceOrAssay": "synthetic wearable", "deviceModel": "Example 1", "algorithmVersion": "1", "collectionConditions": "resting; synthetic" },
+  "notes": "Synthetic fixture only; not a clinical measurement or person-specific data."
+}

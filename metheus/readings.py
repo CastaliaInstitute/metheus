@@ -12,6 +12,7 @@ from typing import Any, Iterable
 
 from .authorization import evaluate_authorization, record_domain
 from .resources import resolve_subject_index
+from .rhythms import measurement_series_source_matches
 from .schema_validation import validate_record_schema, validate_schema_instance
 
 
@@ -235,8 +236,11 @@ def validate_reading_references(
             elif support_record.get("recordType") not in {"observation", "event"}:
                 issue("invalid_rhythm_summary_basis_type", support_id)
             elif (
-                support_record.get("eventType"), support_record.get("domain")
-            ) not in _SUMMARY_SOURCE_TYPES.get(summary.get("summaryMeasure"), set()):
+                not measurement_series_source_matches(summary, support_record)
+                if summary.get("summaryMeasure") == "measurement_series"
+                else (support_record.get("eventType"), support_record.get("domain"))
+                not in _SUMMARY_SOURCE_TYPES.get(summary.get("summaryMeasure"), set())
+            ):
                 issue("rhythm_summary_basis_measure_mismatch", support_id)
 
     for phase_id in selected_ids.intersection(phase_index):

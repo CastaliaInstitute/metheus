@@ -6,6 +6,7 @@ from datetime import datetime
 from typing import Any, Iterable
 
 from .authorization import evaluate_authorization
+from .rhythms import measurement_series_source_matches, measurement_series_summary_valid
 from .schema_validation import validate_record_schema, validate_schema_instance
 
 
@@ -116,12 +117,13 @@ def _resolve_index(
                 "meal_events": ("nutrition", "metheus-feeding-summary/0.3.0"),
                 "caregiver_feeding_events": ("feeding", "metheus-feeding-summary/0.3.0"),
                 "meal_timing_relative_to_wake": ("nutrition", "metheus-wake-relative-meal/0.2.0"),
+                "measurement_series": (None, "metheus-numeric-measurement-series/0.1.0"),
             }
             if not isinstance(measure, str) or measure not in expected_summary_shapes:
                 issue("rhythm_summary_unknown_measure", resource_id)
                 continue
             expected_domain, expected_method = expected_summary_shapes[measure]
-            if resource.get("domain") != expected_domain:
+            if expected_domain is not None and resource.get("domain") != expected_domain:
                 issue("rhythm_summary_measure_domain_mismatch", resource_id)
             if (
                 resource.get("id") != resource.get("summaryId")
@@ -129,6 +131,7 @@ def _resolve_index(
                 or resource.get("summaryType") != "derived_rhythm_summary"
                 or resource.get("epistemicClass") != "derived"
                 or resource.get("methodVersion") != expected_method
+                or (measure == "measurement_series" and not measurement_series_summary_valid(resource))
             ):
                 issue("rhythm_summary_metadata_mismatch", resource_id)
             input_ids = resource.get("inputRecordIds")
@@ -160,7 +163,9 @@ def _resolve_index(
                         ("meal", "feeding"), ("meal", "nutrition"),
                     },
                 }
-                if measure in expected_sources and (event_type, domain) not in expected_sources[measure]:
+                if measure == "measurement_series" and not measurement_series_source_matches(resource, target):
+                    issue("rhythm_summary_dependency_measure_mismatch", input_id)
+                elif measure in expected_sources and (event_type, domain) not in expected_sources[measure]:
                     issue("rhythm_summary_dependency_measure_mismatch", input_id)
             continue
         if resource.get("recordType") != "symbolic_map":

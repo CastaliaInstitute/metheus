@@ -74,6 +74,12 @@ The output calls these **gaps between logged bleeding-onset dates**, not menstru
 
 Date-only reports use `time.date` with `precision: "date_only"`; see the [synthetic date-only bleeding-onset record](../examples/bleeding-onset.example.json).
 
+### Repeated numeric measurement series
+
+`summarize_numeric_measurements` groups numeric observations by exact analyte/signal, unit, domain, epistemic class, and source/method signature. It reports the sample count, distinct observed dates, median, median absolute deviation, minimum, maximum, quality-flag coverage, and dates with at least one record. Records from different assays, devices, algorithms, specimens, methods, or collection conditions remain in separate summaries. Missing signature fields are represented as `unspecified`; they are never treated as equivalent to a known method.
+
+The function requires an explicitly named signal and an inclusive date window. It resolves same-subject revision chains first and carries the current input record IDs into each result. It excludes symbolic, self-reported, and caregiver-reported values; only measured, imported, and derived numeric records with an explicit unit are eligible. This operation describes a recorded series only: it does not decide whether the values are clinically normal, calculate a trend or personal baseline, infer hormone/neurochemical state, or explain behavior. The [synthetic measurement-series example](../examples/measurement-series-summary.example.json) illustrates the output contract.
+
 Use the function from the package:
 
 ```python

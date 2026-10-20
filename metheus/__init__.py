@@ -13,6 +13,7 @@ from .rhythms import (
     summarize_feeding_events,
     summarize_main_sleep,
     summarize_meal_timing_relative_to_wake,
+    summarize_numeric_measurements,
 )
 from .schema_validation import validate_record_schema, validate_schema_instance
 from .lifecycle import resolve_current_records
@@ -34,4 +35,5 @@ __all__ = [
     "summarize_feeding_events",
     "summarize_main_sleep",
     "summarize_meal_timing_relative_to_wake",
+    "summarize_numeric_measurements",
 ]

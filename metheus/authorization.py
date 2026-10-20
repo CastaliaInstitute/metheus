@@ -12,6 +12,8 @@ from datetime import date, datetime, timezone
 from typing import Any, Iterable
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
+from .rhythms import measurement_series_source_matches, measurement_series_summary_valid
+
 
 POLICY_VERSION = "metheus-consent-policy/0.3.0"
 
@@ -53,6 +55,7 @@ _SUMMARY_MEASURES = {
     "meal_events": ("nutrition", "metheus-feeding-summary/0.3.0"),
     "caregiver_feeding_events": ("feeding", "metheus-feeding-summary/0.3.0"),
     "meal_timing_relative_to_wake": ("nutrition", "metheus-wake-relative-meal/0.2.0"),
+    "measurement_series": (None, "metheus-numeric-measurement-series/0.1.0"),
 }
 _SUMMARY_SOURCE_TYPES = {
     "bleeding_onset_intervals": {("bleeding_start", "reproductive")},
@@ -250,8 +253,9 @@ def record_domain(record: dict[str, Any]) -> str | None:
             or record.get("epistemicClass") != "derived"
             or record.get("schemaVersion") != "0.1"
             or record.get("summaryId") != record.get("id")
-            or domain != expected[0]
+            or (expected[0] is not None and domain != expected[0])
             or record.get("methodVersion") != expected[1]
+            or (measure == "measurement_series" and not measurement_series_summary_valid(record))
         ):
             return None
         return domain
@@ -453,8 +457,12 @@ def evaluate_authorization(
                     source is None
                     or source.get("recordType") not in {"observation", "event"}
                     or source.get("subjectId") != subject_id
-                    or (source.get("eventType"), source.get("domain"))
-                    not in _SUMMARY_SOURCE_TYPES.get(record.get("summaryMeasure"), set())
+                    or (
+                        not measurement_series_source_matches(record, source)
+                        if record.get("summaryMeasure") == "measurement_series"
+                        else (source.get("eventType"), source.get("domain"))
+                        not in _SUMMARY_SOURCE_TYPES.get(record.get("summaryMeasure"), set())
+                    )
                 ):
                     invalid_source = True
                     break

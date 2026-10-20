@@ -9,6 +9,7 @@ bleeding-onset summary also accepts an explicit date-only record where supported
 from __future__ import annotations
 
 from datetime import date, datetime, timezone
+from hashlib import sha256
 from math import isfinite
 from statistics import median
 from typing import Any, Iterable
@@ -22,6 +23,76 @@ SUMMARY_SCHEMA_VERSION = "0.1"
 FEEDING_METHOD_VERSION = "metheus-feeding-summary/0.3.0"
 WAKE_RELATIVE_METHOD_VERSION = "metheus-wake-relative-meal/0.2.0"
 BLEEDING_ONSET_METHOD_VERSION = "metheus-bleeding-onset-gap/0.2.0"
+MEASUREMENT_SERIES_METHOD_VERSION = "metheus-numeric-measurement-series/0.1.0"
+
+_MEASUREMENT_SIGNATURE_FIELDS = (
+    "sourceKind", "sourceName", "sourceMethod", "sourceVersion", "methodDetails",
+    "specimen", "sensorLocation", "deviceOrAssay", "deviceModel",
+    "algorithmVersion", "collectionConditions",
+)
+
+
+def measurement_series_source_matches(summary: dict[str, Any], record: dict[str, Any]) -> bool:
+    """Return whether a numeric observation belongs to this exact series signature."""
+    if record.get("recordType") not in {"observation", "event"}:
+        return False
+    if record.get("epistemicClass") not in {"measured", "derived", "imported"}:
+        return False
+    value = record.get("value")
+    details = record.get("measurementDetails")
+    source = record.get("source")
+    signature = summary.get("measurementSeries")
+    if not isinstance(value, dict) or not isinstance(details, dict) or not isinstance(source, dict) or not isinstance(signature, dict):
+        return False
+    if not isinstance(value.get("number"), (int, float)) or isinstance(value.get("number"), bool) or not isfinite(value["number"]):
+        return False
+    if not isinstance(value.get("unit"), str) or not value["unit"].strip():
+        return False
+    if record.get("domain") != summary.get("domain") or record.get("epistemicClass") != signature.get("epistemicClass"):
+        return False
+    if details.get("analyteOrSignal") != signature.get("analyteOrSignal") or value.get("unit") != signature.get("unit"):
+        return False
+    try:
+        first_day, last_day, _ = _window(summary["window"]["startDate"], summary["window"]["endDate"])
+        time_data = record.get("time", {})
+        if not isinstance(time_data, dict):
+            return False
+        if time_data.get("precision") == "date_only":
+            observed_day = date.fromisoformat(time_data["date"])
+        else:
+            stamp = time_data.get("observedAt") or time_data.get("start")
+            if not stamp:
+                return False
+            observed_day = _localize(record, stamp).date()
+    except (KeyError, TypeError, ValueError):
+        return False
+    if not first_day <= observed_day <= last_day:
+        return False
+    actual = {
+        "sourceKind": source.get("kind", "unspecified"),
+        "sourceName": source.get("name", "unspecified"),
+        "sourceMethod": source.get("method", "unspecified"),
+        "sourceVersion": source.get("version", "unspecified"),
+        "methodDetails": record.get("methodDetails", "unspecified"),
+        **{field: details.get(field, "unspecified") for field in _MEASUREMENT_SIGNATURE_FIELDS[5:]},
+    }
+    return all(actual[field] == signature.get(field) for field in _MEASUREMENT_SIGNATURE_FIELDS)
+
+
+def measurement_series_summary_valid(summary: dict[str, Any]) -> bool:
+    signature = summary.get("measurementSeries")
+    metrics = ("nMeasurements", "nDistinctMeasurementDates", "medianNumericValue", "medianAbsoluteDeviationValue", "minimumValue", "maximumValue", "recordsWithQualityFlags", "qualityFlags", "coverage")
+    return bool(
+        summary.get("summaryMeasure") == "measurement_series"
+        and summary.get("methodVersion") == MEASUREMENT_SERIES_METHOD_VERSION
+        and isinstance(summary.get("domain"), str)
+        and isinstance(signature, dict)
+        and all(isinstance(signature.get(key), str) and signature[key] for key in ("analyteOrSignal", "unit", "epistemicClass", *_MEASUREMENT_SIGNATURE_FIELDS))
+        and signature.get("epistemicClass") in {"measured", "derived", "imported"}
+        and all(key in summary for key in metrics)
+        and isinstance(summary.get("inputRecordIds"), list)
+        and all(isinstance(value, str) and value for value in summary["inputRecordIds"])
+    )
 
 
 def _resolve_subject_history(records: Iterable[dict[str, Any]], subject_id: str) -> dict[str, Any]:
@@ -520,3 +591,125 @@ def summarize_meal_timing_relative_to_wake(
             "Does not infer fasting, appetite, calories, nutrition adequacy, metabolic state, or a recommended schedule.",
         ],
     }
+
+
+def summarize_numeric_measurements(
+    records: Iterable[dict[str, Any]], *, subject_id: str, start_date: str, end_date: str,
+    analyte_or_signal: str,
+) -> list[dict[str, Any]]:
+    """Summarize repeated numeric records without interpreting their biology.
+
+    Results are split by domain, explicit unit, epistemic class, and exact
+    source/method signature. Date-only records retain their stated date; timed
+    records use local date where a valid time zone is supplied. This reports
+    sample distributions and coverage only, not a trend, reference-range
+    judgment, personal baseline, latent state, or causal association.
+    """
+    if not subject_id:
+        raise ValueError("subject_id is required to prevent cross-subject aggregation")
+    if not isinstance(analyte_or_signal, str) or not analyte_or_signal.strip():
+        raise ValueError("analyte_or_signal is required")
+    revision_resolution = _resolve_subject_history(records, subject_id)
+    first_day, last_day, window_days = _window(start_date, end_date)
+    groups: dict[tuple[Any, ...], list[tuple[date, dict[str, Any], float]]] = {}
+    eligible_classes = {"measured", "derived", "imported"}
+
+    for record in revision_resolution["currentRecords"]:
+        if record.get("subjectId") != subject_id or record.get("epistemicClass") not in eligible_classes:
+            continue
+        value = record.get("value")
+        details = record.get("measurementDetails")
+        if not isinstance(value, dict) or not isinstance(details, dict):
+            continue
+        number, unit = value.get("number"), value.get("unit")
+        if isinstance(number, bool) or not isinstance(number, (int, float)) or not isfinite(number):
+            continue
+        if not isinstance(unit, str) or not unit.strip() or details.get("analyteOrSignal") != analyte_or_signal:
+            continue
+        if record.get("recordType") not in {"observation", "event"}:
+            continue
+        time_data = record.get("time", {})
+        if not isinstance(time_data, dict):
+            continue
+        try:
+            if time_data.get("precision") == "date_only":
+                observed_day = date.fromisoformat(time_data["date"])
+            else:
+                stamp = time_data.get("observedAt") or time_data.get("start")
+                if not stamp:
+                    continue
+                observed_day = _localize(record, stamp).date()
+        except (KeyError, TypeError, ValueError):
+            continue
+        if not first_day <= observed_day <= last_day:
+            continue
+        source = record.get("source", {})
+        if not isinstance(source, dict) or not isinstance(record.get("domain"), str):
+            continue
+        signature = {
+            "analyteOrSignal": analyte_or_signal,
+            "unit": unit,
+            "epistemicClass": record["epistemicClass"],
+            **{
+                "sourceKind": source.get("kind", "unspecified"),
+                "sourceName": source.get("name", "unspecified"),
+                "sourceMethod": source.get("method", "unspecified"),
+                "sourceVersion": source.get("version", "unspecified"),
+                "methodDetails": record.get("methodDetails", "unspecified"),
+                **{field: details.get(field, "unspecified") for field in _MEASUREMENT_SIGNATURE_FIELDS[5:]},
+            },
+        }
+        key = (record.get("domain"), *(signature[field] for field in ("analyteOrSignal", "unit", "epistemicClass", *_MEASUREMENT_SIGNATURE_FIELDS)))
+        groups.setdefault(key, []).append((observed_day, record, float(number)))
+
+    summaries: list[dict[str, Any]] = []
+    for key, observations in sorted(groups.items(), key=lambda item: tuple(str(value) for value in item[0])):
+        domain = key[0]
+        values = [item[2] for item in observations]
+        med = median(values)
+        mad = median([abs(value - med) for value in values])
+        observed_days = {item[0] for item in observations}
+        flags = sorted({
+            flag
+            for _, record, _ in observations
+            for flag in (record.get("measurementDetails", {}).get("qualityFlags", []) if isinstance(record.get("measurementDetails", {}).get("qualityFlags", []), list) else [])
+            if isinstance(flag, str) and flag
+        })
+        signature = {
+            "analyteOrSignal": analyte_or_signal,
+            "unit": key[2],
+            "epistemicClass": key[3],
+            **{field: key[4 + index] for index, field in enumerate(_MEASUREMENT_SIGNATURE_FIELDS)},
+        }
+        signature_hash = sha256(repr((domain, tuple(signature.items()))).encode("utf-8")).hexdigest()[:12]
+        summary_id = f"measurement-series:{MEASUREMENT_SERIES_METHOD_VERSION}:{first_day.isoformat()}:{last_day.isoformat()}:{signature_hash}"
+        summaries.append({
+            **_summary_metadata(summary_id, subject_id, "measurement_series"),
+            "domain": domain,
+            "label": f"descriptive series for {analyte_or_signal} ({signature['unit']})",
+            "methodVersion": MEASUREMENT_SERIES_METHOD_VERSION,
+            "revisionResolution": _revision_resolution_metadata(revision_resolution),
+            "window": {"startDate": first_day.isoformat(), "endDate": last_day.isoformat(), "inclusiveDays": window_days},
+            "inputRecordIds": sorted({record["id"] for _, record, _ in observations if isinstance(record.get("id"), str)}),
+            "measurementSeries": signature,
+            "nMeasurements": len(values),
+            "nDistinctMeasurementDates": len(observed_days),
+            "medianNumericValue": round(med, 6),
+            "medianAbsoluteDeviationValue": round(mad, 6),
+            "minimumValue": min(values),
+            "maximumValue": max(values),
+            "recordsWithQualityFlags": sum(
+                bool(record.get("measurementDetails", {}).get("qualityFlags"))
+                for _, record, _ in observations
+                if isinstance(record.get("measurementDetails", {}).get("qualityFlags", []), list)
+            ),
+            "qualityFlags": flags,
+            "coverage": _coverage(observed_days, window_days),
+            "limitations": [
+                "Describes only eligible numeric records present in the selected subject history; missing records are not evidence that no measurement occurred.",
+                "Series are kept separate by domain, unit, epistemic class, source, method, specimen, device, and collection signature.",
+                "Median, spread, minimum, and maximum are descriptive statistics, not clinical reference-range judgments or personal baselines.",
+                "Does not estimate hormone or neurochemical state, infer a trend or cause, or recommend an action.",
+            ],
+        })
+    return summaries

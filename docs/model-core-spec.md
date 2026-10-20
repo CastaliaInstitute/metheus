@@ -159,7 +159,7 @@ Before any M2 or higher feature, publish a model card describing target, intende
 |---|---|---|
 | Promethean source features | Birth input and symbolic-map schemas/examples; no chart calculator | M0 representation only |
 | Epimethean source records | Observation schema, provenance, consent, index, and lifecycle rules | M0 contract; no persistent user service |
-| Time-window summaries | Sleep, meal/feed, meal-to-wake, and bleeding-onset-gap summaries | Selected M1 descriptive operations; no biological phase estimate |
+| Time-window and measurement summaries | Sleep, meal/feed, meal-to-wake, bleeding-onset-gap, and same-signature numeric-series summaries | Selected M1 descriptive operations; no biological phase estimate, trend model, or clinical interpretation |
 | Cross-layer reading | Typed claims, evidence/correspondence references, preflight, deterministic assembly | M1 assembly of authored claims; no prose generation or entailment check |
 | Physiological/developmental latent state | Documentation and hormone/reference catalogs | M0 conceptual vocabulary; no fitted or validated model |
 | Evidence governance | Candidate-only claim catalog and written review protocol | No completed Metheus claim reviews; no authenticated review/catalog service |

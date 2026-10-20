@@ -13,9 +13,9 @@
     "recordType": { "const": "rhythm_summary" },
     "schemaVersion": { "const": "0.1" },
     "summaryType": { "const": "derived_rhythm_summary" },
-    "summaryMeasure": { "enum": ["bleeding_onset_intervals", "main_sleep", "meal_events", "caregiver_feeding_events", "meal_timing_relative_to_wake"] },
+    "summaryMeasure": { "enum": ["bleeding_onset_intervals", "main_sleep", "meal_events", "caregiver_feeding_events", "meal_timing_relative_to_wake", "measurement_series"] },
     "epistemicClass": { "const": "derived" },
-    "domain": { "enum": ["reproductive", "sleep", "feeding", "nutrition"] },
+    "domain": { "enum": ["circadian", "sleep", "feeding", "nutrition", "hydration", "activity", "behavior", "learning", "sensory_exposure", "supplement", "medication", "physiology", "hormone_assay", "symptom", "reproductive", "development", "relationship", "intimacy", "environment", "life_event", "other"] },
     "label": { "type": "string", "minLength": 1 },
     "methodVersion": { "type": "string", "minLength": 1 },
     "revisionResolution": {
@@ -82,13 +82,43 @@
     "nIntervalsWithLoggedMeals": { "type": "integer", "minimum": 0 },
     "nLoggedMeals": { "type": "integer", "minimum": 0 },
     "medianFirstLoggedMealMinutesAfterWake": { "type": ["number", "null"], "minimum": 0 },
-    "medianLoggedMealMinutesAfterWake": { "type": ["number", "null"], "minimum": 0 }
+    "medianLoggedMealMinutesAfterWake": { "type": ["number", "null"], "minimum": 0 },
+    "measurementSeries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["analyteOrSignal", "unit", "epistemicClass", "sourceKind", "sourceName", "sourceMethod", "sourceVersion", "methodDetails", "specimen", "sensorLocation", "deviceOrAssay", "deviceModel", "algorithmVersion", "collectionConditions"],
+      "properties": {
+        "analyteOrSignal": { "type": "string", "minLength": 1 },
+        "unit": { "type": "string", "minLength": 1 },
+        "epistemicClass": { "enum": ["measured", "derived", "imported"] },
+        "sourceKind": { "type": "string", "minLength": 1 },
+        "sourceName": { "type": "string", "minLength": 1 },
+        "sourceMethod": { "type": "string", "minLength": 1 },
+        "sourceVersion": { "type": "string", "minLength": 1 },
+        "methodDetails": { "type": "string", "minLength": 1 },
+        "specimen": { "type": "string", "minLength": 1 },
+        "sensorLocation": { "type": "string", "minLength": 1 },
+        "deviceOrAssay": { "type": "string", "minLength": 1 },
+        "deviceModel": { "type": "string", "minLength": 1 },
+        "algorithmVersion": { "type": "string", "minLength": 1 },
+        "collectionConditions": { "type": "string", "minLength": 1 }
+      }
+    },
+    "nMeasurements": { "type": "integer", "minimum": 0 },
+    "nDistinctMeasurementDates": { "type": "integer", "minimum": 0 },
+    "medianNumericValue": { "type": ["number", "null"] },
+    "medianAbsoluteDeviationValue": { "type": ["number", "null"], "minimum": 0 },
+    "minimumValue": { "type": ["number", "null"] },
+    "maximumValue": { "type": ["number", "null"] },
+    "recordsWithQualityFlags": { "type": "integer", "minimum": 0 },
+    "qualityFlags": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true }
   },
   "allOf": [
     { "if": { "required": ["summaryMeasure"], "properties": { "summaryMeasure": { "const": "bleeding_onset_intervals" } } }, "then": { "properties": { "domain": { "const": "reproductive" }, "methodVersion": { "const": "metheus-bleeding-onset-gap/0.2.0" } }, "required": ["nIntervals", "nOnsetRecords", "nDistinctOnsetDates", "intervalsDays", "medianGapDays", "medianAbsoluteDeviationDays", "dateOnlyRecordCount", "timedRecordCount"] } },
     { "if": { "required": ["summaryMeasure"], "properties": { "summaryMeasure": { "const": "main_sleep" } } }, "then": { "properties": { "domain": { "const": "sleep" }, "methodVersion": { "const": "metheus-rhythm-summary/0.2.0" } }, "required": ["nIntervals", "coverage", "medianLoggedDurationMinutes", "medianLoggedStartClockTime", "medianLoggedMidpointClockTime", "medianAbsoluteMidpointDeviationMinutes", "clockTimesComparable", "clockTimeContextCount", "clockTimeContexts"] } },
     { "if": { "required": ["summaryMeasure"], "properties": { "summaryMeasure": { "const": "meal_events" } } }, "then": { "properties": { "domain": { "const": "nutrition" }, "methodVersion": { "const": "metheus-feeding-summary/0.3.0" } }, "required": ["coverage", "nEvents", "daysWithEvents", "medianEventsPerObservedDay", "medianEventClockTime", "medianAbsoluteEventTimeDeviationMinutes", "medianRecordedWithinDaySpanMinutes", "clockTimesComparable", "clockTimeContextCount", "clockTimeContexts"] } },
     { "if": { "required": ["summaryMeasure"], "properties": { "summaryMeasure": { "const": "caregiver_feeding_events" } } }, "then": { "properties": { "domain": { "const": "feeding" }, "methodVersion": { "const": "metheus-feeding-summary/0.3.0" } }, "required": ["coverage", "nEvents", "daysWithEvents", "medianEventsPerObservedDay", "medianEventClockTime", "medianAbsoluteEventTimeDeviationMinutes", "medianRecordedWithinDaySpanMinutes", "clockTimesComparable", "clockTimeContextCount", "clockTimeContexts"] } },
-    { "if": { "required": ["summaryMeasure"], "properties": { "summaryMeasure": { "const": "meal_timing_relative_to_wake" } } }, "then": { "properties": { "domain": { "const": "nutrition" }, "methodVersion": { "const": "metheus-wake-relative-meal/0.2.0" }, "timeReference": { "const": "elapsed_minutes_from_explicit_wake_event" } }, "required": ["nWakeToWakeIntervals", "nCandidateWakeToWakeIntervals", "nIntervalsExcludedForGap", "maximumIntervalHours", "nIntervalsWithLoggedMeals", "nLoggedMeals", "coverage", "medianFirstLoggedMealMinutesAfterWake", "medianLoggedMealMinutesAfterWake"] } }
+    { "if": { "required": ["summaryMeasure"], "properties": { "summaryMeasure": { "const": "meal_timing_relative_to_wake" } } }, "then": { "properties": { "domain": { "const": "nutrition" }, "methodVersion": { "const": "metheus-wake-relative-meal/0.2.0" }, "timeReference": { "const": "elapsed_minutes_from_explicit_wake_event" } }, "required": ["nWakeToWakeIntervals", "nCandidateWakeToWakeIntervals", "nIntervalsExcludedForGap", "maximumIntervalHours", "nIntervalsWithLoggedMeals", "nLoggedMeals", "coverage", "medianFirstLoggedMealMinutesAfterWake", "medianLoggedMealMinutesAfterWake"] } },
+    { "if": { "required": ["summaryMeasure"], "properties": { "summaryMeasure": { "const": "measurement_series" } } }, "then": { "properties": { "methodVersion": { "const": "metheus-numeric-measurement-series/0.1.0" } }, "required": ["measurementSeries", "nMeasurements", "nDistinctMeasurementDates", "medianNumericValue", "medianAbsoluteDeviationValue", "minimumValue", "maximumValue", "recordsWithQualityFlags", "qualityFlags", "coverage"] } }
   ]
 }
