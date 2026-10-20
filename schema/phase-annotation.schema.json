@@ -5,7 +5,7 @@
   "description": "An optional evocative label attached to a time-bounded symbolic or lived phase. It does not replace canonical terminology, source provenance, or uncertainty.",
   "type": "object",
   "additionalProperties": false,
-    "required": ["id", "subjectId", "layer", "phaseSystem", "canonicalPhase", "window", "basis", "interpretation", "method", "limitations"],
+  "required": ["id", "subjectId", "layer", "phaseSystem", "canonicalPhase", "window", "basis", "interpretation", "method", "limitations"],
   "properties": {
     "id": { "type": "string", "minLength": 1 },
     "subjectId": { "type": "string", "minLength": 1 },
