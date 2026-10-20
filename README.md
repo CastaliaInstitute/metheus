@@ -65,6 +65,8 @@ See [Promethean and Epimethean phase names](docs/phase-naming-framework.md) for 
 
 See [Promethean–Epimethean bridge](docs/promethean-epimethean-bridge.md) for a source-attributed way to place gates, channels, centers, chakra traditions, and lived physiology in conversation without conflating symbolism with endocrine mechanisms. The draft [correspondence schema](schema/correspondence.schema.json) keeps these crosswalks distinct from measured observations.
 
+The [Human Design × Neuroendocrine Atlas](docs/human-design-neuroendocrine-atlas.md) develops that bridge as a comparative graph model: it inventories the nine symbolic centers and 36 channel edges, identifies where biological analogies need qualification, and sketches a preregistered validation approach. It explicitly treats the three gate notes currently available as examples rather than a complete 64-gate catalog.
+
 See the [evidence-claim model](docs/evidence-claim-model.md), [evidence review protocol](docs/evidence-review-protocol.md), [scoped evidence-claim schema](schema/evidence-claim.schema.json), and [candidate-only evidence catalog](catalog/evidence-claims.json) for separately sourced biomedical, measurement-validity, intervention, and developmental claims. Catalog entries remain under review and internal only; general scientific evidence does not turn a symbolic correspondence into a biological finding.
 
 See [Epimethean behavior layer](docs/behavior-layer.md) for representing chosen or constrained eating patterns, fasting, exercise, supplements, sleep/light routines, and other practices alongside physiology without treating the model as a prescriber.
