@@ -107,14 +107,19 @@ Every relation between quantities must be typed before it can appear in a model 
 | `co_occurrence` | A and B appear in the same declared window | Window rule, source coverage, and missingness disclosure |
 | `literature_association` | A source reports a population-level statistical association between constructs | Evidence claim with matching population, setting, measures, and limitations; no causal or mechanistic inference |
 | `within_person_association` | A and B vary together for one person in observed data | Prespecified features/window, adequate repeated observations, uncertainty, alternative explanations; no causal language |
-| `mechanistic_hypothesis` | A proposed biological process could connect A and B | Evidence claim with matching scope; distinguish established mechanism from individual application |
+| `literature_mechanism` | A source supports a biological mechanism within a declared population and context | Scoped, reviewed evidence claim; a general mechanism does not establish that it occurred in an individual's episode |
+| `model_hypothesis` | An explicit, unresolved proposal that A may relate to B | Mark as a question for inquiry; do not present as evidence, mechanism, or individual finding |
 | `causal_effect` | Changing A would change B under specified conditions | A suitable causal design and assumptions; observational co-variation is insufficient |
-| `symbolic_correspondence` | A named tradition links two symbolic concepts | Source and lineage; explicitly not a biological association |
-| `person_interpretation` | The person says the relation is meaningful to them | Person's own words, date, and permission; does not become general evidence |
+| `symbolic_correspondence` | A named tradition links a symbolic feature to another concept | Store as a source-attributed correspondence, not a physiological or episode-graph edge |
+| `person_interpretation` | The person says a juxtaposition or pattern is meaningful to them | Store as subject feedback/interpretation with date and permission; it does not become general evidence |
+| `person_reported_link` | The person reports a relationship between two episode records or experiences | Attribute it to the person and source record; it does not establish cause or another person's state |
+| `reappraisal` | The person reports a later reinterpretation of an earlier appraisal | Preserve the earlier and later records separately; do not infer why the interpretation changed |
 
-The default relation produced by a timeline is `temporal_order` or `co_occurrence`, never mechanism or cause. An exploratory within-person association is a question-generating feature, not a health recommendation or a transferable profile of other people.
+These relation types do not belong to one interchangeable edge set. `temporal_order`, `co_occurrence`, `person_reported_link`, `literature_association`, `literature_mechanism`, `model_hypothesis`, and `reappraisal` are episode-graph relations in the current pathway contract. A symbolic correspondence belongs in the correspondence catalog; a person's meaning belongs in their interpretation/feedback; `within_person_association` and `causal_effect` are future analysis outputs and are not pathway edges. Reading `claimType` values (such as `observation`, `symbolic_prompt`, `hypothesis`, and `boundary`) describe statements presented to the person, not relations in the evidence graph.
 
-The draft [experience-pathway graph contract](../schema/experience-pathway.schema.json) implements only a restricted subset of this vocabulary. It supports time-based order/co-occurrence, subject-reported links, evidence-cited literature associations and general mechanisms, explicit model hypotheses, and reappraisal links. It deliberately has no `causal_effect` or `within_person_association` relation type; those require separate analysis designs and review.
+The default relation produced by a timeline is `temporal_order` or `co_occurrence`, never mechanism or cause. An exploratory within-person association is a question-generating feature, not a health recommendation or a transferable profile of other people. `literature_mechanism` names a sourced general mechanism; `model_hypothesis` names a proposed relation that is not yet established. Neither asserts an individual state.
+
+The draft [experience-pathway graph contract](../schema/experience-pathway.schema.json) implements only a restricted subset of this vocabulary: `temporal_order`, `co_occurrence`, `person_reported_link`, `literature_association`, `literature_mechanism`, `model_hypothesis`, and `reappraisal`. It deliberately has no `symbolic_correspondence`, `person_interpretation`, `within_person_association`, or `causal_effect` relation type. The first two have separate correspondence/feedback representations; the latter two require separate analysis designs and review.
 
 ## 7. Personal reference patterns
 
