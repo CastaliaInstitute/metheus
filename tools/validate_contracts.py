@@ -37,6 +37,7 @@ EXAMPLE_SCHEMAS = {
     "development-context-preterm-corrected-age.example.json": "observation.schema.json",
     "experience-pathway-synthetic.example.json": "experience-pathway.schema.json",
     "experience-pathway-local-preflight.example.json": "experience-pathway-case.schema.json",
+    "interaction-intimacy.example.json": "interaction-event.schema.json",
     "environmental-affordance-ai-use.example.json": "observation.schema.json",
     "environmental-affordance-linked-case.example.json": "environmental-affordance-case.schema.json",
     "environmental-affordance-response.example.json": "observation.schema.json",

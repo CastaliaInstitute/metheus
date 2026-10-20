@@ -102,6 +102,8 @@ Each data point should carry its source and uncertainty:
 
 Behavior exposures are records of what was intended or reported, not outcomes. A response—subjective, wearable-derived, or laboratory-measured—must be a separate observation with its own time, source, and method. The schema's optional `behaviorContext` and `sensoryExposure` objects carry exposure details; neither encodes a presumed effect. For aroma/flavor, preserve modality and route because smelling, tasting, and swallowing are materially different exposures.
 
+Relationships are similarly perspective-owned. A person may record an interaction, including intimacy, but the record cannot speak for another participant or establish consent, desire, or physiology. Any future shared interaction view must resolve each participant's own records and current permissions separately. See the draft [relationship and interaction model](relationship-interaction-model.md).
+
 ### 7. Developmental psychology and learning
 
 Learning belongs in the Epimethean layer as a changing interaction among developmental context, prior knowledge, learner goals, task demands, relationships, culture, access, and the learning environment. Record what learning activity and supports were used; keep learner feedback and demonstrated learning evidence as separately sourced observations with their own times and methods. The Promethean map may help the learner frame a question about motivation or preferred conditions; it must not prescribe a method, assign a fixed learning style, or predict a child's abilities. See the [developmental psychology and learning layer](developmental-learning-layer.md).

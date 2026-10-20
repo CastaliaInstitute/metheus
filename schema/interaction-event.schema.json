@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metheus.castalia.institute/schema/interaction-event.schema.json",
+  "title": "Metheus subject-authored interaction record",
+  "description": "A privacy-minimized account of an interaction from one subject's perspective. It does not establish another participant's experience, consent, relationship status, or physiology.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "schemaVersion", "recordedBySubjectId", "eventKind", "time", "source", "participantReferences", "perspective", "limitations"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "schemaVersion": { "type": "string", "minLength": 1 },
+    "recordedBySubjectId": { "type": "string", "minLength": 1, "description": "Pseudonymous owner of this account. The record represents this person's account only." },
+    "eventKind": { "enum": ["conversation", "caregiving", "conflict", "repair", "affection", "intimacy", "shared_activity", "other"] },
+    "time": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["precision"],
+      "properties": {
+        "start": { "type": "string", "format": "date-time" },
+        "end": { "type": "string", "format": "date-time" },
+        "observedAt": { "type": "string", "format": "date-time" },
+        "date": { "type": "string", "format": "date" },
+        "timeZone": { "type": "string" },
+        "precision": { "enum": ["exact", "approximate", "date_only", "unknown"] }
+      },
+      "anyOf": [{ "required": ["observedAt"] }, { "required": ["start"] }, { "required": ["date"] }],
+      "allOf": [
+        { "if": { "required": ["start"] }, "then": { "required": ["end"], "not": { "required": ["observedAt"] } } },
+        { "if": { "required": ["end"] }, "then": { "required": ["start"] } },
+        { "if": { "required": ["observedAt"] }, "then": { "not": { "anyOf": [{ "required": ["start"] }, { "required": ["end"] }] } } },
+        { "if": { "required": ["date"] }, "then": { "properties": { "precision": { "const": "date_only" } }, "not": { "anyOf": [{ "required": ["observedAt"] }, { "required": ["start"] }, { "required": ["end"] }] } } },
+        { "if": { "required": ["precision"], "properties": { "precision": { "const": "date_only" } } }, "then": { "required": ["date"] } }
+      ]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": { "enum": ["subject", "external_import", "unknown"] },
+        "name": { "type": "string" },
+        "method": { "type": "string" }
+      }
+    },
+    "participantReferences": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["reference", "relationToRecorder", "contribution"],
+        "properties": {
+          "reference": { "type": "string", "minLength": 1, "description": "Local pseudonym; do not put a name, handle, phone number, or contact detail here." },
+          "relationToRecorder": { "enum": ["recorder", "partner", "family_member", "friend", "care_recipient", "professional", "other", "unknown"] },
+          "contribution": { "enum": ["no_record_contributed", "own_record_referenced", "explicitly_shared_record_referenced", "unknown"] }
+        }
+      }
+    },
+    "perspective": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["account", "consentContext"],
+      "properties": {
+        "account": { "type": "string", "minLength": 1, "description": "Brief account in the recorder's own words. Avoid explicit sexual detail and unnecessary third-party information." },
+        "feltExperience": { "enum": ["connected", "distant", "positive", "mixed", "difficult", "uncertain", "not_reported"] },
+        "consentContext": { "enum": ["not_recorded", "recorder_reports_communication", "recorder_reports_uncertainty_or_concern", "not_applicable", "unknown"] },
+        "sharedPerspectiveRecordIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true, "description": "IDs of separately owned records explicitly shared by their subject. This reference does not itself grant access." }
+      }
+    },
+    "contextTags": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "limitations": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+  },
+  "allOf": [
+    {
+      "if": { "required": ["eventKind"], "properties": { "eventKind": { "const": "intimacy" } } },
+      "then": {
+        "properties": {
+          "participantReferences": { "minItems": 2 },
+          "limitations": { "contains": { "const": "This is the recorder's account; it does not establish another participant's consent, desire, experience, or health." } }
+        }
+      }
+    },
+    {
+      "if": { "required": ["perspective"], "properties": { "perspective": { "required": ["sharedPerspectiveRecordIds"], "properties": { "sharedPerspectiveRecordIds": { "minItems": 1 } } } } },
+      "then": { "properties": { "limitations": { "contains": { "const": "Referenced records require separate, current authorization for this use; a link does not grant access." } } } }
+    }
+  ]
+}
