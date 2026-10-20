@@ -66,7 +66,8 @@
     "methodVersion": { "type": "string" },
     "uncertainty": { "type": "string", "minLength": 1 },
     "limitations": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
-    "nameSource": { "enum": ["metheus_suggestion", "user_authored", "source_attributed"] }
+    "nameSource": { "enum": ["metheus_suggestion", "user_authored", "source_attributed"] },
+    "supersedes": { "type": "string", "minLength": 1, "description": "Prior same-subject phase annotation corrected by this annotation." }
   },
   "allOf": [
     {

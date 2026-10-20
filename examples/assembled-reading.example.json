@@ -52,6 +52,28 @@
         "coverage": "partial",
         "rationale": "Illustrative person-reported event; synthetic fixture."
       }
+    },
+    {
+      "position": 2,
+      "claimType": "boundary",
+      "text": "Structural validation does not determine whether claim text is supported by evidence.",
+      "sourceIds": [],
+      "sources": [],
+      "phaseAnnotations": [],
+      "references": [
+        {
+          "id": "synthetic-evidence-boundary",
+          "kind": "evidence_claim",
+          "claimText": "Schema validation checks structure, not evidential adequacy.",
+          "evidenceStatus": "supported_for_scope",
+          "scope": { "description": "General software contract validation." },
+          "sourceCitations": [
+            { "title": "Synthetic contract example", "url": "https://example.org/contract-validation", "sourceType": "other" }
+          ],
+          "limitations": ["Synthetic fixture; not an evidence catalog item."]
+        }
+      ],
+      "support": { "confidence": "not_applicable", "coverage": "unknown" }
     }
   ],
   "limitations": ["Synthetic example; schema validation does not verify claim-text entailment."],

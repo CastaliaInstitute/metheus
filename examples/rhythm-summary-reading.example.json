@@ -14,13 +14,13 @@
     "rhythm-sleep-2026-10-18",
     "rhythm-sleep-2026-10-19",
     "rhythm-sleep-2026-10-20",
-    "sleep:metheus-rhythm-summary/0.1.0:2026-10-18:2026-10-20"
+    "sleep:metheus-rhythm-summary/0.2.0:2026-10-18:2026-10-20"
   ],
   "claims": [
     {
       "claimType": "estimate",
       "text": "Across three logged main-sleep intervals from October 18–20, the median recorded duration was 480 minutes and the median logged midpoint was 02:30 in America/Denver.",
-      "sourceIds": ["sleep:metheus-rhythm-summary/0.1.0:2026-10-18:2026-10-20"],
+      "sourceIds": ["sleep:metheus-rhythm-summary/0.2.0:2026-10-18:2026-10-20"],
       "support": {
         "confidence": "moderate",
         "coverage": "adequate",
@@ -31,7 +31,7 @@
     {
       "claimType": "boundary",
       "text": "These logs do not estimate circadian phase or establish sleep quality, health, or schedule adequacy.",
-      "sourceIds": ["sleep:metheus-rhythm-summary/0.1.0:2026-10-18:2026-10-20"],
+      "sourceIds": ["sleep:metheus-rhythm-summary/0.2.0:2026-10-18:2026-10-20"],
       "support": {
         "confidence": "high",
         "coverage": "adequate",

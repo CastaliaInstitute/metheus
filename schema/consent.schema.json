@@ -71,7 +71,7 @@
     "createdAt": { "type": "string", "format": "date-time" },
     "expiresAt": { "type": "string", "format": "date-time" },
     "withdrawnAt": { "type": "string", "format": "date-time" },
-    "supersedes": { "type": "string" },
+    "supersedes": { "type": "string", "minLength": 1, "description": "ID of a prior same-subject grant replaced by this grant." },
     "revokesGrantIds": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
     "auditReference": { "type": "string" }
   },

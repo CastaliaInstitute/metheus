@@ -694,7 +694,7 @@ def assemble_reading(
         "id", "recordType", "eventType", "domain", "label", "epistemicClass",
         "time", "source", "methodDetails", "uncertainty", "limitations",
         "schemaVersion", "summaryType", "summaryMeasure", "methodVersion",
-        "window", "inputRecordIds",
+        "window", "inputRecordIds", "supersedes",
     )
     phase_index = {
         item.get("id"): item for item in resource_list
@@ -744,24 +744,26 @@ def assemble_reading(
         for phase_id in phase_ids:
             annotation = phase_index.get(phase_id)
             if annotation is not None:
-                phases.append({
+                phase_entry = {
                     "id": phase_id,
                     "layer": annotation.get("layer"),
                     "phaseSystem": annotation.get("phaseSystem"),
                     "canonicalPhase": annotation.get("canonicalPhase"),
-                    "evocativeName": annotation.get("evocativeName"),
-                    "description": annotation.get("description"),
                     "window": annotation.get("window"),
                     "basis": annotation.get("basis"),
                     "interpretation": annotation.get("interpretation"),
-                    "sourceSystem": annotation.get("sourceSystem"),
-                    "nameSource": annotation.get("nameSource"),
                     "basisRecordIds": annotation.get("basisRecordIds", []),
                     "method": annotation.get("method"),
-                    "methodVersion": annotation.get("methodVersion"),
                     "uncertainty": annotation.get("uncertainty"),
                     "limitations": annotation.get("limitations", []),
-                })
+                }
+                for optional_field in (
+                    "evocativeName", "description", "sourceSystem", "nameSource",
+                    "methodVersion", "supersedes",
+                ):
+                    if optional_field in annotation:
+                        phase_entry[optional_field] = annotation[optional_field]
+                phases.append(phase_entry)
 
         claim_refs = []
         for reference_id in correspondence_ids:

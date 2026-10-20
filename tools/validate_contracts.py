@@ -22,6 +22,7 @@ EXAMPLE_SCHEMAS = {
     "birth-chart-input.example.json": "birth-chart-input.schema.json",
     "birth-input-calculation-consent.example.json": "consent.schema.json",
     "bleeding-onset.example.json": "observation.schema.json",
+    "bleeding-onset-correction.example.json": "observation.schema.json",
     "consent-grant.example.json": "consent.schema.json",
     "learner-feedback.example.json": "observation.schema.json",
     "learning-activity.example.json": "observation.schema.json",

@@ -111,11 +111,11 @@ def _resolve_index(
         if resource.get("recordType") == "rhythm_summary":
             measure = resource.get("summaryMeasure")
             expected_summary_shapes = {
-                "bleeding_onset_intervals": ("reproductive", "metheus-bleeding-onset-gap/0.1.0"),
-                "main_sleep": ("sleep", "metheus-rhythm-summary/0.1.0"),
-                "meal_events": ("nutrition", "metheus-feeding-summary/0.2.0"),
-                "caregiver_feeding_events": ("feeding", "metheus-feeding-summary/0.2.0"),
-                "meal_timing_relative_to_wake": ("nutrition", "metheus-wake-relative-meal/0.1.0"),
+                "bleeding_onset_intervals": ("reproductive", "metheus-bleeding-onset-gap/0.2.0"),
+                "main_sleep": ("sleep", "metheus-rhythm-summary/0.2.0"),
+                "meal_events": ("nutrition", "metheus-feeding-summary/0.3.0"),
+                "caregiver_feeding_events": ("feeding", "metheus-feeding-summary/0.3.0"),
+                "meal_timing_relative_to_wake": ("nutrition", "metheus-wake-relative-meal/0.2.0"),
             }
             if not isinstance(measure, str) or measure not in expected_summary_shapes:
                 issue("rhythm_summary_unknown_measure", resource_id)

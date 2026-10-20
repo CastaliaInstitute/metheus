@@ -229,7 +229,7 @@
         "sharing": { "enum": ["private", "explicitly_shared", "unknown"] }
       }
     },
-    "supersedes": { "type": "string" },
+    "supersedes": { "type": "string", "minLength": 1, "description": "ID of the prior same-subject record corrected by this record." },
     "createdAt": { "type": "string", "format": "date-time" },
     "notes": { "type": "string", "description": "Keep notes to the minimum necessary; do not put unconsented third-party sensitive data here." }
   },

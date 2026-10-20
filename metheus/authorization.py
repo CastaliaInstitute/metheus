@@ -48,11 +48,11 @@ _CONSENT_DOMAINS = (_RECORD_DOMAINS - {"relationship"}) | {
 }
 _OBSERVATION_RECORD_TYPES = {"observation", "event", "estimate", "symbolic_feature", "context"}
 _SUMMARY_MEASURES = {
-    "bleeding_onset_intervals": ("reproductive", "metheus-bleeding-onset-gap/0.1.0"),
-    "main_sleep": ("sleep", "metheus-rhythm-summary/0.1.0"),
-    "meal_events": ("nutrition", "metheus-feeding-summary/0.2.0"),
-    "caregiver_feeding_events": ("feeding", "metheus-feeding-summary/0.2.0"),
-    "meal_timing_relative_to_wake": ("nutrition", "metheus-wake-relative-meal/0.1.0"),
+    "bleeding_onset_intervals": ("reproductive", "metheus-bleeding-onset-gap/0.2.0"),
+    "main_sleep": ("sleep", "metheus-rhythm-summary/0.2.0"),
+    "meal_events": ("nutrition", "metheus-feeding-summary/0.3.0"),
+    "caregiver_feeding_events": ("feeding", "metheus-feeding-summary/0.3.0"),
+    "meal_timing_relative_to_wake": ("nutrition", "metheus-wake-relative-meal/0.2.0"),
 }
 _SUMMARY_SOURCE_TYPES = {
     "bleeding_onset_intervals": {("bleeding_start", "reproductive")},

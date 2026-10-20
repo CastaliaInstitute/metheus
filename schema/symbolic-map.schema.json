@@ -57,6 +57,6 @@
       ]
     },
     "createdAt": { "type": "string", "format": "date-time" },
-    "supersedes": { "type": "string", "minLength": 1 }
+    "supersedes": { "type": "string", "minLength": 1, "description": "ID of the prior same-subject map revision made obsolete by this calculation." }
   }
 }

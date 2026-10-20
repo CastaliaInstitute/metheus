@@ -1,0 +1,23 @@
+{
+  "id": "bleeding-onset-example-2026-10-01-corrected",
+  "subjectId": "example-subject-02",
+  "recordType": "event",
+  "schemaVersion": "0.2",
+  "eventType": "bleeding_start",
+  "epistemicClass": "self_reported",
+  "time": {
+    "date": "2026-10-02",
+    "precision": "date_only",
+    "scale": "reproductive"
+  },
+  "source": { "kind": "subject", "reportedByRelation": "self" },
+  "domain": "reproductive",
+  "label": "corrected reported bleeding onset",
+  "privacy": {
+    "sensitivity": "sensitive",
+    "subjectControlled": true,
+    "sharing": "private"
+  },
+  "supersedes": "bleeding-onset-example-2026-10-01",
+  "notes": "Synthetic correction fixture. The prior record remains historical; no clinical phase is inferred."
+}

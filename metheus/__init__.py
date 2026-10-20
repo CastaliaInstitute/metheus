@@ -15,6 +15,7 @@ from .rhythms import (
     summarize_meal_timing_relative_to_wake,
 )
 from .schema_validation import validate_record_schema, validate_schema_instance
+from .lifecycle import resolve_current_records
 
 __all__ = [
     "evaluate_authorization",
@@ -24,6 +25,7 @@ __all__ = [
     "assemble_reading",
     "validate_record_schema",
     "validate_schema_instance",
+    "resolve_current_records",
     "resolve_subject_index",
     "authorize_subject_index_resources",
     "summarize_bleeding_onset_intervals",

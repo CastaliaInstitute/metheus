@@ -56,6 +56,7 @@ These are product design goals. Rules about guardianship, minors, education reco
 - Every observation retains source and epistemic class; permission metadata does not change whether a record is measured, reported, estimated, or symbolic.
 - Store consent grants and sharing events as auditable records separate from the observation payload.
 - Derived summaries retain the IDs of their inputs. When an input is deleted or excluded, dependent summaries and readings must be recomputed, withdrawn, or clearly marked as no longer supported.
+- Corrections create a new version linked with `supersedes`; they do not overwrite or delete the prior record. Superseded records retain their own consent scope. Revision links and in-memory current-record selection are described in the [record lifecycle rules](record-lifecycle.md); deletion, retention, and dependency invalidation still require a persistent service design.
 - A reading uses only the selected record IDs and domains in its request. Availability in the profile is not permission to include a record in every reading.
 
 ### Protect processing

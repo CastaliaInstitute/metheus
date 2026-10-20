@@ -14,12 +14,21 @@ from statistics import median
 from typing import Any, Iterable
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
+from .lifecycle import resolve_current_records
 
-METHOD_VERSION = "metheus-rhythm-summary/0.1.0"
+
+METHOD_VERSION = "metheus-rhythm-summary/0.2.0"
 SUMMARY_SCHEMA_VERSION = "0.1"
-FEEDING_METHOD_VERSION = "metheus-feeding-summary/0.2.0"
-WAKE_RELATIVE_METHOD_VERSION = "metheus-wake-relative-meal/0.1.0"
-BLEEDING_ONSET_METHOD_VERSION = "metheus-bleeding-onset-gap/0.1.0"
+FEEDING_METHOD_VERSION = "metheus-feeding-summary/0.3.0"
+WAKE_RELATIVE_METHOD_VERSION = "metheus-wake-relative-meal/0.2.0"
+BLEEDING_ONSET_METHOD_VERSION = "metheus-bleeding-onset-gap/0.2.0"
+
+
+def _current_subject_records(records: Iterable[dict[str, Any]], subject_id: str) -> list[dict[str, Any]]:
+    resolution = resolve_current_records(records, subject_id=subject_id)
+    if not resolution["valid"]:
+        raise ValueError("subject record revision history is ambiguous")
+    return resolution["currentRecords"]
 
 
 def _parse_datetime(value: str) -> datetime:
@@ -120,13 +129,14 @@ def summarize_bleeding_onset_intervals(
     """
     if not subject_id:
         raise ValueError("subject_id is required to prevent cross-subject aggregation")
+    current_records = _current_subject_records(records, subject_id)
     first_day, last_day, window_days = _window(start_date, end_date)
     onset_records: dict[date, set[str]] = {}
     onset_record_counts: dict[date, int] = {}
     date_only_count = 0
     timed_count = 0
 
-    for record in records:
+    for record in current_records:
         if record.get("subjectId") != subject_id:
             continue
         if record.get("recordType") not in {"observation", "event"}:
@@ -205,11 +215,12 @@ def summarize_main_sleep(
     """
     if not subject_id:
         raise ValueError("subject_id is required to prevent cross-subject aggregation")
+    current_records = _current_subject_records(records, subject_id)
     first_day, last_day, window_days = _window(start_date, end_date)
     eligible: list[tuple[datetime, float, datetime, str]] = []
     clock_contexts: set[str] = set()
 
-    for record in records:
+    for record in current_records:
         if record.get("subjectId") != subject_id:
             continue
         if record.get("recordType") not in {"observation", "event"}:
@@ -288,11 +299,12 @@ def summarize_feeding_events(
         raise ValueError("subject_id is required to prevent cross-subject aggregation")
     if event_kind not in {"meal", "feeding"}:
         raise ValueError("event_kind must be 'meal' or 'feeding'")
+    current_records = _current_subject_records(records, subject_id)
     first_day, last_day, window_days = _window(start_date, end_date)
     events_by_day: dict[date, list[tuple[int, str]]] = {}
     clock_contexts: set[str] = set()
 
-    for record in records:
+    for record in current_records:
         if record.get("subjectId") != subject_id:
             continue
         if record.get("recordType") not in {"observation", "event"}:
@@ -385,7 +397,7 @@ def summarize_meal_timing_relative_to_wake(
     first_day, last_day, window_days = _window(start_date, end_date)
     subject_records = [
         record
-        for record in records
+        for record in _current_subject_records(records, subject_id)
         if record.get("subjectId") == subject_id
         and record.get("recordType") in {"observation", "event"}
     ]

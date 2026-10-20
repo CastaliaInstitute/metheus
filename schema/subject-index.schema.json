@@ -5,13 +5,14 @@
   "description": "A minimal pseudonymous index linking separately stored, versioned resources. It is not a complete person profile, identity record, consent grant, or permission to access linked data.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["subjectId", "recordType", "schemaVersion", "revision", "steward", "resourceRefs", "createdAt", "updatedAt"],
+  "required": ["id", "subjectId", "recordType", "schemaVersion", "revision", "steward", "resourceRefs", "createdAt", "updatedAt"],
   "properties": {
+    "id": { "type": "string", "minLength": 1, "description": "Unique pseudonymous identifier for this index revision." },
     "subjectId": { "type": "string", "minLength": 1, "description": "Pseudonymous subject reference; do not use a name, email, or external account identifier." },
     "recordType": { "const": "subject_index" },
     "schemaVersion": { "type": "string", "minLength": 1 },
     "revision": { "type": "integer", "minimum": 1 },
-    "supersedes": { "type": "string", "minLength": 1 },
+    "supersedes": { "type": "string", "minLength": 1, "description": "ID of the immediately prior index revision for this subject." },
     "steward": {
       "type": "object",
       "additionalProperties": false,
@@ -50,5 +51,15 @@
     },
     "createdAt": { "type": "string", "format": "date-time" },
     "updatedAt": { "type": "string", "format": "date-time" }
-  }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "revision": { "const": 1 } }, "required": ["revision"] },
+      "then": { "not": { "required": ["supersedes"] } }
+    },
+    {
+      "if": { "properties": { "revision": { "minimum": 2 } }, "required": ["revision"] },
+      "then": { "required": ["supersedes"] }
+    }
+  ]
 }
