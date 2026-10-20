@@ -1,0 +1,30 @@
+{
+  "id": "synthetic-ai-affordance-response-01",
+  "subjectId": "example-subject-01",
+  "recordType": "observation",
+  "schemaVersion": "0.2",
+  "eventType": "other",
+  "epistemicClass": "self_reported",
+  "time": {
+    "observedAt": "2026-10-21T10:20:00-06:00",
+    "timeZone": "America/Denver",
+    "precision": "approximate",
+    "scale": "instant"
+  },
+  "source": {
+    "kind": "subject",
+    "reportedByRelation": "self"
+  },
+  "domain": "learning",
+  "label": "Synthetic subject is unsure whether the practice changed confidence",
+  "value": {
+    "category": "uncertain"
+  },
+  "relatedAffordanceIds": ["synthetic-ai-dialogue-practice-01"],
+  "privacy": {
+    "sensitivity": "personal",
+    "subjectControlled": true,
+    "sharing": "private"
+  },
+  "notes": "Synthetic fixture. This separate report does not establish benefit, harm, or causation."
+}

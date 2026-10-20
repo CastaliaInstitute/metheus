@@ -19,7 +19,11 @@ Metheus can use an undefined gate or channel as an optional **question prompt**â
 5. **Let the person decide whether to try it.** A reflection option is an invitation, not a recommendation. Record proposed, chosen, declined, revised, and actually used separately.
 6. **Ask what happened.** Record the person's later experience or task-specific observation separately from the affordance. A trial can feel useful, neutral, uncomfortable, inaccessible, or mixed. One response does not validate the symbolic pairing or establish a general effect.
 
-The draft [reading schema](../schema/reading.schema.json) now permits an `environmental_affordance` reflection option. It requires a non-symbolic basis and source record, and it records the delivery mode, intended function, and role frame. This is an output contract only: Metheus does not currently generate, deploy, rank, or evaluate supports.
+The draft [reading schema](../schema/reading.schema.json) permits an `environmental_affordance` reflection option. It requires a non-symbolic basis and source record, and it records the delivery mode, intended function, and role frame. The [observation schema](../schema/observation.schema.json) can separately record an affordance lifecycle event (`offered`, `chosen`, `declined`, `unavailable`, `used`, `stopped`, or revised) and later observations can link to its stable `affordanceId`. The [synthetic AI-use example](../examples/environmental-affordance-ai-use.example.json) and its distinct [uncertain response](../examples/environmental-affordance-response.example.json) show this split. These schemas do not yet enforce that referenced reading/option IDs resolve to the same subject or validate a full lifecycle sequence; the in-memory resource resolver has not been extended for these links.
+
+Consent remains tied to the actual record's domain and purpose. For example, an AI dialogue used for a learning goal is a learning record; if the subject separately reports experiencing it as relationship-like, that account belongs under the relationship domain and sensitive privacy scope. Analysis involving a remote AI service requires the separate remote-processing permission already defined in the [privacy model](privacy-consent-model.md). Do not store prompts or transcripts as part of the affordance event; an explicit, separate purpose and data-retention decision would be required for any such content.
+
+This is representation only: Metheus does not currently generate, deploy, rank, or evaluate supports or run an AI service.
 
 ## AI-mediated scaffold
 

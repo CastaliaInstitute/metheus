@@ -1,0 +1,42 @@
+{
+  "id": "synthetic-ai-affordance-use-01",
+  "subjectId": "example-subject-01",
+  "recordType": "event",
+  "schemaVersion": "0.2",
+  "eventType": "environmental_affordance",
+  "epistemicClass": "self_reported",
+  "time": {
+    "start": "2026-10-21T10:00:00-06:00",
+    "end": "2026-10-21T10:08:00-06:00",
+    "timeZone": "America/Denver",
+    "precision": "approximate",
+    "scale": "instant"
+  },
+  "source": {
+    "kind": "subject",
+    "reportedByRelation": "self"
+  },
+  "domain": "learning",
+  "label": "Synthetic subject reports trying an optional AI dialogue rehearsal",
+  "environmentalAffordance": {
+    "affordanceId": "synthetic-ai-dialogue-practice-01",
+    "sourceReadingId": "learning-reading-example-01",
+    "sourceOptionId": "option-ai-dialogue-scaffold-01",
+    "deliveryMode": "conversational_ai",
+    "intendedFunction": "communication_practice",
+    "lifecycleEvent": "used",
+    "roleFrame": "tool_or_scaffold",
+    "subjectExperienceFrame": "task_support",
+    "aiDisclosures": {
+      "identity": "disclosed",
+      "privacyBoundaries": "disclosed",
+      "roleBoundaries": "disclosed"
+    }
+  },
+  "privacy": {
+    "sensitivity": "personal",
+    "subjectControlled": true,
+    "sharing": "private"
+  },
+  "notes": "Synthetic fixture. No prompt, reply, or transcript is included."
+}

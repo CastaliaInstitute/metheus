@@ -11,7 +11,7 @@
     "subjectId": { "type": "string", "minLength": 1, "description": "Pseudonymous local subject reference; avoid direct identifiers." },
     "recordType": { "enum": ["observation", "event", "estimate", "symbolic_feature", "context"] },
     "schemaVersion": { "type": "string", "minLength": 1 },
-    "eventType": { "enum": ["main_sleep", "sleep_episode", "nap", "wake", "meal", "feeding", "fasting_start", "fasting_end", "dietary_pattern", "learning_activity", "light_exposure", "sensory_exposure", "activity", "exercise_session", "supplement_use", "medication_change", "bleeding_start", "symptom", "hormone_result", "developmental_note", "relationship_note", "other"] },
+    "eventType": { "enum": ["main_sleep", "sleep_episode", "nap", "wake", "meal", "feeding", "fasting_start", "fasting_end", "dietary_pattern", "learning_activity", "environmental_affordance", "light_exposure", "sensory_exposure", "activity", "exercise_session", "supplement_use", "medication_change", "bleeding_start", "symptom", "hormone_result", "developmental_note", "relationship_note", "other"] },
     "epistemicClass": { "enum": ["measured", "self_reported", "caregiver_reported", "clinician_reported", "derived", "symbolic", "imported"] },
     "time": {
       "type": "object",
@@ -172,6 +172,38 @@
         "setting": { "type": "string" }
       }
     },
+    "environmentalAffordance": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "One subject-reported or otherwise sourced event in an optional support's lifecycle. Keep the support event separate from later experience/outcome records; do not store AI transcripts here.",
+      "required": ["affordanceId", "deliveryMode", "intendedFunction", "lifecycleEvent", "roleFrame"],
+      "properties": {
+        "affordanceId": { "type": "string", "minLength": 1, "description": "Stable identifier joining records about one proposed support/trial, not a Human Design channel ID." },
+        "sourceReadingId": { "type": "string", "minLength": 1 },
+        "sourceOptionId": { "type": "string", "minLength": 1, "description": "ID of an environmental-affordance reflection option, if one prompted this event." },
+        "deliveryMode": { "enum": ["conversational_ai", "human_peer", "human_professional", "group_or_community", "physical_environment", "routine_or_practice", "digital_tool", "sensory_cue", "other"] },
+        "intendedFunction": { "enum": ["communication_practice", "reflection", "problem_solving", "learning", "structure_or_routine", "access_support", "sensory_context", "connection", "other"] },
+        "lifecycleEvent": { "enum": ["made_available", "offered", "chosen", "declined", "unavailable", "started", "used", "partial_use", "stopped", "revised"] },
+        "roleFrame": { "enum": ["tool_or_scaffold", "human_relationship", "environmental_condition", "other"] },
+        "subjectExperienceFrame": { "enum": ["task_support", "socially_meaningful", "relationship_like", "uncertain", "not_reported"], "description": "Optional description of the subject's experience; it does not assert reciprocal feeling or relationship from a nonhuman service." },
+        "aiDisclosures": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "For AI interactions, record what the subject reports was disclosed; do not assume disclosure occurred.",
+          "properties": {
+            "identity": { "enum": ["disclosed", "not_disclosed", "unclear", "not_observed"] },
+            "privacyBoundaries": { "enum": ["disclosed", "not_disclosed", "unclear", "not_observed"] },
+            "roleBoundaries": { "enum": ["disclosed", "not_disclosed", "unclear", "not_observed"] }
+          }
+        }
+      },
+      "allOf": [
+        { "if": { "required": ["sourceOptionId"] }, "then": { "required": ["sourceReadingId"] } },
+        { "if": { "required": ["deliveryMode"], "properties": { "deliveryMode": { "const": "conversational_ai" } } }, "then": { "required": ["aiDisclosures"], "properties": { "roleFrame": { "const": "tool_or_scaffold" } } } },
+        { "if": { "required": ["subjectExperienceFrame"], "properties": { "subjectExperienceFrame": { "const": "relationship_like" } } }, "then": { "properties": { "roleFrame": { "const": "tool_or_scaffold" } } } }
+      ]
+    },
+    "relatedAffordanceIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true, "description": "Optional link from a separately sourced response/aftereffect observation to the support trial it concerns. The link does not establish causality." },
     "measurementDetails": {
       "type": "object",
       "additionalProperties": false,
@@ -367,6 +399,30 @@
     {
       "if": { "required": ["eventType"], "properties": { "eventType": { "const": "learning_activity" } } },
       "then": { "required": ["learningActivity"], "properties": { "domain": { "const": "learning" } } }
+    },
+    {
+      "if": { "required": ["eventType"], "properties": { "eventType": { "const": "environmental_affordance" } } },
+      "then": {
+        "required": ["environmentalAffordance"],
+        "properties": {
+          "recordType": { "const": "event" },
+          "domain": { "enum": ["environment", "learning", "relationship", "development", "behavior"] }
+        }
+      }
+    },
+    {
+      "if": { "required": ["environmentalAffordance"] },
+      "then": { "required": ["eventType"], "properties": { "eventType": { "const": "environmental_affordance" }, "recordType": { "const": "event" } } }
+    },
+    {
+      "if": { "required": ["environmentalAffordance"], "properties": { "environmentalAffordance": { "required": ["subjectExperienceFrame"], "properties": { "subjectExperienceFrame": { "const": "relationship_like" } } } } },
+      "then": {
+        "required": ["privacy"],
+        "properties": {
+          "domain": { "const": "relationship" },
+          "privacy": { "required": ["sensitivity"], "properties": { "sensitivity": { "enum": ["sensitive", "highly_sensitive"] } } }
+        }
+      }
     },
     {
       "if": {

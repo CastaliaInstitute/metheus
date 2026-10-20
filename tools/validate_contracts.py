@@ -30,6 +30,8 @@ EXAMPLE_SCHEMAS = {
     "consent-grant.example.json": "consent.schema.json",
     "development-context-infant.example.json": "observation.schema.json",
     "experience-pathway-synthetic.example.json": "experience-pathway.schema.json",
+    "environmental-affordance-ai-use.example.json": "observation.schema.json",
+    "environmental-affordance-response.example.json": "observation.schema.json",
     "learner-feedback.example.json": "observation.schema.json",
     "learning-activity.example.json": "observation.schema.json",
     "learning-reading.example.json": "reading.schema.json",
