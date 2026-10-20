@@ -38,7 +38,7 @@
 
 Every record MUST have one class:
 
-- `measured`: sensor, laboratory, or clinician-produced instrument result. Include signal/analyte, method, units, and instrument when known. A clinician's narrative finding remains `clinician_reported`.
+- `measured`: sensor, laboratory, home-test, or clinician-produced instrument result. Include signal/analyte, method, units, and instrument when known; categorical home-test results may have no numeric unit. A clinician's narrative finding remains `clinician_reported`.
 - `self_reported`: the subject's account of their own experience.
 - `caregiver_reported`: a caregiver's observation or account about a child or dependent.
 - `clinician_reported`: a clinician-provided finding or interpretation. Preserve its author/source and date.

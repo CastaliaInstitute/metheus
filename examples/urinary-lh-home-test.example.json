@@ -1,0 +1,40 @@
+{
+  "id": "synthetic-urinary-lh-test",
+  "subjectId": "synthetic-subject",
+  "recordType": "observation",
+  "schemaVersion": "0.2",
+  "eventType": "hormone_result",
+  "epistemicClass": "measured",
+  "time": {
+    "observedAt": "2026-10-20T08:10:00-06:00",
+    "timeZone": "America/Denver",
+    "precision": "exact",
+    "scale": "reproductive"
+  },
+  "source": {
+    "kind": "home_test",
+    "name": "Synthetic urinary LH test",
+    "method": "Qualitative test result read according to product instructions."
+  },
+  "domain": "hormone_assay",
+  "label": "Urinary LH home-test result",
+  "value": {
+    "category": "positive"
+  },
+  "measurementDetails": {
+    "analyteOrSignal": "Luteinizing hormone (LH)",
+    "specimen": "urine",
+    "deviceOrAssay": "Synthetic qualitative home test",
+    "collectionConditions": "Synthetic example; collection context not specified."
+  },
+  "uncertainty": {
+    "level": "moderate",
+    "notes": "A positive test reflects this product's reported result and does not establish ovulation, fertility, or conception."
+  },
+  "privacy": {
+    "sensitivity": "sensitive",
+    "subjectControlled": true,
+    "sharing": "private"
+  },
+  "notes": "Synthetic example; not a clinical interpretation."
+}

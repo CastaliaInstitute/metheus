@@ -62,7 +62,7 @@
       "additionalProperties": false,
       "required": ["kind"],
       "properties": {
-        "kind": { "enum": ["sensor", "laboratory", "subject", "caregiver", "clinician", "symbolic_system", "algorithm", "external_import", "unknown"] },
+        "kind": { "enum": ["sensor", "laboratory", "home_test", "subject", "caregiver", "clinician", "symbolic_system", "algorithm", "external_import", "unknown"] },
         "name": { "type": "string" },
         "method": { "type": "string" },
         "version": { "type": "string" },
@@ -307,7 +307,7 @@
         "required": ["value", "measurementDetails"],
         "properties": {
           "measurementDetails": { "required": ["analyteOrSignal"] },
-          "source": { "properties": { "kind": { "enum": ["sensor", "laboratory", "clinician"] } } }
+          "source": { "properties": { "kind": { "enum": ["sensor", "laboratory", "home_test", "clinician"] } } }
         }
       }
     },
@@ -321,7 +321,24 @@
     },
     {
       "if": { "required": ["domain"], "properties": { "domain": { "const": "hormone_assay" } } },
-      "then": { "required": ["value"], "properties": { "epistemicClass": { "const": "measured" }, "source": { "properties": { "kind": { "const": "laboratory" } } }, "value": { "required": ["unit"] } } }
+      "then": {
+        "required": ["value", "measurementDetails"],
+        "properties": {
+          "epistemicClass": { "const": "measured" },
+          "source": { "properties": { "kind": { "enum": ["laboratory", "home_test"] } } },
+          "measurementDetails": { "required": ["analyteOrSignal", "specimen", "deviceOrAssay"] }
+        },
+        "allOf": [
+          {
+            "if": { "properties": { "source": { "properties": { "kind": { "const": "laboratory" } } } } },
+            "then": { "properties": { "value": { "required": ["unit"] } } }
+          },
+          {
+            "if": { "properties": { "source": { "properties": { "kind": { "const": "home_test" } } } } },
+            "then": { "properties": { "value": { "anyOf": [{ "required": ["category"] }, { "required": ["text"] }, { "required": ["boolean"] }, { "required": ["number"] }] } } }
+          }
+        ]
+      }
     },
     {
       "if": { "required": ["eventType"], "properties": { "eventType": { "const": "sensory_exposure" } } },

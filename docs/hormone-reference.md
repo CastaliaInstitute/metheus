@@ -302,6 +302,7 @@ These are relevant to neurochemistry, but most are not appropriately described a
 Rather than treating the list as one trackable stream, organize it by what a person can actually know:
 
 1. **Direct assay or clinical result:** named analyte, value, unit, sample type, date/time, lab reference interval, cycle/life context if supplied, and source. Do not interpret an isolated value without collection conditions or clinical context.
+   **Home-test results are a separate measured source:** retain the named test, analyte, specimen, collection/read time, and the result as qualitative or semiquantitative when that is what the kit provides. A positive/negative urinary LH or hCG result is not a laboratory concentration and does not, by itself, establish ovulation, fertility, or pregnancy outcome.
 2. **Clinical event or medication context:** therapy, contraception, pregnancy, lactation, surgery, or clinician-provided interpretation; user-entered and optional.
 3. **Physiological observation:** temperature, sleep timing, HRV, resting pulse, bleeding, appetite, pain, energy, or self-described desire. Label sensor versus self-report and uncertainty.
 4. **Estimated phase or pattern:** derived from dated observations; state method and confidence. Do not label a phase as hormone-measured unless the relevant analyte was assayed.
