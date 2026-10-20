@@ -8,6 +8,7 @@ Before any AI request, every currently joined person other than the bot must:
 
 1. Send `!metheus ai-info` and receive the disclosure in the room.
 2. Send `!metheus ai-opt-in`.
+3. Use `!metheus ai-status` to see aggregate informed/opt-in counts and whether explicit AI questions are active; individual choices are not listed.
 
 Ordinary room messages are never forwarded. The bot keeps a short conversation context in memory only. It clears that context when any room member joins or leaves, when any participant opts out, and after a process restart. If membership changes while a model request is running, the bot discards the response. Any request already sent to the provider cannot be recalled. Membership changes are detected against the current room state before commands and after each model call.
 

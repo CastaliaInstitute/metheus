@@ -129,8 +129,19 @@ async function sendNotice(roomId, text) {
 async function processCommand(roomId, sender, command, members, consent) {
   switch (command.name) {
     case "help":
-      await sendNotice(roomId, "Metheus commands: !metheus ai-info, !metheus ai-opt-in, !metheus ai-opt-out, and (after every joined member opts in) !metheus ask <your question>. Ordinary room messages are never sent to the AI.");
+      await sendNotice(roomId, "Metheus commands: !metheus ai-info, !metheus ai-status, !metheus ai-opt-in, !metheus ai-opt-out, and (after every joined member opts in) !metheus ask <your question>. Ordinary room messages are never sent to the AI.");
       return;
+    case "ai-status": {
+      if (!members.includes(sender)) return;
+      const memberSet = new Set(members);
+      const informedCount = new Set(consent.informed.filter((userId) => memberSet.has(userId))).size;
+      const optedInCount = new Set(consent.optedIn.filter((userId) => memberSet.has(userId))).size;
+      const active = hasOptedIn(consent, members);
+      await sendNotice(roomId, members.length === 0
+        ? "Metheus AI is inactive. No other participants are currently joined."
+        : `Metheus AI is ${active ? "active for explicit !metheus ask messages" : "inactive"}. ${informedCount} of ${members.length} currently joined participants have read the disclosure; ${optedInCount} of ${members.length} have opted in. Individual consent choices are not listed.`);
+      return;
+    }
     case "ai-info":
       if (!members.includes(sender)) return;
       consent.informed = [...new Set([...consent.informed, sender])].sort();
