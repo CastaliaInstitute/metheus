@@ -1,0 +1,17 @@
+{
+  "id": "synthetic-symbolic-map-reflection-grant",
+  "subjectId": "synthetic-subject",
+  "grantor": {
+    "reference": "synthetic-subject",
+    "role": "subject"
+  },
+  "domains": ["symbolic"],
+  "purposes": ["personal_reflection"],
+  "permittedActions": ["analyze"],
+  "recordIds": ["synthetic-symbolic-map", "synthetic-chart-feature"],
+  "status": "granted",
+  "consentTextVersion": "synthetic-example-only/0.1",
+  "createdAt": "2026-10-20T12:00:00Z",
+  "expiresAt": "2026-11-20T12:00:00Z",
+  "auditReference": "synthetic-example-only"
+}

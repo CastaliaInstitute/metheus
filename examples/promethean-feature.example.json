@@ -2,6 +2,7 @@
   "id": "promethean-feature-example-01",
   "subjectId": "example-subject-01",
   "recordType": "symbolic_feature",
+  "schemaVersion": "0.2",
   "epistemicClass": "symbolic",
   "time": {
     "observedAt": "2026-10-20T15:55:00-06:00",

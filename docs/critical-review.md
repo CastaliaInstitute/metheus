@@ -16,7 +16,9 @@ This review adds a minimal [`subject index schema`](../schema/subject-index.sche
 
 **Impact:** A future application could invent incompatible profile shapes, duplicate sensitive data, or blur stable chart inputs with changing life context.
 
-**Remaining work:** These schemas are not yet cross-object validated. A profile resolver must ensure every pointer resolves to one resource of the declared kind/version and same subject, while still checking consent independently. Define correction, deletion, and supersession behavior for resources; do not make a comprehensive profile mandatory.
+**Change in this review:** `resolve_subject_index` now checks caller-supplied pointers against resource kind, schema version, and subject ownership. It also follows symbolic-map input and feature IDs to the declared resource kinds. `authorize_subject_index_resources` requires an explicit selected-ID list and checks consent only for those resources; index membership is not permission.
+
+**Remaining work:** This is an in-memory cross-object check, not a complete JSON Schema validator or storage authorization boundary. Integrate the resolver with a trusted store, verify resources when they are written, and define correction, deletion, and supersession behavior; do not make a comprehensive profile mandatory.
 
 **Consent correction in this review:** The authorization policy previously let `birth_chart_inputs` act as a broad fallback for the `symbolic` domain. That collapsed permission for private source details with permission to use a derived map. The fallback is removed; the learning example now grants only its selected learning and symbolic records, while birth inputs require their own explicit domain/purpose scope.
 
@@ -87,4 +89,4 @@ The tracked repository has no automated test suite or schema/example-validation 
 
 ## Current capability statement
 
-At this review, Metheus can present its concept and documentation, represent draft subject-index, birth-input, symbolic-map, observation, phase, reading, consent, and reference records, summarize selected logged rhythms descriptively, and run caller-supplied in-memory reference/consent preflights. It cannot ingest device or laboratory data, retain personal histories, resolve the new profile pointers end to end, produce validated endocrine or developmental models, or provide a secure health-data service. That limitation should remain prominent until the corresponding capabilities are implemented and verified.
+At this review, Metheus can present its concept and documentation, represent draft subject-index, birth-input, symbolic-map, observation, phase, reading, consent, and reference records, summarize selected logged rhythms descriptively, and run caller-supplied in-memory reference, index-resolution, and consent preflights. It cannot ingest device or laboratory data, retain personal histories, enforce authorization at a storage boundary, produce validated endocrine or developmental models, or provide a secure health-data service. That limitation should remain prominent until the corresponding capabilities are implemented and verified.

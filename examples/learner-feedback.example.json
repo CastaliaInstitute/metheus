@@ -2,6 +2,7 @@
   "id": "learner-feedback-example-01",
   "subjectId": "example-subject-01",
   "recordType": "observation",
+  "schemaVersion": "0.2",
   "epistemicClass": "self_reported",
   "time": {
     "observedAt": "2026-10-20T16:20:00-06:00",

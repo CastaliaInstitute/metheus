@@ -2,6 +2,7 @@
   "id": "phase-epimethean-example",
   "subjectId": "synthetic-subject",
   "recordType": "phase_annotation",
+  "schemaVersion": "0.2",
   "layer": "epimethean",
   "phaseSystem": "menstrual_cycle",
   "canonicalPhase": "bleeding_onset_reported",

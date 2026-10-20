@@ -2,14 +2,15 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://metheus.castalia.institute/schema/observation.schema.json",
   "title": "Metheus observation or event record",
-  "description": "A single time-bounded record that preserves epistemic class, source, and uncertainty. Draft v0.1; not a clinical data standard.",
+  "description": "A single time-bounded record that preserves epistemic class, source, and uncertainty. Draft v0.2; not a clinical data standard.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["id", "subjectId", "recordType", "epistemicClass", "time", "source", "domain", "label"],
+  "required": ["id", "subjectId", "recordType", "schemaVersion", "epistemicClass", "time", "source", "domain", "label"],
   "properties": {
     "id": { "type": "string", "minLength": 1 },
     "subjectId": { "type": "string", "minLength": 1, "description": "Pseudonymous local subject reference; avoid direct identifiers." },
     "recordType": { "enum": ["observation", "event", "estimate", "symbolic_feature", "context"] },
+    "schemaVersion": { "type": "string", "minLength": 1 },
     "eventType": { "enum": ["main_sleep", "sleep_episode", "nap", "wake", "meal", "feeding", "fasting_start", "fasting_end", "dietary_pattern", "learning_activity", "light_exposure", "sensory_exposure", "activity", "exercise_session", "supplement_use", "medication_change", "bleeding_start", "symptom", "hormone_result", "developmental_note", "relationship_note", "other"] },
     "epistemicClass": { "enum": ["measured", "self_reported", "caregiver_reported", "clinician_reported", "derived", "symbolic", "imported"] },
     "time": {

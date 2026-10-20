@@ -2,6 +2,7 @@
   "id": "synthetic-bleeding-observation",
   "subjectId": "synthetic-subject",
   "recordType": "event",
+  "schemaVersion": "0.2",
   "eventType": "bleeding_start",
   "epistemicClass": "self_reported",
   "time": {

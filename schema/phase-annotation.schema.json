@@ -5,11 +5,12 @@
   "description": "An optional evocative label attached to a point, interval, or ongoing symbolic or lived phase context. It does not replace canonical terminology, source provenance, or uncertainty.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["id", "subjectId", "recordType", "layer", "phaseSystem", "canonicalPhase", "window", "basis", "interpretation", "basisRecordIds", "method", "uncertainty", "limitations"],
+  "required": ["id", "subjectId", "recordType", "schemaVersion", "layer", "phaseSystem", "canonicalPhase", "window", "basis", "interpretation", "basisRecordIds", "method", "uncertainty", "limitations"],
   "properties": {
     "id": { "type": "string", "minLength": 1 },
     "subjectId": { "type": "string", "minLength": 1 },
     "recordType": { "const": "phase_annotation" },
+    "schemaVersion": { "type": "string", "minLength": 1 },
     "layer": { "enum": ["promethean", "epimethean"] },
     "phaseSystem": { "enum": ["human_design_transit", "astrological_transit", "menstrual_cycle", "pregnancy", "postpartum", "menopause", "development", "sleep_wake", "other"] },
     "canonicalPhase": { "type": "string", "minLength": 1 },

@@ -2,6 +2,7 @@
   "id": "learning-activity-2026-10-20-01",
   "subjectId": "example-subject-01",
   "recordType": "event",
+  "schemaVersion": "0.2",
   "eventType": "learning_activity",
   "epistemicClass": "self_reported",
   "time": {

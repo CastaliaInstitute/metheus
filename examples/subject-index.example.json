@@ -10,7 +10,7 @@
   "resourceRefs": [
     { "id": "synthetic-birth-chart-input", "kind": "birth_chart_input", "schemaVersion": "0.1" },
     { "id": "synthetic-symbolic-map", "kind": "symbolic_map", "schemaVersion": "0.1" },
-    { "id": "synthetic-chart-feature", "kind": "observation", "schemaVersion": "0.1" }
+    { "id": "synthetic-chart-feature", "kind": "observation", "schemaVersion": "0.2" }
   ],
   "preferences": {
     "timeZone": "Etc/UTC",

@@ -28,7 +28,7 @@ PERSON + LIFE CONTEXT
     └── a transparent, revisable reflection returned to the person
 ```
 
-The subject index is a pseudonymous resource navigator, not a complete profile: it points to independently versioned records and does not grant permission to access them. Exact birth inputs are isolated from the calculated symbolic map; chart features remain separate, source-attributed records. This lets Metheus revise a calculation when birth-time confidence or method versions change without rewriting the person's lived observations. See the [subject index](../schema/subject-index.schema.json), [private birth-chart input](../schema/birth-chart-input.schema.json), and [symbolic map](../schema/symbolic-map.schema.json) schemas and their synthetic examples.
+The subject index is a pseudonymous resource navigator, not a complete profile: it points to independently versioned records and does not grant permission to access them. Exact birth inputs are isolated from the calculated symbolic map; chart features remain separate, source-attributed records. This lets Metheus revise a calculation when birth-time confidence or method versions change without rewriting the person's lived observations. See the [subject index](../schema/subject-index.schema.json), [private birth-chart input](../schema/birth-chart-input.schema.json), and [symbolic map](../schema/symbolic-map.schema.json) schemas, their synthetic examples, and the [resource resolution contract](resource-resolution.md).
 
 The model should preserve the origin of every statement. A chart placement is not a biometric measurement. A wearable value is not a hormone assay. A diary entry is not an objective account of another person's inner state. An interpretation is not a fact about the person.
 

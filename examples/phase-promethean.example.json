@@ -2,6 +2,7 @@
   "id": "phase-promethean-example",
   "subjectId": "synthetic-subject",
   "recordType": "phase_annotation",
+  "schemaVersion": "0.2",
   "layer": "promethean",
   "phaseSystem": "human_design_transit",
   "canonicalPhase": "transit_to_gate_18",

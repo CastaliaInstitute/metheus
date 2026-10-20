@@ -2,6 +2,7 @@
   "id": "bleeding-onset-example-2026-10-01",
   "subjectId": "example-subject-02",
   "recordType": "event",
+  "schemaVersion": "0.2",
   "eventType": "bleeding_start",
   "epistemicClass": "self_reported",
   "time": {
