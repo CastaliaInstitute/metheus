@@ -76,7 +76,7 @@ Do not average across a transition as if the person were in a single stationary 
 2. **Select available series.** Use only subject-authorized records with explicit provenance; distinguish self-report, caregiver report, sensor measurements, assays, and device-derived events.
 3. **Choose the reference clock.** Local clock time, elapsed time from waking/sleep, or a defensible biological phase estimate. Do not silently substitute one for another.
 4. **Check data sufficiency.** Report number of records, days covered, time-zone context, device/method changes, gaps, and whether events are likely incomplete.
-5. **Compute descriptive features.** Prefer transparent quantities: intervals, medians, spread, co-occurrence, and within-person deviation. Show the method and source records. For repeated numeric measurements, fixed calendar buckets may display how the recorded distributions vary across the selected window; empty buckets stay visible, and no trend or personal baseline is inferred.
+5. **Compute descriptive features.** Prefer transparent quantities: intervals, medians, spread, co-occurrence, and within-person deviation. Show the method and source records. For repeated numeric measurements, fixed-width date buckets anchored to the selected window may display how recorded distributions vary; empty buckets stay visible, and no trend or personal baseline is inferred.
 6. **Separate pattern from explanation.** First state the observed pattern, then offer alternative explanations and a question. Biological mechanisms remain hypotheses unless directly supported by evidence fit for that claim.
 7. **Ask the person what matters.** The person may reject the pattern's relevance, add context, or choose not to track further.
 

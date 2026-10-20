@@ -82,7 +82,7 @@ def measurement_series_source_matches(summary: dict[str, Any], record: dict[str,
 def measurement_series_summary_valid(summary: dict[str, Any]) -> bool:
     signature = summary.get("measurementSeries")
     metrics = ("nMeasurements", "nDistinctMeasurementDates", "medianNumericValue", "medianAbsoluteDeviationValue", "minimumValue", "maximumValue", "recordsWithQualityFlags", "qualityFlags", "coverage", "bucketDays", "timeBuckets")
-    return bool(
+    valid_header = bool(
         summary.get("summaryMeasure") == "measurement_series"
         and summary.get("methodVersion") == MEASUREMENT_SERIES_METHOD_VERSION
         and isinstance(summary.get("domain"), str)
@@ -92,6 +92,80 @@ def measurement_series_summary_valid(summary: dict[str, Any]) -> bool:
         and all(key in summary for key in metrics)
         and isinstance(summary.get("inputRecordIds"), list)
         and all(isinstance(value, str) and value for value in summary["inputRecordIds"])
+    )
+    if not valid_header or len(set(summary["inputRecordIds"])) != len(summary["inputRecordIds"]):
+        return False
+    bucket_days = summary.get("bucketDays")
+    if isinstance(bucket_days, bool) or not isinstance(bucket_days, int) or not 1 <= bucket_days <= 366:
+        return False
+    window = summary.get("window")
+    if not isinstance(window, dict):
+        return False
+    try:
+        first_day, last_day, window_days = _window(window.get("startDate"), window.get("endDate"))
+    except (TypeError, ValueError):
+        return False
+    if window.get("inclusiveDays") != window_days:
+        return False
+    buckets = summary.get("timeBuckets")
+    expected_count = (window_days + bucket_days - 1) // bucket_days
+    if not isinstance(buckets, list) or len(buckets) != expected_count:
+        return False
+
+    bucket_measurement_total = 0
+    bucket_day_total = 0
+    bucket_record_ids: set[str] = set()
+    for index, bucket in enumerate(buckets):
+        if not isinstance(bucket, dict):
+            return False
+        offset = index * bucket_days
+        expected_start = first_day + timedelta(days=offset)
+        expected_end = min(last_day, expected_start + timedelta(days=bucket_days - 1))
+        inclusive_days = (expected_end - expected_start).days + 1
+        if (
+            bucket.get("startDate") != expected_start.isoformat()
+            or bucket.get("endDate") != expected_end.isoformat()
+            or bucket.get("inclusiveDays") != inclusive_days
+        ):
+            return False
+        count = bucket.get("nMeasurements")
+        distinct_dates = bucket.get("nDistinctMeasurementDates")
+        record_ids = bucket.get("inputRecordIds")
+        days_with_records = bucket.get("daysWithAtLeastOneRecord")
+        if (
+            isinstance(count, bool) or not isinstance(count, int) or count < 0
+            or isinstance(distinct_dates, bool) or not isinstance(distinct_dates, int) or not 0 <= distinct_dates <= count
+            or isinstance(days_with_records, bool) or not isinstance(days_with_records, int) or days_with_records != distinct_dates
+            or not isinstance(record_ids, list) or len(record_ids) != count
+            or not all(isinstance(value, str) and value for value in record_ids)
+            or len(set(record_ids)) != len(record_ids)
+        ):
+            return False
+        fraction = bucket.get("fractionOfDaysWithARecord")
+        if isinstance(fraction, bool) or not isinstance(fraction, (int, float)) or abs(fraction - distinct_dates / inclusive_days) > 0.000001:
+            return False
+        if bucket_record_ids.intersection(record_ids):
+            return False
+        bucket_record_ids.update(record_ids)
+        bucket_measurement_total += count
+        bucket_day_total += distinct_dates
+        bucket_median = bucket.get("medianValue")
+        bucket_mad = bucket.get("medianAbsoluteDeviationValue")
+        minimum = bucket.get("minimumValue")
+        maximum = bucket.get("maximumValue")
+        if count == 0:
+            if any(value is not None for value in (bucket_median, bucket_mad, minimum, maximum)):
+                return False
+        elif (
+            any(isinstance(value, bool) or not isinstance(value, (int, float)) or not isfinite(value) for value in (bucket_median, bucket_mad, minimum, maximum))
+            or bucket_mad < 0
+            or not minimum <= bucket_median <= maximum
+        ):
+            return False
+    return (
+        bucket_measurement_total == summary.get("nMeasurements")
+        and bucket_day_total == summary.get("nDistinctMeasurementDates")
+        and bucket_record_ids == set(summary.get("inputRecordIds", []))
     )
 
 
@@ -711,6 +785,7 @@ def summarize_numeric_measurements(
                 "startDate": bucket_start.isoformat(),
                 "endDate": bucket_end.isoformat(),
                 "inclusiveDays": bucket_window_days,
+                "inputRecordIds": sorted({record["id"] for _, record, _ in bucket_items if isinstance(record.get("id"), str)}),
                 "nMeasurements": len(bucket_values),
                 "nDistinctMeasurementDates": len(bucket_dates),
                 "medianValue": round(bucket_median, 6) if bucket_median is not None else None,
@@ -755,7 +830,7 @@ def summarize_numeric_measurements(
                 "Describes only eligible numeric records present in the selected subject history; missing records are not evidence that no measurement occurred.",
                 "Series are kept separate by domain, unit, epistemic class, source, method, specimen, device, and collection signature.",
                 "Median, spread, minimum, and maximum are descriptive statistics, not clinical reference-range judgments or personal baselines.",
-                "Fixed calendar buckets show descriptive summaries for each interval, including empty intervals; they are not a fitted trend, cycle phase, or response estimate.",
+                "Fixed-width date buckets anchored to the selected start date show descriptive summaries for each interval, including empty intervals; they are not a fitted trend, cycle phase, or response estimate.",
                 "Does not estimate hormone or neurochemical state, infer a trend or cause, or recommend an action.",
             ],
         })

@@ -111,11 +111,12 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["startDate", "endDate", "inclusiveDays", "nMeasurements", "nDistinctMeasurementDates", "medianValue", "medianAbsoluteDeviationValue", "minimumValue", "maximumValue", "recordsWithQualityFlags", "qualityFlags", "daysWithAtLeastOneRecord", "fractionOfDaysWithARecord"],
+        "required": ["startDate", "endDate", "inclusiveDays", "inputRecordIds", "nMeasurements", "nDistinctMeasurementDates", "medianValue", "medianAbsoluteDeviationValue", "minimumValue", "maximumValue", "recordsWithQualityFlags", "qualityFlags", "daysWithAtLeastOneRecord", "fractionOfDaysWithARecord"],
         "properties": {
           "startDate": { "type": "string", "format": "date" },
           "endDate": { "type": "string", "format": "date" },
           "inclusiveDays": { "type": "integer", "minimum": 1 },
+          "inputRecordIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
           "nMeasurements": { "type": "integer", "minimum": 0 },
           "nDistinctMeasurementDates": { "type": "integer", "minimum": 0 },
           "medianValue": { "type": ["number", "null"] },

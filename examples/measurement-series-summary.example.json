@@ -64,6 +64,10 @@
       "startDate": "2026-10-18",
       "endDate": "2026-10-19",
       "inclusiveDays": 2,
+      "inputRecordIds": [
+        "measurement-series-2026-10-18",
+        "measurement-series-2026-10-19"
+      ],
       "nMeasurements": 2,
       "nDistinctMeasurementDates": 2,
       "medianValue": 71,
