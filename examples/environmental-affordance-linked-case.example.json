@@ -1,0 +1,249 @@
+{
+  "id": "synthetic-ai-affordance-linked-case-01",
+  "schemaVersion": "0.1",
+  "dataStatus": "synthetic_fixture",
+  "sourceReadings": [
+    {
+      "id": "learning-reading-example-01",
+      "subjectId": "example-subject-01",
+      "version": "metheus-reading/0.1.0",
+      "purpose": "learning_support",
+      "question": "Reflect on a French conversation practice session",
+      "timeWindow": {
+        "start": "2026-10-20T15:55:00-06:00",
+        "end": "2026-10-20T16:20:00-06:00",
+        "timeZone": "America/Denver",
+        "precision": "approximate"
+      },
+      "inputIds": [
+        "learning-activity-2026-10-20-01",
+        "promethean-feature-example-01",
+        "learner-feedback-example-01"
+      ],
+      "claims": [
+        {
+          "claimType": "observation",
+          "text": "You described a 20-minute guided practice session using audio, discussion, retrieval practice, and light prompting.",
+          "sourceIds": [
+            "learning-activity-2026-10-20-01"
+          ],
+          "support": {
+            "confidence": "high",
+            "coverage": "sparse",
+            "rationale": "This summarizes one self-reported activity record.",
+            "alternatives": []
+          }
+        },
+        {
+          "claimType": "observation",
+          "text": "You reported that a short preparation period helped you feel ready.",
+          "sourceIds": [
+            "learner-feedback-example-01"
+          ],
+          "support": {
+            "confidence": "high",
+            "coverage": "sparse",
+            "rationale": "This preserves the learner's own report without treating it as a mastery measure.",
+            "alternatives": []
+          }
+        },
+        {
+          "claimType": "symbolic_prompt",
+          "text": "You chose to reflect on whether responding to experience feels useful in this context.",
+          "sourceIds": [
+            "promethean-feature-example-01"
+          ],
+          "support": {
+            "confidence": "not_applicable",
+            "coverage": "unknown",
+            "rationale": "This is a learner-selected symbolic reflection, not an empirical claim.",
+            "alternatives": []
+          }
+        },
+        {
+          "claimType": "boundary",
+          "text": "One session and a readiness report do not establish lasting learning gains or show that the symbolic theme selected the practice method.",
+          "sourceIds": [
+            "learning-activity-2026-10-20-01",
+            "learner-feedback-example-01",
+            "promethean-feature-example-01"
+          ],
+          "support": {
+            "confidence": "high",
+            "coverage": "sparse",
+            "rationale": "No repeated task evidence or independent demonstration is included.",
+            "alternatives": [
+              "Prior practice, familiarity, setting, or other unrecorded supports may also matter."
+            ]
+          }
+        }
+      ],
+      "reflectionOptions": [
+        {
+          "id": "option-task-practice-01",
+          "kind": "learning_approach",
+          "text": "If you choose, try another short dialogue with retrieval practice and compare how it feels for this conversation goal.",
+          "basis": "task_demand",
+          "sourceIds": [
+            "learning-activity-2026-10-20-01"
+          ],
+          "subjectStatus": "not_reviewed",
+          "limitations": [
+            "A comparison across a few self-selected sessions would still not establish causation or generalize to other subjects."
+          ]
+        },
+        {
+          "id": "option-preparation-01",
+          "kind": "observation_question",
+          "text": "Would you like to keep, shorten, or change the preparation period next time?",
+          "basis": "learner_goal",
+          "sourceIds": [
+            "learner-feedback-example-01"
+          ],
+          "subjectStatus": "not_reviewed",
+          "limitations": []
+        },
+        {
+          "id": "option-ai-dialogue-scaffold-01",
+          "kind": "environmental_affordance",
+          "text": "If you want another practice option, you could try a short dialogue with an AI tool; it is a rehearsal scaffold, not a human relationship, and you can choose what details to share or stop at any time.",
+          "basis": "learner_goal",
+          "sourceIds": [
+            "learning-activity-2026-10-20-01"
+          ],
+          "subjectStatus": "not_reviewed",
+          "limitations": [
+            "This is an optional design idea grounded in the recorded conversation-practice goal, not a claim that AI practice is better or that it will improve learning.",
+            "The example does not implement an AI conversation service or specify its actual data-retention policy."
+          ],
+          "environmentalAffordance": {
+            "deliveryMode": "conversational_ai",
+            "intendedFunction": "communication_practice",
+            "roleFrame": "tool_or_scaffold",
+            "userDefinedDescription": "Practice a short French dialogue at the learner's pace.",
+            "aiSafeguards": {
+              "identityTransparent": true,
+              "privacyBoundariesDisclosed": true,
+              "notHumanRelationshipSubstitute": true
+            }
+          }
+        },
+        {
+          "id": "option-symbolic-reflection-01",
+          "kind": "reflection_question",
+          "text": "Does the theme you selected feel relevant to how you want to practice, or would you set it aside?",
+          "basis": "symbolic_prompt",
+          "sourceIds": [
+            "promethean-feature-example-01"
+          ],
+          "subjectStatus": "not_reviewed",
+          "limitations": [
+            "The theme does not determine ability or an effective teaching method."
+          ]
+        }
+      ],
+      "synthesis": "The session record and your feedback can help shape what you choose to try next. The symbolic theme remains an optional reflection question; the approaches are grounded in your stated conversation goal and the task.",
+      "reflectiveQuestion": "Which part of the session, if any, would you like to repeat or change?",
+      "limitations": [
+        "This is a synthetic illustration, not an actual learner record.",
+        "No independent learning outcome or repeated comparison is available.",
+        "No symbolic feature is used to predict ability or prescribe instruction."
+      ],
+      "engine": {
+        "name": "Metheus example reader",
+        "version": "0.1.0",
+        "symbolicSystems": [
+          "Human Design"
+        ]
+      },
+      "generatedAt": "2026-10-20T18:00:00-06:00",
+      "feedback": "not_reviewed"
+    }
+  ],
+  "records": [
+    {
+      "id": "synthetic-ai-affordance-use-01",
+      "subjectId": "example-subject-01",
+      "recordType": "event",
+      "schemaVersion": "0.2",
+      "eventType": "environmental_affordance",
+      "epistemicClass": "self_reported",
+      "time": {
+        "start": "2026-10-21T10:00:00-06:00",
+        "end": "2026-10-21T10:08:00-06:00",
+        "timeZone": "America/Denver",
+        "precision": "approximate",
+        "scale": "instant"
+      },
+      "source": {
+        "kind": "subject",
+        "reportedByRelation": "self"
+      },
+      "domain": "learning",
+      "label": "Synthetic subject reports trying an optional AI dialogue rehearsal",
+      "environmentalAffordance": {
+        "affordanceId": "synthetic-ai-dialogue-practice-01",
+        "sourceReadingId": "learning-reading-example-01",
+        "sourceOptionId": "option-ai-dialogue-scaffold-01",
+        "deliveryMode": "conversational_ai",
+        "intendedFunction": "communication_practice",
+        "lifecycleEvent": "used",
+        "roleFrame": "tool_or_scaffold",
+        "subjectExperienceFrame": "task_support",
+        "aiDisclosures": {
+          "identity": "disclosed",
+          "privacyBoundaries": "disclosed",
+          "roleBoundaries": "disclosed"
+        }
+      },
+      "privacy": {
+        "sensitivity": "personal",
+        "subjectControlled": true,
+        "sharing": "private"
+      },
+      "notes": "Synthetic fixture. No prompt, reply, or transcript is included."
+    },
+    {
+      "id": "synthetic-ai-affordance-response-01",
+      "subjectId": "example-subject-01",
+      "recordType": "observation",
+      "schemaVersion": "0.2",
+      "eventType": "other",
+      "epistemicClass": "self_reported",
+      "time": {
+        "observedAt": "2026-10-21T10:20:00-06:00",
+        "timeZone": "America/Denver",
+        "precision": "approximate",
+        "scale": "instant"
+      },
+      "source": {
+        "kind": "subject",
+        "reportedByRelation": "self"
+      },
+      "domain": "learning",
+      "label": "Synthetic subject is unsure whether the practice changed confidence",
+      "value": {
+        "category": "uncertain"
+      },
+      "relatedAffordanceIds": [
+        "synthetic-ai-dialogue-practice-01"
+      ],
+      "privacy": {
+        "sensitivity": "personal",
+        "subjectControlled": true,
+        "sharing": "private"
+      },
+      "notes": "Synthetic fixture. This separate report does not establish benefit, harm, or causation."
+    }
+  ],
+  "selectedRecordIds": [
+    "synthetic-ai-affordance-use-01",
+    "synthetic-ai-affordance-response-01"
+  ],
+  "limitations": [
+    "All IDs and content in this fixture are synthetic.",
+    "Shape validation does not prove that cross-record references resolve; use validate_environmental_affordance_links for in-memory link checks.",
+    "The fixture contains no consent grant and does not authorize analysis, storage, or remote processing.",
+    "The response is a separate uncertain report and establishes no benefit, harm, or causal effect."
+  ]
+}

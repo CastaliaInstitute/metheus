@@ -87,10 +87,15 @@ def validate_environmental_affordance_links(
         selected_ids = set()
         issue("invalid_selected_affordance_record_ids")
     else:
-        selected_values = list(selected_record_ids)
+        try:
+            selected_values = list(selected_record_ids)
+        except TypeError:
+            selected_values = []
+            issue("invalid_selected_affordance_record_ids")
         if not all(isinstance(value, str) and value for value in selected_values):
             selected_ids = set()
-            issue("invalid_selected_affordance_record_ids")
+            if selected_values:
+                issue("invalid_selected_affordance_record_ids")
         elif len(set(selected_values)) != len(selected_values):
             selected_ids = set(selected_values)
             issue("duplicate_selected_affordance_record_id")

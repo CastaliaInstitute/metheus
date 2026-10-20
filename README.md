@@ -67,7 +67,7 @@ See the [evidence-claim model](docs/evidence-claim-model.md), [evidence review p
 
 See [Epimethean behavior layer](docs/behavior-layer.md) for representing chosen or constrained eating patterns, fasting, exercise, supplements, sleep/light routines, and other practices alongside physiology without treating the model as a prescriber.
 
-See [Environmental affordances and designed “channels”](docs/environmental-affordance-layer.md) for the proposed way to turn a Promethean theme into an optional, goal-grounded environmental support—including a transparent AI-mediated scaffold—without changing chart definition or treating openness as a deficit.
+See [Environmental affordances and designed “channels”](docs/environmental-affordance-layer.md) for the proposed way to turn a Promethean theme into an optional, goal-grounded environmental support—including a transparent AI-mediated scaffold—without changing chart definition or treating openness as a deficit. A [synthetic linked case](examples/environmental-affordance-linked-case.example.json) combines an originating reading, AI-use event, separate response, and explicit record selection under a bundle schema.
 
 See [Sensory, aroma, and flavor layer](docs/sensory-aroma-flavor-layer.md) for recording scent, taste, flavor, and route separately from measured or reported outcomes, with evidence limits on hormone-response claims.
 

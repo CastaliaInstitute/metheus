@@ -34,6 +34,7 @@ EXAMPLE_SCHEMAS = {
     "experience-pathway-synthetic.example.json": "experience-pathway.schema.json",
     "experience-pathway-local-preflight.example.json": "experience-pathway-case.schema.json",
     "environmental-affordance-ai-use.example.json": "observation.schema.json",
+    "environmental-affordance-linked-case.example.json": "environmental-affordance-case.schema.json",
     "environmental-affordance-response.example.json": "observation.schema.json",
     "learner-feedback.example.json": "observation.schema.json",
     "learning-activity.example.json": "observation.schema.json",
