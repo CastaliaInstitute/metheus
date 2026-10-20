@@ -1,0 +1,83 @@
+# Human Design chart calculation integration
+
+**Status:** integration requirements and candidate review; no calculator selected or implemented.
+
+## Why this is a separate milestone
+
+Metheus can currently work from a sender-supplied gate list. The list is explicitly unverified. The repository also has a normalized symbolic-map contract and a selector that accepts a map marked `calculated`, but no Human Design calculation engine or verified chart import. A record claiming `calculated` is not, by that label alone, proof that an approved engine produced it.
+
+This distinction matters to the gate-aware AI: its “activated gates” must come from a named source with calculation provenance, or remain visibly user-supplied and unverified. Never promote a manual selection, inferred conversation detail, or screenshot parse into a verified chart.
+
+## Calculation facts to preserve
+
+The Human Design source description says the chart uses planetary positions at birth and at a pre-birth point when the Sun has moved approximately 88 degrees; those positions map through the Rave Mandala to gates and then the BodyGraph. It also says a few minutes' difference can change activations, channels, or other chart properties. These are claims about the system's own calculation convention, not biological findings. [Jovian Archive: Personality vs. Design](https://engaginglearning.jovianarchive.com/Human_Design/The_Chart_and_BodyGraph/Activation), [Jovian Archive chart FAQ](https://jovianarchive.com/pages/get-your-human-design-chart).
+
+Accordingly, the calculation input needs birth date, local time and its precision, and the birth-time zone rules applicable on that date. Birth location is principally useful for resolving the historical time zone; retain coordinates only if the chosen engine actually needs them. Preserve the user's source and uncertainty, and make corrections a new revision. The existing [birth-input schema](../schema/birth-chart-input.schema.json) already separates these sensitive inputs from the symbolic output.
+
+## Output and provenance contract
+
+The normalized result should continue to use the existing [symbolic-map schema](../schema/symbolic-map.schema.json) and BodyGraph topology version, with these additional integration invariants:
+
+1. Record engine name/version, calculation method/version, local or remote execution mode, time-zone database source/version, verification status, and input precision/uncertainty. These describe provenance, not independent proof that the engine is trustworthy.
+2. Record the selected birth-input record IDs and whether the engine calculated locally or through a remote service. Never send birth inputs remotely without separate, explicit remote-processing consent.
+3. Keep natal and time-bounded transit maps separate. A transit result has its own instant, engine metadata, and selected chart context; it never overwrites natal gates.
+4. Derive active channels and centers only from the version-matched topology catalog and the engine's gate set. Store calculation output separately from interpretations and lived observations.
+5. Include input precision, uncertainty, and any engine precision/limitations in the result. If input uncertainty straddles a gate boundary, represent alternative outcomes or an unresolved activation; do not silently choose one.
+6. Give the person a way to inspect and correct the inputs, select which chart is in use, revoke chart-aware use, and delete the input and derived maps.
+
+The symbolic-map contract now has structured fields for engine and method versions, execution mode, timezone database, verification status, and input precision. These fields have no trusted-engine registry or cryptographic attestation. Keep raw birth date/time/location in the separate private input record; the symbolic map should carry its input record IDs and precision, not duplicate raw fields. Until an engine adapter and verification path exist, a `calculated` status is an asserted provenance field, not independent verification. Do not describe Metheus as calculating or verifying charts.
+
+## Engine candidate review
+
+Two codebases are possible research inputs, not approved dependencies:
+
+- [`hd-chart-engine`](https://github.com/domalhambra/hd-chart-engine) documents a default MIT path and a separate GPL-3.0 Moshier path. Its maintainers state that the default path supports gate, line, and color resolution, while base resolution is unavailable at that precision. Its README also describes a validation harness. Those are maintainer claims to reproduce and review, not Metheus validation.
+- [`free-human-design`](https://github.com/adamblvck/free-human-design) documents an MIT package with an optional Swiss Ephemeris backend. Its README describes its own test coverage and reference comparisons; these likewise require independent reproduction before adoption.
+
+Swiss Ephemeris itself is dual-licensed under AGPL or a separate professional license. Astrodienst says developers must select and comply with a path before distributing software or activating a public service. This licensing decision affects the entire integration and deployment; do not add it as a dependency until the project has deliberately selected a license path. [Astrodienst Swiss Ephemeris licensing](https://www.astro.com/swisseph/sweph_e.htm?lang=s&nho2=2&nhor=11).
+
+No candidate is selected yet. A permissive license alone does not establish calculation agreement, and a high-precision ephemeris alone does not validate the Rave Mandala conversion, time-zone handling, channel topology, or interpretation layer.
+
+### Candidate review update (2026-10-20)
+
+An initial upstream review still does not justify enabling a calculator, but it narrows the next evaluation:
+
+| Candidate | Upstream-described scope and license | Metheus fit and unresolved checks |
+|---|---|---|
+| [`hd-chart-engine`](https://github.com/domalhambra/hd-chart-engine) | JavaScript/TypeScript; offers an MIT default entry point and a separate optional GPL-3.0 Moshier entry point. Its README says the default path calculates gate, line, and color activations and reports base as an estimate at minute precision. It describes an upstream validation harness against `pyswisseph`. | Best first **integration spike** because Metheus needs gate activations and explicit precision more than astrology/profile features. Pin and inspect the exact package tarball and transitive licenses; verify gate sequence, birth-time parsing, design-time convention, and precision flags against an independently assembled corpus. Keep the GPL subpath unreachable unless a separate licensing decision is made. |
+| [`free-human-design`](https://github.com/adamblvck/free-human-design) | Pure-JavaScript package with an MIT license; upstream says it derives gates/channels/centers and validates planetary results against Swiss Ephemeris. Its README reports exact gate/line agreement for 125 of 130 activations across five third-party reference charts, with the rest within one line. | Useful comparison engine and possibly a future option. It has broader Gene Keys/astrology features than Metheus needs. Independently reproduce the chart fixtures, confirm the exact release and dependency license tree, and check ambiguity handling for repeated/skipped local times before considering adoption. |
+
+These are maintainer descriptions, not independent Metheus findings. The review intentionally does not install either package or grant either one authority to produce `calculated` maps. The next implementation milestone should be a local, replaceable adapter against the narrow gate-activation interface, starting with an offline candidate spike. It must compare both design and personality activations with independent vectors, report unresolved boundary cases, and derive channels/centers from Metheus's pinned topology rather than trusting candidate-specific graph output. The review can then decide whether the candidate's provenance and precision are strong enough to populate the existing symbolic-map contract.
+
+### Upstream evidence refresh (2026-10-20)
+
+The current upstream documentation adds useful candidate evidence, but does not change Metheus's acceptance gate:
+
+- `hd-chart-engine` now documents an MIT default implementation and a separate, opt-in GPL-3.0 Moshier implementation. Its README reports a comparison of 780 placements across 30 charts: one gate and line disagreement in the default engine, at an exact boundary where the compared longitudes straddle the boundary; it reports zero gate/line disagreements for Moshier in that fixture. The same report cautions that its committed `pyswisseph` Moshier oracle shares theory with the candidate Moshier implementation and is not a full Swiss-data DE431 oracle. Treat these as upstream-reported measurements, not independent validation. Its README also states a supported date range of 1800–2200 and that it returns activations rather than Human Design type/authority/profile or interpretation. Review the [upstream README and accuracy report](https://github.com/domalhambra/hd-chart-engine) and its [ephemeris ground-truth notes](https://github.com/domalhambra/hd-chart-engine/blob/main/docs/ephemeris-ground-truth.md) before any package pin.
+- `free-human-design` continues to document an MIT JavaScript implementation with an optional Swiss Ephemeris backend subject to that backend's AGPL/commercial licensing. Its current README reports a larger test suite and five third-party reference charts, while also reporting some exact gate/line disagreements. Those are maintainer reports with different validation sets and should not be compared as if they were a shared benchmark. Review its [upstream README](https://github.com/adamblvck/free-human-design) and exact package dependency tree before a spike.
+
+The evidence refresh strengthens the case for a **local, replaceable adapter spike**, not for selecting either engine as authoritative. The next spike should pin exact package releases, preserve the MIT-only path, keep any GPL path unreachable, compare each candidate against a common independently sourced corpus with documented reference conventions, and characterize exact-boundary behavior. A candidate-specific test suite or a comparison to another software engine is not by itself an independent ground truth. Until that work is complete, chart-derived profiles remain disabled and user-entered gate lists remain explicitly unverified.
+
+### Package-level inspection (2026-10-20)
+
+The current npm registry metadata for [`free-human-design`](https://www.npmjs.com/package/free-human-design) identifies version `1.0.1`, package license metadata `MIT`, and a tarball integrity value of `sha512-o2e8Fu3VNXgQugzFQwJPrPfZSVCASDyZKy2bj594NQTeJEPA2ixM+wuBVSZ50nfZKagqyIQFBOLgUI0xGKEhpg==`. Its published manifest declares `astronomia`, `luxon`, `@vvo/tzdb`, and `city-timezones` dependencies using semver ranges. The repository's [README](https://github.com/adamblvck/free-human-design) describes the default calculation as local pure JavaScript, while also offering an optional `swisseph` backend that has a separate AGPL-or-professional-license requirement. The README says nonexistent local times shift forward and repeated local times choose the earlier offset; Metheus's authorized-input preflight instead rejects nonexistent times and requires a matching recorded UTC offset to resolve a repeated time. That stricter Metheus boundary must remain in front of any adapter.
+
+This package inspection does not establish the resolved dependency tree's licenses, deterministic reproducibility, calculation agreement, or fitness for Metheus. Those remain unverified. The Metheus checkout currently has no root `LICENSE` file, so the project has not declared a license path that would justify distributing an integrated calculator or its dependency tree. Do not add or enable this dependency until the repository license is deliberately established and the acceptance gate below is met. The package stays a research candidate; it must not populate a production `calculated` map or chart-aware profile.
+
+## Acceptance gate before enabling calculated profiles
+
+- Pin and review the full dependency tree, license notices, upstream maintenance status, and the chosen licensing path.
+- Create a versioned golden corpus from independently sourced charts, including gate-boundary times, historical time-zone/DST transitions, approximate/unknown times, and dates across the supported range. Do not put real user birth records in repository fixtures.
+- Compare all planetary activations and the derived gate/channel/center set against an authoritative reference under documented, identical input and convention settings. Resolve disagreements before calling the engine verified.
+- Verify deterministic output for identical normalized inputs and method versions; version or invalidate maps when the engine, topology, or time-zone database changes.
+- Confirm that imprecise inputs produce a qualified result and that alternative possible activations are not collapsed into a false certainty.
+- Keep chart computation local by default. If a remote calculation option is later added, show the exact birth fields sent and request a distinct consent for that processing.
+- Only after these gates pass, expose a profile picker to chart-aware AI. The AI receives the selected map's gate/channel context, provenance, and uncertainty; it never receives birth date, clock time, or location unless the user separately selected a task that requires those raw inputs.
+
+## Current implementation boundary
+
+`inspect_chart_calculation_input` provides a local readiness check for a future engine adapter. It requires a schema-valid birth input with exact date/time and location precision, a named IANA time zone, and a valid local wall time. It rejects unknown or uncertain values and DST gaps. A repeated wall time is accepted only if the input includes a source-recorded UTC offset that matches exactly one of the IANA timezone's candidates; otherwise it reports ambiguity. It returns only readiness, precision, and limitation fields, never birth details. It loads an uncached `ZoneInfo` instance and identifies the source/version from the current search path used by that conversion. `authorize_chart_calculation_input` returns normalized date/time/resolved-offset/time-zone/UTC fields plus the detected time-zone database source/version only after all supplied grants pass the consent schema and `evaluate_authorization` approves the exact input record for `symbolic_calculation` and `analyze`. If the runtime cannot identify its active database version, it marks that limitation explicitly. A `remote_processing` request must pass both `analyze` and `remote_processing` authorization, including the separate disclosure requirement. This is an in-memory consent preflight, not a storage or identity boundary. It performs no planetary calculation and cannot establish a chart.
+
+Both functions use the [preflight result schema](../schema/chart-calculation-preflight.schema.json). The [readiness-only](../examples/chart-calculation-readiness.example.json), [denied](../examples/chart-calculation-denied.example.json), and [authorized synthetic](../examples/chart-calculation-authorized.example.json) fixtures show the three response shapes; the authorized fixture contains invented dates and is not a real person's birth record. `calculationInput` is structurally impossible unless the result is both ready and authorized. Future calculated chart context also requires engine name/version, execution mode, timezone database provenance, and birth-input precision; the current sender-supplied chart context remains explicitly unverified and carries none of those claims.
+
+The Matrix bot's chart-aware path still accepts a user-supplied, non-time-bound personal gate list and marks it `sender_supplied_unverified_gate_list`. It does not accept transit context. The Python selector can consume a schema-valid symbolic map whose calculation status is `calculated`, but this repository has no trusted engine registry or calculation service to establish that status. Its AI context includes a `chartAwareness` snapshot with the selected natal gate set and derived channel count, and explicitly states that no live transits, momentary state, or prior chart-aware exchanges are available. The BodyGraph SVG and topology catalog are generic references and are not chart-calculation authorities. Thus chart-derived and transit awareness remain future capabilities; today's reliable product behavior is transparent handling of user-supplied gates and optional, goal-relevant complement ideas.

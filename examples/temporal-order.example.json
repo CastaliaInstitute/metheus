@@ -2,9 +2,19 @@
   "relationId": "temporal-order:synthetic-example",
   "subjectId": "temporal-example-subject",
   "relationType": "temporal_order",
-  "methodVersion": "metheus-temporal-order/0.1.0",
+  "methodVersion": "metheus-temporal-order/0.2.0",
   "leftRecordId": "synthetic-event-a",
   "rightRecordId": "synthetic-event-b",
+  "leftContext": {
+    "recordType": "event",
+    "domain": "other",
+    "epistemicClass": "self_reported"
+  },
+  "rightContext": {
+    "recordType": "observation",
+    "domain": "physiology",
+    "epistemicClass": "measured"
+  },
   "leftWindow": {
     "kind": "interval",
     "start": "2026-10-20T08:00:00-06:00",

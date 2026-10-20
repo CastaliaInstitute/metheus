@@ -1,0 +1,19 @@
+{
+  "id": "consent-example-affordance-trial-01",
+  "subjectId": "example-subject-01",
+  "grantor": {
+    "reference": "example-subject-01",
+    "role": "subject"
+  },
+  "domains": ["learning"],
+  "purposes": ["learning_support"],
+  "permittedActions": ["analyze"],
+  "recordIds": [
+    "synthetic-ai-affordance-use-01",
+    "synthetic-ai-affordance-response-01"
+  ],
+  "status": "granted",
+  "consentTextVersion": "synthetic-example-only-not-a-real-grant",
+  "createdAt": "2026-01-01T00:00:00Z",
+  "auditReference": "synthetic-example-only-not-a-real-grant"
+}

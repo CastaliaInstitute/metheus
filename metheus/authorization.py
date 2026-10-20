@@ -60,7 +60,7 @@ _SUMMARY_MEASURES = {
     "meal_events": ("nutrition", "metheus-feeding-summary/0.3.0"),
     "caregiver_feeding_events": ("feeding", "metheus-feeding-summary/0.3.0"),
     "meal_timing_relative_to_wake": ("nutrition", "metheus-wake-relative-meal/0.2.0"),
-    "measurement_series": (None, "metheus-numeric-measurement-series/0.2.0"),
+    "measurement_series": (None, "metheus-numeric-measurement-series/0.3.0"),
 }
 _SUMMARY_SOURCE_TYPES = {
     "bleeding_onset_intervals": {("bleeding_start", "reproductive")},
@@ -415,6 +415,20 @@ def evaluate_authorization(
         if record.get("subjectId") != subject_id:
             decisions.append({"recordId": record_id, "authorized": False, "reason": "subject_mismatch"})
             continue
+        if record.get("recordType") == "interaction_event":
+            references = record.get("participantReferences")
+            recorder_references = [
+                item.get("reference")
+                for item in references
+                if isinstance(item, dict) and item.get("relationToRecorder") == "recorder"
+            ] if isinstance(references, list) else []
+            if recorder_references != [subject_id]:
+                decisions.append({
+                    "recordId": record_id,
+                    "authorized": False,
+                    "reason": "interaction_recorder_reference_mismatch",
+                })
+                continue
         domain = record_domain(record)
         if not isinstance(domain, str):
             decisions.append({"recordId": record_id, "authorized": False, "reason": "missing_record_domain"})

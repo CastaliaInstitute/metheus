@@ -103,7 +103,7 @@
           "id": { "type": "string", "minLength": 1 },
           "kind": { "enum": ["learning_approach", "environmental_affordance", "observation_question", "reflection_question", "professional_consultation", "other"] },
           "text": { "type": "string", "minLength": 1 },
-          "basis": { "enum": ["learner_goal", "task_demand", "access_need", "developmental_context", "symbolic_prompt", "evidence_reference", "multiple_non_symbolic_inputs", "unspecified"] },
+          "basis": { "enum": ["subject_goal", "learner_goal", "task_demand", "access_need", "developmental_context", "symbolic_prompt", "evidence_reference", "multiple_non_symbolic_inputs", "unspecified"], "description": "subject_goal may be a user-requested chart exploration; it records why the option was offered, not evidence that it is effective or needed." },
           "sourceIds": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
           "subjectStatus": { "enum": ["not_reviewed", "chosen", "declined", "revised"] },
           "limitations": { "type": "array", "items": { "type": "string" } },
@@ -140,7 +140,7 @@
             "then": {
               "required": ["environmentalAffordance"],
               "properties": {
-                "basis": { "enum": ["learner_goal", "task_demand", "access_need", "developmental_context", "evidence_reference", "multiple_non_symbolic_inputs"] },
+                "basis": { "enum": ["subject_goal", "learner_goal", "task_demand", "access_need", "developmental_context", "evidence_reference", "multiple_non_symbolic_inputs"] },
                 "sourceIds": { "minItems": 1 }
               }
             }

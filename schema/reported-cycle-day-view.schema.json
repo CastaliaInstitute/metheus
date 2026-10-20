@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metheus.castalia.institute/schema/reported-cycle-day-view.schema.json",
+  "title": "Metheus reported cycle-day view",
+  "description": "An in-memory date-only organization of explicitly selected records around self-reported cycle day-one markers. It does not infer biological phase.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contextType", "contextScope", "subjectId", "methodVersion", "cycleDayOneMarkers", "observations", "sourceRecordIds", "consentPreflight", "limitations"],
+  "properties": {
+    "contextType": { "const": "reported_cycle_day_view" },
+    "contextScope": { "const": "explicitly_selected_same_subject_records" },
+    "subjectId": { "type": "string", "minLength": 1 },
+    "methodVersion": { "const": "metheus-reported-cycle-day-view/0.1.0" },
+    "cycleDayOneMarkers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["date", "recordIds", "timePrecision"],
+        "properties": {
+          "date": { "type": "string", "format": "date" },
+          "recordIds": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+          "timePrecision": { "enum": ["date_only", "timestamp_local_calendar_date"] }
+        }
+      }
+    },
+    "observations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["recordId", "date", "timePrecision", "recordType", "domain", "epistemicClass", "label", "reportedCycleDay", "cycleStartRecordIds", "windowRelation"],
+        "properties": {
+          "recordId": { "type": "string", "minLength": 1 },
+          "date": { "type": ["string", "null"], "format": "date" },
+          "timePrecision": { "enum": ["date_only", "timestamp_local_calendar_date", "unknown"] },
+          "recordType": { "enum": ["observation", "event"] },
+          "eventType": { "type": "string", "minLength": 1 },
+          "domain": { "type": "string", "minLength": 1 },
+          "epistemicClass": { "type": "string", "minLength": 1 },
+          "label": { "type": "string", "minLength": 1 },
+          "value": { "type": "object", "minProperties": 1 },
+          "source": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["kind"],
+            "properties": {
+              "kind": { "enum": ["sensor", "laboratory", "home_test", "subject", "caregiver", "clinician", "symbolic_system", "algorithm", "external_import", "unknown"] },
+              "name": { "type": "string" },
+              "method": { "type": "string" },
+              "version": { "type": "string" },
+              "reportedByRelation": { "enum": ["self", "parent_guardian", "caregiver", "clinician", "other", "unknown"] }
+            }
+          },
+          "measurementDetails": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "analyteOrSignal": { "type": "string" },
+              "specimen": { "type": "string" },
+              "sensorLocation": { "type": "string" },
+              "deviceOrAssay": { "type": "string" },
+              "deviceModel": { "type": "string" },
+              "algorithmVersion": { "type": "string" },
+              "collectionConditions": { "type": "string" }
+            },
+            "minProperties": 1
+          },
+          "reportedCycleDay": { "type": ["integer", "null"], "minimum": 1 },
+          "cycleStartRecordIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+          "windowRelation": { "enum": ["between_selected_day_one_markers", "since_latest_selected_day_one_marker", "before_first_selected_marker", "unknown_time"] }
+        },
+        "allOf": [
+          {
+            "if": { "properties": { "reportedCycleDay": { "type": "null" } } },
+            "then": {
+              "properties": {
+                "cycleStartRecordIds": { "maxItems": 0 },
+                "windowRelation": { "enum": ["before_first_selected_marker", "unknown_time"] }
+              }
+            }
+          },
+          {
+            "if": { "properties": { "reportedCycleDay": { "type": "integer" } } },
+            "then": {
+              "properties": {
+                "cycleStartRecordIds": { "minItems": 1 },
+                "windowRelation": { "enum": ["between_selected_day_one_markers", "since_latest_selected_day_one_marker"] }
+              }
+            }
+          },
+          {
+            "if": { "properties": { "date": { "type": "null" } } },
+            "then": { "properties": { "timePrecision": { "const": "unknown" }, "reportedCycleDay": { "type": "null" } } }
+          },
+          {
+            "if": { "properties": { "timePrecision": { "const": "unknown" } } },
+            "then": { "properties": { "date": { "type": "null" }, "reportedCycleDay": { "type": "null" } } }
+          }
+        ]
+      }
+    },
+    "sourceRecordIds": { "type": "array", "minItems": 2, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+    "consentPreflight": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policyVersion", "purpose", "action", "status", "checkedAt", "recordGrantIds", "limitations"],
+      "properties": {
+        "policyVersion": { "const": "metheus-consent-policy/0.5.0" },
+        "purpose": { "const": "rhythm_summary" },
+        "action": { "const": "analyze" },
+        "status": { "enum": ["authorized", "synthetic_example"] },
+        "checkedAt": { "type": "string", "format": "date-time" },
+        "recordGrantIds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["recordId", "grantId"],
+            "properties": {
+              "recordId": { "type": "string", "minLength": 1 },
+              "grantId": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "limitations": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "limitations": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+  }
+}

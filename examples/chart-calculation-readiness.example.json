@@ -1,0 +1,10 @@
+{
+  "ready": true,
+  "precision": "exact_to_supplied_clock_precision",
+  "limitations": [
+    "This is input normalization only; no chart or gate activation has been calculated.",
+    "A local engine adapter must still preserve engine version, calculation method, and activation uncertainty.",
+    "Readiness is not authorization; callers must check birth-input consent before using these details.",
+    "The active time-zone database version could not be identified, so this UTC normalization may not be reproducible."
+  ]
+}

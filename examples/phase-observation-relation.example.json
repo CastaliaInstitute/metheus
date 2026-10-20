@@ -2,9 +2,22 @@
   "relationId": "temporal-order:synthetic-phase-observation",
   "subjectId": "phase-example-subject",
   "relationType": "temporal_order",
-  "methodVersion": "metheus-temporal-order/0.1.0",
+  "methodVersion": "metheus-temporal-order/0.2.0",
   "leftRecordId": "synthetic-observation-example",
   "rightRecordId": "synthetic-postpartum-phase-example",
+  "leftContext": {
+    "recordType": "observation",
+    "domain": "physiology",
+    "epistemicClass": "measured"
+  },
+  "rightContext": {
+    "recordType": "phase_annotation",
+    "layer": "epimethean",
+    "phaseSystem": "postpartum",
+    "canonicalPhase": "postpartum_context",
+    "basis": "reported",
+    "interpretation": "descriptive"
+  },
   "leftWindow": {
     "kind": "point",
     "start": "2026-10-20T09:30:00-06:00",

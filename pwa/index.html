@@ -4,26 +4,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#111821" />
-    <meta name="description" content="A shared, Matrix-powered conversation space for reflection with Metheus." />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="description" content="A shared, Matrix-powered conversation space for reflection with Mētheus." />
     <link rel="manifest" href="/chat/manifest.webmanifest" />
     <link rel="icon" href="/chat/icon.svg" type="image/svg+xml" />
-    <title>Metheus · Shared reflection</title>
+    <title>Mētheus · Shared reflection</title>
   </head>
   <body>
     <div class="app-shell">
-      <aside class="rail" aria-label="Metheus navigation">
-        <a class="brand-mark" href="/" aria-label="Metheus home">M<span>·</span></a>
+      <aside class="rail" aria-label="Mētheus navigation">
+        <a class="brand-mark" href="/" aria-label="Mētheus home">M<span>·</span></a>
         <div class="rail-bottom"><span class="presence-dot"></span><span>Shared space</span></div>
       </aside>
 
       <main class="workspace">
         <header class="topbar">
-          <a href="/" class="wordmark">METHEUS <span>·</span> CIRCLE</a>
+          <a href="/" class="wordmark">MĒTHEUS <span>·</span> CIRCLE</a>
           <button class="quiet-button" id="install-button" hidden>Install app</button>
           <button class="quiet-button" id="logout-button" hidden>Disconnect</button>
         </header>
 
-        <section class="chat-frame" aria-label="Metheus shared conversation">
+        <section class="chat-frame" aria-label="Mētheus shared conversation">
           <header class="room-header">
             <div class="room-icon" aria-hidden="true">✳</div>
             <div class="room-title"><p class="eyebrow">A SHARED SPACE</p><h1 id="room-title">The Hearth</h1><p class="room-subtitle" id="room-subtitle">A place to notice patterns together.</p></div>
@@ -32,21 +33,19 @@
 
           <section class="notice" aria-label="Privacy and scope notice">
             <span class="notice-symbol" aria-hidden="true">◈</span>
-            <p><strong>Each person brings their own voice.</strong> This is a shared room: everyone in it, including the Metheus bot, may see messages sent here. This prototype disables sending unless Matrix reports the room is end-to-end encrypted. Avoid intimate or health details unless everyone involved has freely agreed.</p>
+            <p><strong>Each person brings their own voice.</strong> This is a shared room: everyone in it, including the Mētheus bot, may see messages sent here. This prototype disables sending unless Matrix reports the room is end-to-end encrypted. Avoid intimate or health details unless everyone involved has freely agreed.</p>
           </section>
 
           <div class="connection-panel" id="connection-panel">
             <div class="connection-copy">
               <p class="eyebrow">CONNECT TO YOUR MATRIX ROOM</p>
               <h2>Reflection, held in company.</h2>
-              <p>Sign in with your own Matrix account to join a room where the Metheus bot is present. Metheus is a reflective companion, not a clinician or relationship referee.</p>
+              <p>Sign in with your Castalia.Institute account to join a Matrix room where the Mētheus bot is present. Mētheus is a reflective companion, not a clinician or relationship referee.</p>
             </div>
             <form id="connect-form" class="connect-form">
-              <label>Homeserver URL<input name="homeserver" type="url" value="https://matrix.org" placeholder="https://matrix.example" required autocomplete="url" /></label>
-              <label>Room ID or alias<input name="room" type="text" placeholder="#metheus-family:example.org" required autocomplete="off" /></label>
-              <div class="form-row"><label>Matrix user ID<input name="user" type="text" placeholder="@you:example.org" required autocomplete="username" /></label><label>Password<input name="password" type="password" required autocomplete="current-password" /></label></div>
-              <button class="primary-button" type="submit">Connect to Matrix <span aria-hidden="true">→</span></button>
-              <p class="form-note">Your password is used to sign in and then discarded. The session token stays in memory; encryption keys are managed by the Matrix SDK in this browser. Disconnect to sign out.</p>
+              <label>Matrix room ID or alias<input name="room" type="text" placeholder="#metheus-family:castalia.institute" required autocomplete="off" /></label>
+              <button class="primary-button" type="submit">Sign in with Castalia.Institute <span aria-hidden="true">→</span></button>
+              <p class="form-note">Castalia handles sign-in. Mētheus receives a short-lived, single-use Matrix login token after authentication; the client exchanges it, removes it from the address bar, and keeps the Matrix session token in memory. Encryption keys are managed by the Matrix SDK in this browser. Disconnect to sign out.</p>
               <p class="status-line" id="connect-status" role="status" aria-live="polite"></p>
             </form>
           </div>
@@ -62,23 +61,38 @@
                   </div>
                 </div>
                 <details class="ai-guide" id="ai-guide">
-                  <summary><span><span class="eyebrow">OPTIONAL · SHARED ROOM AI</span><strong>Metheus AI</strong></span><span class="ai-guide-mark" aria-hidden="true">＋</span></summary>
-                  <p class="ai-guide-copy">The bot processes only explicit <code>!metheus ask</code> messages, and only after every currently joined person has read its disclosure and opted in. Ordinary room chat is not sent to the model. If your question names a gate, matching public catalog entries with their source wording and limitations may also be sent. The commands below are posted to everyone in this room.</p>
+                  <summary><span><span class="eyebrow">OPTIONAL · SHARED ROOM AI</span><strong>Mētheus AI</strong></span><span class="ai-guide-mark" aria-hidden="true">＋</span></summary>
+                  <p class="ai-guide-copy">The bot processes only explicit <code>!metheus ask</code> or <code>!metheus ask-chart</code> messages, and only after every currently joined person has read its disclosure and opted in. Ordinary room chat is not sent to the model. A one-time chart-aware request sends the gates you provide for that turn. You can also explicitly enable your gates for your own later <code>!metheus ask</code> turns with “Use my gates for future asks”; check or clear that setting with the controls below. On every chart-aware turn, Mētheus receives your full selected gate list, derived channel map, and activities linked to those gates. It matches those activities to your current question, rather than assuming every gate is relevant. It answers your question first, can shape practical help around a relevant activity from your selected gates, and may offer one partner-gate activity if it clearly adds a useful option. It can skip chart framing when no activity fits. This is a self-reported symbolic chart context, not a verified chart or live awareness of transits, feelings, or body state; the bot does not remember earlier chart-aware replies. The setting stays in bot memory until you clear it, someone opts out, room membership changes, or the bot restarts. Your chart-aware turns include only your question and gate context, never shared conversation history. The commands and replies are visible to everyone in this room and may remain in room history. Use only your own gate list and only if you want the room and provider to receive it.</p>
                   <div class="ai-actions">
                     <button type="button" class="ai-action" data-ai-command="!metheus ai-info">Request AI disclosure</button>
                     <button type="button" class="ai-action" data-ai-command="!metheus ai-status">Check shared AI status</button>
                     <button type="button" class="ai-action" data-ai-command="!metheus ai-opt-in">Opt in after reading</button>
                     <button type="button" class="ai-action ai-action-muted" data-ai-command="!metheus ai-opt-out">Opt out and clear bot context</button>
-                    <button type="button" class="ai-action ai-action-ask" id="ai-ask-start">Ask Metheus AI</button>
+                    <button type="button" class="ai-action ai-action-ask" id="ai-ask-start">Ask Mētheus AI</button>
+                    <button type="button" class="ai-action" id="ai-ask-chart-start">Ask once with my active gates</button>
+                    <button type="button" class="ai-action ai-action-ask" id="ai-ask-chart-profile-start">Ask once with both maps</button>
+                    <button type="button" class="ai-action" id="ai-chart-set-start">Use my gates for future asks</button>
+                    <button type="button" class="ai-action" data-ai-command="!metheus chart-status">Check my chart setting</button>
+                    <button type="button" class="ai-action ai-action-muted" data-ai-command="!metheus chart-clear">Clear my room chart setting</button>
                   </div>
                   <p class="ai-guide-footnote">Opting out clears the bot’s short in-memory context. A request already sent to the AI provider cannot be recalled. Avoid sensitive health, reproductive, child, or intimate details in this prototype.</p>
+                  <details class="metheus-profile" id="metheus-profile">
+                    <summary><span><span class="eyebrow">OPTIONAL · LOCAL AI PROMPT PROFILE</span><strong>Set Metheus’s symbolic gates</strong></span><span class="bodygraph-badge">SEPARATE FROM YOUR MAP</span></summary>
+                    <p class="gate-ai-intro">Choose gates as a symbolic interaction style for the AI. This is not a chart or lived experience belonging to Metheus. Your selection is saved only in this browser and is sent to the room and AI provider only when you choose “Ask once with both maps.”</p>
+                    <p class="metheus-profile-summary" id="metheus-profile-summary" aria-live="polite">No Metheus gates selected.</p>
+                    <div class="metheus-profile-actions">
+                      <button type="button" class="gate-ai-chart-use" id="metheus-profile-compare">Compare on BodyGraph</button>
+                      <button type="button" class="gate-ai-clear" id="metheus-profile-clear">Clear Metheus gates</button>
+                    </div>
+                    <p class="ai-guide-footnote">The overlay uses amber for your selected gates, teal for Metheus’s configured gates, and violet for shared gates/channels. It compares symbolic map structure only; overlap does not imply compatibility, shared traits, or biological effects.</p>
+                  </details>
                   <p class="ai-guide-status" id="ai-guide-status" role="status" aria-live="polite"></p>
                 </details>
                 <form id="message-form" class="composer">
                   <label class="sr-only" for="message-input">Message your room</label>
                   <textarea id="message-input" rows="1" placeholder="Write a message to your room…" maxlength="4000" required></textarea>
                   <button class="send-button" type="submit" aria-label="Send message"><span aria-hidden="true">↑</span></button>
-                  <p class="composer-note">The Metheus bot must be joined to this room to reply. Messages are shared with the whole room.</p>
+                  <p class="composer-note">The Mētheus bot must be joined to this room to reply. Messages are shared with the whole room.</p>
                 </form>
               </div>
               <details class="bodygraph-panel" id="bodygraph-panel" open>
@@ -86,16 +100,142 @@
                 <div class="map-mode" role="group" aria-label="Select reference map">
                   <button type="button" class="map-mode-button is-selected" id="map-mode-bodygraph" aria-pressed="true">BodyGraph</button>
                   <button type="button" class="map-mode-button" id="map-mode-correspondence" aria-pressed="false">Gate source links</button>
-                  <button type="button" class="map-mode-button" id="map-mode-endocrine" aria-pressed="false">Body biology</button>
+                  <button type="button" class="map-mode-button" id="map-mode-endocrine" aria-pressed="false">Body systems</button>
                 </div>
                 <details class="map-guide">
                   <summary>How to read these views</summary>
                   <ol>
                     <li><strong>BodyGraph:</strong> a symbolic Human Design chart. This is a generic reference, not anyone’s personal chart.</li>
                     <li><strong>Gate source links:</strong> show what a named Human Design source connects to a gate. A ring marks a gate with a cited link; it is not a body measurement.</li>
-                    <li><strong>Body biology:</strong> shows signals, organs, and pathways described by biology sources. It is a separate map and does not infer health from a chart.</li>
+                    <li><strong>Body systems:</strong> shows signals, organs, and pathways described by biology sources. It is a separate network: its nodes are arranged for readability, not placed on body locations or connected to gates.</li>
                   </ol>
-                  <p>Open a gate link or biology item to see its source and a short explanation.</p>
+                  <p>Open a gate link or body-system item to see its source and a short explanation. Gate source links report what a Human Design source says; they do not establish a biological connection.</p>
+                </details>
+                <details class="cycle-day-tool" id="cycle-day-tool">
+                  <summary><span><span class="eyebrow">LOCAL RECORD VIEW</span><strong>Observations by reported cycle day</strong></span><span class="bodygraph-badge">THIS DEVICE ONLY</span></summary>
+                  <p>Open a Metheus reported-cycle-day view JSON file to see selected records beside the day-one markers they were aligned to. The file must already have been created from explicitly selected records with consent for each input. This browser displays the file locally; it does not send its contents to Matrix or the AI provider, and it clears when you close or refresh this page.</p>
+                  <section class="cycle-marker-entry" aria-labelledby="cycle-marker-heading">
+                    <h3 id="cycle-marker-heading">Record your own day-one dates</h3>
+                    <p>Mark dates you personally identify as menstrual cycle day one. Dates and gaps are shown only as recorded; they do not identify hormonal phase, ovulation, fertility, or health status. Entries stay in this tab until cleared or closed.</p>
+                    <form class="cycle-marker-form" id="cycle-marker-form">
+                      <label for="cycle-marker-subject">Pseudonymous label (not your name)</label>
+                      <input id="cycle-marker-subject" required maxlength="80" autocomplete="off" placeholder="For example, person-01" />
+                      <label for="cycle-marker-date">Date you choose as cycle day one</label>
+                      <input id="cycle-marker-date" type="date" required />
+                      <button class="gate-trial-save" type="submit">Add date in this tab</button>
+                    </form>
+                    <div class="cycle-day-import">
+                      <button type="button" class="secondary-button cycle-day-preview" id="cycle-marker-export" disabled>Download marker records</button>
+                      <button type="button" class="bodygraph-clear" id="cycle-marker-clear" disabled>Clear marker dates</button>
+                    </div>
+                    <p class="cycle-day-status" id="cycle-marker-status" role="status" aria-live="polite">No marker dates recorded in this tab.</p>
+                    <div class="cycle-day-table-wrap" id="cycle-marker-list-wrap" hidden>
+                      <table>
+                        <caption class="sr-only">Self-reported menstrual cycle day-one dates and calendar gaps</caption>
+                        <thead><tr><th scope="col">Self-reported date</th><th scope="col">Gap from previous selected date</th><th scope="col">Action</th></tr></thead>
+                        <tbody id="cycle-marker-rows"></tbody>
+                      </table>
+                    </div>
+                  </section>
+                  <div class="cycle-day-import">
+                    <label for="cycle-day-file">Choose a reported-cycle-day view JSON file</label>
+                    <input id="cycle-day-file" type="file" accept="application/json,.json" />
+                    <button type="button" class="secondary-button cycle-day-preview" id="cycle-day-preview">Preview synthetic example</button>
+                    <button type="button" class="bodygraph-clear" id="cycle-day-clear" disabled>Clear local view</button>
+                  </div>
+                  <p class="cycle-day-status" id="cycle-day-status" role="status" aria-live="polite">No cycle-day view is open.</p>
+                  <div class="cycle-day-results" id="cycle-day-results" hidden>
+                    <p class="cycle-day-markers" id="cycle-day-markers"></p>
+                    <p class="cycle-day-consent" id="cycle-day-consent"></p>
+                    <div class="cycle-day-table-wrap">
+                      <table>
+                        <caption class="sr-only">Selected observations organized by reported cycle day</caption>
+                        <thead><tr><th scope="col">Date</th><th scope="col">Reported day</th><th scope="col">Record</th><th scope="col">Value</th><th scope="col">Source / method</th><th scope="col">Basis</th></tr></thead>
+                        <tbody id="cycle-day-rows"></tbody>
+                      </table>
+                    </div>
+                    <p class="cycle-day-limit" id="cycle-day-limit"></p>
+                  </div>
+                </details>
+                <details class="measurement-series-tool" id="measurement-series-tool">
+                  <summary><span><span class="eyebrow">LOCAL MEASUREMENT VIEW</span><strong>Biometrics and assay series</strong></span><span class="bodygraph-badge">THIS DEVICE ONLY</span></summary>
+                  <p>Open a Metheus numeric measurement-series summary or selected observation records to inspect their source, method, units, and reported values. Categorical home-test results are shown one by one and are never averaged with numeric measurements. Files must already have been prepared from explicitly selected records; this viewer does not verify consent or identify the person. It displays files in this tab only and does not send their contents to Matrix or the AI provider.</p>
+                  <div class="cycle-day-import">
+                    <label for="measurement-series-file">Choose a measurement-series summary JSON file</label>
+                    <input id="measurement-series-file" type="file" accept="application/json,.json" />
+                    <button type="button" class="secondary-button cycle-day-preview" id="measurement-series-preview">Preview numeric series</button>
+                    <button type="button" class="secondary-button cycle-day-preview" id="measurement-record-preview">Preview qualitative home test</button>
+                    <button type="button" class="bodygraph-clear" id="measurement-series-clear" disabled>Clear local view</button>
+                  </div>
+                  <p class="cycle-day-status" id="measurement-series-status" role="status" aria-live="polite">No measurement-series summary is open.</p>
+                  <section class="measurement-series-results" id="measurement-series-results" hidden>
+                    <h3 id="measurement-series-heading"></h3>
+                    <p id="measurement-series-source" class="cycle-day-consent"></p>
+                    <p id="measurement-series-summary"></p>
+                    <div class="cycle-day-table-wrap">
+                      <table>
+                        <caption class="sr-only">Descriptive measurement buckets and coverage</caption>
+                        <thead><tr><th scope="col">Window</th><th scope="col">Samples / days</th><th scope="col">Median ± MAD</th><th scope="col">Range</th><th scope="col">Coverage / quality</th><th scope="col">Recorded uncertainty labels</th></tr></thead>
+                        <tbody id="measurement-series-rows"></tbody>
+                      </table>
+                    </div>
+                    <p id="measurement-series-limit" class="cycle-day-limit"></p>
+                    <p class="measurement-series-boundary">Wearable signals such as HRV, heart rate, and skin temperature are not hormone assays. This descriptive summary does not infer a hormone level, trend, cause, diagnosis, or recommended action.</p>
+                  </section>
+                  <section class="measurement-record-results" id="measurement-record-results" hidden>
+                    <h3>Selected assay records</h3>
+                    <p>These are the values recorded for each selected result. Positive/negative or other categories remain categorical observations; they are not converted to hormone levels, averaged, or interpreted as proof of ovulation, fertility, pregnancy, or diagnosis.</p>
+                    <div class="cycle-day-table-wrap">
+                      <table>
+                        <caption class="sr-only">Individually selected measurement and assay records</caption>
+                        <thead><tr><th scope="col">Time</th><th scope="col">Recorded result</th><th scope="col">Analyte / specimen</th><th scope="col">Source / method</th><th scope="col">Context / uncertainty</th></tr></thead>
+                        <tbody id="measurement-record-rows"></tbody>
+                      </table>
+                    </div>
+                  </section>
+                </details>
+                <details class="measurement-series-tool" id="affordance-trial-tool">
+                  <summary><span><span class="eyebrow">LOCAL TRIAL VIEW</span><strong>AI activity use and experience</strong></span><span class="bodygraph-badge">THIS DEVICE ONLY</span></summary>
+                  <p>Open a trial summary created locally by Metheus. The viewer displays recorded use events and experience reports separately. It does not verify identity, consent, or source records and does not determine effectiveness, causation, gate activation, or physiological effects. The file remains in this tab and is not sent to Matrix or the AI provider.</p>
+                  <div class="cycle-day-import">
+                    <label for="affordance-trial-file">Choose an affordance-trial summary JSON file</label>
+                    <input id="affordance-trial-file" type="file" accept="application/json,.json" />
+                    <button type="button" class="secondary-button cycle-day-preview" id="affordance-trial-preview">Preview synthetic trial</button>
+                    <button type="button" class="bodygraph-clear" id="affordance-trial-clear" disabled>Clear local view</button>
+                  </div>
+                  <p class="cycle-day-status" id="affordance-trial-status" role="status" aria-live="polite">No affordance-trial summary is open.</p>
+                  <section class="measurement-series-results affordance-trial-results" id="affordance-trial-results" hidden>
+                    <h3 id="affordance-trial-heading"></h3>
+                    <p id="affordance-trial-context" class="cycle-day-consent"></p>
+                    <h4>Recorded use events</h4>
+                    <ul id="affordance-trial-events"></ul>
+                    <h4>Separate experience reports</h4>
+                    <ul id="affordance-trial-reports"></ul>
+                    <h4>Recorded timing comparisons</h4>
+                    <ul id="affordance-trial-relations"></ul>
+                    <p id="affordance-trial-limit" class="cycle-day-limit"></p>
+                    <p class="measurement-series-boundary">Reports describe what a person recorded about an activity. They do not establish benefit, harm, hormones, chart changes, or causes.</p>
+                  </section>
+                </details>
+                <details class="metheus-model-guide">
+                  <summary><span class="eyebrow">THE METHEAN SYSTEM</span><strong>How the layers fit together</strong></summary>
+                  <div class="model-layers">
+                    <article class="model-layer model-layer-symbolic">
+                      <h3>Promethean · a symbolic lens</h3>
+                      <p>A chart feature or named tradition offers a question or reflection prompt. Mētheus names its source and keeps it symbolic.</p>
+                    </article>
+                    <article class="model-layer model-layer-lived">
+                      <h3>Epimethean · lived records</h3>
+                      <p>Reports, measurements, events, and context keep their source and time: what someone reported, observed, or measured.</p>
+                    </article>
+                  </div>
+                  <div class="model-example">
+                    <p class="eyebrow">ILLUSTRATIVE ONLY · NO PERSONAL DATA IS CONNECTED</p>
+                    <p><strong>Lived record:</strong> “I logged sleep from 10 pm to 6 am.”</p>
+                    <p><strong>Optional chart prompt:</strong> “Would a routine or timing reflection be useful?”</p>
+                    <p class="model-boundary">The prompt can help someone reflect; it cannot explain the sleep, reveal a hormone level, or turn a gate into a body measurement.</p>
+                  </div>
+                  <p class="model-reading-rule">A Mētheus reading keeps those statements separate, shows where they came from, and invites the person to decide whether the symbolic lens is useful. An unmeasured state stays unknown. This client does not collect health records; its optional local cycle-day and measurement-series viewers display user-selected summary files in this browser tab only.</p>
                 </details>
                 <p class="map-boundary" id="map-boundary">This is a generic reference chart. Gate source links show what a named Human Design source associates with a gate. They are not hormone measurements and do not show that a gate changes the body.</p>
                 <div class="gate-correspondence-tools" id="gate-correspondence-tools" hidden>
@@ -108,12 +248,13 @@
                     <option value="process">Hormone production or a body process</option>
                     <option value="tissue">An organ or body tissue</option>
                   </select>
-                  <p class="gate-correspondence-legend"><span class="legend-hormone">●</span> names a hormone <span class="legend-process">●</span> mentions a process <span class="legend-tissue">●</span> names an organ/tissue</p>
+                  <p class="gate-correspondence-legend"><span class="legend-hormone">●</span> source names a hormone <span class="legend-process">●</span> mentions a body process <span class="legend-tissue">●</span> names an organ/tissue</p>
+                  <p class="gate-correspondence-boundary">Every ring marks a symbolic source claim. None is a tested gate-to-body mechanism or a measurement from a person.</p>
                   <p id="gate-correspondence-count" role="status" aria-live="polite"></p>
                 </div>
                 <div class="gate-correspondence-list" id="gate-correspondence-list" aria-label="Sourced gate correspondences" hidden></div>
                 <div class="endocrine-controls" id="endocrine-controls" hidden>
-                  <label for="endocrine-filter">Show body topic</label>
+                  <label for="endocrine-filter">Filter body topic</label>
                   <select id="endocrine-filter"><option value="all">All listed connections</option></select>
                 </div>
                 <div class="bodygraph-viewer" id="bodygraph-viewer">
@@ -126,23 +267,112 @@
                   <input id="bodygraph-query" type="text" placeholder="Gate 34 or Channel 34–20" autocomplete="off" />
                   <button type="submit" aria-label="Highlight reference">↗</button>
                 </form>
+                <details class="bodygraph-text-index">
+                  <summary>Browse gates and channels as a text list</summary>
+                  <p>Choose an item to highlight it in the generic reference map. This list does not show a personal chart or activation.</p>
+                  <div id="bodygraph-text-index-list" aria-label="Gates and channels"></div>
+                </details>
                 <div class="bodygraph-detail" id="bodygraph-detail" aria-live="polite">Choose a gate or channel to explore its place in the map.</div>
                 <div class="bodygraph-source" id="bodygraph-source" aria-hidden="true"></div>
                 <button type="button" class="bodygraph-clear" id="bodygraph-clear">Clear highlight</button>
+                <details class="gate-ai-ideas" id="gate-ai-ideas">
+                  <summary><span><span class="eyebrow">OPTIONAL ACTIVITY CATALOG</span><strong>Ideas for all 64 gates</strong></span><span class="bodygraph-badge">BROWSE OR IGNORE</span></summary>
+                  <p class="gate-ai-intro">These are optional activity ideas, not traits or needs. Browse by gate, or search for a topic. Use examples as explicit AI questions, or select gates you self-report as active for you. Separately, choose gates for Metheus’s optional prompt profile. “Ask once with both maps” sends both sets for one turn and displays them as distinct symbolic maps; the Metheus profile is not a human chart. “Use my gates for future asks” enables only your selected gates for your own later explicit AI questions in this room. These are optional ideas, not verified chart activations or an AI activation of a gate. You decide whether to send each command.</p>
+                  <div class="gate-ai-selection" id="gate-ai-selection" hidden>
+                    <p id="gate-ai-selected-summary" aria-live="polite"></p>
+                    <details class="gate-ai-complements gate-ai-active-activities" id="gate-ai-active-activities" hidden>
+                      <summary id="gate-ai-active-summary">Activities linked to your selected gates</summary>
+                      <ul id="gate-ai-active-list"></ul>
+                    </details>
+                    <details class="gate-ai-complements" id="gate-ai-complete-channels" hidden>
+                      <summary id="gate-ai-complete-channels-summary">Paired activities in your complete channels</summary>
+                      <p>The AI may combine these two activity ideas when the combination fits your question. The channel label is symbolic context.</p>
+                      <ul id="gate-ai-complete-channel-list"></ul>
+                    </details>
+                    <details class="gate-ai-complements" id="gate-ai-complements" hidden>
+                      <summary id="gate-ai-complements-summary">Possible channel complements</summary>
+                      <p>These are unranked activity ideas for the other gate in a channel. The AI may offer one only when it fits your question; none implies a missing ability or a need.</p>
+                      <ul id="gate-ai-complement-list"></ul>
+                    </details>
+                    <button type="button" class="gate-ai-clear" id="gate-ai-clear">Clear selected gates</button>
+                    <div class="bodygraph-prompt-tools">
+                      <button type="button" class="gate-ai-chart-use" id="generate-bodygraph-prompt">Generate input prompt from selected maps</button>
+                      <label class="sr-only" for="bodygraph-prompt-output">Generated BodyGraph input prompt</label>
+                      <textarea id="bodygraph-prompt-output" rows="12" readonly hidden></textarea>
+                      <div class="bodygraph-prompt-actions" id="bodygraph-prompt-actions" hidden>
+                        <button type="button" class="gate-ai-select" id="copy-bodygraph-prompt">Copy prompt</button>
+                        <button type="button" class="gate-ai-chart-use" id="use-bodygraph-prompt">Use prompt in Metheus chat</button>
+                      </div>
+                      <p class="gate-ai-intro" id="bodygraph-prompt-status" role="status" aria-live="polite"></p>
+                    </div>
+                  </div>
+                  <p class="gate-ai-intro">A chart-aware request is visible in the Matrix room and asks the bot to use your supplied, non-time-bound personal gate list as an optional symbolic lens. It does not verify your chart, calculate current transits, or activate a gate. A Metheus profile is included only in a one-turn “both maps” request.</p>
+                  <p class="ai-guide-footnote">Each card shows a symbolic source title and its BodyGraph center/channel, followed by an optional practical activity. The center and channel are chart references, not claims about biology or personal ability. You can try any activity without selecting a chart.</p>
+                  <p class="ai-guide-footnote">After trying an activity, you can create a local JSON record of your self-reported use and an optional experience report. Downloading is your choice; records are not sent to Matrix or the AI provider. Gate/channel references are included only if you check that option. A report is not evidence of gate activation, hormone change, benefit, or causation.</p>
+                  <label for="gate-ai-filter">Find by gate, center, theme, or activity</label>
+                  <input id="gate-ai-filter" type="search" placeholder="Try ‘story’, ‘routine’, or ‘Gate 11’" autocomplete="off" />
+                  <p id="gate-ai-count" role="status" aria-live="polite"></p>
+                  <div id="gate-ai-idea-list" aria-label="Optional AI activities for all gates"></div>
+                  <form class="gate-trial-form" id="gate-trial-form" hidden>
+                    <h3 id="gate-trial-title">Record an activity</h3>
+                    <p>This creates a local JSON file with your self-reported activity and optional experience. The use date is date-only; an optional experience report is timestamped when entered. Records default to personal/private. The file excludes chat text and AI replies and is not sent to Matrix or an AI provider.</p>
+                    <label for="gate-trial-subject">Your pseudonymous participant label (not your name)</label>
+                    <input id="gate-trial-subject" name="subjectId" required maxlength="80" autocomplete="off" placeholder="For example, person-01" />
+                    <label for="gate-trial-date">Date you tried the activity (time of day is not recorded)</label>
+                    <input id="gate-trial-date" name="usedDate" type="date" required />
+                    <label for="gate-trial-function">What function did you choose this activity for? (optional)</label>
+                    <select id="gate-trial-function" name="intendedFunction">
+                      <option value="other">Not specified / another function</option>
+                      <option value="communication_practice">Communication practice</option>
+                      <option value="reflection">Reflection</option>
+                      <option value="problem_solving">Problem solving</option>
+                      <option value="learning">Learning</option>
+                      <option value="structure_or_routine">Structure or routine</option>
+                      <option value="access_support">Access support</option>
+                      <option value="connection">Connection</option>
+                      <option value="sensory_context">Sensory context</option>
+                    </select>
+                    <label for="gate-trial-response">How did the activity feel for your chosen purpose? (optional)</label>
+                    <select id="gate-trial-response" name="response">
+                      <option value="">Do not include an experience report</option>
+                      <option value="useful_for_chosen_goal">Useful for my chosen goal</option>
+                      <option value="neutral">Neutral</option>
+                      <option value="difficult">Difficult or uncomfortable</option>
+                      <option value="mixed">Mixed</option>
+                      <option value="uncertain">Uncertain</option>
+                    </select>
+                    <label for="gate-trial-notes">Optional note (avoid names or details you do not want in the downloaded file)</label>
+                    <textarea id="gate-trial-notes" name="notes" maxlength="1000" rows="3"></textarea>
+                    <label class="gate-trial-checkbox"><input id="gate-trial-include-symbolic" type="checkbox" /> Include the selected gate and its channel references in this local file</label>
+                    <div class="gate-trial-actions"><button class="gate-trial-save" type="submit">Download record JSON</button><button class="gate-trial-cancel" id="gate-trial-cancel" type="button">Cancel</button></div>
+                  </form>
+                  <p class="gate-trial-status" id="gate-trial-status" role="status" aria-live="polite"></p>
+                </details>
               </details>
             </div>
           </section>
 
           <section class="settings-panel" id="settings-panel" hidden>
-            <div><p class="eyebrow">ROOM AND SESSION</p><h2>Connected with care.</h2><p>This client does not create rooms or invite members. Ask your room administrator to invite each participant and the Metheus bot.</p></div>
+            <div><p class="eyebrow">ROOM AND SESSION</p><h2>Connected with care.</h2><p>This client does not create rooms or invite members. Ask your room administrator to invite each participant and the Mētheus bot.</p></div>
             <dl id="session-details"></dl>
             <button class="secondary-button" id="back-to-chat">Return to conversation</button>
           </section>
 
-          <footer class="chat-footer"><span>METHEUS · DESIGN IN LIVED TIME</span><a href="https://github.com/CastaliaInstitute/metheus/blob/main/docs/matrix-chat-pwa.md">How this works</a><span id="sync-indicator">Not connected</span></footer>
+          <footer class="chat-footer"><span>MĒTHEUS · DESIGN IN LIVED TIME</span><a href="https://github.com/CastaliaInstitute/metheus/blob/main/docs/matrix-chat-pwa.md">How this works</a><span id="sync-indicator">Not connected</span></footer>
         </section>
       </main>
     </div>
+    <script>
+      (() => {
+        const params = new URLSearchParams(window.location.search);
+        const callbackKeys = ['loginToken', 'state', 'error', 'error_description'];
+        if (!callbackKeys.some((key) => params.has(key))) return;
+        window.__metheusSsoCallback = Object.fromEntries(callbackKeys.map((key) => [key, params.get(key)]));
+        callbackKeys.forEach((key) => params.delete(key));
+        const remaining = params.toString();
+        history.replaceState(history.state, '', `${window.location.pathname}${remaining ? `?${remaining}` : ''}${window.location.hash}`);
+      })();
+    </script>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

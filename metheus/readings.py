@@ -35,6 +35,30 @@ _SUMMARY_SOURCE_TYPES = {
 }
 
 
+def _assembled_phase_annotation(annotation_id: str, annotation: dict[str, Any]) -> dict[str, Any]:
+    """Project a selected phase record without rewriting its evidence metadata."""
+    phase_entry = {
+        "id": annotation_id,
+        "layer": annotation.get("layer"),
+        "phaseSystem": annotation.get("phaseSystem"),
+        "canonicalPhase": annotation.get("canonicalPhase"),
+        "window": annotation.get("window"),
+        "basis": annotation.get("basis"),
+        "interpretation": annotation.get("interpretation"),
+        "basisRecordIds": annotation.get("basisRecordIds", []),
+        "method": annotation.get("method"),
+        "uncertainty": annotation.get("uncertainty"),
+        "limitations": annotation.get("limitations", []),
+    }
+    for optional_field in (
+        "evocativeName", "description", "sourceSystem", "nameSource",
+        "methodVersion", "supersedes",
+    ):
+        if optional_field in annotation:
+            phase_entry[optional_field] = annotation[optional_field]
+    return phase_entry
+
+
 def validate_reading_references(
     reading: dict[str, Any],
     records: Iterable[dict[str, Any]],
@@ -293,6 +317,7 @@ def validate_reading_references(
         if not isinstance(source_ids, list) or not all(isinstance(x, str) and x for x in source_ids):
             issue("invalid_claim_source_ids")
             source_ids = []
+        resolved_source_records: list[dict[str, Any]] = []
         for source_id in source_ids:
             if source_id not in selected_ids:
                 issue("claim_source_not_selected", source_id)
@@ -301,6 +326,26 @@ def validate_reading_references(
                 issue("unresolved_claim_source", source_id)
             elif source_record.get("subjectId") != subject_id:
                 issue("source_subject_mismatch", source_id)
+            else:
+                resolved_source_records.append(source_record)
+
+        # Chart features and other symbolic records may be used as reflective
+        # prompts, but must never be laundered into lived observations,
+        # physiological estimates, or empirical hypotheses by changing a label.
+        if any(
+            record.get("epistemicClass") == "symbolic"
+            or record.get("domain") == "symbolic"
+            or record.get("recordType") == "symbolic_map"
+            for record in resolved_source_records
+        ) and claim.get("claimType") not in {"symbolic_prompt", "interpretive_question", "boundary"}:
+            for source_id in source_ids:
+                source_record = record_index.get(source_id)
+                if source_record is not None and (
+                    source_record.get("epistemicClass") == "symbolic"
+                    or source_record.get("domain") == "symbolic"
+                    or source_record.get("recordType") == "symbolic_map"
+                ):
+                    issue("symbolic_source_requires_symbolic_claim", source_id)
 
         phase_ids = claim.get("phaseAnnotationIds", [])
         if not isinstance(phase_ids, list) or not all(isinstance(x, str) and x for x in phase_ids):
@@ -742,7 +787,7 @@ def assemble_reading(
         "id", "recordType", "eventType", "domain", "label", "epistemicClass",
         "time", "source", "methodDetails", "uncertainty", "limitations",
         "schemaVersion", "summaryType", "summaryMeasure", "methodVersion",
-        "window", "inputRecordIds", "supersedes",
+        "window", "inputRecordIds", "supersedes", "sourceSystem", "calculation",
     )
     phase_index = {
         item.get("id"): item for item in resource_list
@@ -792,26 +837,7 @@ def assemble_reading(
         for phase_id in phase_ids:
             annotation = phase_index.get(phase_id)
             if annotation is not None:
-                phase_entry = {
-                    "id": phase_id,
-                    "layer": annotation.get("layer"),
-                    "phaseSystem": annotation.get("phaseSystem"),
-                    "canonicalPhase": annotation.get("canonicalPhase"),
-                    "window": annotation.get("window"),
-                    "basis": annotation.get("basis"),
-                    "interpretation": annotation.get("interpretation"),
-                    "basisRecordIds": annotation.get("basisRecordIds", []),
-                    "method": annotation.get("method"),
-                    "uncertainty": annotation.get("uncertainty"),
-                    "limitations": annotation.get("limitations", []),
-                }
-                for optional_field in (
-                    "evocativeName", "description", "sourceSystem", "nameSource",
-                    "methodVersion", "supersedes",
-                ):
-                    if optional_field in annotation:
-                        phase_entry[optional_field] = annotation[optional_field]
-                phases.append(phase_entry)
+                phases.append(_assembled_phase_annotation(phase_id, annotation))
 
         claim_refs = []
         for reference_id in correspondence_ids:
@@ -905,6 +931,13 @@ def assemble_reading(
             provenance_issues.append({"claimPosition": index, "field": "sourceIds"})
         if [item["id"] for item in rendered["phaseAnnotations"]] != expected_phase_ids:
             provenance_issues.append({"claimPosition": index, "field": "phaseAnnotationIds"})
+        expected_phases = [
+            _assembled_phase_annotation(phase_id, phase_index[phase_id])
+            for phase_id in expected_phase_ids
+            if phase_id in phase_index
+        ]
+        if rendered["phaseAnnotations"] != expected_phases:
+            provenance_issues.append({"claimPosition": index, "field": "phaseAnnotationContent"})
         if [item["id"] for item in rendered["references"]] != expected_reference_ids:
             provenance_issues.append({"claimPosition": index, "field": "referenceIds"})
     for index, (option, rendered) in enumerate(zip(reading.get("reflectionOptions", []), assembled_options), start=1):
@@ -937,6 +970,22 @@ def assemble_reading(
             "inputSchemasValidated": True,
             "outputSchemaValidated": True,
             "authorizedAction": action,
+            "provenanceAudit": {
+                "method": "claim_reference_presence/1.0.0",
+                "claimCount": len(assembled_claims),
+                "claimsWithSourceRecords": sum(bool(claim["sources"]) for claim in assembled_claims),
+                "claimsWithPhaseAnnotations": sum(bool(claim["phaseAnnotations"]) for claim in assembled_claims),
+                "claimsWithKnowledgeReferences": sum(bool(claim["references"]) for claim in assembled_claims),
+                "claimsWithAtLeastOneResolvedLink": sum(
+                    bool(claim["sources"] or claim["phaseAnnotations"] or claim["references"])
+                    for claim in assembled_claims
+                ),
+                "unlinkedClaimPositions": [
+                    claim["position"] for claim in assembled_claims
+                    if not (claim["sources"] or claim["phaseAnnotations"] or claim["references"])
+                ],
+                "textEntailmentAssessed": False,
+            },
         },
     }
     output_validation = validate_schema_instance(assembled_output, "assembled-reading.schema.json")

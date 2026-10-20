@@ -1,0 +1,25 @@
+{
+  "id": "synthetic-cycle-day-one-2026-10-30",
+  "subjectId": "synthetic-cycle-subject",
+  "recordType": "event",
+  "schemaVersion": "0.2",
+  "eventType": "menstrual_cycle_day_one",
+  "epistemicClass": "self_reported",
+  "time": {
+    "date": "2026-10-30",
+    "precision": "date_only",
+    "scale": "reproductive"
+  },
+  "source": {
+    "kind": "subject",
+    "reportedByRelation": "self"
+  },
+  "domain": "reproductive",
+  "label": "self-marked menstrual cycle day one",
+  "privacy": {
+    "sensitivity": "highly_sensitive",
+    "subjectControlled": true,
+    "sharing": "private"
+  },
+  "notes": "Synthetic example. This records the person's own day-one marker and does not verify bleeding cause or hormonal phase."
+}

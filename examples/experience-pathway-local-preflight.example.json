@@ -18,9 +18,9 @@
       { "nodeId": "aftereffect", "construct": "reported_aftereffect", "epistemicKind": "person_reported", "label": "Synthetic person is uncertain whether their feeling changed", "basisRecordIds": ["synthetic-pathway-aftereffect"] }
     ],
     "relations": [
-      { "relationId": "cue-stress", "fromNodeId": "cue", "toNodeId": "stress", "relationType": "person_reported_link", "basis": "person_report", "basisRecordIds": ["synthetic-pathway-stress"], "uncertainty": "unknown" },
-      { "relationId": "stress-journal", "fromNodeId": "stress", "toNodeId": "journal", "relationType": "person_reported_link", "basis": "person_report", "basisRecordIds": ["synthetic-pathway-journal"], "uncertainty": "unknown", "notes": "This records reported sequence/context, not a claim that journaling was caused by stress or was effective." },
-      { "relationId": "journal-aftereffect", "fromNodeId": "journal", "toNodeId": "aftereffect", "relationType": "person_reported_link", "basis": "person_report", "basisRecordIds": ["synthetic-pathway-aftereffect"], "uncertainty": "unknown", "notes": "Separate report of uncertain aftereffect; no benefit, harm, or causation is inferred." }
+      { "relationId": "cue-stress", "fromNodeId": "cue", "toNodeId": "stress", "relationType": "person_reported_link", "basis": "person_report", "basisRecordIds": ["synthetic-pathway-cue", "synthetic-pathway-stress"], "uncertainty": "unknown" },
+      { "relationId": "stress-journal", "fromNodeId": "stress", "toNodeId": "journal", "relationType": "person_reported_link", "basis": "person_report", "basisRecordIds": ["synthetic-pathway-stress", "synthetic-pathway-journal"], "uncertainty": "unknown", "notes": "This records reported sequence/context, not a claim that journaling was caused by stress or was effective." },
+      { "relationId": "journal-aftereffect", "fromNodeId": "journal", "toNodeId": "aftereffect", "relationType": "person_reported_link", "basis": "person_report", "basisRecordIds": ["synthetic-pathway-journal", "synthetic-pathway-aftereffect"], "uncertainty": "unknown", "notes": "Separate report of uncertain aftereffect; no benefit, harm, or causation is inferred." }
     ],
     "privacy": { "sensitivity": "sensitive", "subjectControlled": true, "sharing": "private" },
     "limitations": [

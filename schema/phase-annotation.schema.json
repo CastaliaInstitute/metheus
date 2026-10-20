@@ -13,7 +13,7 @@
     "schemaVersion": { "type": "string", "minLength": 1 },
     "layer": { "enum": ["promethean", "epimethean"] },
     "phaseSystem": { "enum": ["human_design_transit", "astrological_transit", "menstrual_cycle", "pregnancy", "postpartum", "menopause", "development", "sleep_wake", "circadian_rhythm", "eating_rhythm", "ultradian_rhythm", "other"] },
-    "canonicalPhase": { "type": "string", "minLength": 1 },
+    "canonicalPhase": { "type": "string", "minLength": 1, "description": "Controlled phase label from the versioned phase vocabulary for the selected phaseSystem; phaseSystem=other may use a clearly described user-defined label." },
     "evocativeName": { "type": "string", "minLength": 1 },
     "description": { "type": "string" },
     "window": {
@@ -66,10 +66,11 @@
     "methodVersion": { "type": "string" },
     "uncertainty": { "type": "string", "minLength": 1 },
     "limitations": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
-    "nameSource": { "enum": ["metheus_suggestion", "user_authored", "source_attributed"] },
+    "nameSource": { "enum": ["metheus_suggestion", "user_authored", "source_attributed"], "description": "Who supplied the optional evocative name; required whenever evocativeName is present." },
     "supersedes": { "type": "string", "minLength": 1, "description": "Prior same-subject phase annotation corrected by this annotation." }
   },
   "allOf": [
+    { "$ref": "#/$defs/phaseVocabularyConstraint" },
     {
       "if": { "properties": { "layer": { "const": "promethean" } } },
       "then": {
@@ -99,6 +100,85 @@
     {
       "if": { "properties": { "basis": { "const": "derived" } } },
       "then": { "required": ["methodVersion"] }
+    },
+    {
+      "if": { "properties": { "basis": { "const": "clinically_assessed" } }, "required": ["basis"] },
+      "then": {
+        "required": ["sourceSystem"],
+        "properties": { "sourceSystem": { "required": ["name", "citation"] } }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phaseSystem": { "const": "menstrual_cycle" },
+          "canonicalPhase": {
+            "enum": [
+              "follicular_phase_estimate",
+              "later_follicular_estimate",
+              "ovulatory_window_estimate",
+              "luteal_phase_estimate",
+              "late_luteal_estimate"
+            ]
+          }
+        },
+        "required": ["phaseSystem", "canonicalPhase"]
+      },
+      "then": {
+        "properties": {
+          "basis": { "enum": ["derived", "clinically_assessed"] }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phaseSystem": { "const": "menopause" },
+          "canonicalPhase": { "const": "menopause_milestone" }
+        },
+        "required": ["phaseSystem", "canonicalPhase"]
+      },
+      "then": {
+        "properties": {
+          "basis": { "enum": ["derived", "clinically_assessed"] }
+        }
+      }
+    },
+    {
+      "if": { "required": ["evocativeName"] },
+      "then": { "required": ["nameSource"] }
+    },
+    {
+      "if": { "required": ["nameSource"] },
+      "then": { "required": ["evocativeName"] }
+    },
+    {
+      "if": {
+        "properties": { "nameSource": { "const": "source_attributed" } },
+        "required": ["nameSource"]
+      },
+      "then": {
+        "required": ["sourceSystem"],
+        "properties": { "sourceSystem": { "required": ["name", "citation"] } }
+      }
     }
-  ]
+  ],
+  "$defs": {
+    "phaseVocabularyConstraint": {
+      "description": "Canonical labels must match the controlled phase vocabulary for their system. The other system remains user-defined.",
+      "allOf": [
+        { "if": { "properties": { "phaseSystem": { "const": "human_design_transit" } }, "required": ["phaseSystem"] }, "then": { "properties": { "canonicalPhase": { "enum": ["natal_reference", "approaching_contact", "exact_contact", "separating_contact", "retrograde_station", "repeat_contact"] } } } },
+        { "if": { "properties": { "phaseSystem": { "const": "astrological_transit" } }, "required": ["phaseSystem"] }, "then": { "properties": { "canonicalPhase": { "enum": ["exact_aspect", "return_contact", "recurring_symbolic_cycle"] } } } },
+        { "if": { "properties": { "phaseSystem": { "const": "menstrual_cycle" } }, "required": ["phaseSystem"] }, "then": { "properties": { "canonicalPhase": { "enum": ["menarche_reported", "bleeding_reported", "bleeding_interval", "follicular_phase_estimate", "later_follicular_estimate", "ovulatory_window_estimate", "luteal_phase_estimate", "late_luteal_estimate", "premenstrual_symptoms_reported"] } } } },
+        { "if": { "properties": { "phaseSystem": { "const": "pregnancy" } }, "required": ["phaseSystem"] }, "then": { "properties": { "canonicalPhase": { "enum": ["conception_process_reported", "pregnancy_reported", "birth_event"] } } } },
+        { "if": { "properties": { "phaseSystem": { "const": "postpartum" } }, "required": ["phaseSystem"] }, "then": { "properties": { "canonicalPhase": { "enum": ["postpartum_context", "early_postpartum_context", "ongoing_postpartum_adjustment", "lactation_or_feeding_context"] } } } },
+        { "if": { "properties": { "phaseSystem": { "const": "menopause" } }, "required": ["phaseSystem"] }, "then": { "properties": { "canonicalPhase": { "enum": ["menopause_transition", "menopause_milestone", "postmenopause_context"] } } } },
+        { "if": { "properties": { "phaseSystem": { "const": "development" } }, "required": ["phaseSystem"] }, "then": { "properties": { "canonicalPhase": { "enum": ["prenatal_context", "newborn_period", "early_infancy", "later_infancy", "early_childhood", "middle_childhood", "adolescence", "adulthood", "later_life"] } } } },
+        { "if": { "properties": { "phaseSystem": { "const": "sleep_wake" } }, "required": ["phaseSystem"] }, "then": { "properties": { "canonicalPhase": { "enum": ["sleep_wake_interval"] } } } },
+        { "if": { "properties": { "phaseSystem": { "const": "circadian_rhythm" } }, "required": ["phaseSystem"] }, "then": { "properties": { "canonicalPhase": { "enum": ["daybreak_context", "daytime_context", "evening_transition_context", "biological_night_estimate"] } } } },
+        { "if": { "properties": { "phaseSystem": { "const": "eating_rhythm" } }, "required": ["phaseSystem"] }, "then": { "properties": { "canonicalPhase": { "enum": ["eating_event_reported", "between_eating_events", "fasting_interval_reported"] } } } },
+        { "if": { "properties": { "phaseSystem": { "const": "ultradian_rhythm" } }, "required": ["phaseSystem"] }, "then": { "properties": { "canonicalPhase": { "enum": ["within_day_activity_rest_cycle", "feeding_bout_reported"] } } } }
+      ]
+    }
+  }
 }

@@ -1,10 +1,16 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { BODYGRAPH_REFERENCE_URL } from './reference-assets.js';
 
-const SVG_URL = '/chat/bodygraph-reference.svg?v=2';
 const ENDOCRINE_URL = '/chat/endocrine-relations.json?v=0.3.1';
 const CORRESPONDENCE_URL = '/chat/gate-endocrine-correspondences.json?v=0.5.0';
 const $ = (selector) => document.querySelector(selector);
+const CENTER_LABELS = {
+  head: 'Head', ajna: 'Ajna', throat: 'Throat', g: 'G / Identity',
+  g_identity: 'G / Identity', ego: 'Heart / Ego', heart: 'Heart / Ego',
+  solar: 'Solar Plexus', solar_plexus: 'Solar Plexus', sacral: 'Sacral',
+  spleen: 'Spleen', root: 'Root',
+};
 
 function pointInRoot(root, element, x, y) {
   const rootMatrix = root.getScreenCTM();
@@ -35,11 +41,22 @@ function parseReference(text, svg) {
 
 function describeReference(gates, channels, svg) {
   const parts = [];
-  for (const channel of channels) parts.push(`Channel ${channel}`);
+  for (const channel of channels) {
+    const node = svg.querySelector(`.channel-group[data-channel="${channel}"]`);
+    const endpoints = [node?.dataset.from, node?.dataset.to].filter(Boolean).map((gateId) => {
+      const gate = svg.getElementById(`gate-${gateId}`);
+      const center = CENTER_LABELS[gate?.dataset.center] || gate?.dataset.center || 'center not listed';
+      return `Gate ${gateId} (${center})`;
+    });
+    parts.push(endpoints.length === 2
+      ? `Channel ${channel.replace('-', '–')} connects ${endpoints[0]} and ${endpoints[1]}`
+      : `Channel ${channel}`);
+  }
   for (const gate of gates) {
     const node = svg.getElementById(`gate-${gate}`);
     const name = node?.getAttribute('data-reading');
-    parts.push(name ? `Gate ${gate} · ${name}` : `Gate ${gate}`);
+    const center = CENTER_LABELS[node?.dataset.center] || node?.dataset.center;
+    parts.push(`Gate ${gate}${center ? ` · ${center} center` : ''}${name ? ` · ${name}` : ''}`);
   }
   return parts;
 }
@@ -55,7 +72,7 @@ export async function mountBodygraph() {
   const endocrineControls = $('#endocrine-controls');
   const filter = $('#endocrine-filter');
   const sourceHost = $('#bodygraph-source');
-  const response = await fetch(SVG_URL, { cache: 'force-cache' });
+  const response = await fetch(BODYGRAPH_REFERENCE_URL, { cache: 'force-cache' });
   if (!response.ok) throw new Error('Bodygraph reference image could not be loaded.');
   const markup = await response.text();
   const parsed = new DOMParser().parseFromString(markup, 'image/svg+xml');
@@ -163,7 +180,7 @@ export async function mountBodygraph() {
         const context = labelCanvas.getContext('2d');
         context.font = 'bold 23px system-ui, sans-serif';
         context.fillStyle = '#51335d';
-        const typeLabel = hasHormone ? 'Hormone' : hasProcess ? 'Hormone process' : 'Tissue';
+        const typeLabel = hasHormone ? 'Hormone' : hasProcess ? 'Body process' : 'Tissue';
         const targetLabel = items.length > 1 ? `${typeLabel} · ${items.length} sourced links` : items[0].targetConcept.label;
         const shortLabel = targetLabel.length > 34 ? `${targetLabel.slice(0, 31)}…` : targetLabel;
         context.fillText(`Gate ${gateId} · ${shortLabel}`, 8, 42);
@@ -181,7 +198,7 @@ export async function mountBodygraph() {
         button.type = 'button';
         button.dataset.correspondenceId = item.id;
         const kindLabel = item.targetConcept.kind === 'hormone' ? 'source names a hormone' : item.targetConcept.kind === 'physiological_process' ? 'source mentions a body process' : 'source names an organ or tissue';
-        button.textContent = `${item.sourceFeature.label} → ${item.targetConcept.label} · ${kindLabel} · ${item.sourceSystem.lineage || item.sourceSystem.name}. Select to see what this means.`;
+        button.textContent = `${item.sourceFeature.label} → ${item.targetConcept.label} · symbolic source claim; not a tested biological link · ${kindLabel} · ${item.sourceSystem.lineage || item.sourceSystem.name}. Select to see the source and limits.`;
         list.append(button);
       }
     }
@@ -194,7 +211,8 @@ export async function mountBodygraph() {
     const heading = document.createElement('strong');
     heading.textContent = 'What the source says';
     const summary = document.createElement('span');
-    summary.textContent = `${item.sourceFeature.label} is linked to ${item.targetConcept.label}. ${item.claimText}`;
+    const sourceLabel = item.sourceSystem.lineage || item.sourceSystem.name || 'The cited Human Design source';
+    summary.textContent = `${item.sourceFeature.label}: ${sourceLabel} says: ${item.claimText}`;
     const meaning = document.createElement('p');
     meaning.className = 'map-plain-language';
     meaning.textContent = item.targetConcept.kind === 'hormone'
@@ -399,7 +417,7 @@ export async function mountBodygraph() {
     if (!endocrineLoadPromise) {
       endocrineLoadPromise = (async () => {
         const response = await fetch(ENDOCRINE_URL, { cache: 'force-cache' });
-      if (!response.ok) throw new Error('Body biology references could not be loaded.');
+      if (!response.ok) throw new Error('Body systems references could not be loaded.');
         const catalog = await response.json();
         endocrineRecords = catalog.relations.map((relation) => {
           const text = `${relation.context?.setting || ''} ${relation.statement || ''}`.toLowerCase();
@@ -435,7 +453,7 @@ export async function mountBodygraph() {
       await ensureEndocrineCatalog();
       renderEndocrine();
     } catch {
-      detail.textContent = 'Body biology references could not be loaded. The BodyGraph is still available.';
+      detail.textContent = 'Body systems references could not be loaded. The BodyGraph is still available.';
     }
   }
 
@@ -454,7 +472,7 @@ export async function mountBodygraph() {
     modeEndocrine.classList.toggle('is-selected', endocrine);
     modeEndocrine.setAttribute('aria-pressed', String(endocrine));
     canvas.setAttribute('aria-label', endocrine
-      ? 'Body biology reference map. Select a dot or a name below to read about a signal, organ, or pathway.'
+      ? 'Body systems network reference. Select a dot or a name below to read about a signal, organ, or pathway.'
       : 'Generic Human Design BodyGraph. Click a gate or channel to highlight it; drag to orbit and scroll to zoom.');
     endocrineControls.hidden = !endocrine;
     $('#gate-correspondence-list').hidden = !correspondence;
@@ -494,7 +512,7 @@ export async function mountBodygraph() {
     const marker = gateNode.querySelector('.gate-marker');
     if (!marker) continue;
     const point = pointInRoot(source, marker, Number(marker.getAttribute('cx')), Number(marker.getAttribute('cy')));
-    if (point) targets.push({ kind: 'gate', id: gateNode.dataset.gate, center: gateNode.dataset.center, point });
+    if (point) targets.push({ kind: 'gate', id: gateNode.dataset.gate, center: gateNode.dataset.center, reading: gateNode.dataset.reading || '', point });
   }
   for (const channelNode of source.querySelectorAll('.channel-group[data-channel]')) {
     const path = channelNode.querySelector('path.channel');
@@ -601,9 +619,122 @@ export async function mountBodygraph() {
       }
     }
     const labels = describeReference(gateIds, channelIds, source);
-    detail.textContent = labels.length ? `${fromChat ? 'Mention in chat · ' : ''}${labels.join(' · ')}. Highlight only; not a personal chart or individual claim.` : 'Choose a gate or channel to highlight it in the reference map.';
+    detail.textContent = labels.length ? `${fromChat ? 'Mention in chat · ' : ''}${labels.join(' · ')}. These are symbolic BodyGraph labels and connections, not biological functions or personal traits.` : 'Choose a gate or channel to highlight it in the reference map.';
     return labels.length > 0;
   }
+
+  function highlightGateComparison(userGateNumbers, metheusGateNumbers) {
+    const valid = (values) => Array.isArray(values)
+      ? [...new Set(values.filter((gate) => Number.isInteger(gate) && gate >= 1 && gate <= 64))].map(String)
+      : [];
+    const userGates = new Set(valid(userGateNumbers));
+    const metheusGates = new Set(valid(metheusGateNumbers));
+    const sharedGates = new Set([...userGates].filter((gate) => metheusGates.has(gate)));
+    const channelNodes = [...source.querySelectorAll('.channel-group[data-channel]')];
+    const completed = (gates) => new Set(channelNodes
+      .filter((node) => gates.has(node.dataset.from) && gates.has(node.dataset.to))
+      .map((node) => node.dataset.channel));
+    const userChannels = completed(userGates);
+    const metheusChannels = completed(metheusGates);
+    const sharedChannels = new Set([...userChannels].filter((channel) => metheusChannels.has(channel)));
+    const centersToShow = new Set();
+    for (const gateId of new Set([...userGates, ...metheusGates])) {
+      const gateNode = source.getElementById(`gate-${gateId}`);
+      if (gateNode) centersToShow.add(gateNode.dataset.center);
+    }
+    source.querySelectorAll('.is-active,.is-related').forEach((node) => node.classList.remove('is-active', 'is-related'));
+    source.querySelectorAll('.gate[data-gate]').forEach((node) => {
+      if (userGates.has(node.dataset.gate) || metheusGates.has(node.dataset.gate)) node.classList.add('is-active');
+    });
+    source.querySelectorAll('.channel-group[data-channel]').forEach((node) => {
+      if (userChannels.has(node.dataset.channel) || metheusChannels.has(node.dataset.channel)) node.classList.add('is-active');
+    });
+    source.querySelectorAll('.center[data-center]').forEach((node) => {
+      if (centersToShow.has(node.dataset.center)) node.classList.add('is-active');
+    });
+    updateTexture();
+    removeHighlights();
+    for (const target of targets) {
+      if (target.kind === 'gate') {
+        const inUser = userGates.has(target.id);
+        const inMetheus = metheusGates.has(target.id);
+        if (!inUser && !inMetheus) continue;
+        const [x, y] = toPlane(target.point);
+        const addRing = (inner, outer, color, z) => {
+          const ring = new THREE.Mesh(
+            new THREE.RingGeometry(inner, outer, 28),
+            new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.98, side: THREE.DoubleSide, depthTest: false }),
+          );
+          ring.position.set(x, y, z);
+          highlightObjects.add(ring);
+        };
+        if (inUser) addRing(inMetheus ? 6.3 : 4.1, inMetheus ? 8.5 : 7.5, 0xffbc55, 1.5);
+        if (inMetheus) addRing(inUser ? 3.5 : 4.1, inUser ? 5.7 : 7.5, 0x75c8be, 1.6);
+        if (sharedGates.has(target.id)) addRing(1.7, 2.7, 0xb89ad5, 1.7);
+      } else if (target.kind === 'channel' && target.points.length > 1) {
+        const channelId = target.id;
+        const inUser = userChannels.has(channelId);
+        const inMetheus = metheusChannels.has(channelId);
+        if (!inUser && !inMetheus) continue;
+        const vertices = target.points.map((point) => {
+          const [x, y] = toPlane(point);
+          return new THREE.Vector3(x, y, 1.8);
+        });
+        const color = sharedChannels.has(channelId) ? 0xb89ad5 : inUser ? 0xffbc55 : 0x75c8be;
+        const line = new THREE.Line(
+          new THREE.BufferGeometry().setFromPoints(vertices),
+          new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.98, depthTest: false }),
+        );
+        highlightObjects.add(line);
+      }
+    }
+    const userNames = [...userGates].sort((a, b) => Number(a) - Number(b));
+    const metheusNames = [...metheusGates].sort((a, b) => Number(a) - Number(b));
+    const channelNames = (channels) => [...channels].sort().map((channel) => `Channel ${channel.replace('-', '–')}`);
+    const sharedChannelNames = channelNames(sharedChannels);
+    $('#bodygraph-panel').open = true;
+    setMapMode('bodygraph');
+    detail.textContent = `Map comparison · ${userGates.size} user gate${userGates.size === 1 ? '' : 's'} and ${metheusGates.size} Metheus prompt gate${metheusGates.size === 1 ? '' : 's'}. User channels: ${channelNames(userChannels).join(', ') || 'none'}. Metheus channels: ${channelNames(metheusChannels).join(', ') || 'none'}. Shared gates: ${sharedGates.size ? [...sharedGates].join(', ') : 'none'}. Shared channels: ${sharedChannelNames.join(', ') || 'none'}. Amber marks the user map, teal the Metheus prompt profile, and violet the overlap. Symbolic comparison only; this does not establish traits, compatibility, or biological effects.`;
+  }
+
+  const textIndexList = $('#bodygraph-text-index-list');
+  const gateTargets = targets.filter((target) => target.kind === 'gate').sort((a, b) => Number(a.id) - Number(b.id));
+  const channelTargets = targets.filter((target) => target.kind === 'channel').sort((a, b) => {
+    const [a1, a2] = a.id.split('-').map(Number);
+    const [b1, b2] = b.id.split('-').map(Number);
+    return a1 - b1 || a2 - b2;
+  });
+  for (const [heading, entries] of [['Gates', gateTargets], ['Channels', channelTargets]]) {
+    const section = document.createElement('section');
+    const title = document.createElement('h3');
+    title.textContent = heading;
+    const list = document.createElement('ul');
+    for (const target of entries) {
+      const item = document.createElement('li');
+      const button = document.createElement('button');
+      button.type = 'button';
+      if (target.kind === 'gate') {
+        button.dataset.referenceGate = target.id;
+        const centerLabel = CENTER_LABELS[target.center] || target.center || 'Center not listed';
+        button.textContent = `Gate ${target.id} · ${centerLabel}${target.reading ? ` · ${target.reading}` : ''}`;
+      } else {
+        button.dataset.referenceChannel = target.id;
+        button.textContent = `Channel ${target.id.replace('-', '–')} · Gates ${target.id.replace('-', ' and ')}`;
+      }
+      item.append(button);
+      list.append(item);
+    }
+    section.append(title, list);
+    textIndexList.append(section);
+  }
+  textIndexList.addEventListener('click', (event) => {
+    const gateButton = event.target.closest('[data-reference-gate]');
+    const channelButton = event.target.closest('[data-reference-channel]');
+    if (!gateButton && !channelButton) return;
+    setMapMode('bodygraph');
+    if (gateButton) highlight([gateButton.dataset.referenceGate], []);
+    else highlight([], [channelButton.dataset.referenceChannel]);
+  });
 
   function toPlane(point) {
     return [point.x - vbX - vbW / 2, vbH / 2 - (point.y - vbY)];
@@ -739,7 +870,6 @@ export async function mountBodygraph() {
     renderer.render(scene, camera);
     animationFrame = requestAnimationFrame(render);
   };
-  if (window.matchMedia('(max-width: 740px)').matches) $('#bodygraph-panel').open = false;
   const startRenderLoop = () => {
     if (animationRunning || !$('#bodygraph-panel').open) return;
     animationRunning = true;
@@ -751,6 +881,24 @@ export async function mountBodygraph() {
 
   return {
     highlightFromText,
+    highlightGates(gateNumbers) {
+      const gateIds = Array.isArray(gateNumbers)
+        ? [...new Set(gateNumbers.filter((gate) => Number.isInteger(gate) && gate >= 1 && gate <= 64))].map(String)
+        : [];
+      const selected = new Set(gateIds);
+      const completedChannels = [...source.querySelectorAll('.channel-group[data-channel]')]
+        .filter((node) => selected.has(node.dataset.from) && selected.has(node.dataset.to))
+        .map((node) => node.dataset.channel);
+      $('#bodygraph-panel').open = true;
+      setMapMode('bodygraph');
+      const labels = highlight(gateIds, completedChannels);
+      detail.textContent = !gateIds.length
+        ? 'Choose a gate or channel to explore its place in the map.'
+        : labels
+          ? `Selected self-reported gates complete ${completedChannels.map((channel) => `Channel ${channel.replace('-', '–')}`).join(', ')} in this symbolic map. This temporary highlight does not verify a chart.`
+          : 'Selected gate highlights only; this selection does not complete a channel in the symbolic map and does not verify a chart.';
+    },
+    highlightGateComparison,
     dispose() {
       cancelAnimationFrame(animationFrame);
       animationRunning = false;

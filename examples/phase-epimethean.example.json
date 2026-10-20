@@ -5,7 +5,7 @@
   "schemaVersion": "0.2",
   "layer": "epimethean",
   "phaseSystem": "menstrual_cycle",
-  "canonicalPhase": "bleeding_onset_reported",
+  "canonicalPhase": "bleeding_reported",
   "evocativeName": "The Opening Tide",
   "description": "A person-reported bleeding onset; no phase inference.",
   "window": {

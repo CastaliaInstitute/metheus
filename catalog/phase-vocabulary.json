@@ -1,7 +1,7 @@
 {
   "$schema": "../schema/phase-vocabulary.schema.json",
   "catalogVersion": "0.1.0",
-  "labelPolicy": "Evocative names are optional display language. Always retain the canonical phase, layer, time window, source, method, and uncertainty. A name is never a biological inference.",
+  "labelPolicy": "Evocative names are optional Metheus editorial suggestions, not defaults or required stages. Always retain the canonical phase, layer, time window, source, method, and uncertainty. A person must choose whether to use, revise, or hide a suggestion; annotation nameSource records the name's origin. A name is never a biological inference.",
   "phases": [
     { "layer": "promethean", "phaseSystem": "human_design_transit", "canonicalPhase": "natal_reference", "evocativeName": "The Given Pattern", "description": "A fixed symbolic reference calculated from birth inputs within a named Human Design lineage.", "basisGuidance": "Derived chart calculation; preserve source lineage, calculation method and version, and birth-input provenance.", "constraints": ["Not a measured trait or developmental verdict.", "Do not expose exact birth inputs through the display label."] },
     { "layer": "promethean", "phaseSystem": "human_design_transit", "canonicalPhase": "approaching_contact", "evocativeName": "The Approaching Current", "description": "A symbolic transit period leading toward a calculated contact with a chart feature.", "basisGuidance": "Derived transit interval with named ephemeris, calculation method, version, and contact rule.", "constraints": ["Do not imply a destined event or physiological effect.", "Retain the named system's canonical terminology."] },

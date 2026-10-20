@@ -11,9 +11,10 @@ from hashlib import sha256
 from typing import Any, Iterable
 
 from .rhythms import _parse_datetime, _resolve_subject_history
+from .schema_validation import validate_record_schema
 
 
-TEMPORAL_RELATION_METHOD_VERSION = "metheus-temporal-order/0.1.0"
+TEMPORAL_RELATION_METHOD_VERSION = "metheus-temporal-order/0.2.0"
 
 
 def _time_window(record: dict[str, Any]) -> tuple[dict[str, Any], tuple[str, Any, Any] | None]:
@@ -121,10 +122,25 @@ def _classify(left: tuple[str, Any, Any] | None, right: tuple[str, Any, Any] | N
     return "overlaps", None
 
 
+def _record_context(record: dict[str, Any]) -> dict[str, str]:
+    """Preserve the source/layer labels needed to read a time relation."""
+    fields = (
+        "recordType", "domain", "epistemicClass", "layer", "phaseSystem",
+        "canonicalPhase", "basis", "interpretation",
+    )
+    return {
+        field: record[field]
+        for field in fields
+        if isinstance(record.get(field), str) and record[field]
+    }
+
+
 def _build_relation(
     subject_id: str, left_record_id: str, right_record_id: str,
     left: dict[str, Any], right: dict[str, Any],
 ) -> dict[str, Any]:
+    if not validate_record_schema(left).get("valid") or not validate_record_schema(right).get("valid"):
+        raise ValueError("temporal relations require schema-valid selected records")
     left_window, left_comparable = _time_window(left)
     right_window, right_comparable = _time_window(right)
     relation, gap = _classify(left_comparable, right_comparable)
@@ -136,6 +152,8 @@ def _build_relation(
         "methodVersion": TEMPORAL_RELATION_METHOD_VERSION,
         "leftRecordId": left_record_id,
         "rightRecordId": right_record_id,
+        "leftContext": _record_context(left),
+        "rightContext": _record_context(right),
         "leftWindow": left_window,
         "rightWindow": right_window,
         "temporalRelation": relation,

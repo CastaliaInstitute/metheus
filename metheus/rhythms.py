@@ -16,6 +16,7 @@ from typing import Any, Iterable
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from .lifecycle import resolve_current_records
+from .schema_validation import validate_record_schema, validate_schema_instance
 
 
 METHOD_VERSION = "metheus-rhythm-summary/0.2.0"
@@ -23,7 +24,9 @@ SUMMARY_SCHEMA_VERSION = "0.1"
 FEEDING_METHOD_VERSION = "metheus-feeding-summary/0.3.0"
 WAKE_RELATIVE_METHOD_VERSION = "metheus-wake-relative-meal/0.2.0"
 BLEEDING_ONSET_METHOD_VERSION = "metheus-bleeding-onset-gap/0.3.0"
-MEASUREMENT_SERIES_METHOD_VERSION = "metheus-numeric-measurement-series/0.2.0"
+REPORTED_CYCLE_DAY_ONE_METHOD_VERSION = "metheus-reported-cycle-day-one/0.1.0"
+REPORTED_CYCLE_DAY_VIEW_METHOD_VERSION = "metheus-reported-cycle-day-view/0.1.0"
+MEASUREMENT_SERIES_METHOD_VERSION = "metheus-numeric-measurement-series/0.3.0"
 
 _MEASUREMENT_SIGNATURE_FIELDS = (
     "sourceKind", "sourceName", "sourceMethod", "sourceVersion", "methodDetails",
@@ -305,6 +308,21 @@ def _coverage(observed_days: set[date], window_days: int) -> dict[str, Any]:
     }
 
 
+def _uncertainty_metadata(records: Iterable[dict[str, Any]]) -> dict[str, Any]:
+    """Count source-reported uncertainty labels without interpreting them."""
+    counts = {level: 0 for level in ("low", "moderate", "high", "unknown", "not_reported")}
+    records_with_metadata = 0
+    for record in records:
+        uncertainty = record.get("uncertainty")
+        if isinstance(uncertainty, dict):
+            records_with_metadata += 1
+            level = uncertainty.get("level")
+        else:
+            level = None
+        counts[level if isinstance(level, str) and level in counts and level != "not_reported" else "not_reported"] += 1
+    return {"recordsWithUncertaintyObject": records_with_metadata, "levelCounts": counts}
+
+
 def _summary_id(domain: str, start: date, end: date) -> str:
     # IDs are scoped by subjectId in storage; never encode the subject ID here.
     return f"{domain}:{METHOD_VERSION}:{start.isoformat()}:{end.isoformat()}"
@@ -351,6 +369,8 @@ def summarize_bleeding_onset_intervals(
         if record.get("recordType") not in {"observation", "event"}:
             continue
         if record.get("eventType") != "bleeding_start" or record.get("domain") != "reproductive":
+            continue
+        if not validate_record_schema(record).get("valid"):
             continue
         if record.get("epistemicClass") in {"derived", "symbolic"}:
             continue
@@ -426,6 +446,298 @@ def summarize_bleeding_onset_intervals(
             "A preceding boundary input is only the nearest onset in supplied records; incomplete history may omit earlier events.",
         ],
     }
+
+
+def summarize_reported_cycle_day_one_intervals(
+    records: Iterable[dict[str, Any]], *, subject_id: str, start_date: str, end_date: str
+) -> dict[str, Any]:
+    """Describe intervals between the subject's explicit cycle-day-one markers.
+
+    Only current, schema-valid, self-reported ``menstrual_cycle_day_one``
+    events are included. The summary does not reinterpret generic bleeding
+    records, estimate biological phase, or assess cycle health.
+    """
+    if not subject_id:
+        raise ValueError("subject_id is required to prevent cross-subject aggregation")
+    revision_resolution = _resolve_subject_history(records, subject_id)
+    current_records = revision_resolution["currentRecords"]
+    first_day, last_day, window_days = _window(start_date, end_date)
+    start_records: dict[date, set[str]] = {}
+    start_record_counts: dict[date, int] = {}
+    date_only_count = 0
+    timed_count = 0
+
+    for record in current_records:
+        if record.get("subjectId") != subject_id:
+            continue
+        if (
+            record.get("recordType") != "event"
+            or record.get("eventType") != "menstrual_cycle_day_one"
+            or record.get("domain") != "reproductive"
+            or record.get("epistemicClass") != "self_reported"
+        ):
+            continue
+        if not validate_record_schema(record).get("valid"):
+            continue
+        time_data = record.get("time", {})
+        if time_data.get("precision") == "date_only":
+            marker_date = date.fromisoformat(time_data["date"])
+            date_only = True
+        else:
+            stamp = time_data.get("observedAt") or time_data.get("start")
+            if not stamp:
+                continue
+            marker_date = _localize(record, stamp).date()
+            date_only = False
+        if first_day <= marker_date <= last_day:
+            if date_only:
+                date_only_count += 1
+            else:
+                timed_count += 1
+        start_records.setdefault(marker_date, set())
+        start_record_counts[marker_date] = start_record_counts.get(marker_date, 0) + 1
+        record_id = record.get("id")
+        if record_id:
+            start_records[marker_date].add(record_id)
+
+    all_start_dates = sorted(start_records)
+    in_window_dates = [day for day in all_start_dates if first_day <= day <= last_day]
+    interval_days = [
+        (later - earlier).days
+        for earlier, later in zip(all_start_dates, all_start_dates[1:])
+        if first_day <= later <= last_day
+    ]
+    median_interval = median(interval_days) if interval_days else None
+    deviations = [abs(value - median_interval) for value in interval_days] if median_interval is not None else []
+    boundary_date = next(
+        (day for day in reversed(all_start_dates) if day < first_day), None
+    ) if in_window_dates else None
+    included_dates = set(in_window_dates)
+    if boundary_date is not None:
+        included_dates.add(boundary_date)
+    input_ids = sorted({record_id for day in included_dates for record_id in start_records[day]})
+    boundary_ids = sorted(start_records.get(boundary_date, set())) if boundary_date else []
+
+    summary_id = f"cycle-day-one:{REPORTED_CYCLE_DAY_ONE_METHOD_VERSION}:{first_day.isoformat()}:{last_day.isoformat()}"
+    return {
+        **_summary_metadata(summary_id, subject_id, "reported_cycle_day_one_intervals"),
+        "domain": "reproductive",
+        "label": "calendar-day intervals between self-reported menstrual cycle day-one markers",
+        "methodVersion": REPORTED_CYCLE_DAY_ONE_METHOD_VERSION,
+        "revisionResolution": _revision_resolution_metadata(revision_resolution),
+        "window": {"startDate": first_day.isoformat(), "endDate": last_day.isoformat(), "inclusiveDays": window_days},
+        "inputRecordIds": input_ids,
+        "boundaryCycleStartDate": boundary_date.isoformat() if boundary_date else None,
+        "boundaryCycleStartRecordIds": boundary_ids,
+        "nCycleStartRecords": sum(start_record_counts.get(day, 0) for day in in_window_dates),
+        "nDistinctCycleStartDates": len(in_window_dates),
+        "nIntervals": len(interval_days),
+        "intervalsDays": interval_days,
+        "medianDayOneIntervalDays": round(median_interval, 1) if median_interval is not None else None,
+        "medianAbsoluteDeviationDayOneIntervalDays": round(median(deviations), 1) if deviations else None,
+        "dateOnlyRecordCount": date_only_count,
+        "timedRecordCount": timed_count,
+        "limitations": [
+            "Includes only current, schema-valid events the subject explicitly marked as menstrual cycle day one; generic bleeding records are not converted into cycle markers.",
+            "Intervals are calendar-day differences between reported markers; missing markers, other bleeding, and changes in the person's marking convention may affect the series.",
+            "This summary does not confirm the cause of bleeding, infer ovulation, fertility, conception, hormone levels, cycle phase, diagnosis, or future onset.",
+            "A preceding boundary marker is the nearest earlier marker in supplied history; incomplete history may omit earlier events, and this source remains an input requiring its own authorization.",
+            "This is descriptive record organization, not an assessment of whether a cycle is healthy or regular.",
+        ],
+    }
+
+
+def describe_authorized_reported_cycle_day_view(
+    records: Iterable[dict[str, Any]],
+    grants: Iterable[dict[str, Any]],
+    *,
+    subject_id: str,
+    cycle_day_one_record_ids: Iterable[str],
+    observation_record_ids: Iterable[str],
+    now: datetime | None = None,
+) -> dict[str, Any]:
+    """Label selected records by explicitly reported cycle-day-one dates.
+
+    The caller must explicitly select every marker and observation. Each input
+    is authorized for rhythm analysis before a date relationship is returned.
+    Cycle day is a calendar offset from the latest selected preceding marker;
+    no endocrine phase or biological cycle state is inferred.
+    """
+    from .authorization import evaluate_authorization
+
+    empty = {"eligible": False, "reason": "", "authorization": None, "view": None}
+    if not isinstance(subject_id, str) or not subject_id.strip():
+        return {**empty, "reason": "subject_id_required"}
+    marker_ids = list(cycle_day_one_record_ids)
+    observation_ids = list(observation_record_ids)
+    all_ids = marker_ids + observation_ids
+    if (
+        not marker_ids or not observation_ids
+        or any(not isinstance(value, str) or not value for value in all_ids)
+        or len(set(marker_ids)) != len(marker_ids)
+        or len(set(observation_ids)) != len(observation_ids)
+        or set(marker_ids).intersection(observation_ids)
+    ):
+        return {**empty, "reason": "explicit_distinct_marker_and_observation_ids_required"}
+
+    resolution = _resolve_subject_history(records, subject_id)
+    current = {record.get("id"): record for record in resolution["currentRecords"]}
+    selected = [current.get(record_id) for record_id in all_ids]
+    if any(record is None for record in selected):
+        return {**empty, "reason": "selected_records_must_be_current_and_same_subject"}
+    by_id = {record["id"]: record for record in selected}
+    markers: dict[date, list[str]] = {}
+    for record_id in marker_ids:
+        record = by_id[record_id]
+        if (
+            record.get("recordType") != "event"
+            or record.get("eventType") != "menstrual_cycle_day_one"
+            or record.get("domain") != "reproductive"
+            or record.get("epistemicClass") != "self_reported"
+            or not validate_record_schema(record).get("valid")
+        ):
+            return {**empty, "reason": "selected_cycle_markers_must_be_valid_self_reported_day_one_events"}
+        time_data = record.get("time", {})
+        try:
+            if time_data.get("precision") == "date_only":
+                marker_date = date.fromisoformat(time_data["date"])
+            else:
+                stamp = time_data.get("observedAt") or time_data.get("start")
+                if not stamp:
+                    return {**empty, "reason": "selected_cycle_marker_has_no_usable_calendar_date"}
+                marker_date = _localize(record, stamp).date()
+        except (KeyError, TypeError, ValueError):
+            return {**empty, "reason": "selected_cycle_marker_has_invalid_calendar_date"}
+        markers.setdefault(marker_date, []).append(record_id)
+
+    for record_id in observation_ids:
+        record = by_id[record_id]
+        if (
+            record.get("recordType") not in {"observation", "event"}
+            or not validate_record_schema(record).get("valid")
+        ):
+            return {**empty, "reason": "selected_observations_must_be_valid_observation_or_event_records"}
+
+    checked_at = datetime.now(timezone.utc) if now is None else now
+    authorization = evaluate_authorization(
+        selected,
+        grants,
+        subject_id=subject_id,
+        purpose="rhythm_summary",
+        action="analyze",
+        now=checked_at,
+    )
+    if not authorization.get("authorized"):
+        return {**empty, "reason": "selected_inputs_not_authorized_for_rhythm_analysis", "authorization": authorization}
+
+    marker_dates = sorted(markers)
+    marker_rows = [
+        {
+            "date": marker_date.isoformat(),
+            "recordIds": sorted(markers[marker_date]),
+            "timePrecision": "date_only" if all(by_id[value].get("time", {}).get("precision") == "date_only" for value in markers[marker_date]) else "timestamp_local_calendar_date",
+        }
+        for marker_date in marker_dates
+    ]
+    observation_rows: list[dict[str, Any]] = []
+    for record_id in observation_ids:
+        record = by_id[record_id]
+        time_data = record.get("time", {})
+        observed_date: date | None = None
+        precision = "unknown"
+        try:
+            if time_data.get("precision") == "date_only":
+                observed_date = date.fromisoformat(time_data["date"])
+                precision = "date_only"
+            else:
+                stamp = time_data.get("observedAt") or time_data.get("start")
+                if stamp:
+                    observed_date = _localize(record, stamp).date()
+                    precision = "timestamp_local_calendar_date"
+        except (KeyError, TypeError, ValueError):
+            pass
+
+        preceding = [marker_date for marker_date in marker_dates if observed_date is not None and marker_date <= observed_date]
+        row: dict[str, Any] = {
+            "recordId": record_id,
+            "date": observed_date.isoformat() if observed_date else None,
+            "timePrecision": precision,
+            "recordType": record.get("recordType"),
+            "domain": record.get("domain"),
+            "epistemicClass": record.get("epistemicClass"),
+            "label": record.get("label"),
+            "reportedCycleDay": None,
+            "cycleStartRecordIds": [],
+            "windowRelation": "unknown_time" if observed_date is None else "before_first_selected_marker",
+        }
+        if isinstance(record.get("eventType"), str) and record["eventType"]:
+            row["eventType"] = record["eventType"]
+        source = record.get("source")
+        if isinstance(source, dict):
+            row["source"] = {
+                field: source[field]
+                for field in ("kind", "name", "method", "version", "reportedByRelation")
+                if isinstance(source.get(field), str) and source[field]
+            }
+        measurement = record.get("measurementDetails")
+        if isinstance(measurement, dict):
+            measurement_summary = {
+                field: measurement[field]
+                for field in (
+                    "analyteOrSignal", "specimen", "sensorLocation", "deviceOrAssay",
+                    "deviceModel", "algorithmVersion", "collectionConditions",
+                )
+                if isinstance(measurement.get(field), str) and measurement[field]
+            }
+            if measurement_summary:
+                row["measurementDetails"] = measurement_summary
+        if isinstance(record.get("value"), dict):
+            row["value"] = record["value"]
+        if preceding:
+            cycle_start = preceding[-1]
+            next_marker = next((marker_date for marker_date in marker_dates if marker_date > observed_date), None)
+            row.update({
+                "reportedCycleDay": (observed_date - cycle_start).days + 1,
+                "cycleStartRecordIds": sorted(markers[cycle_start]),
+                "windowRelation": "between_selected_day_one_markers" if next_marker is not None else "since_latest_selected_day_one_marker",
+            })
+        observation_rows.append(row)
+
+    view = {
+        "contextType": "reported_cycle_day_view",
+        "contextScope": "explicitly_selected_same_subject_records",
+        "subjectId": subject_id,
+        "methodVersion": REPORTED_CYCLE_DAY_VIEW_METHOD_VERSION,
+        "cycleDayOneMarkers": marker_rows,
+        "observations": observation_rows,
+        "sourceRecordIds": all_ids,
+        "consentPreflight": {
+            "policyVersion": authorization["policyVersion"],
+            "purpose": authorization["purpose"],
+            "action": authorization["action"],
+            "status": "authorized",
+            "checkedAt": checked_at.astimezone(timezone.utc).isoformat().replace("+00:00", "Z"),
+            "recordGrantIds": [
+                {"recordId": item["recordId"], "grantId": item["grantId"]}
+                for item in sorted(authorization["decisions"], key=lambda decision: decision["recordId"])
+            ],
+            "limitations": [
+                "This is an unsigned in-memory policy result based on caller-supplied grant records.",
+                "It does not authenticate the subject or grantor, prove legal authority, or establish legal compliance.",
+            ],
+        },
+        "limitations": [
+            "Cycle-day labels are calendar-date offsets from explicitly selected self-reported day-one markers; they do not verify that a marker is menstrual bleeding.",
+            "A day-one marker is not inferred from generic bleeding, symptoms, biometrics, or other records.",
+            "The latest selected marker opens a reported interval only; the next marker and cycle length are unknown until reported.",
+            "Date-only and timestamped records are mapped to local calendar dates according to their source time zone; within-day timing is not compared.",
+            "This view does not infer ovulation, fertility, conception, hormonal phase, hormone levels, diagnosis, or causation.",
+            "Only the explicitly selected source records are considered; authorization is required for every marker and observation.",
+        ],
+    }
+    if not validate_schema_instance(view, "reported-cycle-day-view.schema.json").get("valid"):
+        return {**empty, "reason": "generated_reported_cycle_day_view_failed_schema_validation", "authorization": authorization}
+    return {"eligible": True, "reason": "", "authorization": authorization, "view": view}
 
 
 def summarize_main_sleep(
@@ -848,6 +1160,7 @@ def summarize_numeric_measurements(
                 for flag in (record.get("measurementDetails", {}).get("qualityFlags", []) if isinstance(record.get("measurementDetails", {}).get("qualityFlags", []), list) else [])
                 if isinstance(flag, str) and flag
             })
+            bucket_records = [record for _, record, _ in bucket_items]
             bucket_window_days = (bucket_end - bucket_start).days + 1
             time_buckets.append({
                 "startDate": bucket_start.isoformat(),
@@ -866,6 +1179,7 @@ def summarize_numeric_measurements(
                     if isinstance(record.get("measurementDetails", {}).get("qualityFlags", []), list)
                 ),
                 "qualityFlags": bucket_flags,
+                "uncertaintyMetadata": _uncertainty_metadata(bucket_records),
                 "daysWithAtLeastOneRecord": len(bucket_dates),
                 "fractionOfDaysWithARecord": round(len(bucket_dates) / bucket_window_days, 6),
             })
@@ -893,6 +1207,7 @@ def summarize_numeric_measurements(
                 if isinstance(record.get("measurementDetails", {}).get("qualityFlags", []), list)
             ),
             "qualityFlags": flags,
+            "uncertaintyMetadata": _uncertainty_metadata([record for _, record, _ in observations]),
             "coverage": _coverage(observed_days, window_days),
             "limitations": [
                 "Describes only eligible numeric records present in the selected subject history; missing records are not evidence that no measurement occurred.",

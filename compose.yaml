@@ -1,0 +1,24 @@
+services:
+  metheus-bot:
+    build:
+      context: .
+      dockerfile: bot/Dockerfile
+    env_file:
+      - path: ${METHEUS_BOT_ENV_FILE:-bot/.env}
+        required: false
+    environment:
+      METHEUS_BOT_DATA_DIR: /var/lib/metheus
+    volumes:
+      - metheus-bot-data:/var/lib/metheus
+    init: true
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
+volumes:
+  metheus-bot-data:

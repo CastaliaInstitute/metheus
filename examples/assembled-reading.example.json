@@ -32,7 +32,7 @@
           "id": "phase-epimethean-example",
           "layer": "epimethean",
           "phaseSystem": "menstrual_cycle",
-          "canonicalPhase": "bleeding_onset_reported",
+          "canonicalPhase": "bleeding_reported",
           "evocativeName": "The Opening Tide",
           "description": "A person-reported bleeding onset; no phase inference.",
           "window": { "kind": "point", "start": "2026-04-03" },

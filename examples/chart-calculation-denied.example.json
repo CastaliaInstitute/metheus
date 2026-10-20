@@ -1,0 +1,10 @@
+{
+  "ready": true,
+  "authorized": false,
+  "authorizationIssues": [
+    {
+      "code": "analyze_not_authorized",
+      "reason": "no_covering_grant"
+    }
+  ]
+}

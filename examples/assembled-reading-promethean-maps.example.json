@@ -1,0 +1,88 @@
+{
+  "assembled": true,
+  "readingId": "synthetic-natal-transit-comparison",
+  "subjectId": "synthetic-subject",
+  "version": "0.1",
+  "purpose": "personal_reflection",
+  "question": "What is useful to notice when a natal map and a dated symbolic transit appear together?",
+  "timeWindow": {
+    "start": "2026-10-20T00:00:00Z",
+    "end": "2026-10-21T00:00:00Z",
+    "timeZone": "Etc/UTC",
+    "precision": "exact"
+  },
+  "claims": [
+    {
+      "position": 1,
+      "claimType": "interpretive_question",
+      "text": "What, if anything, would you like to explore about the relationship between these two symbolic maps?",
+      "sourceIds": ["synthetic-natal-map", "synthetic-transit-map"],
+      "sources": [
+        {
+          "id": "synthetic-natal-map",
+          "recordType": "symbolic_map",
+          "domain": "symbolic",
+          "sourceSystem": { "name": "Human Design", "lineage": "synthetic fixture", "version": "example-v1" },
+          "calculation": {
+            "status": "calculated",
+            "method": "Synthetic fixture only; no chart calculation was performed.",
+            "methodVersion": "example-v1",
+            "verificationStatus": "asserted_not_independently_verified",
+            "bodygraph": {
+              "chartScope": "natal",
+              "topologyCatalogId": "human-design-bodygraph-topology-v1",
+              "topologyVersion": "1.0.0",
+              "activatedGateNumbers": [11, 56]
+            },
+            "limitations": ["Synthetic fixture only; no calculation or verification occurred."]
+          }
+        },
+        {
+          "id": "synthetic-transit-map",
+          "recordType": "symbolic_map",
+          "domain": "symbolic",
+          "sourceSystem": { "name": "Human Design", "lineage": "synthetic fixture", "version": "example-v1" },
+          "calculation": {
+            "status": "calculated",
+            "method": "Synthetic fixture only; no transit calculation was performed.",
+            "methodVersion": "example-v1",
+            "verificationStatus": "asserted_not_independently_verified",
+            "bodygraph": {
+              "chartScope": "transit",
+              "validAt": "2026-10-20T12:00:00Z",
+              "topologyCatalogId": "human-design-bodygraph-topology-v1",
+              "topologyVersion": "1.0.0",
+              "activatedGateNumbers": [11, 56]
+            },
+            "limitations": ["Synthetic fixture only; no calculation or verification occurred."]
+          }
+        }
+      ],
+      "phaseAnnotations": [],
+      "references": [],
+      "support": { "confidence": "not_applicable", "coverage": "unknown" }
+    }
+  ],
+  "limitations": [
+    "Synthetic fixture; it demonstrates natal/transit provenance display only.",
+    "Human Design activations are symbolic and do not establish physiology, feelings, or behavior."
+  ],
+  "assembly": {
+    "kind": "deterministic_claim_assembly",
+    "sourceTextGenerated": false,
+    "textEntailmentVerified": false,
+    "inputSchemasValidated": true,
+    "outputSchemaValidated": true,
+    "authorizedAction": "analyze",
+    "provenanceAudit": {
+      "method": "claim_reference_presence/1.0.0",
+      "claimCount": 1,
+      "claimsWithSourceRecords": 1,
+      "claimsWithPhaseAnnotations": 0,
+      "claimsWithKnowledgeReferences": 0,
+      "claimsWithAtLeastOneResolvedLink": 1,
+      "unlinkedClaimPositions": [],
+      "textEntailmentAssessed": false
+    }
+  }
+}

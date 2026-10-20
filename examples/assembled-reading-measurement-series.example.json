@@ -17,11 +17,11 @@
       "claimType": "observation",
       "text": "This synthetic reading carries a descriptive summary of the selected heart-rate records.",
       "sourceIds": [
-        "measurement-series:metheus-numeric-measurement-series/0.2.0:2026-10-18:2026-10-19:7:synthetic"
+        "measurement-series:metheus-numeric-measurement-series/0.3.0:2026-10-18:2026-10-19:7:synthetic"
       ],
       "sources": [
         {
-          "id": "measurement-series:metheus-numeric-measurement-series/0.2.0:2026-10-18:2026-10-19:7:synthetic",
+          "id": "measurement-series:metheus-numeric-measurement-series/0.3.0:2026-10-18:2026-10-19:7:synthetic",
           "recordType": "rhythm_summary",
           "domain": "physiology",
           "label": "descriptive series for heart_rate (beats/min)",
@@ -29,7 +29,7 @@
           "schemaVersion": "0.1",
           "summaryType": "derived_rhythm_summary",
           "summaryMeasure": "measurement_series",
-          "methodVersion": "metheus-numeric-measurement-series/0.2.0",
+          "methodVersion": "metheus-numeric-measurement-series/0.3.0",
           "window": {
             "startDate": "2026-10-18",
             "endDate": "2026-10-19",
@@ -40,7 +40,7 @@
             "measurement-series-2026-10-19"
           ],
           "derivedSummary": {
-            "methodVersion": "metheus-numeric-measurement-series/0.2.0",
+            "methodVersion": "metheus-numeric-measurement-series/0.3.0",
             "revisionResolution": {
               "strategy": "latest_visible_successor",
               "supersededRecordCount": 0,
@@ -108,9 +108,29 @@
                 "recordsWithQualityFlags": 0,
                 "qualityFlags": [],
                 "daysWithAtLeastOneRecord": 2,
-                "fractionOfDaysWithARecord": 1
+                "fractionOfDaysWithARecord": 1,
+                "uncertaintyMetadata": {
+                  "recordsWithUncertaintyObject": 0,
+                  "levelCounts": {
+                    "low": 0,
+                    "moderate": 0,
+                    "high": 0,
+                    "unknown": 0,
+                    "not_reported": 2
+                  }
+                }
               }
-            ]
+            ],
+            "uncertaintyMetadata": {
+              "recordsWithUncertaintyObject": 0,
+              "levelCounts": {
+                "low": 0,
+                "moderate": 0,
+                "high": 0,
+                "unknown": 0,
+                "not_reported": 2
+              }
+            }
           }
         }
       ],

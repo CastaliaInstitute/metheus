@@ -48,7 +48,22 @@
         "textEntailmentVerified": { "const": false },
         "inputSchemasValidated": { "const": true },
         "outputSchemaValidated": { "const": true },
-        "authorizedAction": { "enum": ["analyze", "remote_processing"] }
+        "authorizedAction": { "enum": ["analyze", "remote_processing"] },
+        "provenanceAudit": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["method", "claimCount", "claimsWithSourceRecords", "claimsWithPhaseAnnotations", "claimsWithKnowledgeReferences", "claimsWithAtLeastOneResolvedLink", "unlinkedClaimPositions", "textEntailmentAssessed"],
+          "properties": {
+            "method": { "const": "claim_reference_presence/1.0.0" },
+            "claimCount": { "type": "integer", "minimum": 0 },
+            "claimsWithSourceRecords": { "type": "integer", "minimum": 0 },
+            "claimsWithPhaseAnnotations": { "type": "integer", "minimum": 0 },
+            "claimsWithKnowledgeReferences": { "type": "integer", "minimum": 0 },
+            "claimsWithAtLeastOneResolvedLink": { "type": "integer", "minimum": 0 },
+            "unlinkedClaimPositions": { "type": "array", "uniqueItems": true, "items": { "type": "integer", "minimum": 1 } },
+            "textEntailmentAssessed": { "const": false }
+          }
+        }
       }
     }
   },
@@ -90,6 +105,14 @@
         }
       },
       "allOf": [
+        { "$ref": "https://metheus.castalia.institute/schema/phase-annotation.schema.json#/$defs/phaseVocabularyConstraint" },
+        {
+          "if": { "properties": { "basis": { "const": "clinically_assessed" } }, "required": ["basis"] },
+          "then": {
+            "required": ["sourceSystem"],
+            "properties": { "sourceSystem": { "required": ["name"] } }
+          }
+        },
         {
           "if": { "required": ["kind"], "properties": { "kind": { "const": "environmental_affordance" } } },
           "then": {
@@ -150,21 +173,78 @@
         "id": { "type": "string", "minLength": 1 },
         "layer": { "enum": ["promethean", "epimethean"] },
         "phaseSystem": { "enum": ["human_design_transit", "astrological_transit", "menstrual_cycle", "pregnancy", "postpartum", "menopause", "development", "sleep_wake", "circadian_rhythm", "eating_rhythm", "ultradian_rhythm", "other"] },
-        "canonicalPhase": { "type": "string", "minLength": 1 },
+        "canonicalPhase": { "type": "string", "minLength": 1, "description": "Controlled phase label from the versioned phase vocabulary for the selected phaseSystem; phaseSystem=other may use a clearly described user-defined label." },
         "evocativeName": { "type": "string", "minLength": 1 },
         "description": { "type": "string" },
         "window": { "type": "object" },
         "basis": { "enum": ["reported", "observed", "derived", "clinically_assessed"] },
         "interpretation": { "enum": ["descriptive", "symbolic", "reflective"] },
-        "sourceSystem": { "type": "object" },
-        "nameSource": { "enum": ["metheus_suggestion", "user_authored", "source_attributed"] },
+        "sourceSystem": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string", "minLength": 1 },
+            "lineage": { "type": "string" },
+            "version": { "type": "string" },
+            "citation": { "type": "string", "format": "uri" }
+          }
+        },
+        "nameSource": { "enum": ["metheus_suggestion", "user_authored", "source_attributed"], "description": "Who supplied the optional evocative name; required whenever evocativeName is present." },
         "basisRecordIds": { "type": "array", "items": { "type": "string" } },
         "method": { "type": "string", "minLength": 1 },
         "methodVersion": { "type": "string" },
         "uncertainty": { "type": "string", "minLength": 1 },
         "limitations": { "type": "array", "items": { "type": "string" } },
         "supersedes": { "type": "string", "minLength": 1 }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "phaseSystem": { "const": "menstrual_cycle" },
+              "canonicalPhase": {
+                "enum": [
+                  "follicular_phase_estimate",
+                  "later_follicular_estimate",
+                  "ovulatory_window_estimate",
+                  "luteal_phase_estimate",
+                  "late_luteal_estimate"
+                ]
+              }
+            },
+            "required": ["phaseSystem", "canonicalPhase"]
+          },
+          "then": { "properties": { "basis": { "enum": ["derived", "clinically_assessed"] } } }
+        },
+        {
+          "if": {
+            "properties": {
+              "phaseSystem": { "const": "menopause" },
+              "canonicalPhase": { "const": "menopause_milestone" }
+            },
+            "required": ["phaseSystem", "canonicalPhase"]
+          },
+          "then": { "properties": { "basis": { "enum": ["derived", "clinically_assessed"] } }
+          }
+        },
+        {
+          "if": { "required": ["evocativeName"] },
+          "then": { "required": ["nameSource"] }
+        },
+        {
+          "if": { "required": ["nameSource"] },
+          "then": { "required": ["evocativeName"] }
+        },
+        {
+          "if": {
+            "properties": { "nameSource": { "const": "source_attributed" } },
+            "required": ["nameSource"]
+          },
+          "then": {
+            "required": ["sourceSystem"],
+            "properties": { "sourceSystem": { "required": ["name", "citation"] } }
+          }
+        }
+      ]
     },
     "reference": {
       "type": "object",

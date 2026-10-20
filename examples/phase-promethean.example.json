@@ -5,7 +5,7 @@
   "schemaVersion": "0.2",
   "layer": "promethean",
   "phaseSystem": "human_design_transit",
-  "canonicalPhase": "transit_to_gate_18",
+  "canonicalPhase": "separating_contact",
   "evocativeName": "The Passing Spark",
   "description": "A symbolic prompt for a calculated transit interval.",
   "window": {

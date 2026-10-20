@@ -1,0 +1,22 @@
+{
+  "ready": true,
+  "precision": "exact_to_supplied_clock_precision",
+  "limitations": [
+    "This is input normalization only; no chart or gate activation has been calculated.",
+    "A local engine adapter must still preserve engine version, calculation method, and activation uncertainty.",
+    "The calculationInput contains sensitive birth timing; use it only for the authorized actions and do not reuse it for other processing."
+  ],
+  "authorized": true,
+  "authorizedActions": ["analyze"],
+  "calculationInput": {
+    "localDate": "2000-01-01",
+    "localTime": "12:00:00",
+    "resolvedUtcOffset": "+00:00",
+    "timeZone": "Etc/UTC",
+    "birthUtc": "2000-01-01T12:00:00Z",
+    "timeZoneDatabase": {
+      "source": "system_zoneinfo",
+      "version": "2026c"
+    }
+  }
+}

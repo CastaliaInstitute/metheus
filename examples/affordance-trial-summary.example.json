@@ -1,0 +1,101 @@
+{
+  "summaryId": "affordance-trial:25902c2b2c088bfa",
+  "subjectId": "example-subject-01",
+  "affordanceId": "synthetic-ai-dialogue-practice-01",
+  "methodVersion": "metheus-affordance-trial-summary/0.2.0",
+  "deliveryMode": "conversational_ai",
+  "intendedFunction": "communication_practice",
+  "roleFrame": "tool_or_scaffold",
+  "inputRecordIds": [
+    "synthetic-ai-affordance-use-01",
+    "synthetic-ai-affordance-response-01"
+  ],
+  "lifecycleEvents": [
+    {
+      "recordId": "synthetic-ai-affordance-use-01",
+      "lifecycleEvent": "used",
+      "time": {
+        "start": "2026-10-21T10:00:00-06:00",
+        "end": "2026-10-21T10:08:00-06:00",
+        "timeZone": "America/Denver",
+        "precision": "approximate",
+        "scale": "instant"
+      },
+      "epistemicClass": "self_reported",
+      "sourceKind": "subject"
+    }
+  ],
+  "lifecycleTemporalRelations": [],
+  "experienceReports": [
+    {
+      "recordId": "synthetic-ai-affordance-response-01",
+      "recordType": "observation",
+      "eventType": "other",
+      "domain": "learning",
+      "label": "Synthetic subject is unsure whether the practice changed confidence",
+      "time": {
+        "observedAt": "2026-10-21T10:20:00-06:00",
+        "timeZone": "America/Denver",
+        "precision": "approximate",
+        "scale": "instant"
+      },
+      "epistemicClass": "self_reported",
+      "sourceKind": "subject",
+      "value": {
+        "category": "uncertain"
+      }
+    }
+  ],
+  "eventReportTemporalRelations": [
+    {
+      "relationId": "temporal-order:831270c5d202067d",
+      "subjectId": "example-subject-01",
+      "relationType": "temporal_order",
+      "methodVersion": "metheus-temporal-order/0.2.0",
+      "leftRecordId": "synthetic-ai-affordance-use-01",
+      "rightRecordId": "synthetic-ai-affordance-response-01",
+      "leftContext": {
+        "recordType": "event",
+        "domain": "learning",
+        "epistemicClass": "self_reported"
+      },
+      "rightContext": {
+        "recordType": "observation",
+        "domain": "learning",
+        "epistemicClass": "self_reported"
+      },
+      "leftWindow": {
+        "kind": "interval",
+        "start": "2026-10-21T10:00:00-06:00",
+        "end": "2026-10-21T10:08:00-06:00",
+        "precision": "approximate",
+        "timeZone": "America/Denver"
+      },
+      "rightWindow": {
+        "kind": "point",
+        "start": "2026-10-21T10:20:00-06:00",
+        "end": "2026-10-21T10:20:00-06:00",
+        "precision": "approximate",
+        "timeZone": "America/Denver"
+      },
+      "temporalRelation": "precedes",
+      "elapsedGap": 720,
+      "elapsedGapUnit": "seconds",
+      "gapBasis": "elapsed_duration",
+      "limitations": [
+        "Compares only the supplied records' stated time windows; it does not establish co-occurrence beyond the recorded precision.",
+        "Date-only windows are comparable only with other date-only windows; mixed date and timestamp precision is indeterminate.",
+        "Approximate timestamps and intervals retain their source uncertainty; ordering of recorded bounds is not proof of exact event timing.",
+        "Temporal order or overlap does not establish biological mechanism, within-person association, or causation.",
+        "This in-memory description is not a stored record and does not authorize access to either input."
+      ]
+    }
+  ],
+  "limitations": [
+    "Includes only explicitly selected current records for this subject and affordance ID.",
+    "Lifecycle events and later reports remain separate records with their own time, source, and epistemic class.",
+    "Temporal relations describe recorded timing and precision only; they do not establish benefit, harm, mechanism, or causation.",
+    "A missing choice, use event, or experience report means it was not included in this selected record set; it does not mean the event did not happen.",
+    "This in-memory summary does not authorize access, create a stored record, or assess appropriateness, safety, or effectiveness."
+  ]
+}

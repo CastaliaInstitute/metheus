@@ -52,6 +52,11 @@
         "other"
       ]
     },
+    "interactionGroupId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{22,128}$",
+      "description": "Optional high-entropy opaque, event-specific token used only when separately authored participant records are intentionally grouped. Generate a fresh random value; never use a person's name, account handle, contact detail, or inferred identity. Sharing this token does not authenticate that the records describe the same event."
+    },
     "domain": {
       "enum": [
         "relationship",

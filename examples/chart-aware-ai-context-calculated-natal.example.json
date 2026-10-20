@@ -1,0 +1,99 @@
+{
+  "contextType": "optional_symbolic_chart_context",
+  "contextScope": "calculated_natal_map",
+  "chartAwareness": {
+    "mode": "explicit_chart_context",
+    "mapScope": "calculated_natal_map",
+    "providedActivatedGateCount": 1,
+    "providedGateNumbers": [
+      11
+    ],
+    "providedDefinedChannelCount": 0,
+    "liveStateAccess": false,
+    "priorChartAwareTurnMemory": false,
+    "statement": "This synthetic request includes only the selected natal map and topology-derived channels. It does not include live transits, momentary state, or prior chart-aware exchanges."
+  },
+  "sourceSystem": {
+    "name": "Human Design",
+    "version": "synthetic-fixture",
+    "lineage": "synthetic fixture only"
+  },
+  "chartProvenance": {
+    "kind": "calculated_natal_map",
+    "calculationStatus": "calculated",
+    "calculationEngine": {
+      "name": "synthetic-fixture-only",
+      "version": "0.0.0"
+    },
+    "calculationMethod": "Synthetic fixture only; no chart calculation was performed.",
+    "calculationMethodVersion": "0.0.0",
+    "executionMode": "local",
+    "timeZoneDatabase": {
+      "source": "unresolved",
+      "version": "synthetic-fixture-only"
+    },
+    "inputPrecision": {
+      "birthDate": "exact",
+      "birthTime": "exact"
+    },
+    "verificationStatus": "asserted_not_independently_verified",
+    "chartScope": "natal",
+    "chartBinding": "selected_subject_map"
+  },
+  "topologyCatalogId": "human-design-bodygraph-topology-v1",
+  "topologyVersion": "1.0.0",
+  "affordanceCatalogId": "metheus-gate-ai-affordances-v1",
+  "affordanceCatalogVersion": "0.3.0",
+  "activatedGateNumbers": [
+    11
+  ],
+  "activatedGates": [
+    {
+      "gateNumber": 11,
+      "sourceTitle": "Ideas",
+      "centerId": "ajna",
+      "channelIds": [
+        "ch-11-56"
+      ],
+      "interactionModes": [
+        "create"
+      ],
+      "optionalActivityIdea": "Offer a few diverse, relevant questions or idea connections, then invite the person to choose one and tell or develop it.",
+      "examplePrompt": "Give me a few varied questions or connections about this topic so I can choose one to explore."
+    }
+  ],
+  "definedChannelIds": [],
+  "activeChannels": [],
+  "definedCenterIds": [],
+  "complementaryGateCandidates": [
+    {
+      "channelId": "ch-11-56",
+      "activeGateNumber": 11,
+      "complementaryGateNumber": 56,
+      "complementaryGateTitle": "Stimulation",
+      "interactionModes": [
+        "create"
+      ],
+      "optionalActivityIdea": "Create a short, user-paced story or exploration from a chosen topic, then offer “go deeper,” “tell your version,” and “stop.”",
+      "examplePrompt": "Create a short, user-paced story about a topic I choose, with options to continue, tell my version, or stop.",
+      "framing": "Optional symbolic exploration; not gate activation, a chart change, or evidence of a missing ability."
+    }
+  ],
+  "assistantGuidance": [
+    "Synthetic example only: its calculated-natal provenance values are placeholders, and no actual chart calculation or verification occurred.",
+    "Treat chartAwareness as the complete scope of what you know about this person's selected map for this turn. Do not claim broader or more current awareness than the listed gates and derived channels.",
+    "Read the complete activated-gate set for each chart-aware request, but do not try to use every gate. Select at most one active-gate activity that best serves the user's stated goal and use it to shape the help itself (for example, brainstorm, organize, compare, or rehearse); combine active activities only when the task specifically benefits from it. Otherwise answer normally.",
+    "Use each activity's interaction-mode labels as practical format hints (create, organize, compare, communicate, reflect, adapt, practice, coordinate, learn); they describe the offered activity, never the user's traits or abilities.",
+    "For a listed active channel, use its gateNumbers to find the two corresponding activities in activatedGates. Combine only those catalog activities when the combination fits the stated goal; do not invent a separate channel meaning. Frame the combination as an optional symbolic lens, never a fixed trait or biological function.",
+    "Choose the most relevant activity from the user's activated gates rather than treating gate titles as personality traits. Do not let chart activity displace the direct answer or repeat a suggestion within this response; never recite the full gate list. Chart-aware turns are stateless and do not include prior chart-aware suggestions, so do not claim to remember or adapt to them.",
+    "If naming a gate or channel, identify it as a symbolic source label and invite the person to correct or reject the lens.",
+    "The sender self-attests this is their own gate list; ownership is not authenticated. Apply it only to the sender's reflection and never to another participant.",
+    "This is a user-supplied, non-time-bound personal gate list. It is not a current transit reading, live activation, or observation of the user's present state.",
+    "Answer the user's stated question or goal first; do not make a gate suggestion the default response.",
+    "Consider supplied complementary-gate candidates as optional environmental activities that can offer a way to explore the partner end of a channel. Assess each candidate against the user's stated goal. When one clearly helps, proactively offer at most one even if the user did not ask for channel analysis; its concrete activity must add a useful option, and you must not force a complement when none fits. Always distinguish it from the already activated gates and never imply a missing capacity.",
+    "Describe any activity in plain language before naming its gate or channel, and make it easy to skip or ask for a non-chart-based alternative.",
+    "Never infer biology, hormones, health, personality, ability, need, deficit, or outcome from gates, centers, or channels.",
+    "A complementary gate prompt is an invitation, not evidence of a missing capacity or a gate being activated by AI.",
+    "Keep practical support useful without chart framing, grounded in the user's stated goal."
+  ]
+}

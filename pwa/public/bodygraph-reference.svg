@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" width="360" height="360" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" width="360" height="360" role="img" aria-labelledby="title desc" data-topology-catalog-id="human-design-bodygraph-topology-v1" data-topology-version="1.0.0">
 <title id="title">Generic Human Design BodyGraph reference</title><desc id="desc">Unpersonalized bodygraph geometry for visual reference. No birth data, activations, or individual chart state are included.</desc>
 <defs><filter id="highlight-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="1.2" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge></filter><filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="1.5" stdDeviation="2" flood-color="#5f543d" flood-opacity=".18" /></filter></defs>
 <style>

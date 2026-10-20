@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metheus.castalia.institute/schema/chart-calculation-preflight.schema.json",
+  "title": "Metheus birth-chart calculation preflight result",
+  "description": "Value-minimized readiness and authorization result for a future local chart engine. Calculation input fields appear only after scoped authorization; this contract does not represent a calculated chart.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["ready"],
+  "properties": {
+    "ready": { "type": "boolean" },
+    "precision": { "const": "exact_to_supplied_clock_precision" },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code"],
+        "properties": {
+          "code": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "schemaIssues": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "limitations": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "authorized": { "type": "boolean" },
+    "authorizationIssues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code"],
+        "properties": {
+          "code": { "type": "string", "minLength": 1 },
+          "reason": { "type": "string" }
+        }
+      }
+    },
+    "authorizedActions": {
+      "type": "array",
+      "description": "Always includes analyze. A remote request may additionally include remote_processing only after its separate scoped grant and disclosure are approved.",
+      "minItems": 1,
+      "uniqueItems": true,
+      "contains": { "const": "analyze" },
+      "items": { "enum": ["analyze", "remote_processing"] }
+    },
+    "calculationInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["localDate", "localTime", "resolvedUtcOffset", "timeZone", "birthUtc", "timeZoneDatabase"],
+      "properties": {
+        "localDate": { "type": "string", "format": "date" },
+        "localTime": { "type": "string", "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d)?$" },
+        "resolvedUtcOffset": { "type": "string", "pattern": "^[+-](?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d)?$" },
+        "timeZone": { "type": "string", "minLength": 1 },
+        "birthUtc": { "type": "string", "format": "date-time" },
+        "timeZoneDatabase": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source", "version"],
+          "properties": {
+            "source": { "enum": ["system_zoneinfo", "python_tzdata", "unresolved"] },
+            "version": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "required": ["ready"], "properties": { "ready": { "const": false } } },
+      "then": {
+        "required": ["issues"],
+        "properties": { "issues": { "minItems": 1 } },
+        "not": { "required": ["calculationInput"] }
+      }
+    },
+    {
+      "if": { "required": ["authorized"], "properties": { "authorized": { "const": false } } },
+      "then": {
+        "required": ["authorizationIssues"],
+        "not": { "anyOf": [{ "required": ["calculationInput"] }, { "required": ["authorizedActions"] }] }
+      }
+    },
+    {
+      "if": { "required": ["authorized"], "properties": { "authorized": { "const": true } } },
+      "then": {
+        "required": ["ready", "authorizedActions", "calculationInput"],
+        "properties": { "ready": { "const": true } }
+      }
+    },
+    {
+      "if": { "required": ["calculationInput"] },
+      "then": {
+        "required": ["ready", "authorized"],
+        "properties": { "ready": { "const": true }, "authorized": { "const": true } }
+      }
+    }
+  ]
+}

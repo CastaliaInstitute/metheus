@@ -28,6 +28,11 @@
       "required": ["precision"],
       "properties": {
         "localTime": { "type": "string", "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d)?$" },
+        "utcOffset": {
+          "type": "string",
+          "pattern": "^(?:\\+0[0-9]:[0-5][0-9]|\\+1[0-3]:[0-5][0-9]|\\+14:00|-0[0-9]:[0-5][0-9]|-1[0-2]:[0-5][0-9])$",
+          "description": "Optional offset recorded with the exact local birth time, for example -06:00. It can resolve a repeated local time only when it matches the named IANA timezone's rules."
+        },
         "precision": { "enum": ["exact", "approximate", "unknown"] },
         "uncertaintyMinutes": { "type": "integer", "minimum": 0 }
       },

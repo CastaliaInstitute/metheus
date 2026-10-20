@@ -1,0 +1,93 @@
+{
+  "contextType": "reported_cycle_day_view",
+  "contextScope": "explicitly_selected_same_subject_records",
+  "subjectId": "synthetic-cycle-subject",
+  "methodVersion": "metheus-reported-cycle-day-view/0.1.0",
+  "cycleDayOneMarkers": [
+    { "date": "2026-09-02", "recordIds": ["synthetic-cycle-day-one-2026-09-02"], "timePrecision": "date_only" },
+    { "date": "2026-10-01", "recordIds": ["synthetic-cycle-day-one-2026-10-01"], "timePrecision": "date_only" },
+    { "date": "2026-10-30", "recordIds": ["synthetic-cycle-day-one-2026-10-30"], "timePrecision": "date_only" },
+    { "date": "2026-11-29", "recordIds": ["synthetic-cycle-day-one-2026-11-29"], "timePrecision": "date_only" }
+  ],
+  "observations": [
+    {
+      "recordId": "synthetic-observation-2026-10-01",
+      "date": "2026-10-01",
+      "timePrecision": "date_only",
+      "recordType": "event",
+      "eventType": "symptom",
+      "domain": "symptom",
+      "epistemicClass": "self_reported",
+      "label": "Synthetic comfort note",
+      "source": { "kind": "subject", "reportedByRelation": "self" },
+      "value": { "category": "example only" },
+      "reportedCycleDay": 1,
+      "cycleStartRecordIds": ["synthetic-cycle-day-one-2026-10-01"],
+      "windowRelation": "between_selected_day_one_markers"
+    },
+    {
+      "recordId": "synthetic-observation-2026-10-17",
+      "date": "2026-10-17",
+      "timePrecision": "date_only",
+      "recordType": "observation",
+      "domain": "physiology",
+      "epistemicClass": "measured",
+      "label": "Synthetic resting heart rate",
+      "source": { "kind": "sensor", "name": "Synthetic wrist sensor", "method": "synthetic example aggregate" },
+      "measurementDetails": { "analyteOrSignal": "resting heart rate", "sensorLocation": "wrist", "deviceOrAssay": "synthetic wearable" },
+      "value": { "number": 62, "unit": "beats/min" },
+      "reportedCycleDay": 17,
+      "cycleStartRecordIds": ["synthetic-cycle-day-one-2026-10-01"],
+      "windowRelation": "between_selected_day_one_markers"
+    },
+    {
+      "recordId": "synthetic-observation-2026-11-30",
+      "date": "2026-11-30",
+      "timePrecision": "date_only",
+      "recordType": "event",
+      "eventType": "activity",
+      "domain": "activity",
+      "epistemicClass": "self_reported",
+      "label": "Synthetic walk",
+      "source": { "kind": "subject", "reportedByRelation": "self" },
+      "reportedCycleDay": 2,
+      "cycleStartRecordIds": ["synthetic-cycle-day-one-2026-11-29"],
+      "windowRelation": "since_latest_selected_day_one_marker"
+    }
+  ],
+  "sourceRecordIds": [
+    "synthetic-cycle-day-one-2026-09-02",
+    "synthetic-cycle-day-one-2026-10-01",
+    "synthetic-cycle-day-one-2026-10-30",
+    "synthetic-cycle-day-one-2026-11-29",
+    "synthetic-observation-2026-10-01",
+    "synthetic-observation-2026-10-17",
+    "synthetic-observation-2026-11-30"
+  ],
+  "consentPreflight": {
+    "policyVersion": "metheus-consent-policy/0.5.0",
+    "purpose": "rhythm_summary",
+    "action": "analyze",
+    "status": "synthetic_example",
+    "checkedAt": "2026-10-01T00:00:00Z",
+    "recordGrantIds": [
+      { "recordId": "synthetic-cycle-day-one-2026-09-02", "grantId": "synthetic-grant-reproductive" },
+      { "recordId": "synthetic-cycle-day-one-2026-10-01", "grantId": "synthetic-grant-reproductive" },
+      { "recordId": "synthetic-cycle-day-one-2026-10-30", "grantId": "synthetic-grant-reproductive" },
+      { "recordId": "synthetic-cycle-day-one-2026-11-29", "grantId": "synthetic-grant-reproductive" },
+      { "recordId": "synthetic-observation-2026-10-01", "grantId": "synthetic-grant-symptom" },
+      { "recordId": "synthetic-observation-2026-10-17", "grantId": "synthetic-grant-physiology" },
+      { "recordId": "synthetic-observation-2026-11-30", "grantId": "synthetic-grant-activity" }
+    ],
+    "limitations": [
+      "Synthetic illustration only; no real consent or authorization was created.",
+      "A policy preflight is not an authentication, legal-authority, or legal-compliance finding."
+    ]
+  },
+  "limitations": [
+    "Synthetic example; IDs refer to no real person or source record.",
+    "Cycle-day labels are calendar-date offsets from explicitly selected self-reported day-one markers; they do not verify that a marker is menstrual bleeding.",
+    "The latest selected marker opens a reported interval only; the next marker and cycle length are unknown until reported.",
+    "This view does not infer ovulation, fertility, conception, hormonal phase, hormone levels, diagnosis, or causation."
+  ]
+}

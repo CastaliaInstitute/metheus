@@ -1,6 +1,6 @@
 # Metheus privacy, consent, and data stewardship model
 
-**Status:** product design requirements, version 0.2. These requirements are not a privacy policy, security certification, or statement of legal compliance. The current Metheus site is a static concept site and does not implement personal record collection, storage, wearable connections, consent management, export, or deletion.
+**Status:** product design requirements, version 0.2. These requirements are not a privacy policy, security certification, or statement of legal compliance. Metheus currently includes a static PWA, caller-supplied in-memory data functions, and an undeployed Matrix bot prototype. The bot implements a room-wide consent gate for explicit AI requests and a temporary per-sender chart setting, but there is no personal-record collection or storage service, wearable connection, persistent profile consent service, export, or deletion facility.
 
 ## Why this is part of the system
 
@@ -26,8 +26,13 @@ An example chart workflow keeps both domain and purpose explicit:
 | Create or calculate from a birth input | `birth_chart_inputs` + `symbolic_calculation` + `collect`/`analyze` | Use only the selected birth-detail record for the named symbolic calculation. |
 | Create a derived symbolic map | `symbolic` + `symbolic_calculation` + `collect` | Store a versioned map and links to its feature records. |
 | Use the map in a reflective reading | `symbolic` + `personal_reflection` + `analyze` | Use the selected map/features without reopening the raw birth inputs. |
+| Use active gates to select a complementary AI prompt | `symbolic` + `personal_reflection` + `analyze`, plus `remote_processing` for a remote AI | The chart owner explicitly enables this mode; send only the gate IDs and source/topology version needed for matching, not raw birth details. Label whether the list is calculated or sender-supplied and unverified. |
 
 These are separate grants or grant scopes; possession of a map pointer is not consent for any of these actions. A deployed system must define how revocation of birth-input access affects recalculation and how deletion propagates to derived maps and readings.
+
+Chart-aware AI is a separate, visible use of the derived map, not an automatic consequence of calculating or storing a chart. The subject must be able to turn it off, inspect the chart version being used, and ask for the same AI support without symbolic matching. For a shared couple/family room, the chart owner must explicitly choose to use their map in that room, all currently joined members must separately consent to the remote AI question, and the interface must say that replies are visible to the room. Never merge one person's chart into a couple or family profile or use a partner's chart to interpret another person's behavior. Keep private chart exploration private by default.
+
+The Matrix bot has two prototype chart-aware paths. `ask-chart` accepts a gate list in one visible command and uses it for that request only. `chart-set` lets a sender explicitly enable their self-attested, unverified gate list for their own later `ask` turns in that room; the sender can clear it with `chart-clear`. This list is personal and non-time-bound; it is not a live transit or momentary activation record. All current room members must have opted into the room's AI processing. The temporary setting is held only in bot process memory and is cleared on opt-out, membership change, or restart. Every chart-aware turn uses only that sender's current question and chart context; it neither receives nor updates shared conversation history. Commands and replies are visible to the room and may remain in Matrix history. The model receives a temporary room-local speaker label, not a Matrix user ID, and chart ownership is not authenticated. The chart context is framed as applying only to the submitting speaker and must not be used to interpret another member. This is an explicit sender action but not an authenticated chart-owner check or a replacement for a future per-chart consent/profile service.
 
 ## Stewardship roles
 

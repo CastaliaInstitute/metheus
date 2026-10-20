@@ -11,7 +11,7 @@
     "subjectId": { "type": "string", "minLength": 1, "description": "Pseudonymous local subject reference; avoid direct identifiers." },
     "recordType": { "enum": ["observation", "event", "estimate", "symbolic_feature", "context"] },
     "schemaVersion": { "type": "string", "minLength": 1 },
-    "eventType": { "enum": ["main_sleep", "sleep_episode", "nap", "wake", "meal", "feeding", "fasting_start", "fasting_end", "dietary_pattern", "learning_activity", "environmental_affordance", "light_exposure", "sensory_exposure", "activity", "exercise_session", "supplement_use", "medication_change", "bleeding_start", "symptom", "hormone_result", "developmental_note", "relationship_note", "other"] },
+    "eventType": { "enum": ["main_sleep", "sleep_episode", "nap", "wake", "meal", "feeding", "fasting_start", "fasting_end", "dietary_pattern", "learning_activity", "environmental_affordance", "light_exposure", "sensory_exposure", "activity", "exercise_session", "supplement_use", "medication_change", "bleeding_start", "menstrual_cycle_day_one", "symptom", "hormone_result", "developmental_note", "relationship_note", "other"] },
     "epistemicClass": { "enum": ["measured", "self_reported", "caregiver_reported", "clinician_reported", "derived", "symbolic", "imported"] },
     "time": {
       "type": "object",
@@ -470,6 +470,10 @@
     {
       "if": { "required": ["eventType"], "properties": { "eventType": { "const": "hormone_result" } } },
       "then": { "required": ["measurementDetails", "value"], "properties": { "domain": { "const": "hormone_assay" }, "epistemicClass": { "const": "measured" } } }
+    },
+    {
+      "if": { "required": ["eventType"], "properties": { "eventType": { "const": "menstrual_cycle_day_one" } } },
+      "then": { "properties": { "recordType": { "const": "event" }, "domain": { "const": "reproductive" }, "epistemicClass": { "const": "self_reported" } } }
     }
   ]
 }

@@ -5,14 +5,16 @@
   "description": "An in-memory descriptive comparison of two same-subject recorded time windows. It is not a biological relation, stored observation, authorization decision, or causal claim.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["relationId", "subjectId", "relationType", "methodVersion", "leftRecordId", "rightRecordId", "leftWindow", "rightWindow", "temporalRelation", "elapsedGap", "elapsedGapUnit", "gapBasis", "limitations"],
+  "required": ["relationId", "subjectId", "relationType", "methodVersion", "leftRecordId", "rightRecordId", "leftContext", "rightContext", "leftWindow", "rightWindow", "temporalRelation", "elapsedGap", "elapsedGapUnit", "gapBasis", "limitations"],
   "properties": {
     "relationId": { "type": "string", "minLength": 1 },
     "subjectId": { "type": "string", "minLength": 1 },
     "relationType": { "const": "temporal_order" },
-    "methodVersion": { "const": "metheus-temporal-order/0.1.0" },
+    "methodVersion": { "const": "metheus-temporal-order/0.2.0" },
     "leftRecordId": { "type": "string", "minLength": 1 },
     "rightRecordId": { "type": "string", "minLength": 1 },
+    "leftContext": { "$ref": "#/$defs/recordContext" },
+    "rightContext": { "$ref": "#/$defs/recordContext" },
     "leftWindow": { "$ref": "#/$defs/window" },
     "rightWindow": { "$ref": "#/$defs/window" },
     "temporalRelation": { "enum": ["precedes", "follows", "overlaps", "same_instant", "same_calendar_date", "indeterminate"] },
@@ -22,6 +24,21 @@
     "limitations": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 }
   },
   "$defs": {
+    "recordContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recordType"],
+      "properties": {
+        "recordType": { "enum": ["observation", "event", "estimate", "context", "interaction_event", "phase_annotation"] },
+        "domain": { "type": "string", "minLength": 1 },
+        "epistemicClass": { "type": "string", "minLength": 1 },
+        "layer": { "enum": ["promethean", "epimethean"] },
+        "phaseSystem": { "type": "string", "minLength": 1 },
+        "canonicalPhase": { "type": "string", "minLength": 1 },
+        "basis": { "type": "string", "minLength": 1 },
+        "interpretation": { "type": "string", "minLength": 1 }
+      }
+    },
     "window": {
       "type": "object",
       "additionalProperties": false,

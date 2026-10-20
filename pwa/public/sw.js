@@ -1,5 +1,5 @@
-const CACHE_NAME = 'metheus-circle-shell-v1';
-const SHELL = ['/chat/', '/chat/manifest.webmanifest', '/chat/icon.svg'];
+const CACHE_NAME = 'metheus-circle-shell-v9';
+const SHELL = ['/chat/', '/chat/manifest.webmanifest', '/chat/icon.svg', '/chat/gate-ai-affordances.json'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(SHELL)));

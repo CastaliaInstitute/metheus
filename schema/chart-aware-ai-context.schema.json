@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metheus.castalia.institute/schema/chart-aware-ai-context.schema.json",
+  "title": "Metheus chart-aware AI context",
+  "description": "Canonical minimal symbolic context. The current bot emits only a sender-supplied, non-time-bound personal gate list; a future calculated natal-map path must use its distinct provenance branch. This is not biological or clinical data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contextType", "contextScope", "chartAwareness", "sourceSystem", "chartProvenance", "topologyCatalogId", "topologyVersion", "affordanceCatalogId", "affordanceCatalogVersion", "activatedGateNumbers", "activatedGates", "definedChannelIds", "definedCenterIds", "activeChannels", "complementaryGateCandidates", "assistantGuidance"],
+  "properties": {
+    "contextType": { "const": "optional_symbolic_chart_context" },
+    "contextScope": { "enum": ["user_supplied_non_time_bound_gate_list", "calculated_natal_map"] },
+    "chartAwareness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "mapScope", "providedActivatedGateCount", "providedGateNumbers", "providedDefinedChannelCount", "liveStateAccess", "priorChartAwareTurnMemory", "statement"],
+      "properties": {
+        "mode": { "const": "explicit_chart_context" },
+        "mapScope": { "enum": ["user_supplied_non_time_bound_gate_list", "calculated_natal_map"] },
+        "providedActivatedGateCount": { "type": "integer", "minimum": 1, "maximum": 64 },
+        "providedGateNumbers": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "integer", "minimum": 1, "maximum": 64 } },
+        "providedDefinedChannelCount": { "type": "integer", "minimum": 0, "maximum": 36 },
+        "liveStateAccess": { "const": false },
+        "priorChartAwareTurnMemory": { "const": false },
+        "statement": { "type": "string", "minLength": 1 }
+      }
+    },
+    "sourceSystem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "version": { "type": "string", "minLength": 1 },
+        "lineage": { "type": "string" }
+      }
+    },
+    "chartProvenance": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "calculationStatus", "calculationEngine", "calculationMethod", "calculationMethodVersion", "executionMode", "timeZoneDatabase", "inputPrecision", "verificationStatus", "chartScope", "chartBinding"],
+          "properties": {
+            "kind": { "const": "calculated_natal_map" },
+            "calculationStatus": { "const": "calculated" },
+            "calculationEngine": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["name", "version"],
+              "properties": {
+                "name": { "type": "string", "minLength": 1 },
+                "version": { "type": "string", "minLength": 1 }
+              }
+            },
+            "calculationMethod": { "type": "string", "minLength": 1 },
+            "calculationMethodVersion": { "type": "string", "minLength": 1 },
+            "executionMode": { "enum": ["local", "remote"] },
+            "timeZoneDatabase": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["source", "version"],
+              "properties": {
+                "source": { "enum": ["system_zoneinfo", "python_tzdata", "other", "unresolved"] },
+                "version": { "type": "string", "minLength": 1 }
+              }
+            },
+            "inputPrecision": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["birthDate", "birthTime"],
+              "properties": {
+                "birthDate": { "enum": ["exact", "approximate"] },
+                "birthTime": { "enum": ["exact", "approximate", "unknown"] },
+                "uncertaintyDays": { "type": "integer", "minimum": 0 },
+                "uncertaintyMinutes": { "type": "integer", "minimum": 0 }
+              }
+            },
+            "verificationStatus": { "const": "asserted_not_independently_verified" },
+            "chartScope": { "const": "natal" },
+            "chartBinding": { "const": "selected_subject_map" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "chartBinding"],
+          "properties": {
+            "kind": { "const": "sender_supplied_unverified_gate_list" },
+            "chartBinding": { "const": "sender_self_attested_unverified" }
+          }
+        }
+      ]
+    },
+    "topologyCatalogId": { "const": "human-design-bodygraph-topology-v1" },
+    "topologyVersion": { "type": "string", "minLength": 1 },
+    "affordanceCatalogId": { "const": "metheus-gate-ai-affordances-v1" },
+    "affordanceCatalogVersion": { "type": "string", "minLength": 1 },
+    "activatedGateNumbers": { "type": "array", "uniqueItems": true, "items": { "type": "integer", "minimum": 1, "maximum": 64 } },
+    "activatedGates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["gateNumber", "sourceTitle", "centerId", "channelIds", "optionalActivityIdea", "examplePrompt", "interactionModes"],
+        "properties": {
+          "gateNumber": { "type": "integer", "minimum": 1, "maximum": 64 },
+          "sourceTitle": { "type": "string", "minLength": 1 },
+          "centerId": { "enum": ["head", "ajna", "throat", "g_identity", "heart", "solar_plexus", "sacral", "spleen", "root"] },
+          "channelIds": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^ch-[0-9]{1,2}-[0-9]{1,2}$" } },
+          "optionalActivityIdea": { "type": "string", "minLength": 1 },
+          "examplePrompt": { "type": "string", "minLength": 20 },
+          "interactionModes": { "$ref": "#/definitions/interactionModes" }
+        }
+      }
+    },
+    "definedChannelIds": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^ch-[0-9]{1,2}-[0-9]{1,2}$" } },
+    "definedCenterIds": { "type": "array", "uniqueItems": true, "items": { "enum": ["head", "ajna", "throat", "g_identity", "heart", "solar_plexus", "sacral", "spleen", "root"] } },
+    "activeChannels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["channelId", "gateNumbers"],
+        "properties": {
+          "channelId": { "type": "string", "pattern": "^ch-[0-9]{1,2}-[0-9]{1,2}$" },
+          "gateNumbers": { "type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true, "items": { "type": "integer", "minimum": 1, "maximum": 64 } }
+        }
+      }
+    },
+    "complementaryGateCandidates": {
+      "type": "array",
+      "description": "Unranked symbolic activity candidates for channels with exactly one gate in the supplied activated-gate set. The model may offer at most one candidate when it clearly fits the user's stated goal; candidate presence alone does not imply need, priority, deficit, or benefit.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["channelId", "activeGateNumber", "complementaryGateNumber", "complementaryGateTitle", "optionalActivityIdea", "examplePrompt", "interactionModes", "framing"],
+        "properties": {
+          "channelId": { "type": "string", "pattern": "^ch-[0-9]{1,2}-[0-9]{1,2}$" },
+          "activeGateNumber": { "type": "integer", "minimum": 1, "maximum": 64 },
+          "complementaryGateNumber": { "type": "integer", "minimum": 1, "maximum": 64 },
+          "complementaryGateTitle": { "type": "string", "minLength": 1 },
+          "optionalActivityIdea": { "type": "string", "minLength": 1 },
+          "examplePrompt": { "type": "string", "minLength": 20 },
+          "interactionModes": { "$ref": "#/definitions/interactionModes" },
+          "framing": { "const": "Optional symbolic exploration; not gate activation, a chart change, or evidence of a missing ability." }
+        }
+      }
+    },
+    "assistantGuidance": { "type": "array", "minItems": 4, "items": { "type": "string", "minLength": 1 } }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": ["chartProvenance"],
+        "properties": {
+          "chartProvenance": { "required": ["kind"], "properties": { "kind": { "const": "calculated_natal_map" } } }
+        }
+      },
+      "then": { "properties": { "contextScope": { "const": "calculated_natal_map" } } }
+    },
+    {
+      "if": {
+        "required": ["chartProvenance"],
+        "properties": {
+          "chartProvenance": { "required": ["kind"], "properties": { "kind": { "const": "sender_supplied_unverified_gate_list" } } }
+        }
+      },
+      "then": { "properties": { "contextScope": { "const": "user_supplied_non_time_bound_gate_list" } } }
+    }
+  ],
+  "definitions": {
+    "interactionModes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "enum": ["create", "organize", "compare", "communicate", "reflect", "adapt", "practice", "coordinate", "learn"] }
+    }
+  }
+}

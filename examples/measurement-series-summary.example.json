@@ -1,6 +1,6 @@
 {
-  "id": "measurement-series:metheus-numeric-measurement-series/0.2.0:2026-10-18:2026-10-19:7:synthetic",
-  "summaryId": "measurement-series:metheus-numeric-measurement-series/0.2.0:2026-10-18:2026-10-19:7:synthetic",
+  "id": "measurement-series:metheus-numeric-measurement-series/0.3.0:2026-10-18:2026-10-19:7:synthetic",
+  "summaryId": "measurement-series:metheus-numeric-measurement-series/0.3.0:2026-10-18:2026-10-19:7:synthetic",
   "subjectId": "measurement-series-example-subject",
   "recordType": "rhythm_summary",
   "schemaVersion": "0.1",
@@ -9,7 +9,7 @@
   "epistemicClass": "derived",
   "domain": "physiology",
   "label": "descriptive series for heart_rate (beats/min)",
-  "methodVersion": "metheus-numeric-measurement-series/0.2.0",
+  "methodVersion": "metheus-numeric-measurement-series/0.3.0",
   "revisionResolution": {
     "strategy": "latest_visible_successor",
     "supersededRecordCount": 0,
@@ -48,6 +48,16 @@
   "maximumValue": 72,
   "recordsWithQualityFlags": 0,
   "qualityFlags": [],
+  "uncertaintyMetadata": {
+    "recordsWithUncertaintyObject": 0,
+    "levelCounts": {
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "unknown": 0,
+      "not_reported": 2
+    }
+  },
   "coverage": {
     "daysWithAtLeastOneRecord": 2,
     "calendarDaysInWindow": 2,
@@ -76,6 +86,16 @@
       "maximumValue": 72,
       "recordsWithQualityFlags": 0,
       "qualityFlags": [],
+      "uncertaintyMetadata": {
+        "recordsWithUncertaintyObject": 0,
+        "levelCounts": {
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "unknown": 0,
+          "not_reported": 2
+        }
+      },
       "daysWithAtLeastOneRecord": 2,
       "fractionOfDaysWithARecord": 1
     }

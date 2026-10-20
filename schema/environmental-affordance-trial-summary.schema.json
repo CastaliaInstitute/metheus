@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metheus.castalia.institute/schema/environmental-affordance-trial-summary.schema.json",
+  "title": "Metheus environmental-affordance trial summary",
+  "description": "An ephemeral, source-preserving view of explicitly selected current lifecycle and experience records. It describes recorded events and timing only; it is not a stored observation, effect estimate, causal conclusion, or authorization decision.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["summaryId", "subjectId", "affordanceId", "methodVersion", "deliveryMode", "intendedFunction", "roleFrame", "inputRecordIds", "lifecycleEvents", "lifecycleTemporalRelations", "experienceReports", "eventReportTemporalRelations", "limitations"],
+  "properties": {
+    "summaryId": { "type": "string", "pattern": "^affordance-trial:[a-f0-9]{16}$" },
+    "subjectId": { "type": "string", "minLength": 1 },
+    "affordanceId": { "type": "string", "minLength": 1 },
+    "methodVersion": { "const": "metheus-affordance-trial-summary/0.2.0" },
+    "deliveryMode": { "type": "string", "minLength": 1 },
+    "intendedFunction": { "type": "string", "minLength": 1 },
+    "roleFrame": { "type": "string", "minLength": 1 },
+    "inputRecordIds": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+    "lifecycleEvents": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["recordId", "lifecycleEvent", "time", "epistemicClass", "sourceKind"],
+        "properties": {
+          "recordId": { "type": "string", "minLength": 1 },
+          "lifecycleEvent": { "enum": ["made_available", "offered", "chosen", "declined", "unavailable", "started", "used", "partial_use", "stopped", "revised"] },
+          "time": { "type": ["object", "null"] },
+          "epistemicClass": { "type": ["string", "null"] },
+          "sourceKind": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "lifecycleTemporalRelations": {
+      "type": "array",
+      "description": "Pairwise recorded-time comparisons among selected lifecycle events. These relations describe timing precision only and do not establish an expected or causal sequence.",
+      "items": { "$ref": "https://metheus.castalia.institute/schema/temporal-relation.schema.json" }
+    },
+    "experienceReports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["recordId", "recordType", "eventType", "domain", "label", "time", "epistemicClass", "sourceKind"],
+        "properties": {
+          "recordId": { "type": "string", "minLength": 1 },
+          "recordType": { "enum": ["observation", "event"] },
+          "eventType": { "type": ["string", "null"] },
+          "domain": { "type": ["string", "null"] },
+          "label": { "type": ["string", "null"] },
+          "time": { "type": ["object", "null"] },
+          "epistemicClass": { "type": ["string", "null"] },
+          "sourceKind": { "type": ["string", "null"] },
+          "value": { "type": "object" }
+        }
+      }
+    },
+    "eventReportTemporalRelations": {
+      "type": "array",
+      "items": { "$ref": "https://metheus.castalia.institute/schema/temporal-relation.schema.json" }
+    },
+    "limitations": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+  }
+}

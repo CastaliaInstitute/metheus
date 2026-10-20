@@ -11,7 +11,7 @@ A phase annotation should keep two layers distinct:
 - **Promethean:** a phase calculated from a named symbolic system, such as a Human Design transit or an astrological transit. The astronomical positions and calculation can be documented; the meaning assigned by a symbolic tradition remains attributed interpretation.
 - **Epimethean:** a phase or context based on lived events, reports, observations, or measurements: menstrual-cycle context, pregnancy and postpartum, menopause transition, development, sleep-wake timing, and other changing rhythms. State whether a phase is directly reported, observed, estimated, or clinically assessed.
 
-The name may be poetic. The canonical label and provenance may not be omitted.
+The name may be poetic. The canonical label and provenance may not be omitted. Whenever an evocative name is present, record whether it was suggested by Metheus, authored by the person, or attributed to a named source. A source-attributed name requires the source-system name and a citation; the reading presenter displays this naming provenance and citation beside the phase details.
 
 ## Naming principles
 
@@ -132,7 +132,7 @@ A phase name should not encode a medical conclusion. If the user wants neutral d
 
 ## Data representation
 
-A phase annotation is separate from the observation records that support it. It may be a user-authored name or a system-suggested name. Its supporting records remain independently consented and provenance-tagged.
+A phase annotation is separate from the observation records that support it. It may be a user-authored name or a system-suggested name. Its supporting records remain independently consented and provenance-tagged. For each controlled phase system, the annotation and assembled-reading schemas require `canonicalPhase` to match the [phase vocabulary](../catalog/phase-vocabulary.json); `phaseSystem: "other"` remains available for explicitly described contexts. Contract validation checks that the controlled names in the schemas stay synchronized with the vocabulary. Controlled menstrual estimate labels such as `ovulatory_window_estimate` require a derived or clinically assessed basis; a person's report that bleeding occurred cannot by itself be relabeled as an ovulatory or other endocrine phase. The same rule applies to the `menopause_milestone` label, which requires a derived or clinically assessed basis rather than an unqualified report. Derived labels require a method version. Clinically assessed labels require a named assessment source. Both must retain uncertainty and source records.
 
 To place a selected phase beside selected lived records, `describe_phase_observation_relations` computes temporal relations for the explicitly selected record/phase pairs. The comparison can say that recorded windows overlap; it cannot determine that a person was biologically in a menstrual, hormonal, developmental, or circadian phase. Each source and phase must be separately authorized, and the comparison itself is an in-memory description rather than a stored record or evidence of mechanism.
 

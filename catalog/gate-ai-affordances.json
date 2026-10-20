@@ -1,0 +1,900 @@
+{
+  "$schema": "../schema/gate-ai-affordance-catalog.schema.json",
+  "catalogId": "metheus-gate-ai-affordances-v1",
+  "version": "0.3.0",
+  "status": "draft_design_proposals",
+  "topologyCatalogId": "human-design-bodygraph-topology-v1",
+  "topologyVersion": "1.0.0",
+  "policy": "Each entry is an optional AI activity idea keyed to a source-specific Human Design gate title. It is not doctrine, a capability assessment, an intervention, or evidence of gate/channel activation or biological effect. In explicitly enabled chart-aware mode, a source-versioned calculated map or a clearly identified user-supplied gate list may provide unactivated partner-gate candidates. The AI may offer at most one candidate when it clearly advances the user's stated goal; the person decides whether it fits. Candidate presence does not establish a need, gap, or priority. An unactivated gate is not a deficit. Always describe the practical function first, keep symbolic framing optional, and do not infer needs, traits, hormones, or outcomes from a chart. Each entry also carries controlled interaction-mode labels that describe the activity format (create, organize, compare, communicate, reflect, adapt, practice, coordinate, or learn), never a user trait.",
+  "entries": [
+    {
+      "gateNumber": 1,
+      "title": "Self-Expression",
+      "centerId": "g_identity",
+      "channelIds": [
+        "ch-1-8"
+      ],
+      "aiAffordance": "Offer a blank-canvas creative prompt or help revise a draft without deciding what is authentic to the person.",
+      "examplePrompt": "Give me a fresh creative prompt, then help me revise my draft while keeping my voice.",
+      "interactionModes": [
+        "create"
+      ]
+    },
+    {
+      "gateNumber": 2,
+      "title": "Higher Knowing",
+      "centerId": "g_identity",
+      "channelIds": [
+        "ch-2-14"
+      ],
+      "aiAffordance": "Map options, constraints, and resources around a direction the person has already named; do not make life decisions for them.",
+      "examplePrompt": "I have a direction in mind. Help me map my options, constraints, and resources without choosing for me.",
+      "interactionModes": [
+        "compare",
+        "organize"
+      ]
+    },
+    {
+      "gateNumber": 3,
+      "title": "Ordering",
+      "centerId": "sacral",
+      "channelIds": [
+        "ch-3-60"
+      ],
+      "aiAffordance": "Turn a messy transition into a few small, reversible experiments and a place to note what changed.",
+      "examplePrompt": "I'm in the middle of a messy change. Suggest a few small experiments I can try and revise.",
+      "interactionModes": [
+        "adapt",
+        "organize"
+      ]
+    },
+    {
+      "gateNumber": 4,
+      "title": "Formulization",
+      "centerId": "ajna",
+      "channelIds": [
+        "ch-63-4"
+      ],
+      "aiAffordance": "Generate candidate explanations for a question, label assumptions, and compare them without presenting a guess as certainty.",
+      "examplePrompt": "Give me several possible explanations for this question, and label assumptions and uncertainties.",
+      "interactionModes": [
+        "compare"
+      ]
+    },
+    {
+      "gateNumber": 5,
+      "title": "Fixed Rhythms",
+      "centerId": "sacral",
+      "channelIds": [
+        "ch-5-15"
+      ],
+      "aiAffordance": "Help design a routine around the person's real schedule, with flexible timing and permission to revise it.",
+      "examplePrompt": "Help me make a flexible routine that fits my actual schedule and can change when needed.",
+      "interactionModes": [
+        "adapt",
+        "organize"
+      ]
+    },
+    {
+      "gateNumber": 6,
+      "title": "Friction",
+      "centerId": "solar_plexus",
+      "channelIds": [
+        "ch-59-6"
+      ],
+      "aiAffordance": "Rehearse respectful boundary-setting or a difficult conversation; do not infer reproductive state, compatibility, or emotional authority.",
+      "examplePrompt": "Help me prepare a respectful boundary for a difficult conversation; don't assume what anyone feels.",
+      "interactionModes": [
+        "communicate",
+        "practice"
+      ]
+    },
+    {
+      "gateNumber": 7,
+      "title": "Role of the Self",
+      "centerId": "g_identity",
+      "channelIds": [
+        "ch-7-31"
+      ],
+      "aiAffordance": "Explore possible roles in a specific project and the responsibilities each would involve, without assigning a fixed role or destiny.",
+      "examplePrompt": "Help me compare possible roles for this project and what each role would involve.",
+      "interactionModes": [
+        "compare",
+        "organize"
+      ]
+    },
+    {
+      "gateNumber": 8,
+      "title": "Contribution",
+      "centerId": "throat",
+      "channelIds": [
+        "ch-1-8"
+      ],
+      "aiAffordance": "Help shape a contribution for a chosen audience while preserving the person's voice and credit.",
+      "examplePrompt": "Help me shape this contribution for its audience while preserving my voice and giving proper credit.",
+      "interactionModes": [
+        "communicate",
+        "create"
+      ]
+    },
+    {
+      "gateNumber": 9,
+      "title": "Focus",
+      "centerId": "sacral",
+      "channelIds": [
+        "ch-9-52"
+      ],
+      "aiAffordance": "Break a chosen task into a short sequence, identify likely distractions, and let the person choose a stopping point.",
+      "examplePrompt": "Help me break this task into a few steps and choose a stopping point that works for me.",
+      "interactionModes": [
+        "organize"
+      ]
+    },
+    {
+      "gateNumber": 10,
+      "title": "Behavior of the Self",
+      "centerId": "g_identity",
+      "channelIds": [
+        "ch-10-20",
+        "ch-10-34",
+        "ch-10-57"
+      ],
+      "aiAffordance": "Help compare an intended action with the person's stated values and context, without labeling their personality or judging their worth.",
+      "examplePrompt": "Help me compare this possible action with values I've named, without judging me.",
+      "interactionModes": [
+        "compare",
+        "reflect"
+      ]
+    },
+    {
+      "gateNumber": 11,
+      "title": "Ideas",
+      "centerId": "ajna",
+      "channelIds": [
+        "ch-11-56"
+      ],
+      "aiAffordance": "Offer a few diverse, relevant questions or idea connections, then invite the person to choose one and tell or develop it.",
+      "examplePrompt": "Give me a few varied questions or connections about this topic so I can choose one to explore.",
+      "interactionModes": [
+        "create"
+      ]
+    },
+    {
+      "gateNumber": 12,
+      "title": "Caution",
+      "centerId": "throat",
+      "channelIds": [
+        "ch-12-22"
+      ],
+      "aiAffordance": "Draft a message in several tones and let the person choose whether, when, or whether not to send it.",
+      "examplePrompt": "Draft a few versions of this message in different tones; I will decide whether to send one.",
+      "interactionModes": [
+        "communicate",
+        "create"
+      ]
+    },
+    {
+      "gateNumber": 13,
+      "title": "Listener",
+      "centerId": "g_identity",
+      "channelIds": [
+        "ch-13-33"
+      ],
+      "aiAffordance": "Provide a user-controlled listening or journaling prompt and reflect back only what the person chose to share. Avoid inviting unnecessary third-party secrets.",
+      "examplePrompt": "Ask me a few gentle questions to help me reflect on an experience I choose to share.",
+      "interactionModes": [
+        "communicate",
+        "reflect"
+      ]
+    },
+    {
+      "gateNumber": 14,
+      "title": "Power Skills",
+      "centerId": "sacral",
+      "channelIds": [
+        "ch-2-14"
+      ],
+      "aiAffordance": "Inventory skills and resources the person wants to use toward a chosen goal; avoid claims of innate power or guaranteed success.",
+      "examplePrompt": "Help me list the skills and resources I want to bring to this goal.",
+      "interactionModes": [
+        "compare",
+        "organize"
+      ]
+    },
+    {
+      "gateNumber": 15,
+      "title": "Extremes",
+      "centerId": "g_identity",
+      "channelIds": [
+        "ch-5-15"
+      ],
+      "aiAffordance": "Help design a flexible routine with acceptable variation and recovery options rather than forcing uniformity.",
+      "examplePrompt": "Help me create a routine with room for variation, rest, and changing circumstances.",
+      "interactionModes": [
+        "adapt",
+        "organize"
+      ]
+    },
+    {
+      "gateNumber": 16,
+      "title": "Skills",
+      "centerId": "throat",
+      "channelIds": [
+        "ch-48-16"
+      ],
+      "aiAffordance": "Build a small, repeatable practice plan and a self-chosen feedback checklist for a skill.",
+      "examplePrompt": "Make a short practice plan for this skill and a feedback checklist I can adjust.",
+      "interactionModes": [
+        "practice",
+        "organize"
+      ]
+    },
+    {
+      "gateNumber": 17,
+      "title": "Opinions",
+      "centerId": "ajna",
+      "channelIds": [
+        "ch-17-62"
+      ],
+      "aiAffordance": "Compare viewpoints on a topic and distinguish observable evidence from interpretation and preference.",
+      "examplePrompt": "Compare these viewpoints and separate observable evidence from interpretation and preference.",
+      "interactionModes": [
+        "compare"
+      ]
+    },
+    {
+      "gateNumber": 18,
+      "title": "Correction",
+      "centerId": "spleen",
+      "channelIds": [
+        "ch-18-58"
+      ],
+      "aiAffordance": "Give feedback on a user-selected draft or process using specific observations, an invitation to revise, and strengths as well as issues.",
+      "examplePrompt": "Review this draft or process with specific, constructive feedback and room for revision.",
+      "interactionModes": [
+        "practice",
+        "communicate"
+      ]
+    },
+    {
+      "gateNumber": 19,
+      "title": "Wanting",
+      "centerId": "root",
+      "channelIds": [
+        "ch-19-49"
+      ],
+      "aiAffordance": "Help identify a stated need and draft a clear request or boundary, without claiming to read unspoken needs.",
+      "examplePrompt": "Help me identify a need I have named and draft a clear request or boundary.",
+      "interactionModes": [
+        "communicate"
+      ]
+    },
+    {
+      "gateNumber": 20,
+      "title": "Now",
+      "centerId": "throat",
+      "channelIds": [
+        "ch-10-20",
+        "ch-34-20",
+        "ch-57-20"
+      ],
+      "aiAffordance": "Turn the person's current priority into one manageable next action; do not frame speed or spontaneity as inherently better.",
+      "examplePrompt": "Help me turn my current priority into one manageable next action.",
+      "interactionModes": [
+        "adapt",
+        "organize"
+      ]
+    },
+    {
+      "gateNumber": 21,
+      "title": "Hunter/Huntress",
+      "centerId": "heart",
+      "channelIds": [
+        "ch-21-45"
+      ],
+      "aiAffordance": "Make a transparent plan for a resource or task the person is responsible for, including shared ownership and limits.",
+      "examplePrompt": "Help me make a transparent plan for the resources or tasks I'm responsible for, including shared ownership.",
+      "interactionModes": [
+        "coordinate",
+        "organize"
+      ]
+    },
+    {
+      "gateNumber": 22,
+      "title": "Openness",
+      "centerId": "solar_plexus",
+      "channelIds": [
+        "ch-12-22"
+      ],
+      "aiAffordance": "Explore how the person wants to communicate in a particular setting, with options to speak, wait, write, or decline.",
+      "examplePrompt": "Help me decide how I want to communicate in this setting, including the option to wait or decline.",
+      "interactionModes": [
+        "communicate",
+        "compare"
+      ]
+    },
+    {
+      "gateNumber": 23,
+      "title": "Assimilation",
+      "centerId": "throat",
+      "channelIds": [
+        "ch-43-23"
+      ],
+      "aiAffordance": "Translate a complex idea into plain language, an analogy, or a short explanation at the person's chosen level of detail.",
+      "examplePrompt": "Explain this idea in plain language at the level of detail I choose.",
+      "interactionModes": [
+        "communicate"
+      ]
+    },
+    {
+      "gateNumber": 24,
+      "title": "Rationalizing",
+      "centerId": "ajna",
+      "channelIds": [
+        "ch-61-24"
+      ],
+      "aiAffordance": "Use a short “what do I know / what am I replaying / what is the next useful step?” reflection, with a clear option to stop.",
+      "examplePrompt": "Help me distinguish what I know from what I'm replaying, then find one useful next step or stop point.",
+      "interactionModes": [
+        "reflect"
+      ]
+    },
+    {
+      "gateNumber": 25,
+      "title": "Spirit of the Self",
+      "centerId": "g_identity",
+      "channelIds": [
+        "ch-25-51"
+      ],
+      "aiAffordance": "Offer a compassion or values reflection in the person's own terms; do not impose spiritual beliefs or moral judgments.",
+      "examplePrompt": "Offer a compassion or values reflection using my own beliefs and language.",
+      "interactionModes": [
+        "reflect"
+      ]
+    },
+    {
+      "gateNumber": 26,
+      "title": "Egoist",
+      "centerId": "heart",
+      "channelIds": [
+        "ch-26-44"
+      ],
+      "aiAffordance": "Practice a clear, truthful negotiation or request; help identify persuasive language that would become misleading or coercive.",
+      "examplePrompt": "Help me make this request clear and persuasive without making it misleading or coercive.",
+      "interactionModes": [
+        "communicate",
+        "practice"
+      ]
+    },
+    {
+      "gateNumber": 27,
+      "title": "Caring",
+      "centerId": "sacral",
+      "channelIds": [
+        "ch-27-50"
+      ],
+      "aiAffordance": "Coordinate a user-selected care task or family checklist while keeping human responsibility and consent clear.",
+      "examplePrompt": "Help me organize this care task while making responsibilities and consent clear.",
+      "interactionModes": [
+        "coordinate"
+      ]
+    },
+    {
+      "gateNumber": 28,
+      "title": "Game Player",
+      "centerId": "spleen",
+      "channelIds": [
+        "ch-28-38"
+      ],
+      "aiAffordance": "Explore what feels meaningful in a decision and compare risks, safeguards, and alternatives without glamorizing danger.",
+      "examplePrompt": "Help me think through what feels meaningful here, the risks involved, and safer alternatives.",
+      "interactionModes": [
+        "compare",
+        "reflect"
+      ]
+    },
+    {
+      "gateNumber": 29,
+      "title": "Saying Yes",
+      "centerId": "sacral",
+      "channelIds": [
+        "ch-29-46"
+      ],
+      "aiAffordance": "Review a proposed commitment: why it matters, what it costs, what can change, and how the person can say no or renegotiate.",
+      "examplePrompt": "Help me review this commitment: why it matters, what it costs, and how I could say no or renegotiate.",
+      "interactionModes": [
+        "compare",
+        "reflect"
+      ]
+    },
+    {
+      "gateNumber": 30,
+      "title": "Recognition of Feelings",
+      "centerId": "solar_plexus",
+      "channelIds": [
+        "ch-41-30"
+      ],
+      "aiAffordance": "Find words for a self-reported feeling and its context; never infer a feeling or hormone level from the chart or chat.",
+      "examplePrompt": "Help me find words for the feeling I report and note the context, without diagnosing me.",
+      "interactionModes": [
+        "communicate",
+        "reflect"
+      ]
+    },
+    {
+      "gateNumber": 31,
+      "title": "Leading",
+      "centerId": "throat",
+      "channelIds": [
+        "ch-7-31"
+      ],
+      "aiAffordance": "Prepare a meeting agenda, invitation, or facilitation plan that makes room for others' input and consent.",
+      "examplePrompt": "Help me prepare a meeting plan that invites input and makes participation optional.",
+      "interactionModes": [
+        "communicate",
+        "coordinate"
+      ]
+    },
+    {
+      "gateNumber": 32,
+      "title": "Continuity",
+      "centerId": "spleen",
+      "channelIds": [
+        "ch-32-54"
+      ],
+      "aiAffordance": "Compare ways to make a project sustainable, including when to continue, adapt, pause, or stop.",
+      "examplePrompt": "Help me decide whether to continue, adapt, pause, or stop this project and what each option costs.",
+      "interactionModes": [
+        "compare",
+        "organize"
+      ]
+    },
+    {
+      "gateNumber": 33,
+      "title": "Privacy",
+      "centerId": "throat",
+      "channelIds": [
+        "ch-13-33"
+      ],
+      "aiAffordance": "Offer a private reflection structure or a user-controlled summary, with clear control over what is saved or shared.",
+      "examplePrompt": "Give me a private reflection structure and let me choose what, if anything, to save or share.",
+      "interactionModes": [
+        "organize",
+        "reflect"
+      ]
+    },
+    {
+      "gateNumber": 34,
+      "title": "Power",
+      "centerId": "sacral",
+      "channelIds": [
+        "ch-34-20",
+        "ch-10-34",
+        "ch-34-57"
+      ],
+      "aiAffordance": "Offer a menu of ways to approach a self-chosen activity, scaled by the person's stated time, access, and energy constraints.",
+      "examplePrompt": "Give me several ways to approach this activity that fit my time, access, and energy constraints.",
+      "interactionModes": [
+        "adapt",
+        "organize"
+      ]
+    },
+    {
+      "gateNumber": 35,
+      "title": "Change",
+      "centerId": "throat",
+      "channelIds": [
+        "ch-35-36"
+      ],
+      "aiAffordance": "Compare possible next steps during a transition, including what to keep, what to try, and what remains uncertain.",
+      "examplePrompt": "Help me compare possible next steps in this transition, including what to keep and what remains uncertain.",
+      "interactionModes": [
+        "adapt",
+        "compare"
+      ]
+    },
+    {
+      "gateNumber": 36,
+      "title": "Crisis",
+      "centerId": "solar_plexus",
+      "channelIds": [
+        "ch-35-36"
+      ],
+      "aiAffordance": "Break a stressful situation into immediate needs and next steps; if someone reports imminent danger, direct them to appropriate human emergency support.",
+      "examplePrompt": "Help me sort this stressful situation into immediate needs and manageable next steps.",
+      "interactionModes": [
+        "organize",
+        "communicate"
+      ]
+    },
+    {
+      "gateNumber": 37,
+      "title": "Friendship",
+      "centerId": "solar_plexus",
+      "channelIds": [
+        "ch-37-40"
+      ],
+      "aiAffordance": "Create conversation cards or a household check-in around mutual needs, agreements, and appreciation.",
+      "examplePrompt": "Make a mutual check-in for our household that helps us discuss needs, agreements, and appreciation.",
+      "interactionModes": [
+        "communicate",
+        "coordinate"
+      ]
+    },
+    {
+      "gateNumber": 38,
+      "title": "Fighter",
+      "centerId": "root",
+      "channelIds": [
+        "ch-28-38"
+      ],
+      "aiAffordance": "Map a disagreement into the issue, each person's stated concern, and a non-harmful next step; prioritize de-escalation over winning.",
+      "examplePrompt": "Help me map this disagreement into the issue, each person's stated concern, and a non-harmful next step.",
+      "interactionModes": [
+        "communicate",
+        "compare"
+      ]
+    },
+    {
+      "gateNumber": 39,
+      "title": "Provocateur",
+      "centerId": "root",
+      "channelIds": [
+        "ch-39-55"
+      ],
+      "aiAffordance": "Offer a playful, opt-in perspective shift or creative question, with an easy pass and no deliberate distressing or baiting.",
+      "examplePrompt": "Offer an optional playful perspective shift about this topic; let me pass without pressure.",
+      "interactionModes": [
+        "create"
+      ]
+    },
+    {
+      "gateNumber": 40,
+      "title": "Aloneness",
+      "centerId": "heart",
+      "channelIds": [
+        "ch-37-40"
+      ],
+      "aiAffordance": "Plan chosen solo time and recovery, while optionally making a low-pressure plan to reconnect with a trusted person.",
+      "examplePrompt": "Help me plan restorative solo time and, if I choose, a low-pressure way to reconnect later.",
+      "interactionModes": [
+        "organize",
+        "reflect"
+      ]
+    },
+    {
+      "gateNumber": 41,
+      "title": "Contraction",
+      "centerId": "root",
+      "channelIds": [
+        "ch-41-30"
+      ],
+      "aiAffordance": "Plan a small, bounded start to an experience, including resource limits and what the person wants to leave open.",
+      "examplePrompt": "Help me plan a small, bounded start to this experience, including limits and what I want to leave open.",
+      "interactionModes": [
+        "adapt",
+        "organize"
+      ]
+    },
+    {
+      "gateNumber": 42,
+      "title": "Growth",
+      "centerId": "sacral",
+      "channelIds": [
+        "ch-42-53"
+      ],
+      "aiAffordance": "Break a longer project into milestones, review points, and a deliberate ending or handoff.",
+      "examplePrompt": "Break this longer project into milestones, review points, and a deliberate ending or handoff.",
+      "interactionModes": [
+        "organize"
+      ]
+    },
+    {
+      "gateNumber": 43,
+      "title": "Insight",
+      "centerId": "ajna",
+      "channelIds": [
+        "ch-43-23"
+      ],
+      "aiAffordance": "Help the person express an unusual idea in their own words, consider alternatives, and identify a small way to examine it.",
+      "examplePrompt": "Help me put this unusual idea into my own words and consider other explanations or ways to examine it.",
+      "interactionModes": [
+        "communicate",
+        "create"
+      ]
+    },
+    {
+      "gateNumber": 44,
+      "title": "Alertness",
+      "centerId": "spleen",
+      "channelIds": [
+        "ch-26-44"
+      ],
+      "aiAffordance": "Help review a user-selected pattern or past experience while labeling uncertainty and avoiding threat profiling or suspicion of others.",
+      "examplePrompt": "Help me review this pattern while marking uncertainty and avoiding assumptions about other people.",
+      "interactionModes": [
+        "compare",
+        "reflect"
+      ]
+    },
+    {
+      "gateNumber": 45,
+      "title": "Gatherer",
+      "centerId": "throat",
+      "channelIds": [
+        "ch-21-45"
+      ],
+      "aiAffordance": "Help organize shared household or team resources, responsibilities, and requests transparently rather than assigning authority.",
+      "examplePrompt": "Help us organize shared resources and responsibilities transparently without assigning authority.",
+      "interactionModes": [
+        "coordinate",
+        "organize"
+      ]
+    },
+    {
+      "gateNumber": 46,
+      "title": "Determination of the Self",
+      "centerId": "g_identity",
+      "channelIds": [
+        "ch-29-46"
+      ],
+      "aiAffordance": "Help the person keep a brief record of how an activity felt in their own body and context, without inferring physiology or telling them what their body means.",
+      "examplePrompt": "Help me make a brief note about how this activity felt in my body and context, without interpreting it for me.",
+      "interactionModes": [
+        "reflect"
+      ]
+    },
+    {
+      "gateNumber": 47,
+      "title": "Realizing",
+      "centerId": "ajna",
+      "channelIds": [
+        "ch-64-47"
+      ],
+      "aiAffordance": "Revisit selected notes or events and offer possible patterns as tentative interpretations for the person to accept or reject.",
+      "examplePrompt": "Help me look for possible patterns in these notes, and keep each interpretation tentative.",
+      "interactionModes": [
+        "compare",
+        "reflect"
+      ]
+    },
+    {
+      "gateNumber": 48,
+      "title": "Depth",
+      "centerId": "spleen",
+      "channelIds": [
+        "ch-48-16"
+      ],
+      "aiAffordance": "Build a learning path from introductory to advanced material, paced by the user's interest and available time.",
+      "examplePrompt": "Build a learning path from introductory to advanced material at a pace I choose.",
+      "interactionModes": [
+        "learn",
+        "organize"
+      ]
+    },
+    {
+      "gateNumber": 49,
+      "title": "Principles",
+      "centerId": "solar_plexus",
+      "channelIds": [
+        "ch-19-49"
+      ],
+      "aiAffordance": "Help articulate a boundary, value, or group agreement and consider how it affects everyone involved.",
+      "examplePrompt": "Help me put a boundary or group value into clear words and consider how it affects everyone involved.",
+      "interactionModes": [
+        "communicate",
+        "reflect"
+      ]
+    },
+    {
+      "gateNumber": 50,
+      "title": "Values",
+      "centerId": "spleen",
+      "channelIds": [
+        "ch-27-50"
+      ],
+      "aiAffordance": "Draft a fair, inclusive set of shared expectations and care responsibilities for a family or team to review together.",
+      "examplePrompt": "Draft fair shared expectations and care responsibilities for our family or team to review together.",
+      "interactionModes": [
+        "communicate",
+        "coordinate"
+      ]
+    },
+    {
+      "gateNumber": 51,
+      "title": "Shock",
+      "centerId": "heart",
+      "channelIds": [
+        "ch-25-51"
+      ],
+      "aiAffordance": "Prepare for a new or challenging event by reviewing consent, likely surprises, a pause signal, and a safe exit option.",
+      "examplePrompt": "Help me prepare for this challenging event with a pause signal, consent check, surprises, and a safe exit option.",
+      "interactionModes": [
+        "communicate",
+        "organize"
+      ]
+    },
+    {
+      "gateNumber": 52,
+      "title": "Inaction",
+      "centerId": "root",
+      "channelIds": [
+        "ch-9-52"
+      ],
+      "aiAffordance": "Help create a focus-friendly setting with a chosen timer, break, or distraction boundary; avoid turning rest into failure.",
+      "examplePrompt": "Help me set up a focus-friendly space with a timer, break, or distraction boundary I choose.",
+      "interactionModes": [
+        "adapt",
+        "organize"
+      ]
+    },
+    {
+      "gateNumber": 53,
+      "title": "Beginnings",
+      "centerId": "root",
+      "channelIds": [
+        "ch-42-53"
+      ],
+      "aiAffordance": "Start a project with a one-step launch plan, a modest first milestone, and a review point.",
+      "examplePrompt": "Help me launch this project with one small first step and a modest review point.",
+      "interactionModes": [
+        "adapt",
+        "organize"
+      ]
+    },
+    {
+      "gateNumber": 54,
+      "title": "Ambition",
+      "centerId": "root",
+      "channelIds": [
+        "ch-32-54"
+      ],
+      "aiAffordance": "Compare goals with their tradeoffs, resources, relationships, and rest needs; let the person define what success means.",
+      "examplePrompt": "Help me compare this goal with its tradeoffs, available resources, rest, and relationships.",
+      "interactionModes": [
+        "compare",
+        "reflect"
+      ]
+    },
+    {
+      "gateNumber": 55,
+      "title": "Spirit",
+      "centerId": "solar_plexus",
+      "channelIds": [
+        "ch-39-55"
+      ],
+      "aiAffordance": "Offer an optional mood or meaning journal that treats entries as the person's account, not a diagnosis or stable trait.",
+      "examplePrompt": "Give me an optional mood or meaning journal prompt; treat my answer as my own account, not a diagnosis.",
+      "interactionModes": [
+        "reflect"
+      ]
+    },
+    {
+      "gateNumber": 56,
+      "title": "Stimulation",
+      "centerId": "throat",
+      "channelIds": [
+        "ch-11-56"
+      ],
+      "aiAffordance": "Create a short, user-paced story or exploration from a chosen topic, then offer “go deeper,” “tell your version,” and “stop.”",
+      "examplePrompt": "Create a short, user-paced story about a topic I choose, with options to continue, tell my version, or stop.",
+      "interactionModes": [
+        "create"
+      ]
+    },
+    {
+      "gateNumber": 57,
+      "title": "Intuitive Insight",
+      "centerId": "spleen",
+      "channelIds": [
+        "ch-57-20",
+        "ch-10-57",
+        "ch-34-57"
+      ],
+      "aiAffordance": "Offer a pause to notice immediate impressions, then separate “what I noticed” from “what I think it means” and check relevant evidence.",
+      "examplePrompt": "Guide me through noticing an immediate impression and separating what I noticed from what I think it means.",
+      "interactionModes": [
+        "compare",
+        "reflect"
+      ]
+    },
+    {
+      "gateNumber": 58,
+      "title": "Aliveness",
+      "centerId": "root",
+      "channelIds": [
+        "ch-18-58"
+      ],
+      "aiAffordance": "Brainstorm enjoyable, accessible activities and ways to make room for them, without prescribing an exercise or health regimen.",
+      "examplePrompt": "Brainstorm enjoyable, accessible activities that could fit into my life without prescribing a health plan.",
+      "interactionModes": [
+        "create",
+        "organize"
+      ]
+    },
+    {
+      "gateNumber": 59,
+      "title": "Sexuality",
+      "centerId": "sacral",
+      "channelIds": [
+        "ch-59-6"
+      ],
+      "aiAffordance": "Offer consent-centered language for discussing intimacy, boundaries, and privacy; never sexualize a child, pressure a partner, or treat chat as consent.",
+      "examplePrompt": "Help me find consent-centered words to discuss intimacy, boundaries, and privacy; don't treat this chat as consent.",
+      "interactionModes": [
+        "communicate",
+        "practice"
+      ]
+    },
+    {
+      "gateNumber": 60,
+      "title": "Acceptance",
+      "centerId": "root",
+      "channelIds": [
+        "ch-3-60"
+      ],
+      "aiAffordance": "Identify actual constraints, distinguish fixed from negotiable parts, and generate options within the person's chosen limits.",
+      "examplePrompt": "Help me separate fixed constraints from negotiable ones and find options within the limits I choose.",
+      "interactionModes": [
+        "adapt",
+        "compare"
+      ]
+    },
+    {
+      "gateNumber": 61,
+      "title": "Mystery",
+      "centerId": "head",
+      "channelIds": [
+        "ch-61-24"
+      ],
+      "aiAffordance": "Explore a big question from several traditions or disciplines; separate known facts, interpretations, and open questions.",
+      "examplePrompt": "Explore this big question from several disciplines and separate known facts from interpretations and open questions.",
+      "interactionModes": [
+        "learn",
+        "reflect"
+      ]
+    },
+    {
+      "gateNumber": 62,
+      "title": "Detail",
+      "centerId": "throat",
+      "channelIds": [
+        "ch-17-62"
+      ],
+      "aiAffordance": "Turn a chosen plan into a checklist, glossary, or clearly labeled set of steps; let the user set the desired detail level.",
+      "examplePrompt": "Turn this plan into a checklist or glossary at the level of detail I choose.",
+      "interactionModes": [
+        "organize",
+        "learn"
+      ]
+    },
+    {
+      "gateNumber": 63,
+      "title": "Doubt",
+      "centerId": "head",
+      "channelIds": [
+        "ch-63-4"
+      ],
+      "aiAffordance": "Stress-test a claim by listing evidence, counterexamples, and what would change one's mind, without turning uncertainty into endless checking.",
+      "examplePrompt": "Help me test this claim with evidence, counterexamples, and what would change my mind, without endless checking.",
+      "interactionModes": [
+        "compare",
+        "learn"
+      ]
+    },
+    {
+      "gateNumber": 64,
+      "title": "Confusion",
+      "centerId": "head",
+      "channelIds": [
+        "ch-64-47"
+      ],
+      "aiAffordance": "Help sort a pile of notes into themes, identify missing context, and leave unresolved items visibly unresolved.",
+      "examplePrompt": "Help me sort these notes into themes and uncertainties without forcing an answer before I'm ready.",
+      "interactionModes": [
+        "organize",
+        "reflect"
+      ]
+    }
+  ]
+}

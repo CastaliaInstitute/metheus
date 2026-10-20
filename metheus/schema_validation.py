@@ -7,6 +7,8 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
+from referencing import Registry, Resource
+
 
 SCHEMA_DIRECTORY = Path(__file__).resolve().parents[1] / "schema"
 
@@ -31,6 +33,23 @@ def _load_schema(schema_name: str, schema_directory: str) -> dict[str, Any]:
     with path.open(encoding="utf-8") as stream:
         schema = json.load(stream)
     return schema
+
+
+@lru_cache(maxsize=None)
+def _schema_registry(schema_directory: str) -> Registry[Any]:
+    """Resolve cross-schema references only from the local schema directory."""
+    directory = Path(schema_directory)
+    registry: Registry[Any] = Registry()
+    for path in sorted(directory.glob("*.schema.json")):
+        try:
+            with path.open(encoding="utf-8") as stream:
+                schema = json.load(stream)
+        except (OSError, json.JSONDecodeError):
+            continue
+        schema_id = schema.get("$id") if isinstance(schema, dict) else None
+        if isinstance(schema_id, str):
+            registry = registry.with_resource(schema_id, Resource.from_contents(schema))
+    return registry
 
 
 def schema_for_record(record: dict[str, Any]) -> str | None:
@@ -71,7 +90,11 @@ def validate_schema_instance(
     except SchemaError:
         return {"valid": False, "issues": [{"code": "invalid_schema_definition"}]}
 
-    validator = Draft202012Validator(schema, format_checker=FormatChecker())
+    validator = Draft202012Validator(
+        schema,
+        format_checker=FormatChecker(),
+        registry=_schema_registry(str(directory.resolve())),
+    )
     issues = []
     errors = sorted(
         validator.iter_errors(instance),

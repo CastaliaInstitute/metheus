@@ -1,0 +1,46 @@
+{
+  "id": "cycle-day-one:metheus-reported-cycle-day-one/0.1.0:2026-10-01:2026-11-30",
+  "summaryId": "cycle-day-one:metheus-reported-cycle-day-one/0.1.0:2026-10-01:2026-11-30",
+  "subjectId": "synthetic-cycle-subject",
+  "recordType": "rhythm_summary",
+  "schemaVersion": "0.1",
+  "summaryType": "derived_rhythm_summary",
+  "summaryMeasure": "reported_cycle_day_one_intervals",
+  "epistemicClass": "derived",
+  "domain": "reproductive",
+  "label": "calendar-day intervals between self-reported menstrual cycle day-one markers",
+  "methodVersion": "metheus-reported-cycle-day-one/0.1.0",
+  "revisionResolution": {
+    "strategy": "latest_visible_successor",
+    "supersededRecordCount": 0,
+    "unresolvedPredecessorCount": 0
+  },
+  "window": {
+    "startDate": "2026-10-01",
+    "endDate": "2026-11-30",
+    "inclusiveDays": 61
+  },
+  "inputRecordIds": [
+    "synthetic-cycle-day-one-2026-09-02",
+    "synthetic-cycle-day-one-2026-10-01",
+    "synthetic-cycle-day-one-2026-10-30",
+    "synthetic-cycle-day-one-2026-11-29"
+  ],
+  "boundaryCycleStartDate": "2026-09-02",
+  "boundaryCycleStartRecordIds": ["synthetic-cycle-day-one-2026-09-02"],
+  "nCycleStartRecords": 3,
+  "nDistinctCycleStartDates": 3,
+  "nIntervals": 3,
+  "intervalsDays": [29, 29, 30],
+  "medianDayOneIntervalDays": 29,
+  "medianAbsoluteDeviationDayOneIntervalDays": 0,
+  "dateOnlyRecordCount": 3,
+  "timedRecordCount": 0,
+  "limitations": [
+    "Synthetic summary; IDs refer to no real person or source record.",
+    "Includes only the person's explicit cycle day-one markers; generic bleeding records are not converted into cycle markers.",
+    "Intervals are calendar-day differences between reported markers and do not confirm bleeding cause or a biological cycle phase.",
+    "No ovulation, fertility, conception, hormone level, diagnosis, or future onset is inferred.",
+    "The preceding boundary marker is outside the selected window but is an input that requires its own selection and authorization."
+  ]
+}

@@ -24,16 +24,28 @@ EXAMPLE_DIR = ROOT / "examples"
 CATALOG_DIR = ROOT / "catalog"
 
 EXAMPLE_SCHEMAS = {
+    "chart-calculation-authorized.example.json": "chart-calculation-preflight.schema.json",
+    "chart-calculation-denied.example.json": "chart-calculation-preflight.schema.json",
+    "chart-calculation-readiness.example.json": "chart-calculation-preflight.schema.json",
     "assembled-reading.example.json": "assembled-reading.schema.json",
     "assembled-reading-correspondence.example.json": "assembled-reading.schema.json",
     "assembled-reading-circadian.example.json": "assembled-reading.schema.json",
     "assembled-reading-ai-affordance.example.json": "assembled-reading.schema.json",
     "assembled-reading-measurement-series.example.json": "assembled-reading.schema.json",
+    "assembled-reading-promethean-maps.example.json": "assembled-reading.schema.json",
+    "chart-aware-ai-context-unverified.example.json": "chart-aware-ai-context.schema.json",
+    "chart-aware-ai-context-calculated-natal.example.json": "chart-aware-ai-context.schema.json",
     "birth-chart-input.example.json": "birth-chart-input.schema.json",
     "birth-input-calculation-consent.example.json": "consent.schema.json",
     "bleeding-onset.example.json": "observation.schema.json",
     "bleeding-onset-correction.example.json": "observation.schema.json",
     "bleeding-onset-summary.example.json": "rhythm-summary.schema.json",
+    "menstrual-cycle-day-one-2026-09-02.example.json": "observation.schema.json",
+    "menstrual-cycle-day-one-2026-10-01.example.json": "observation.schema.json",
+    "menstrual-cycle-day-one-2026-10-30.example.json": "observation.schema.json",
+    "menstrual-cycle-day-one-2026-11-29.example.json": "observation.schema.json",
+    "menstrual-cycle-day-one-summary.example.json": "rhythm-summary.schema.json",
+    "reported-cycle-day-view.example.json": "reported-cycle-day-view.schema.json",
     "consent-grant.example.json": "consent.schema.json",
     "development-context-infant.example.json": "observation.schema.json",
     "development-context-preterm-birth.example.json": "observation.schema.json",
@@ -49,6 +61,8 @@ EXAMPLE_SCHEMAS = {
     "environmental-affordance-ai-use.example.json": "observation.schema.json",
     "environmental-affordance-linked-case.example.json": "environmental-affordance-case.schema.json",
     "environmental-affordance-response.example.json": "observation.schema.json",
+    "affordance-trial-summary.example.json": "environmental-affordance-trial-summary.schema.json",
+    "affordance-trial-consent.example.json": "consent.schema.json",
     "learner-feedback.example.json": "observation.schema.json",
     "learning-activity.example.json": "observation.schema.json",
     "learning-reading.example.json": "reading.schema.json",
@@ -83,6 +97,7 @@ EXAMPLE_SCHEMAS = {
 
 CATALOG_SCHEMAS = {
     "gate-endocrine-correspondences.json": "correspondence-catalog.schema.json",
+    "gate-ai-affordances.json": "gate-ai-affordance-catalog.schema.json",
     "endocrine-relations.json": "endocrine-relations-catalog.schema.json",
     "evidence-claims.json": "evidence-catalog.schema.json",
     "human-design-bodygraph-topology.json": "human-design-bodygraph-topology.schema.json",
@@ -287,6 +302,10 @@ def validate_bodygraph_topology(catalog: Any) -> list[str]:
         reference_root = ET.parse(reference_path).getroot()
     except (ET.ParseError, OSError) as exc:
         return [*errors, f"pwa/public/bodygraph-reference.svg: cannot parse reference topology: {exc}"]
+    if reference_root.get("data-topology-catalog-id") != catalog.get("catalogId"):
+        errors.append("pwa/public/bodygraph-reference.svg: topology catalog ID does not match the source catalog")
+    if reference_root.get("data-topology-version") != catalog.get("version"):
+        errors.append("pwa/public/bodygraph-reference.svg: topology version does not match the source catalog")
 
     svg_gate_centers: dict[int, str] = {}
     for element in reference_root.iter():
@@ -332,9 +351,87 @@ def validate_bodygraph_topology(catalog: Any) -> list[str]:
     return errors
 
 
+def validate_gate_ai_affordances(catalog: Any) -> list[str]:
+    """Keep the optional AI idea catalog keyed to the versioned gate topology."""
+    path = "catalog/gate-ai-affordances.json"
+    if not isinstance(catalog, dict):
+        return [f"{path}: expected an object"]
+    try:
+        topology = load_json(CATALOG_DIR / "human-design-bodygraph-topology.json")
+    except (json.JSONDecodeError, OSError) as exc:
+        return [f"{path}: cannot read gate topology reference: {exc}"]
+    if not isinstance(topology, dict) or not isinstance(topology.get("gates"), list):
+        return [f"{path}: referenced gate topology must contain a gates array"]
+    source_gates = {
+        gate.get("number"): gate
+        for gate in topology.get("gates", [])
+        if isinstance(gate, dict) and isinstance(gate.get("number"), int)
+    }
+    if catalog.get("topologyCatalogId") != topology.get("catalogId") or catalog.get("topologyVersion") != topology.get("version"):
+        return [f"{path}: topologyCatalogId/topologyVersion must match the referenced topology catalog"]
+    entries = catalog.get("entries", [])
+    if not isinstance(entries, list):
+        return [f"{path}: entries must be an array"]
+    errors: list[str] = []
+    seen: set[int] = set()
+    for index, entry in enumerate(entries):
+        if not isinstance(entry, dict) or not isinstance(entry.get("gateNumber"), int) or isinstance(entry.get("gateNumber"), bool):
+            continue
+        number = entry["gateNumber"]
+        if number in seen:
+            errors.append(f"{path} at entries/{index}/gateNumber: duplicate gate {number}")
+        seen.add(number)
+        source = source_gates.get(number)
+        if source is None:
+            errors.append(f"{path} at entries/{index}/gateNumber: gate {number} is absent from the topology catalog")
+            continue
+        for field, expected in (("title", source.get("title")), ("centerId", source.get("centerId")), ("channelIds", source.get("channelIds"))):
+            if entry.get(field) != expected:
+                errors.append(f"{path} at entries/{index}/{field}: differs from topology gate {number}")
+    if seen != set(range(1, 65)):
+        errors.append(f"{path}: entries must contain every gate from 1 through 64 exactly once")
+    return errors
+
+
+def _reject_duplicate_json_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    """Reject ambiguous JSON objects instead of silently keeping the last key."""
+    result: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in result:
+            raise json.JSONDecodeError(f"duplicate object key {key!r}", "", 0)
+        result[key] = value
+    return result
+
+
 def load_json(path: Path) -> Any:
     with path.open(encoding="utf-8") as stream:
-        return json.load(stream)
+        return json.load(stream, object_pairs_hook=_reject_duplicate_json_keys)
+
+
+def phase_name_provenance_rules(schema: dict[str, Any], *, assembled: bool) -> list[dict[str, Any]]:
+    """Extract the name/source conditionals shared by phase input and output contracts."""
+    if assembled:
+        phase_schema = schema.get("$defs", {}).get("phaseAnnotation", {})
+    else:
+        phase_schema = schema
+    conditions = phase_schema.get("allOf", [])
+    if not isinstance(conditions, list):
+        return []
+    rules = []
+    for condition in conditions:
+        if not isinstance(condition, dict):
+            continue
+        condition_if = condition.get("if", {})
+        marker_properties = condition_if.get("properties", {}) if isinstance(condition_if, dict) else {}
+        required = condition_if.get("required", []) if isinstance(condition_if, dict) else []
+        name_source = marker_properties.get("nameSource", {}) if isinstance(marker_properties, dict) else {}
+        if (
+            "evocativeName" in required
+            or "nameSource" in required
+            or (isinstance(name_source, dict) and name_source.get("const") == "source_attributed")
+        ):
+            rules.append({"if": condition.get("if"), "then": condition.get("then")})
+    return rules
 
 
 def _reject_remote_schema_retrieval(uri: str) -> Resource[Any]:
@@ -353,6 +450,17 @@ def main() -> int:
             schemas[schema_path.name] = schema
         except (json.JSONDecodeError, OSError, SchemaError) as exc:
             errors.append(f"{schema_path.relative_to(ROOT)}: invalid schema: {exc}")
+
+    phase_schema = schemas.get("phase-annotation.schema.json")
+    assembled_schema = schemas.get("assembled-reading.schema.json")
+    if phase_schema is not None and assembled_schema is not None:
+        input_name_rules = phase_name_provenance_rules(phase_schema, assembled=False)
+        output_name_rules = phase_name_provenance_rules(assembled_schema, assembled=True)
+        if len(input_name_rules) != 3 or input_name_rules != output_name_rules:
+            errors.append(
+                "schema/phase-annotation.schema.json and schema/assembled-reading.schema.json: "
+                "phase name provenance rules must match for required attribution and source citation"
+            )
 
     registry = Registry(retrieve=_reject_remote_schema_retrieval)
     for schema in schemas.values():
@@ -394,6 +502,22 @@ def main() -> int:
             if len(relation_ids) != len(set(relation_ids)):
                 errors.append(f"examples/{filename}: duplicate pathway relation IDs")
             known_node_ids = set(node_ids)
+            try:
+                evidence_catalog = load_json(CATALOG_DIR / "evidence-claims.json")
+            except (json.JSONDecodeError, OSError) as exc:
+                errors.append(f"examples/{filename}: cannot load evidence catalog: {exc}")
+                evidence_catalog = {}
+            evidence_by_id = {
+                claim.get("id"): claim
+                for claim in evidence_catalog.get("claims", [])
+                if isinstance(claim, dict) and isinstance(claim.get("id"), str)
+            }
+            expected_claim_types = {
+                "literature_association": "biomedical_association",
+                "literature_mechanism": "biomedical_mechanism",
+                "literature_intervention": "intervention_effect",
+                "literature_measurement": "measurement_validity",
+            }
             for index, relation in enumerate(relations):
                 if not isinstance(relation, dict):
                     continue
@@ -401,6 +525,17 @@ def main() -> int:
                     endpoint_id = relation.get(endpoint)
                     if not isinstance(endpoint_id, str) or endpoint_id not in known_node_ids:
                         errors.append(f"examples/{filename} at relations/{index}/{endpoint}: unresolved pathway node")
+                relation_type = relation.get("relationType")
+                expected_type = expected_claim_types.get(relation_type)
+                evidence_ids = relation.get("evidenceClaimIds", [])
+                if evidence_ids and expected_type is None:
+                    errors.append(f"examples/{filename} at relations/{index}/evidenceClaimIds: evidence attached to non-literature relation")
+                for claim_id in evidence_ids:
+                    claim = evidence_by_id.get(claim_id)
+                    if claim is None:
+                        errors.append(f"examples/{filename} at relations/{index}/evidenceClaimIds: unresolved evidence claim")
+                    elif claim.get("claimType") != expected_type:
+                        errors.append(f"examples/{filename} at relations/{index}/evidenceClaimIds: evidence claim type mismatch")
         if filename == "gate-correspondence-reading.example.json" and isinstance(instance, dict):
             catalog_path = CATALOG_DIR / "gate-endocrine-correspondences.json"
             try:
@@ -447,6 +582,16 @@ def main() -> int:
             errors.append(f"catalog/{filename} at {location}: {error.message}")
         if filename == "human-design-bodygraph-topology.json":
             errors.extend(validate_bodygraph_topology(catalog))
+        if filename == "gate-ai-affordances.json":
+            errors.extend(validate_gate_ai_affordances(catalog))
+            public_copy = ROOT / "pwa/public/gate-ai-affordances.json"
+            try:
+                public_catalog = load_json(public_copy)
+            except (json.JSONDecodeError, OSError) as exc:
+                errors.append(f"pwa/public/gate-ai-affordances.json: cannot read public catalog copy: {exc}")
+            else:
+                if public_catalog != catalog:
+                    errors.append("pwa/public/gate-ai-affordances.json: must match catalog/gate-ai-affordances.json")
         if filename == "gate-endocrine-correspondences.json":
             errors.extend(validate_correspondence_source_register(catalog))
         item_schema_mapping = CATALOG_ITEM_SCHEMAS.get(filename)
@@ -489,6 +634,27 @@ def main() -> int:
                 errors.append(
                     f"catalog/{filename} at phases/{index}: phase has no authorization-domain mapping"
                 )
+        if filename == "phase-vocabulary.json":
+            allowed_by_system: dict[str, set[str]] = {}
+            for phase in catalog.get("phases", []) if isinstance(catalog, dict) else []:
+                if not isinstance(phase, dict):
+                    continue
+                system = phase.get("phaseSystem")
+                canonical = phase.get("canonicalPhase")
+                if isinstance(system, str) and system != "other" and isinstance(canonical, str):
+                    allowed_by_system.setdefault(system, set()).add(canonical)
+            phase_schema = schemas.get("phase-annotation.schema.json", {})
+            conditions = phase_schema.get("$defs", {}).get("phaseVocabularyConstraint", {}).get("allOf", [])
+            schema_by_system = {}
+            for condition in conditions:
+                if not isinstance(condition, dict):
+                    continue
+                system = condition.get("if", {}).get("properties", {}).get("phaseSystem", {}).get("const")
+                labels = condition.get("then", {}).get("properties", {}).get("canonicalPhase", {}).get("enum")
+                if isinstance(system, str) and isinstance(labels, list) and all(isinstance(value, str) for value in labels):
+                    schema_by_system[system] = set(labels)
+            if schema_by_system != allowed_by_system:
+                errors.append("schema/phase-annotation.schema.json: canonical phase labels do not match catalog/phase-vocabulary.json")
 
     if errors:
         print("Metheus contract validation failed:", file=sys.stderr)

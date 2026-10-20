@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://metheus.castalia.institute/schema/symbolic-map.schema.json",
   "title": "Metheus symbolic map index",
-  "description": "A versioned link between private calculation inputs and separately represented symbolic feature records. It carries no biological or clinical meaning by itself.",
+  "description": "A versioned link between private calculation inputs and separately represented symbolic feature records. It stores provenance and precision, not raw birth date/time/location, and carries no biological or clinical meaning by itself.",
   "type": "object",
   "additionalProperties": false,
   "required": ["id", "subjectId", "recordType", "domain", "schemaVersion", "sourceSystem", "calculation", "createdAt"],
@@ -30,17 +30,73 @@
         "status": { "enum": ["calculated", "partial", "illustrative"] },
         "method": { "type": "string", "minLength": 1 },
         "methodVersion": { "type": "string", "minLength": 1 },
+        "engine": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "version"],
+          "properties": {
+            "name": { "type": "string", "minLength": 1 },
+            "version": { "type": "string", "minLength": 1 }
+          }
+        },
+        "executionMode": { "enum": ["local", "remote"] },
+        "verificationStatus": { "const": "asserted_not_independently_verified" },
+        "inputPrecision": {
+          "type": "object",
+          "description": "Precision metadata only; raw birth date/time/location remain in the separately protected input record.",
+          "additionalProperties": false,
+          "required": ["birthDate", "birthTime"],
+          "properties": {
+            "birthDate": { "enum": ["exact", "approximate"] },
+            "birthTime": { "enum": ["exact", "approximate", "unknown"] },
+            "uncertaintyDays": { "type": "integer", "minimum": 0 },
+            "uncertaintyMinutes": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "timeZoneDatabase": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source", "version"],
+          "properties": {
+            "source": { "enum": ["system_zoneinfo", "python_tzdata", "other", "unresolved"] },
+            "version": { "type": "string", "minLength": 1 }
+          }
+        },
         "calculatedAt": { "type": "string", "format": "date-time" },
         "inputRecordIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
         "featureRecordIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "bodygraph": {
+          "type": "object",
+          "description": "Optional normalized Human Design gate activation output from the named chart calculation. Never derive it from conversation or AI interaction.",
+          "additionalProperties": false,
+          "required": ["topologyCatalogId", "topologyVersion", "chartScope", "activatedGateNumbers"],
+          "properties": {
+            "topologyCatalogId": { "const": "human-design-bodygraph-topology-v1" },
+            "topologyVersion": { "type": "string", "minLength": 1 },
+            "chartScope": { "enum": ["natal", "transit", "other"] },
+            "validAt": { "type": "string", "format": "date-time", "description": "Required for a transit map; natal chart activation is timeless within the named calculation." },
+            "activatedGateNumbers": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": { "type": "integer", "minimum": 1, "maximum": 64 },
+              "description": "Gate numbers explicitly active in this calculation. An omitted gate means only that it is not active in this map; it does not indicate a deficit or inability."
+            }
+          },
+          "allOf": [
+            {
+              "if": { "required": ["chartScope"], "properties": { "chartScope": { "const": "transit" } } },
+              "then": { "required": ["validAt"] }
+            }
+          ]
+        },
         "limitations": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
       },
       "allOf": [
         {
           "if": { "required": ["status"], "properties": { "status": { "enum": ["calculated", "partial"] } } },
           "then": {
-            "required": ["calculatedAt"],
-            "properties": {
+          "required": ["calculatedAt", "engine", "executionMode", "verificationStatus", "inputPrecision"],
+          "properties": {
               "inputRecordIds": { "minItems": 1 },
               "featureRecordIds": { "minItems": 1 }
             }
@@ -58,5 +114,27 @@
     },
     "createdAt": { "type": "string", "format": "date-time" },
     "supersedes": { "type": "string", "minLength": 1, "description": "ID of the prior same-subject map revision made obsolete by this calculation." }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": ["sourceSystem", "calculation"],
+        "properties": {
+          "sourceSystem": { "properties": { "name": { "const": "Human Design" } } },
+          "calculation": { "properties": { "status": { "const": "calculated" } } }
+        }
+      },
+      "then": { "properties": { "calculation": { "required": ["bodygraph"] } } }
+    },
+    {
+      "if": {
+        "required": ["sourceSystem", "calculation"],
+        "properties": {
+          "sourceSystem": { "properties": { "name": { "const": "Human Design" } } },
+          "calculation": { "properties": { "status": { "enum": ["calculated", "partial"] } } }
+        }
+      },
+      "then": { "properties": { "calculation": { "required": ["timeZoneDatabase"] } } }
+    }
+  ]
 }
