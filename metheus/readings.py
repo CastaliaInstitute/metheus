@@ -81,6 +81,9 @@ def validate_reading_references(
         if annotation.get("recordType") != "phase_annotation":
             issue("invalid_phase_annotation_type", annotation_id)
             continue
+        layer = annotation.get("layer")
+        if not isinstance(layer, str) or layer not in {"promethean", "epimethean"}:
+            issue("invalid_phase_annotation_layer", annotation_id)
         if annotation_id in phase_index:
             issue("duplicate_phase_annotation_id", annotation_id)
             continue
@@ -99,7 +102,7 @@ def validate_reading_references(
 
     def check_phase_basis(phase_id: str, annotation: dict[str, Any]) -> None:
         support_ids = annotation.get("basisRecordIds", [])
-        if not isinstance(support_ids, list) or not all(isinstance(x, str) and x for x in support_ids):
+        if not isinstance(support_ids, list) or not support_ids or not all(isinstance(x, str) and x for x in support_ids):
             issue("invalid_phase_basis_record_ids", phase_id)
             return
         for support_id in support_ids:
@@ -143,6 +146,7 @@ def validate_reading_references(
         if not isinstance(phase_ids, list) or not all(isinstance(x, str) and x for x in phase_ids):
             issue("invalid_phase_annotation_ids")
             phase_ids = []
+        resolved_phases: list[dict[str, Any]] = []
         for phase_id in phase_ids:
             if phase_id not in selected_ids:
                 issue("phase_annotation_not_selected", phase_id)
@@ -154,5 +158,36 @@ def validate_reading_references(
                 issue("phase_annotation_subject_mismatch", phase_id)
             else:
                 check_phase_basis(phase_id, annotation)
+                resolved_phases.append(annotation)
+
+        if resolved_phases:
+            claim_type = claim.get("claimType")
+            layers = {
+                annotation.get("layer") for annotation in resolved_phases
+                if isinstance(annotation.get("layer"), str)
+            }
+            if claim_type == "symbolic_prompt" and layers != {"promethean"}:
+                for phase_id in phase_ids:
+                    annotation = phase_index.get(phase_id)
+                    if annotation is not None and annotation.get("layer") != "promethean":
+                        issue("symbolic_prompt_requires_promethean_phase", phase_id)
+            if isinstance(claim_type, str) and claim_type in {"observation", "estimate", "hypothesis"} and "promethean" in layers:
+                for phase_id in phase_ids:
+                    annotation = phase_index.get(phase_id)
+                    if annotation is not None and annotation.get("layer") == "promethean":
+                        issue("lived_claim_cannot_use_promethean_phase", phase_id)
+            if claim_type == "observation":
+                for phase_id in phase_ids:
+                    annotation = phase_index.get(phase_id)
+                    if annotation is not None and annotation.get("layer") == "epimethean" and annotation.get("basis") == "derived":
+                        issue("observation_requires_reported_or_observed_phase", phase_id)
+            if claim_type == "estimate":
+                for phase_id in phase_ids:
+                    annotation = phase_index.get(phase_id)
+                    if annotation is not None and annotation.get("layer") == "epimethean" and annotation.get("basis") != "derived":
+                        issue("estimate_requires_derived_phase", phase_id)
+            if claim_type == "hypothesis":
+                if not source_ids:
+                    issue("phase_hypothesis_requires_subject_sources")
 
     return {"valid": not issues, "issues": issues}

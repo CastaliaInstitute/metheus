@@ -60,7 +60,14 @@
           },
           {
             "if": { "required": ["phaseAnnotationIds"] },
-            "then": { "properties": { "claimType": { "enum": ["observation", "estimate", "symbolic_prompt", "interpretive_question", "boundary"] } } }
+            "then": { "properties": { "claimType": { "enum": ["observation", "estimate", "symbolic_prompt", "interpretive_question", "hypothesis", "boundary"] } } }
+          },
+          {
+            "if": {
+              "required": ["phaseAnnotationIds", "claimType"],
+              "properties": { "claimType": { "const": "hypothesis" } }
+            },
+            "then": { "properties": { "sourceIds": { "minItems": 1 } } }
           }
         ],
         "anyOf": [
