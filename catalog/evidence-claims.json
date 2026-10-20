@@ -123,6 +123,90 @@
         "Test performance and interpretation depend on product, timing, user instructions, and clinical context.",
         "This candidate must not be used to estimate an individual's fertility or guide a reproductive decision."
       ]
+    },
+    {
+      "id": "social-evaluative-threat-cortisol-cardio-candidate",
+      "claimType": "biomedical_mechanism",
+      "claimText": "In one randomized laboratory speech-task study of healthy undergraduates, social-evaluative threat produced greater cortisol and cardiovascular responses than a matched non-evaluative condition; this supports a bounded general mechanism, not an individual-level prediction.",
+      "scope": {
+        "description": "Acute social-evaluative threat during a laboratory speech task.",
+        "population": "Healthy undergraduate volunteers (N=142; 65% female).",
+        "setting": "Randomized laboratory speech-stressor experiment.",
+        "exposureOrSignal": "Presence versus absence of evaluators; salivary cortisol and cardiovascular measures.",
+        "outcome": "Acute cortisol and cardiovascular responses.",
+        "timeframe": "Before, during, and after one stressor."
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Social-evaluative threat, cognitive load, and the cortisol and cardiovascular stress response",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/30029158/",
+          "sourceType": "primary_study",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "Single bounded laboratory task and sample.",
+        "Does not establish a fixed appraisal-to-hormone sequence or predict an individual's response.",
+        "Does not make cortisol a general stress score or establish effects of ordinary social interactions."
+      ]
+    },
+    {
+      "id": "co-rumination-cortisol-young-women-candidate",
+      "claimType": "biomedical_mechanism",
+      "claimText": "In an experimental problem-discussion study with young women, observed co-rumination was associated with increased salivary cortisol after accounting for baseline cortisol; this narrow finding should not be generalized to ordinary venting or supportive conversation.",
+      "scope": {
+        "description": "Observed co-rumination during a problem discussion between young women.",
+        "population": "Young women in the study sample.",
+        "setting": "Experimental interpersonal discussion of problems.",
+        "exposureOrSignal": "Observed co-rumination and salivary cortisol.",
+        "outcome": "Cortisol level following discussion.",
+        "timeframe": "Before and after the discussion."
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Co-ruminating increases stress hormone levels in women",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/18206886/",
+          "sourceType": "primary_study",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "A bounded study does not establish causality for all forms of social disclosure.",
+        "Does not imply that venting is generally harmful, that all friends co-ruminate, or that cortisol indexes subjective distress.",
+        "Do not infer co-rumination from a record that only says a person talked with a friend."
+      ]
+    },
+    {
+      "id": "guided-expressive-writing-cortisol-hrv-candidate",
+      "claimType": "intervention_effect",
+      "claimText": "In one randomized study, guided expressive writing did not show a general effect on cortisol or HRV reactivity or recovery; an interaction suggested greater cortisol recovery for participants reporting more taxing nominated stressors.",
+      "scope": {
+        "description": "Three sessions of expressive writing, guided to encourage constructive emotional processing, compared with unguided writing.",
+        "population": "Adults writing about a self-nominated stressor (N=151).",
+        "setting": "Randomized writing intervention followed by a stress-recall task.",
+        "exposureOrSignal": "Guided versus unguided expressive writing; salivary cortisol and HRV.",
+        "outcome": "Cortisol and HRV reactivity/recovery.",
+        "timeframe": "Writing over three days; stress task two weeks later."
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Emotional processing writing and physiological stress responses: understanding constructive and unconstructive processes",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34011237/",
+          "sourceType": "primary_study",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "One study does not establish efficacy for journaling generally.",
+        "The interaction requires replication and does not support an individual recommendation.",
+        "No general cortisol or HRV effect was observed in this sample."
+      ]
     }
   ]
 }
