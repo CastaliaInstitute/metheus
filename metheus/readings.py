@@ -652,8 +652,9 @@ def assemble_reading(
 
     This deterministic renderer preserves supplied claim text; it does not
     generate or verify that text. Input contracts are schema-validated during
-    preflight. The result is still a caller-supplied in-memory prototype, not a
-    storage authorization boundary or a separately schema-validated output.
+    preflight and the assembled package is checked against its output schema.
+    The result is still an in-memory prototype, not a storage authorization
+    boundary or a text-entailment check.
     """
     resource_list = list(resources)
     correspondence_list = list(correspondences)
@@ -813,7 +814,29 @@ def assemble_reading(
             "support": claim.get("support"),
         })
 
-    return {
+    provenance_issues = []
+    for index, (claim, rendered) in enumerate(zip(reading["claims"], assembled_claims), start=1):
+        expected_source_ids = [value for value in claim.get("sourceIds", []) if value in selected_ids]
+        expected_phase_ids = claim.get("phaseAnnotationIds", [])
+        expected_reference_ids = [
+            *claim.get("correspondenceIds", []),
+            *claim.get("evidenceClaimIds", []),
+        ]
+        if rendered["sourceIds"] != expected_source_ids or [item["id"] for item in rendered["sources"]] != expected_source_ids:
+            provenance_issues.append({"claimPosition": index, "field": "sourceIds"})
+        if [item["id"] for item in rendered["phaseAnnotations"]] != expected_phase_ids:
+            provenance_issues.append({"claimPosition": index, "field": "phaseAnnotationIds"})
+        if [item["id"] for item in rendered["references"]] != expected_reference_ids:
+            provenance_issues.append({"claimPosition": index, "field": "referenceIds"})
+    if provenance_issues:
+        return {
+            "assembled": False,
+            "reason": "assembly_provenance_mismatch",
+            "provenanceIssues": provenance_issues,
+            "preflight": preflight,
+        }
+
+    assembled_output = {
         "assembled": True,
         "readingId": reading["id"],
         "subjectId": reading.get("subjectId"),
@@ -828,7 +851,16 @@ def assemble_reading(
             "sourceTextGenerated": False,
             "textEntailmentVerified": False,
             "inputSchemasValidated": True,
-            "outputSchemaValidated": False,
+            "outputSchemaValidated": True,
             "authorizedAction": action,
         },
     }
+    output_validation = validate_schema_instance(assembled_output, "assembled-reading.schema.json")
+    if not output_validation["valid"]:
+        return {
+            "assembled": False,
+            "reason": "invalid_assembled_output_schema",
+            "schemaIssues": output_validation["issues"],
+            "preflight": preflight,
+        }
+    return assembled_output

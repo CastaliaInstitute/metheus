@@ -18,6 +18,7 @@ EXAMPLE_DIR = ROOT / "examples"
 CATALOG_DIR = ROOT / "catalog"
 
 EXAMPLE_SCHEMAS = {
+    "assembled-reading.example.json": "assembled-reading.schema.json",
     "birth-chart-input.example.json": "birth-chart-input.schema.json",
     "birth-input-calculation-consent.example.json": "consent.schema.json",
     "bleeding-onset.example.json": "observation.schema.json",

@@ -1,0 +1,66 @@
+{
+  "assembled": true,
+  "readingId": "synthetic-reading-assembled",
+  "subjectId": "synthetic-subject",
+  "version": "0.1",
+  "purpose": "personal_reflection",
+  "question": "Illustrate a schema-validated reading presentation package.",
+  "timeWindow": {
+    "start": "2026-04-03T00:00:00Z",
+    "end": "2026-04-10T00:00:00Z",
+    "timeZone": "UTC",
+    "precision": "approximate"
+  },
+  "claims": [
+    {
+      "position": 1,
+      "claimType": "observation",
+      "text": "You reported that bleeding began on April 3.",
+      "sourceIds": ["synthetic-bleeding-observation"],
+      "sources": [
+        {
+          "id": "synthetic-bleeding-observation",
+          "recordType": "event",
+          "eventType": "bleeding_start",
+          "domain": "reproductive",
+          "label": "reported bleeding began",
+          "epistemicClass": "self_reported"
+        }
+      ],
+      "phaseAnnotations": [
+        {
+          "id": "phase-epimethean-example",
+          "layer": "epimethean",
+          "phaseSystem": "menstrual_cycle",
+          "canonicalPhase": "bleeding_onset_reported",
+          "evocativeName": "The Opening Tide",
+          "description": "A person-reported bleeding onset; no phase inference.",
+          "window": { "kind": "point", "start": "2026-04-03" },
+          "basis": "reported",
+          "interpretation": "descriptive",
+          "basisRecordIds": ["synthetic-bleeding-observation"],
+          "method": "Person-reported event; no phase inference.",
+          "methodVersion": "1.0",
+          "uncertainty": "Does not establish cycle phase, duration, ovulation, cause, or hormone levels.",
+          "limitations": ["Synthetic example; no actual person's data."],
+          "nameSource": "metheus_suggestion"
+        }
+      ],
+      "references": [],
+      "support": {
+        "confidence": "moderate",
+        "coverage": "partial",
+        "rationale": "Illustrative person-reported event; synthetic fixture."
+      }
+    }
+  ],
+  "limitations": ["Synthetic example; schema validation does not verify claim-text entailment."],
+  "assembly": {
+    "kind": "deterministic_claim_assembly",
+    "sourceTextGenerated": false,
+    "textEntailmentVerified": false,
+    "inputSchemasValidated": true,
+    "outputSchemaValidated": true,
+    "authorizedAction": "analyze"
+  }
+}
