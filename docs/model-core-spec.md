@@ -75,7 +75,7 @@ F[a,b]   = hν(selected Y[a,b], coverage, revision state)
 R        = r(P, F, Y, C, Q, evidence catalog, uncertainty)
 ```
 
-Here (ε) and (η) represent process and observation uncertainty; (θ), (φ), and (ν) identify explicit model/method versions. These equations are an architecture, not a claim that the variables or functions have been fitted. At present Metheus has no implemented (f_θ), (g_φ), or latent (Z) estimator. Existing rhythm functions implement a small subset of (h_ν): they summarize logged intervals and events.
+Here (ε) and (η) represent process and observation uncertainty; (θ), (φ), and (ν) identify explicit model/method versions. These equations are an architecture, not a claim that the variables or functions have been fitted. At present Metheus has no implemented (f_θ), (g_φ), or latent (Z) estimator. Existing descriptive helpers implement a small subset of (h_ν): they summarize logged intervals and numeric measurements, and compare two recorded windows using temporal-order relations.
 
 **Non-interference constraint:** (P_s) is not an input to (f_θ), (g_φ), or any health/development estimate. A Promethean feature may be included as a separately typed input to (r) for a source-attributed symbolic prompt only. An empirically studied Promethean–Epimethean association would need its own preregistered feature definition, comparison group, outcomes, confounder plan, replication, and independent review; even then, association would not establish causation or individual predictive value.
 
@@ -159,7 +159,7 @@ Before any M2 or higher feature, publish a model card describing target, intende
 |---|---|---|
 | Promethean source features | Birth input and symbolic-map schemas/examples; no chart calculator | M0 representation only |
 | Epimethean source records | Observation schema, provenance, consent, index, and lifecycle rules | M0 contract; no persistent user service |
-| Time-window and measurement summaries | Sleep, meal/feed, meal-to-wake, bleeding-onset-gap, and same-signature numeric-series summaries | Selected M1 descriptive operations; no biological phase estimate, trend model, or clinical interpretation |
+| Time-window and measurement summaries | Sleep, meal/feed, meal-to-wake, bleeding-onset-gap, same-signature numeric-series summaries, and pairwise temporal order | Selected M1 descriptive operations; no biological phase estimate, trend model, or clinical interpretation |
 | Cross-layer reading | Typed claims, evidence/correspondence references, preflight, deterministic assembly | M1 assembly of authored claims; no prose generation or entailment check |
 | Physiological/developmental latent state | Documentation and hormone/reference catalogs | M0 conceptual vocabulary; no fitted or validated model |
 | Evidence governance | Candidate-only claim catalog and written review protocol | No completed Metheus claim reviews; no authenticated review/catalog service |

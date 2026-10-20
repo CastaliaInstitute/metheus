@@ -111,8 +111,8 @@ non-claims and user feedback
 1. Keep the current sleep and meal summaries as single-series descriptive primitives.
 2. Extend the event vocabulary for sleep episodes, light exposure, meal/snack, hydration, and activity only with clear source and privacy semantics. An explicit `wake` event and meal-to-wake summary are now represented in the schema and prototype.
 3. Add further behavior-relative timing features only when an explicit anchor exists and the output explicitly reports incomplete logging.
-4. Define multi-series comparisons and change-point/context handling; keep them descriptive, not diagnostic or prescriptive.
+4. Pairwise recorded temporal order is now an executable helper; broader multi-series co-occurrence, lag analysis, and change-point/context handling remain design work and must stay descriptive, not diagnostic or prescriptive.
 5. Consider biological phase estimates only after method review and user testing. They are not required for a useful system.
 6. Review developmental and nutrition-related behavior with relevant domain experts before making product claims or recommendations.
 
-The current executable prototype summarizes explicitly logged main sleep, meals and caregiver-reported feeding events in separate outputs, compares meal events with explicit wake anchors, and describes calendar gaps between reported bleeding-onset dates. It does not infer menstrual phase, ovulation, hormone dynamics, or health status. The other rhythm stages remain design work, not implemented functionality.
+The current executable prototype summarizes explicitly logged main sleep, meals and caregiver-reported feeding events in separate outputs, compares meal events with explicit wake anchors, describes calendar gaps between reported bleeding-onset dates and same-signature numeric measurement series, and compares the recorded time windows of two selected records. It does not infer menstrual phase, ovulation, hormone dynamics, health status, or a multi-series association. Broader rhythm analysis remains design work, not implemented functionality.

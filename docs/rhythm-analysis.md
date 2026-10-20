@@ -80,6 +80,12 @@ Date-only reports use `time.date` with `precision: "date_only"`; see the [synthe
 
 The function requires an explicitly named signal and an inclusive date window. It resolves same-subject revision chains first and carries the current input record IDs into each result. It excludes symbolic, self-reported, and caregiver-reported values; only measured, imported, and derived numeric records with an explicit unit are eligible. This operation describes a recorded series only: it does not decide whether the values are clinically normal, calculate a trend or personal baseline, infer hormone/neurochemical state, or explain behavior. The [synthetic measurement-series example](../examples/measurement-series-summary.example.json) illustrates the output contract.
 
+### Temporal order between two records
+
+`describe_temporal_order(records, subject_id=..., left_record_id=..., right_record_id=..., phase_annotations=...)` compares the recorded windows for two current same-subject observations, events, estimates, contexts, or phase annotations. It returns a typed relation (`precedes`, `follows`, `overlaps`, `same_instant`, `same_calendar_date`, or `indeterminate`) and a gap only when the time basis supports one. A `gapBasis` field distinguishes elapsed duration from calendar-date difference. Timestamped windows are compared on the UTC timeline; date-only windows compare only with date-only windows. Mixed precision, missing/invalid time, and open-ended phase windows produce `indeterminate`. Boundary-touching timestamp windows count as ordered with a zero gap.
+
+This is a descriptive helper, not a stored subject record; callers must authorize the source records before using it. It does not infer biological phase, co-occurrence mechanism, within-person association, or causation. Approximate source times retain their uncertainty, and every output carries limitations. The [temporal relation schema](../schema/temporal-relation.schema.json) defines the result shape; the [synthetic temporal-order example](../examples/temporal-order.example.json) shows the representation.
+
 Use the function from the package:
 
 ```python
@@ -173,4 +179,4 @@ Selecting a summary for a reading requires selecting its `inputRecordIds` too. B
 
 ## Current boundary
 
-This prototype computes descriptive timing summaries and same-signature numeric measurement series. It does not calculate light-based circadian phase, infer menstrual phase or ovulation, model endocrine dynamics, estimate personal baselines, generate readings, or store any data. Those require separate, reviewed methods and must not be implied by these functions.
+This prototype computes descriptive timing summaries, same-signature numeric measurement series, and an in-memory temporal-order description. It does not calculate light-based circadian phase, infer menstrual phase or ovulation, model endocrine dynamics, estimate personal baselines, generate readings, or store any data. Those require separate, reviewed methods and must not be implied by these functions.

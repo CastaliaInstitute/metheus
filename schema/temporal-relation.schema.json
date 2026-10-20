@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metheus.castalia.institute/schema/temporal-relation.schema.json",
+  "title": "Metheus temporal-order description",
+  "description": "An in-memory descriptive comparison of two same-subject recorded time windows. It is not a biological relation, stored observation, authorization decision, or causal claim.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["relationId", "subjectId", "relationType", "methodVersion", "leftRecordId", "rightRecordId", "leftWindow", "rightWindow", "temporalRelation", "elapsedGap", "elapsedGapUnit", "gapBasis", "limitations"],
+  "properties": {
+    "relationId": { "type": "string", "minLength": 1 },
+    "subjectId": { "type": "string", "minLength": 1 },
+    "relationType": { "const": "temporal_order" },
+    "methodVersion": { "const": "metheus-temporal-order/0.1.0" },
+    "leftRecordId": { "type": "string", "minLength": 1 },
+    "rightRecordId": { "type": "string", "minLength": 1 },
+    "leftWindow": { "$ref": "#/$defs/window" },
+    "rightWindow": { "$ref": "#/$defs/window" },
+    "temporalRelation": { "enum": ["precedes", "follows", "overlaps", "same_instant", "same_calendar_date", "indeterminate"] },
+    "elapsedGap": { "type": ["number", "null"], "minimum": 0 },
+    "elapsedGapUnit": { "enum": ["seconds", "days"] },
+    "gapBasis": { "enum": ["elapsed_duration", "calendar_date_difference", "not_available"] },
+    "limitations": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 }
+  },
+  "$defs": {
+    "window": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "start", "end"],
+      "properties": {
+        "kind": { "enum": ["point", "interval", "date_only", "ongoing", "unknown"] },
+        "start": { "type": ["string", "null"] },
+        "end": { "type": ["string", "null"] },
+        "precision": { "enum": ["exact", "approximate", "date_only", "unknown"] },
+        "timeZone": { "type": "string" }
+      }
+    }
+  }
+}

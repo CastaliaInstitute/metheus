@@ -47,6 +47,7 @@ EXAMPLE_SCHEMAS = {
     "symbolic-map-reading.example.json": "reading.schema.json",
     "symbolic-map-reflection-consent.example.json": "consent.schema.json",
     "symbolic-map.example.json": "symbolic-map.schema.json",
+    "temporal-order.example.json": "temporal-relation.schema.json",
 }
 
 CATALOG_SCHEMAS = {
