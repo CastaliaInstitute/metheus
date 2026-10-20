@@ -37,6 +37,8 @@ See [Perception, stress, emotion, and suffering](docs/perception-stress-pathway.
 
 The [synthetic experience-pathway example](examples/experience-pathway-synthetic.example.json) demonstrates the draft graph contract at [experience-pathway.schema.json](schema/experience-pathway.schema.json); nodes refer to separately sourced observations, and relation types distinguish personal reports from timing overlap.
 
+The [synthetic pathway local-preflight case](examples/experience-pathway-local-preflight.example.json) bundles a small graph, source observations, subject index, explicit source selection, and scoped consent for the pathway preflight. Its [bundle schema](schema/experience-pathway-case.schema.json) checks each component's shape; cross-record ID matching and authorization remain runtime checks.
+
 See the [Methean model core specification](docs/model-core-spec.md) for the computational boundary between symbolic prompts, source observations, descriptive features, latent-state estimates, and readings, including typed relation classes and maturity gates for future inference.
 
 See the [critical review](docs/critical-review.md) for the current implementation limits, unresolved architecture and validation gaps, and a prioritized path toward an end-to-end Metheus prototype.

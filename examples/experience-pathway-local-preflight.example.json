@@ -1,0 +1,98 @@
+{
+  "pathway": {
+    "id": "synthetic-pathway-local-case",
+    "subjectId": "synthetic-pathway-subject",
+    "schemaVersion": "0.1",
+    "modelVersion": "reflective-experience-pathway/0.1.0",
+    "dataStatus": "synthetic_fixture",
+    "window": {
+      "start": "2026-10-20T08:30:00-06:00",
+      "end": "2026-10-20T08:50:00-06:00",
+      "timeZone": "America/Denver",
+      "precision": "exact"
+    },
+    "nodes": [
+      { "nodeId": "cue", "construct": "noticed_cue", "epistemicKind": "person_reported", "label": "Synthetic person noticed a tense interaction", "basisRecordIds": ["synthetic-pathway-cue"] },
+      { "nodeId": "stress", "construct": "perceived_stress", "epistemicKind": "person_reported", "label": "Synthetic person reported feeling stressed", "basisRecordIds": ["synthetic-pathway-stress"] },
+      { "nodeId": "journal", "construct": "coping_activity", "epistemicKind": "person_reported", "processKind": "journaling", "label": "Synthetic person reports journaling", "basisRecordIds": ["synthetic-pathway-journal"] },
+      { "nodeId": "aftereffect", "construct": "reported_aftereffect", "epistemicKind": "person_reported", "label": "Synthetic person is uncertain whether their feeling changed", "basisRecordIds": ["synthetic-pathway-aftereffect"] }
+    ],
+    "relations": [
+      { "relationId": "cue-stress", "fromNodeId": "cue", "toNodeId": "stress", "relationType": "person_reported_link", "basis": "person_report", "basisRecordIds": ["synthetic-pathway-stress"], "uncertainty": "unknown" },
+      { "relationId": "stress-journal", "fromNodeId": "stress", "toNodeId": "journal", "relationType": "person_reported_link", "basis": "person_report", "basisRecordIds": ["synthetic-pathway-journal"], "uncertainty": "unknown", "notes": "This records reported sequence/context, not a claim that journaling was caused by stress or was effective." },
+      { "relationId": "journal-aftereffect", "fromNodeId": "journal", "toNodeId": "aftereffect", "relationType": "person_reported_link", "basis": "person_report", "basisRecordIds": ["synthetic-pathway-aftereffect"], "uncertainty": "unknown", "notes": "Separate report of uncertain aftereffect; no benefit, harm, or causation is inferred." }
+    ],
+    "privacy": { "sensitivity": "sensitive", "subjectControlled": true, "sharing": "private" },
+    "limitations": [
+      "Entire case is synthetic and contains no real subject information.",
+      "Person-reported links do not establish a causal effect.",
+      "The source preflight authorizes referenced source records for local analysis only; it does not authorize storage or remote processing of the pathway artifact."
+    ]
+  },
+  "subjectIndex": {
+    "id": "synthetic-pathway-index-01",
+    "subjectId": "synthetic-pathway-subject",
+    "recordType": "subject_index",
+    "schemaVersion": "0.1",
+    "revision": 1,
+    "steward": { "reference": "synthetic-pathway-subject", "role": "subject" },
+    "resourceRefs": [
+      { "id": "synthetic-pathway-cue", "kind": "observation", "schemaVersion": "0.2" },
+      { "id": "synthetic-pathway-stress", "kind": "observation", "schemaVersion": "0.2" },
+      { "id": "synthetic-pathway-journal", "kind": "observation", "schemaVersion": "0.2" },
+      { "id": "synthetic-pathway-aftereffect", "kind": "observation", "schemaVersion": "0.2" }
+    ],
+    "createdAt": "2026-10-20T07:00:00-06:00",
+    "updatedAt": "2026-10-20T07:00:00-06:00"
+  },
+  "resources": [
+    {
+      "id": "synthetic-pathway-cue", "subjectId": "synthetic-pathway-subject", "recordType": "observation", "schemaVersion": "0.2", "eventType": "relationship_note", "epistemicClass": "self_reported",
+      "time": { "observedAt": "2026-10-20T08:30:00-06:00", "timeZone": "America/Denver", "precision": "exact", "scale": "instant" },
+      "source": { "kind": "subject", "reportedByRelation": "self" }, "domain": "relationship", "label": "Synthetic report of noticing a tense interaction"
+    },
+    {
+      "id": "synthetic-pathway-stress", "subjectId": "synthetic-pathway-subject", "recordType": "observation", "schemaVersion": "0.2", "eventType": "symptom", "epistemicClass": "self_reported",
+      "time": { "observedAt": "2026-10-20T08:31:00-06:00", "timeZone": "America/Denver", "precision": "exact", "scale": "instant" },
+      "source": { "kind": "subject", "reportedByRelation": "self" }, "domain": "symptom", "label": "Synthetic report of stress", "value": { "category": "stressed" }
+    },
+    {
+      "id": "synthetic-pathway-journal", "subjectId": "synthetic-pathway-subject", "recordType": "observation", "schemaVersion": "0.2", "eventType": "other", "epistemicClass": "self_reported",
+      "time": { "observedAt": "2026-10-20T08:34:00-06:00", "timeZone": "America/Denver", "precision": "exact", "scale": "instant" },
+      "source": { "kind": "subject", "reportedByRelation": "self" }, "domain": "behavior", "label": "Synthetic report of journaling"
+    },
+    {
+      "id": "synthetic-pathway-aftereffect", "subjectId": "synthetic-pathway-subject", "recordType": "observation", "schemaVersion": "0.2", "eventType": "other", "epistemicClass": "self_reported",
+      "time": { "observedAt": "2026-10-20T08:50:00-06:00", "timeZone": "America/Denver", "precision": "exact", "scale": "instant" },
+      "source": { "kind": "subject", "reportedByRelation": "self" }, "domain": "symptom", "label": "Synthetic report of uncertain aftereffect", "value": { "category": "uncertain" }
+    }
+  ],
+  "selectedSourceIds": [
+    "synthetic-pathway-cue",
+    "synthetic-pathway-stress",
+    "synthetic-pathway-journal",
+    "synthetic-pathway-aftereffect"
+  ],
+  "grants": [
+    {
+      "id": "synthetic-pathway-consent-01",
+      "subjectId": "synthetic-pathway-subject",
+      "grantor": { "reference": "synthetic-pathway-subject", "role": "subject" },
+      "domains": ["relationships", "symptom", "behavior"],
+      "purposes": ["personal_reflection"],
+      "permittedActions": ["analyze"],
+      "recordIds": [
+        "synthetic-pathway-cue",
+        "synthetic-pathway-stress",
+        "synthetic-pathway-journal",
+        "synthetic-pathway-aftereffect"
+      ],
+      "status": "granted",
+      "consentTextVersion": "synthetic-consent/0.1.0",
+      "createdAt": "2026-10-20T07:00:00-06:00",
+      "expiresAt": "2026-11-20T07:00:00-07:00"
+    }
+  ],
+  "evidenceClaims": [],
+  "purpose": "personal_reflection"
+}

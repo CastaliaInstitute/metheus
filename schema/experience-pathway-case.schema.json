@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metheus.castalia.institute/schema/experience-pathway-case.schema.json",
+  "title": "Metheus experience pathway preflight input bundle",
+  "description": "Caller-supplied inputs for validating and locally preflighting a subject-authored pathway. Cross-record identity, selection equality, and authorization are checked by runtime functions, not by this schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["pathway", "subjectIndex", "resources", "selectedSourceIds", "grants", "evidenceClaims", "purpose"],
+  "properties": {
+    "pathway": { "$ref": "experience-pathway.schema.json" },
+    "subjectIndex": { "$ref": "subject-index.schema.json" },
+    "resources": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "observation.schema.json" },
+      "description": "Complete indexed resource set required by the current subject-index resolver."
+    },
+    "selectedSourceIds": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Explicit subject-selected source IDs; runtime preflight requires an exact match with the pathway's personal source references."
+    },
+    "grants": { "type": "array", "items": { "$ref": "consent.schema.json" } },
+    "evidenceClaims": { "type": "array", "items": { "$ref": "evidence-claim.schema.json" } },
+    "purpose": {
+      "enum": ["symbolic_calculation", "personal_reflection", "rhythm_summary", "learning_support", "health_record_organization", "caregiver_coordination", "clinical_sharing", "other"]
+    }
+  }
+}

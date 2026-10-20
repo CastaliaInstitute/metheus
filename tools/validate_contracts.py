@@ -10,6 +10,8 @@ from typing import Any
 
 from jsonschema import Draft202012Validator, FormatChecker
 from jsonschema.exceptions import SchemaError
+from referencing import Registry, Resource
+from referencing.exceptions import NoSuchResource
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -30,6 +32,7 @@ EXAMPLE_SCHEMAS = {
     "consent-grant.example.json": "consent.schema.json",
     "development-context-infant.example.json": "observation.schema.json",
     "experience-pathway-synthetic.example.json": "experience-pathway.schema.json",
+    "experience-pathway-local-preflight.example.json": "experience-pathway-case.schema.json",
     "environmental-affordance-ai-use.example.json": "observation.schema.json",
     "environmental-affordance-response.example.json": "observation.schema.json",
     "learner-feedback.example.json": "observation.schema.json",
@@ -81,6 +84,11 @@ def load_json(path: Path) -> Any:
         return json.load(stream)
 
 
+def _reject_remote_schema_retrieval(uri: str) -> Resource[Any]:
+    """Keep validation local; all cross-schema references must be registered."""
+    raise NoSuchResource(ref=uri)
+
+
 def main() -> int:
     errors: list[str] = []
     schemas: dict[str, dict[str, Any]] = {}
@@ -92,6 +100,12 @@ def main() -> int:
             schemas[schema_path.name] = schema
         except (json.JSONDecodeError, OSError, SchemaError) as exc:
             errors.append(f"{schema_path.relative_to(ROOT)}: invalid schema: {exc}")
+
+    registry = Registry(retrieve=_reject_remote_schema_retrieval)
+    for schema in schemas.values():
+        schema_id = schema.get("$id")
+        if isinstance(schema_id, str):
+            registry = registry.with_resource(schema_id, Resource.from_contents(schema))
 
     actual_examples = {path.name for path in EXAMPLE_DIR.glob("*.example.json")}
     mapped_examples = set(EXAMPLE_SCHEMAS)
@@ -111,7 +125,7 @@ def main() -> int:
         except (json.JSONDecodeError, OSError) as exc:
             errors.append(f"examples/{filename}: cannot read JSON: {exc}")
             continue
-        validator = Draft202012Validator(schema, format_checker=format_checker)
+        validator = Draft202012Validator(schema, format_checker=format_checker, registry=registry)
         for error in sorted(validator.iter_errors(instance), key=lambda item: tuple(map(str, item.absolute_path))):
             location = "/".join(str(part) for part in error.absolute_path) or "$"
             errors.append(f"examples/{filename} at {location}: {error.message}")
@@ -152,7 +166,7 @@ def main() -> int:
         except (json.JSONDecodeError, OSError) as exc:
             errors.append(f"catalog/{filename}: cannot read JSON: {exc}")
             continue
-        validator = Draft202012Validator(schema, format_checker=format_checker)
+        validator = Draft202012Validator(schema, format_checker=format_checker, registry=registry)
         for error in sorted(validator.iter_errors(catalog), key=lambda item: tuple(map(str, item.absolute_path))):
             location = "/".join(str(part) for part in error.absolute_path) or "$"
             errors.append(f"catalog/{filename} at {location}: {error.message}")
@@ -162,7 +176,7 @@ def main() -> int:
             item_schema = schemas.get(item_schema_filename)
             items = catalog.get(collection_key)
             if item_schema is not None and isinstance(items, list):
-                item_validator = Draft202012Validator(item_schema, format_checker=format_checker)
+                item_validator = Draft202012Validator(item_schema, format_checker=format_checker, registry=registry)
                 item_ids: set[str] = set()
                 for index, item in enumerate(items):
                     for error in sorted(item_validator.iter_errors(item), key=lambda item_error: tuple(map(str, item_error.absolute_path))):
