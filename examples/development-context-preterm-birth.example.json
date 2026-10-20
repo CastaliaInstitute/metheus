@@ -1,0 +1,27 @@
+{
+  "id": "synthetic-birth-and-gestational-age-source",
+  "subjectId": "synthetic-preterm-subject",
+  "recordType": "event",
+  "schemaVersion": "0.2",
+  "eventType": "developmental_note",
+  "epistemicClass": "caregiver_reported",
+  "time": {
+    "observedAt": "2026-01-01T00:00:00Z",
+    "timeZone": "UTC",
+    "precision": "exact",
+    "scale": "instant"
+  },
+  "source": { "kind": "caregiver", "reportedByRelation": "parent_guardian" },
+  "domain": "development",
+  "label": "Synthetic caregiver report of gestational age at birth",
+  "developmentContext": {
+    "lifeStage": "newborn",
+    "ageDays": 0,
+    "gestationalAgeAtBirthDays": 224,
+    "ageAnchor": "record_time_start",
+    "agePrecision": "approximate",
+    "basis": "reported"
+  },
+  "privacy": { "sensitivity": "sensitive", "subjectControlled": true, "sharing": "private" },
+  "notes": "Synthetic source record. No real birth or medical information."
+}

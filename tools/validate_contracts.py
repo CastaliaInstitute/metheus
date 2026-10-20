@@ -32,6 +32,8 @@ EXAMPLE_SCHEMAS = {
     "bleeding-onset-correction.example.json": "observation.schema.json",
     "consent-grant.example.json": "consent.schema.json",
     "development-context-infant.example.json": "observation.schema.json",
+    "development-context-preterm-birth.example.json": "observation.schema.json",
+    "development-context-preterm-corrected-age.example.json": "observation.schema.json",
     "experience-pathway-synthetic.example.json": "experience-pathway.schema.json",
     "experience-pathway-local-preflight.example.json": "experience-pathway-case.schema.json",
     "environmental-affordance-ai-use.example.json": "observation.schema.json",

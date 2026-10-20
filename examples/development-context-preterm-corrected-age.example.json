@@ -1,0 +1,52 @@
+{
+  "id": "synthetic-preterm-age-context-01",
+  "subjectId": "synthetic-preterm-subject",
+  "recordType": "observation",
+  "schemaVersion": "0.2",
+  "eventType": "developmental_note",
+  "epistemicClass": "derived",
+  "time": {
+    "observedAt": "2026-02-27T12:00:00Z",
+    "timeZone": "UTC",
+    "precision": "exact",
+    "scale": "instant"
+  },
+  "source": {
+    "kind": "algorithm",
+    "method": "metheus.development.calculate_infant_age_context",
+    "version": "0.1.0"
+  },
+  "domain": "development",
+  "label": "Synthetic calendar-age context derived from source-reported birth information",
+  "developmentContext": {
+    "lifeStage": "infancy",
+    "ageDays": 57,
+    "gestationalAgeAtBirthDays": 224,
+    "postmenstrualAgeDays": 281,
+    "termReferenceDays": 280,
+    "ageAnchor": "record_time_start",
+    "agePrecision": "approximate",
+    "basis": "calculated",
+    "ageMethod": "metheus-infant-age-context/0.1.0; elapsed calendar-date difference; explicit term reference 280 days",
+    "ageLimitations": [
+      "Calendar-age arithmetic is not a developmental assessment, milestone expectation, or screening result.",
+      "The term reference is caller-selected; correction conventions and clinical use can vary."
+    ],
+    "correctedAgeDays": 1,
+    "correctedAgeMethod": "metheus-infant-age-context/0.1.0; chronological age minus the prematurity interval (280 - 224 days); term reference 280 days"
+  },
+  "derivedFrom": [
+    "synthetic-birth-and-gestational-age-source"
+  ],
+  "methodVersion": "metheus-infant-age-context/0.1.0",
+  "uncertainty": {
+    "level": "moderate",
+    "notes": "Gestational age at birth is approximate; age results retain approximate precision."
+  },
+  "privacy": {
+    "sensitivity": "sensitive",
+    "subjectControlled": true,
+    "sharing": "private"
+  },
+  "notes": "Entire record is synthetic. The term reference and gestational-age value are illustrative inputs; no milestone, screening, or developmental conclusion is inferred."
+}

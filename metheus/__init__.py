@@ -2,6 +2,7 @@
 
 from .authorization import evaluate_authorization
 from .affordances import validate_environmental_affordance_links
+from .development import calculate_infant_age_context
 from .readings import (
     assemble_reading,
     authorize_reading_inputs,
@@ -29,6 +30,7 @@ from .pathways import preflight_experience_pathway_sources, validate_experience_
 __all__ = [
     "evaluate_authorization",
     "validate_environmental_affordance_links",
+    "calculate_infant_age_context",
     "authorize_reading_inputs",
     "validate_reading_references",
     "preflight_subject_reading",

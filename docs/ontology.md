@@ -31,7 +31,7 @@
 | **Derived rhythm summary** | A method-versioned descriptive aggregation over explicitly selected source events | Logged sleep duration/timing, meal-event timing, reported bleeding-onset gaps |
 | **Phase annotation** | A time-bounded label for a symbolic transit or lived phase; canonical term, optional name, basis, method, and limitations stay together | “The Passing Spark” linked to a named transit calculation; “The Opening Tide” linked to a reported bleeding window |
 | **Experience pathway map** | A subject-controlled graph that references separately sourced episode records without flattening them into a score | A noticed cue, appraisal, reported stress/emotion, measured bodily response, action, suffering report, and later reappraisal connected by typed relations |
-| **Development context** | Age/stage information and optional developmental observations | Gestational/chronological age, corrected age if supplied, milestone note |
+| **Development context** | Age/stage information and optional developmental observations | Prenatal gestational age, gestational age at birth, postmenstrual/chronological/corrected age, milestone note; computed age fields retain method and source links |
 | **Relationship context** | A subject's account of a relationship or interaction | Felt closeness, a personally noted intimacy event, caregiving relation |
 | **Reading** | A time-bounded interpretation generated from selected inputs | A reflective prompt with claims, sources, confidence, and revision history |
 | **Consent and access policy** | Who may collect, view, share, export, or delete a record | Self-controlled, guardian-managed, child assent/voice increases over time |

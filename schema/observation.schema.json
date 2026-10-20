@@ -248,12 +248,16 @@
         "lifeStage": { "enum": ["prenatal", "newborn", "infancy", "early_childhood", "middle_childhood", "adolescence", "adulthood", "pregnancy", "postpartum", "menopause_transition", "later_life", "unspecified"] },
         "ageDays": { "type": "integer", "minimum": 0, "description": "Chronological age in days at the record time anchor; this is not inferred from an unrecorded date of birth." },
         "gestationalAgeDays": { "type": "integer", "minimum": 0, "description": "Gestational age in days at the record time anchor, for a prenatal context only." },
-        "correctedAgeDays": { "type": "integer", "minimum": 0, "description": "A source-provided or explicitly calculated corrected age at the record time anchor; never inferred by Metheus." },
+        "gestationalAgeAtBirthDays": { "type": "integer", "minimum": 0, "description": "Source-reported or method-described gestational age at birth, kept distinct from gestational age during a prenatal observation." },
+        "postmenstrualAgeDays": { "type": "integer", "minimum": 0, "description": "Gestational age at birth plus chronological age, with provenance and method retained; not a developmental assessment." },
+        "correctedAgeDays": { "type": "integer", "minimum": 0, "description": "Source-provided or explicitly calculated chronological age relative to a named term reference; not a milestone expectation or screening result." },
+        "termReferenceDays": { "type": "integer", "minimum": 1, "description": "Explicit gestational-age day count used as the term reference for a corrected-age calculation; conventions may vary." },
         "ageAnchor": { "const": "record_time_start", "description": "Age values refer to time.observedAt, time.start, or the stated date, in that precedence." },
         "agePrecision": { "enum": ["exact", "approximate"], "description": "Precision of numeric age values; do not convert approximate month/year reports into exact day counts." },
         "basis": { "enum": ["reported", "calculated", "clinically_assessed"], "description": "Known basis for numeric age values in this context; omit when only lifeStage is supplied." },
         "ageMethod": { "type": "string", "minLength": 1, "description": "Required when numeric age values are calculated; name the source method and version when known." },
-        "correctedAgeMethod": { "type": "string", "minLength": 1, "description": "Required with correctedAgeDays; identify who supplied it or how it was calculated. Metheus does not calculate corrected age." }
+        "correctedAgeMethod": { "type": "string", "minLength": 1, "description": "Required with correctedAgeDays; identify who supplied it or the explicit calculation method and term reference." },
+        "ageLimitations": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true }
       }
     },
     "privacy": {
@@ -427,7 +431,7 @@
     {
       "if": {
         "required": ["developmentContext"],
-        "properties": { "developmentContext": { "anyOf": [{ "required": ["ageDays"] }, { "required": ["gestationalAgeDays"] }, { "required": ["correctedAgeDays"] }] } }
+        "properties": { "developmentContext": { "anyOf": [{ "required": ["ageDays"] }, { "required": ["gestationalAgeDays"] }, { "required": ["gestationalAgeAtBirthDays"] }, { "required": ["postmenstrualAgeDays"] }, { "required": ["correctedAgeDays"] }] } }
       },
       "then": { "properties": { "developmentContext": { "required": ["ageAnchor", "agePrecision", "basis"] } } }
     },
@@ -436,8 +440,16 @@
       "then": { "properties": { "developmentContext": { "properties": { "lifeStage": { "const": "prenatal" } } } } }
     },
     {
+      "if": { "required": ["developmentContext"], "properties": { "developmentContext": { "required": ["gestationalAgeAtBirthDays"] } } },
+      "then": { "properties": { "developmentContext": { "required": ["ageAnchor", "agePrecision", "basis"], "properties": { "lifeStage": { "enum": ["newborn", "infancy"] } } } } }
+    },
+    {
+      "if": { "required": ["developmentContext"], "properties": { "developmentContext": { "required": ["postmenstrualAgeDays"] } } },
+      "then": { "properties": { "developmentContext": { "required": ["ageDays", "gestationalAgeAtBirthDays"] } } }
+    },
+    {
       "if": { "required": ["developmentContext"], "properties": { "developmentContext": { "required": ["correctedAgeDays"] } } },
-      "then": { "properties": { "developmentContext": { "required": ["ageDays", "correctedAgeMethod"], "properties": { "lifeStage": { "enum": ["newborn", "infancy"] } } } } }
+      "then": { "properties": { "developmentContext": { "required": ["ageDays", "gestationalAgeAtBirthDays", "termReferenceDays", "correctedAgeMethod"], "properties": { "lifeStage": { "enum": ["newborn", "infancy"] } } } } }
     },
     {
       "if": { "required": ["developmentContext"], "properties": { "developmentContext": { "required": ["correctedAgeMethod"] } } },
