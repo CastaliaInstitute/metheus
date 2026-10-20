@@ -10,6 +10,11 @@
   "domain": "sleep",
   "label": "logged main-sleep timing summary",
   "methodVersion": "metheus-rhythm-summary/0.2.0",
+  "revisionResolution": {
+    "strategy": "latest_visible_successor",
+    "supersededRecordCount": 0,
+    "unresolvedPredecessorCount": 0
+  },
   "window": { "startDate": "2026-10-18", "endDate": "2026-10-20", "inclusiveDays": 3 },
   "inputRecordIds": ["rhythm-sleep-2026-10-18", "rhythm-sleep-2026-10-19", "rhythm-sleep-2026-10-20"],
   "nIntervals": 3,

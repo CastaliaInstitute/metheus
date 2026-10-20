@@ -24,11 +24,20 @@ WAKE_RELATIVE_METHOD_VERSION = "metheus-wake-relative-meal/0.2.0"
 BLEEDING_ONSET_METHOD_VERSION = "metheus-bleeding-onset-gap/0.2.0"
 
 
-def _current_subject_records(records: Iterable[dict[str, Any]], subject_id: str) -> list[dict[str, Any]]:
+def _resolve_subject_history(records: Iterable[dict[str, Any]], subject_id: str) -> dict[str, Any]:
     resolution = resolve_current_records(records, subject_id=subject_id)
     if not resolution["valid"]:
         raise ValueError("subject record revision history is ambiguous")
-    return resolution["currentRecords"]
+    return resolution
+
+
+def _revision_resolution_metadata(resolution: dict[str, Any]) -> dict[str, Any]:
+    """Expose revision-chain coverage without exposing unrelated record IDs."""
+    return {
+        "strategy": "latest_visible_successor",
+        "supersededRecordCount": len(resolution["supersededIds"]),
+        "unresolvedPredecessorCount": len(resolution.get("warnings", [])),
+    }
 
 
 def _parse_datetime(value: str) -> datetime:
@@ -129,7 +138,8 @@ def summarize_bleeding_onset_intervals(
     """
     if not subject_id:
         raise ValueError("subject_id is required to prevent cross-subject aggregation")
-    current_records = _current_subject_records(records, subject_id)
+    revision_resolution = _resolve_subject_history(records, subject_id)
+    current_records = revision_resolution["currentRecords"]
     first_day, last_day, window_days = _window(start_date, end_date)
     onset_records: dict[date, set[str]] = {}
     onset_record_counts: dict[date, int] = {}
@@ -184,6 +194,7 @@ def summarize_bleeding_onset_intervals(
         "domain": "reproductive",
         "label": "calendar-day gaps between logged bleeding-onset dates",
         "methodVersion": BLEEDING_ONSET_METHOD_VERSION,
+        "revisionResolution": _revision_resolution_metadata(revision_resolution),
         "window": {"startDate": first_day.isoformat(), "endDate": last_day.isoformat(), "inclusiveDays": window_days},
         "inputRecordIds": input_ids,
         "nOnsetRecords": sum(onset_record_counts.values()),
@@ -215,7 +226,8 @@ def summarize_main_sleep(
     """
     if not subject_id:
         raise ValueError("subject_id is required to prevent cross-subject aggregation")
-    current_records = _current_subject_records(records, subject_id)
+    revision_resolution = _resolve_subject_history(records, subject_id)
+    current_records = revision_resolution["currentRecords"]
     first_day, last_day, window_days = _window(start_date, end_date)
     eligible: list[tuple[datetime, float, datetime, str]] = []
     clock_contexts: set[str] = set()
@@ -266,6 +278,7 @@ def summarize_main_sleep(
         "domain": "sleep",
         "label": "logged main-sleep timing summary",
         "methodVersion": METHOD_VERSION,
+        "revisionResolution": _revision_resolution_metadata(revision_resolution),
         "window": {"startDate": first_day.isoformat(), "endDate": last_day.isoformat(), "inclusiveDays": window_days},
         "inputRecordIds": sorted(set(source_ids)),
         "nIntervals": len(eligible),
@@ -299,7 +312,8 @@ def summarize_feeding_events(
         raise ValueError("subject_id is required to prevent cross-subject aggregation")
     if event_kind not in {"meal", "feeding"}:
         raise ValueError("event_kind must be 'meal' or 'feeding'")
-    current_records = _current_subject_records(records, subject_id)
+    revision_resolution = _resolve_subject_history(records, subject_id)
+    current_records = revision_resolution["currentRecords"]
     first_day, last_day, window_days = _window(start_date, end_date)
     events_by_day: dict[date, list[tuple[int, str]]] = {}
     clock_contexts: set[str] = set()
@@ -353,6 +367,7 @@ def summarize_feeding_events(
         "domain": "feeding" if event_kind == "feeding" else "nutrition",
         "label": event_type_label,
         "methodVersion": FEEDING_METHOD_VERSION,
+        "revisionResolution": _revision_resolution_metadata(revision_resolution),
         "window": {"startDate": first_day.isoformat(), "endDate": last_day.isoformat(), "inclusiveDays": window_days},
         "inputRecordIds": sorted(set(source_ids)),
         "nEvents": event_count,
@@ -394,10 +409,12 @@ def summarize_meal_timing_relative_to_wake(
         raise ValueError("subject_id is required to prevent cross-subject aggregation")
     if not isfinite(max_interval_hours) or max_interval_hours <= 0:
         raise ValueError("max_interval_hours must be a finite number greater than zero")
+    revision_resolution = _resolve_subject_history(records, subject_id)
+    current_records = revision_resolution["currentRecords"]
     first_day, last_day, window_days = _window(start_date, end_date)
     subject_records = [
         record
-        for record in _current_subject_records(records, subject_id)
+        for record in current_records
         if record.get("subjectId") == subject_id
         and record.get("recordType") in {"observation", "event"}
     ]
@@ -477,6 +494,7 @@ def summarize_meal_timing_relative_to_wake(
         "domain": "nutrition",
         "label": "logged meal timing relative to explicit wake events",
         "methodVersion": WAKE_RELATIVE_METHOD_VERSION,
+        "revisionResolution": _revision_resolution_metadata(revision_resolution),
         "timeReference": "elapsed_minutes_from_explicit_wake_event",
         "window": {"startDate": first_day.isoformat(), "endDate": last_day.isoformat(), "inclusiveDays": window_days},
         "inputRecordIds": sorted(input_ids),

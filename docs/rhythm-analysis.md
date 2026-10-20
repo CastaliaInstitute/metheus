@@ -2,7 +2,7 @@
 
 **Status:** prototype, version 0.1. The standard-library functions in [`metheus/rhythms.py`](../metheus/rhythms.py) summarize selected event records. They do not perform circadian physiology, nutritional, endocrine, sleep-quality, or developmental assessment.
 
-Before filtering by date or event type, each summary resolves visible same-subject `supersedes` chains and excludes prior revisions. Supply the broadest available subject history. An unresolved predecessor is reported by the lifecycle helper as a warning; cycles, branches, and duplicate IDs cause the summary to fail closed. See the [record lifecycle rules](record-lifecycle.md).
+Before filtering by date or event type, each summary resolves visible same-subject `supersedes` chains and excludes prior revisions. Supply the broadest available subject history. Each summary reports the number of visible prior revisions excluded and unresolved predecessor links in `revisionResolution`; cycles, branches, and duplicate IDs cause the summary to fail closed. See the [record lifecycle rules](record-lifecycle.md).
 
 ## Implemented summaries
 
