@@ -59,12 +59,36 @@ def render_assembled_reading_html(package: dict[str, Any]) -> str:
         phase_items = []
         for phase in claim["phaseAnnotations"]:
             phase_label = phase.get("evocativeName") or phase.get("canonicalPhase")
+            window = phase.get("window", {})
+            window_values = [window.get("start")]
+            if window.get("end") is not None:
+                window_values.append(window["end"])
+            window_text = " – ".join(_text(value) for value in window_values if value is not None)
+            if window.get("timeZone"):
+                window_text += f' · {_text(window["timeZone"])}'
+            source_system = phase.get("sourceSystem", {})
+            source_parts = [source_system.get(key) for key in ("name", "lineage", "version")]
+            source_text = " · ".join(_text(value) for value in source_parts if value)
+            phase_metadata = [
+                phase.get("canonicalPhase"), phase.get("layer"),
+                phase.get("phaseSystem"), phase.get("basis"),
+            ]
+            phase_details = ""
+            if phase.get("description"):
+                phase_details += f'<p class="detail">{_text(phase["description"])}</p>'
+            if window_text:
+                phase_details += f'<p class="detail">Window: {window_text}</p>'
+            if phase.get("method"):
+                phase_details += f'<p class="detail">Basis method: {_text(phase["method"])}</p>'
+            if phase.get("uncertainty"):
+                phase_details += f'<p class="detail">Uncertainty: {_text(phase["uncertainty"])}</p>'
+            if source_text:
+                phase_details += f'<p class="detail">Symbolic source: {source_text}</p>'
             phase_items.append(
-                "<li>"
-                f'<strong>{_text(phase_label)}</strong> '
-                f'· {_text(phase.get("canonicalPhase"))} '
-                f'· {_text(phase.get("layer"))} '
-                f'· {_text(phase.get("basis"))}'
+                '<li class="phase-context">'
+                f'<strong>{_text(phase_label)}</strong>'
+                f'<p class="detail">{" · ".join(_text(value) for value in phase_metadata if value)}</p>'
+                f'{phase_details}'
                 f'{_list(phase.get("limitations"), "compact-list")}'
                 "</li>"
             )

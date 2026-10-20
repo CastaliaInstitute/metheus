@@ -1,0 +1,68 @@
+{
+  "assembled": true,
+  "readingId": "synthetic-circadian-reading",
+  "subjectId": "synthetic-subject",
+  "version": "0.1",
+  "purpose": "personal_reflection",
+  "question": "Illustrate a named, person-reported evening context in an assembled reading.",
+  "timeWindow": {
+    "start": "2026-10-20T20:30:00-06:00",
+    "end": "2026-10-20T22:00:00-06:00",
+    "timeZone": "America/Denver",
+    "precision": "exact"
+  },
+  "claims": [
+    {
+      "position": 1,
+      "claimType": "observation",
+      "text": "You described this interval as a transition toward rest.",
+      "sourceIds": ["synthetic-evening-context"],
+      "sources": [
+        {
+          "id": "synthetic-evening-context",
+          "recordType": "context",
+          "label": "person-defined wind-down interval",
+          "epistemicClass": "self_reported"
+        }
+      ],
+      "phaseAnnotations": [
+        {
+          "id": "phase-circadian-evening-example",
+          "layer": "epimethean",
+          "phaseSystem": "circadian_rhythm",
+          "canonicalPhase": "evening_transition_context",
+          "evocativeName": "The Dimming Hour",
+          "description": "A person-defined transition toward rest; not a measured melatonin rise or biological night.",
+          "window": {
+            "kind": "interval",
+            "start": "2026-10-20T20:30:00-06:00",
+            "end": "2026-10-20T22:00:00-06:00",
+            "timeZone": "America/Denver"
+          },
+          "basis": "reported",
+          "interpretation": "reflective",
+          "basisRecordIds": ["synthetic-evening-context"],
+          "method": "Person-defined wind-down interval; no circadian phase inference.",
+          "uncertainty": "The interval describes the person's chosen context, not internal circadian timing.",
+          "limitations": ["Synthetic example; clock time does not establish biological night."],
+          "nameSource": "metheus_suggestion"
+        }
+      ],
+      "references": [],
+      "support": {
+        "confidence": "moderate",
+        "coverage": "partial",
+        "rationale": "Synthetic example; one self-reported interval only."
+      }
+    }
+  ],
+  "limitations": ["Synthetic example; not a biological circadian phase estimate."],
+  "assembly": {
+    "kind": "deterministic_claim_assembly",
+    "sourceTextGenerated": false,
+    "textEntailmentVerified": false,
+    "inputSchemasValidated": true,
+    "outputSchemaValidated": true,
+    "authorizedAction": "analyze"
+  }
+}
