@@ -104,6 +104,35 @@
         "collectionConditions": { "type": "string", "minLength": 1 }
       }
     },
+    "bucketDays": { "type": "integer", "minimum": 1, "maximum": 366 },
+    "timeBuckets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["startDate", "endDate", "inclusiveDays", "nMeasurements", "nDistinctMeasurementDates", "medianValue", "medianAbsoluteDeviationValue", "minimumValue", "maximumValue", "recordsWithQualityFlags", "qualityFlags", "daysWithAtLeastOneRecord", "fractionOfDaysWithARecord"],
+        "properties": {
+          "startDate": { "type": "string", "format": "date" },
+          "endDate": { "type": "string", "format": "date" },
+          "inclusiveDays": { "type": "integer", "minimum": 1 },
+          "nMeasurements": { "type": "integer", "minimum": 0 },
+          "nDistinctMeasurementDates": { "type": "integer", "minimum": 0 },
+          "medianValue": { "type": ["number", "null"] },
+          "medianAbsoluteDeviationValue": { "type": ["number", "null"], "minimum": 0 },
+          "minimumValue": { "type": ["number", "null"] },
+          "maximumValue": { "type": ["number", "null"] },
+          "recordsWithQualityFlags": { "type": "integer", "minimum": 0 },
+          "qualityFlags": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+          "daysWithAtLeastOneRecord": { "type": "integer", "minimum": 0 },
+          "fractionOfDaysWithARecord": { "type": "number", "minimum": 0, "maximum": 1 }
+        },
+        "allOf": [
+          { "if": { "properties": { "nMeasurements": { "const": 0 } }, "required": ["nMeasurements"] }, "then": { "properties": { "medianValue": { "type": "null" }, "medianAbsoluteDeviationValue": { "type": "null" }, "minimumValue": { "type": "null" }, "maximumValue": { "type": "null" } } } },
+          { "if": { "properties": { "nMeasurements": { "minimum": 1 } }, "required": ["nMeasurements"] }, "then": { "properties": { "medianValue": { "type": "number" }, "medianAbsoluteDeviationValue": { "type": "number" }, "minimumValue": { "type": "number" }, "maximumValue": { "type": "number" } } } }
+        ]
+      }
+    },
     "nMeasurements": { "type": "integer", "minimum": 0 },
     "nDistinctMeasurementDates": { "type": "integer", "minimum": 0 },
     "medianNumericValue": { "type": ["number", "null"] },
@@ -119,6 +148,6 @@
     { "if": { "required": ["summaryMeasure"], "properties": { "summaryMeasure": { "const": "meal_events" } } }, "then": { "properties": { "domain": { "const": "nutrition" }, "methodVersion": { "const": "metheus-feeding-summary/0.3.0" } }, "required": ["coverage", "nEvents", "daysWithEvents", "medianEventsPerObservedDay", "medianEventClockTime", "medianAbsoluteEventTimeDeviationMinutes", "medianRecordedWithinDaySpanMinutes", "clockTimesComparable", "clockTimeContextCount", "clockTimeContexts"] } },
     { "if": { "required": ["summaryMeasure"], "properties": { "summaryMeasure": { "const": "caregiver_feeding_events" } } }, "then": { "properties": { "domain": { "const": "feeding" }, "methodVersion": { "const": "metheus-feeding-summary/0.3.0" } }, "required": ["coverage", "nEvents", "daysWithEvents", "medianEventsPerObservedDay", "medianEventClockTime", "medianAbsoluteEventTimeDeviationMinutes", "medianRecordedWithinDaySpanMinutes", "clockTimesComparable", "clockTimeContextCount", "clockTimeContexts"] } },
     { "if": { "required": ["summaryMeasure"], "properties": { "summaryMeasure": { "const": "meal_timing_relative_to_wake" } } }, "then": { "properties": { "domain": { "const": "nutrition" }, "methodVersion": { "const": "metheus-wake-relative-meal/0.2.0" }, "timeReference": { "const": "elapsed_minutes_from_explicit_wake_event" } }, "required": ["nWakeToWakeIntervals", "nCandidateWakeToWakeIntervals", "nIntervalsExcludedForGap", "maximumIntervalHours", "nIntervalsWithLoggedMeals", "nLoggedMeals", "coverage", "medianFirstLoggedMealMinutesAfterWake", "medianLoggedMealMinutesAfterWake"] } },
-    { "if": { "required": ["summaryMeasure"], "properties": { "summaryMeasure": { "const": "measurement_series" } } }, "then": { "properties": { "methodVersion": { "const": "metheus-numeric-measurement-series/0.1.0" } }, "required": ["measurementSeries", "nMeasurements", "nDistinctMeasurementDates", "medianNumericValue", "medianAbsoluteDeviationValue", "minimumValue", "maximumValue", "recordsWithQualityFlags", "qualityFlags", "coverage"] } }
+    { "if": { "required": ["summaryMeasure"], "properties": { "summaryMeasure": { "const": "measurement_series" } } }, "then": { "properties": { "methodVersion": { "const": "metheus-numeric-measurement-series/0.2.0" } }, "required": ["measurementSeries", "bucketDays", "timeBuckets", "nMeasurements", "nDistinctMeasurementDates", "medianNumericValue", "medianAbsoluteDeviationValue", "minimumValue", "maximumValue", "recordsWithQualityFlags", "qualityFlags", "coverage"] } }
   ]
 }

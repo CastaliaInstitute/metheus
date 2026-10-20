@@ -8,7 +8,7 @@ bleeding-onset summary also accepts an explicit date-only record where supported
 
 from __future__ import annotations
 
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from hashlib import sha256
 from math import isfinite
 from statistics import median
@@ -23,7 +23,7 @@ SUMMARY_SCHEMA_VERSION = "0.1"
 FEEDING_METHOD_VERSION = "metheus-feeding-summary/0.3.0"
 WAKE_RELATIVE_METHOD_VERSION = "metheus-wake-relative-meal/0.2.0"
 BLEEDING_ONSET_METHOD_VERSION = "metheus-bleeding-onset-gap/0.2.0"
-MEASUREMENT_SERIES_METHOD_VERSION = "metheus-numeric-measurement-series/0.1.0"
+MEASUREMENT_SERIES_METHOD_VERSION = "metheus-numeric-measurement-series/0.2.0"
 
 _MEASUREMENT_SIGNATURE_FIELDS = (
     "sourceKind", "sourceName", "sourceMethod", "sourceVersion", "methodDetails",
@@ -81,7 +81,7 @@ def measurement_series_source_matches(summary: dict[str, Any], record: dict[str,
 
 def measurement_series_summary_valid(summary: dict[str, Any]) -> bool:
     signature = summary.get("measurementSeries")
-    metrics = ("nMeasurements", "nDistinctMeasurementDates", "medianNumericValue", "medianAbsoluteDeviationValue", "minimumValue", "maximumValue", "recordsWithQualityFlags", "qualityFlags", "coverage")
+    metrics = ("nMeasurements", "nDistinctMeasurementDates", "medianNumericValue", "medianAbsoluteDeviationValue", "minimumValue", "maximumValue", "recordsWithQualityFlags", "qualityFlags", "coverage", "bucketDays", "timeBuckets")
     return bool(
         summary.get("summaryMeasure") == "measurement_series"
         and summary.get("methodVersion") == MEASUREMENT_SERIES_METHOD_VERSION
@@ -595,22 +595,27 @@ def summarize_meal_timing_relative_to_wake(
 
 def summarize_numeric_measurements(
     records: Iterable[dict[str, Any]], *, subject_id: str, start_date: str, end_date: str,
-    analyte_or_signal: str,
+    analyte_or_signal: str, bucket_days: int = 7,
 ) -> list[dict[str, Any]]:
     """Summarize repeated numeric records without interpreting their biology.
 
     Results are split by domain, explicit unit, epistemic class, and exact
     source/method signature. Date-only records retain their stated date; timed
     records use local date where a valid time zone is supplied. This reports
-    sample distributions and coverage only, not a trend, reference-range
-    judgment, personal baseline, latent state, or causal association.
+    sample distributions and fixed-width calendar-bucket distributions. Empty
+    buckets are visible as missing coverage, not imputed values. The summary
+    fits no trend or personal baseline and estimates no latent state or cause.
     """
     if not subject_id:
         raise ValueError("subject_id is required to prevent cross-subject aggregation")
     if not isinstance(analyte_or_signal, str) or not analyte_or_signal.strip():
         raise ValueError("analyte_or_signal is required")
+    if isinstance(bucket_days, bool) or not isinstance(bucket_days, int) or not 1 <= bucket_days <= 366:
+        raise ValueError("bucket_days must be an integer from 1 through 366")
     revision_resolution = _resolve_subject_history(records, subject_id)
     first_day, last_day, window_days = _window(start_date, end_date)
+    if (window_days + bucket_days - 1) // bucket_days > 1000:
+        raise ValueError("the requested window would create more than 1000 measurement buckets")
     groups: dict[tuple[Any, ...], list[tuple[date, dict[str, Any], float]]] = {}
     eligible_classes = {"measured", "derived", "imported"}
 
@@ -682,7 +687,46 @@ def summarize_numeric_measurements(
             **{field: key[4 + index] for index, field in enumerate(_MEASUREMENT_SIGNATURE_FIELDS)},
         }
         signature_hash = sha256(repr((domain, tuple(signature.items()))).encode("utf-8")).hexdigest()[:12]
-        summary_id = f"measurement-series:{MEASUREMENT_SERIES_METHOD_VERSION}:{first_day.isoformat()}:{last_day.isoformat()}:{signature_hash}"
+        bucket_groups: dict[int, list[tuple[date, dict[str, Any], float]]] = {}
+        for item in observations:
+            bucket_index = (item[0] - first_day).days // bucket_days
+            bucket_groups.setdefault(bucket_index, []).append(item)
+        time_buckets = []
+        for bucket_index, offset in enumerate(range(0, window_days, bucket_days)):
+            bucket_start = first_day + timedelta(days=offset)
+            bucket_end = min(last_day, bucket_start + timedelta(days=bucket_days - 1))
+            bucket_items = bucket_groups.get(bucket_index, [])
+            bucket_values = [item[2] for item in bucket_items]
+            bucket_dates = {item[0] for item in bucket_items}
+            bucket_median = median(bucket_values) if bucket_values else None
+            bucket_mad = median([abs(value - bucket_median) for value in bucket_values]) if bucket_values else None
+            bucket_flags = sorted({
+                flag
+                for _, record, _ in bucket_items
+                for flag in (record.get("measurementDetails", {}).get("qualityFlags", []) if isinstance(record.get("measurementDetails", {}).get("qualityFlags", []), list) else [])
+                if isinstance(flag, str) and flag
+            })
+            bucket_window_days = (bucket_end - bucket_start).days + 1
+            time_buckets.append({
+                "startDate": bucket_start.isoformat(),
+                "endDate": bucket_end.isoformat(),
+                "inclusiveDays": bucket_window_days,
+                "nMeasurements": len(bucket_values),
+                "nDistinctMeasurementDates": len(bucket_dates),
+                "medianValue": round(bucket_median, 6) if bucket_median is not None else None,
+                "medianAbsoluteDeviationValue": round(bucket_mad, 6) if bucket_mad is not None else None,
+                "minimumValue": min(bucket_values) if bucket_values else None,
+                "maximumValue": max(bucket_values) if bucket_values else None,
+                "recordsWithQualityFlags": sum(
+                    bool(record.get("measurementDetails", {}).get("qualityFlags"))
+                    for _, record, _ in bucket_items
+                    if isinstance(record.get("measurementDetails", {}).get("qualityFlags", []), list)
+                ),
+                "qualityFlags": bucket_flags,
+                "daysWithAtLeastOneRecord": len(bucket_dates),
+                "fractionOfDaysWithARecord": round(len(bucket_dates) / bucket_window_days, 6),
+            })
+        summary_id = f"measurement-series:{MEASUREMENT_SERIES_METHOD_VERSION}:{first_day.isoformat()}:{last_day.isoformat()}:{bucket_days}:{signature_hash}"
         summaries.append({
             **_summary_metadata(summary_id, subject_id, "measurement_series"),
             "domain": domain,
@@ -690,6 +734,8 @@ def summarize_numeric_measurements(
             "methodVersion": MEASUREMENT_SERIES_METHOD_VERSION,
             "revisionResolution": _revision_resolution_metadata(revision_resolution),
             "window": {"startDate": first_day.isoformat(), "endDate": last_day.isoformat(), "inclusiveDays": window_days},
+            "bucketDays": bucket_days,
+            "timeBuckets": time_buckets,
             "inputRecordIds": sorted({record["id"] for _, record, _ in observations if isinstance(record.get("id"), str)}),
             "measurementSeries": signature,
             "nMeasurements": len(values),
@@ -709,6 +755,7 @@ def summarize_numeric_measurements(
                 "Describes only eligible numeric records present in the selected subject history; missing records are not evidence that no measurement occurred.",
                 "Series are kept separate by domain, unit, epistemic class, source, method, specimen, device, and collection signature.",
                 "Median, spread, minimum, and maximum are descriptive statistics, not clinical reference-range judgments or personal baselines.",
+                "Fixed calendar buckets show descriptive summaries for each interval, including empty intervals; they are not a fitted trend, cycle phase, or response estimate.",
                 "Does not estimate hormone or neurochemical state, infer a trend or cause, or recommend an action.",
             ],
         })

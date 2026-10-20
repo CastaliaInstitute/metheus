@@ -1,6 +1,6 @@
 {
-  "id": "measurement-series:metheus-numeric-measurement-series/0.1.0:2026-10-18:2026-10-19:synthetic",
-  "summaryId": "measurement-series:metheus-numeric-measurement-series/0.1.0:2026-10-18:2026-10-19:synthetic",
+  "id": "measurement-series:metheus-numeric-measurement-series/0.2.0:2026-10-18:2026-10-19:7:synthetic",
+  "summaryId": "measurement-series:metheus-numeric-measurement-series/0.2.0:2026-10-18:2026-10-19:7:synthetic",
   "subjectId": "measurement-series-example-subject",
   "recordType": "rhythm_summary",
   "schemaVersion": "0.1",
@@ -9,10 +9,21 @@
   "epistemicClass": "derived",
   "domain": "physiology",
   "label": "descriptive series for heart_rate (beats/min)",
-  "methodVersion": "metheus-numeric-measurement-series/0.1.0",
-  "revisionResolution": { "strategy": "latest_visible_successor", "supersededRecordCount": 0, "unresolvedPredecessorCount": 0 },
-  "window": { "startDate": "2026-10-18", "endDate": "2026-10-19", "inclusiveDays": 2 },
-  "inputRecordIds": ["measurement-series-2026-10-18", "measurement-series-2026-10-19"],
+  "methodVersion": "metheus-numeric-measurement-series/0.2.0",
+  "revisionResolution": {
+    "strategy": "latest_visible_successor",
+    "supersededRecordCount": 0,
+    "unresolvedPredecessorCount": 0
+  },
+  "window": {
+    "startDate": "2026-10-18",
+    "endDate": "2026-10-19",
+    "inclusiveDays": 2
+  },
+  "inputRecordIds": [
+    "measurement-series-2026-10-18",
+    "measurement-series-2026-10-19"
+  ],
   "measurementSeries": {
     "analyteOrSignal": "heart_rate",
     "unit": "beats/min",
@@ -37,9 +48,32 @@
   "maximumValue": 72,
   "recordsWithQualityFlags": 0,
   "qualityFlags": [],
-  "coverage": { "daysWithAtLeastOneRecord": 2, "calendarDaysInWindow": 2, "fractionOfDaysWithARecord": 1 },
+  "coverage": {
+    "daysWithAtLeastOneRecord": 2,
+    "calendarDaysInWindow": 2,
+    "fractionOfDaysWithARecord": 1
+  },
   "limitations": [
     "Synthetic descriptive example only; it is not a clinical reference or person's baseline.",
-    "The summary does not infer hormone or neurochemical state, trend, cause, or recommended action."
+    "The summary does not infer hormone or neurochemical state, trend, cause, or recommended action.",
+    "Fixed calendar buckets are descriptive and do not estimate a trend or personal baseline."
+  ],
+  "bucketDays": 7,
+  "timeBuckets": [
+    {
+      "startDate": "2026-10-18",
+      "endDate": "2026-10-19",
+      "inclusiveDays": 2,
+      "nMeasurements": 2,
+      "nDistinctMeasurementDates": 2,
+      "medianValue": 71,
+      "medianAbsoluteDeviationValue": 1,
+      "minimumValue": 70,
+      "maximumValue": 72,
+      "recordsWithQualityFlags": 0,
+      "qualityFlags": [],
+      "daysWithAtLeastOneRecord": 2,
+      "fractionOfDaysWithARecord": 1
+    }
   ]
 }

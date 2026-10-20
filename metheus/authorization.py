@@ -56,7 +56,7 @@ _SUMMARY_MEASURES = {
     "meal_events": ("nutrition", "metheus-feeding-summary/0.3.0"),
     "caregiver_feeding_events": ("feeding", "metheus-feeding-summary/0.3.0"),
     "meal_timing_relative_to_wake": ("nutrition", "metheus-wake-relative-meal/0.2.0"),
-    "measurement_series": (None, "metheus-numeric-measurement-series/0.1.0"),
+    "measurement_series": (None, "metheus-numeric-measurement-series/0.2.0"),
 }
 _SUMMARY_SOURCE_TYPES = {
     "bleeding_onset_intervals": {("bleeding_start", "reproductive")},

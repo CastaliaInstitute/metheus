@@ -118,7 +118,7 @@ def _resolve_index(
                 "meal_events": ("nutrition", "metheus-feeding-summary/0.3.0"),
                 "caregiver_feeding_events": ("feeding", "metheus-feeding-summary/0.3.0"),
                 "meal_timing_relative_to_wake": ("nutrition", "metheus-wake-relative-meal/0.2.0"),
-                "measurement_series": (None, "metheus-numeric-measurement-series/0.1.0"),
+                "measurement_series": (None, "metheus-numeric-measurement-series/0.2.0"),
             }
             if not isinstance(measure, str) or measure not in expected_summary_shapes:
                 issue("rhythm_summary_unknown_measure", resource_id)
