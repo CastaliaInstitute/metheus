@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#111821" />
+    <meta name="description" content="A shared, Matrix-powered conversation space for reflection with Metheus." />
+    <link rel="manifest" href="/chat/manifest.webmanifest" />
+    <link rel="icon" href="/chat/icon.svg" type="image/svg+xml" />
+    <title>Metheus · Shared reflection</title>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="rail" aria-label="Metheus navigation">
+        <a class="brand-mark" href="/" aria-label="Metheus home">M<span>·</span></a>
+        <div class="rail-bottom"><span class="presence-dot"></span><span>Shared space</span></div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <a href="/" class="wordmark">METHEUS <span>·</span> CIRCLE</a>
+          <button class="quiet-button" id="install-button" hidden>Install app</button>
+          <button class="quiet-button" id="logout-button" hidden>Disconnect</button>
+        </header>
+
+        <section class="chat-frame" aria-label="Metheus shared conversation">
+          <header class="room-header">
+            <div class="room-icon" aria-hidden="true">✳</div>
+            <div class="room-title"><p class="eyebrow">A SHARED SPACE</p><h1 id="room-title">The Hearth</h1><p class="room-subtitle" id="room-subtitle">A place to notice patterns together.</p></div>
+            <button class="icon-button" id="settings-toggle" aria-label="Connection settings" title="Connection settings" hidden>•••</button>
+          </header>
+
+          <section class="notice" aria-label="Privacy and scope notice">
+            <span class="notice-symbol" aria-hidden="true">◈</span>
+            <p><strong>Each person brings their own voice.</strong> This is a shared room: everyone in it, including the Metheus bot, may see messages sent here. This prototype disables sending unless Matrix reports the room is end-to-end encrypted. Avoid intimate or health details unless everyone involved has freely agreed.</p>
+          </section>
+
+          <div class="connection-panel" id="connection-panel">
+            <div class="connection-copy">
+              <p class="eyebrow">CONNECT TO YOUR MATRIX ROOM</p>
+              <h2>Reflection, held in company.</h2>
+              <p>Sign in with your own Matrix account to join a room where the Metheus bot is present. Metheus is a reflective companion, not a clinician or relationship referee.</p>
+            </div>
+            <form id="connect-form" class="connect-form">
+              <label>Homeserver URL<input name="homeserver" type="url" value="https://matrix.org" placeholder="https://matrix.example" required autocomplete="url" /></label>
+              <label>Room ID or alias<input name="room" type="text" placeholder="#metheus-family:example.org" required autocomplete="off" /></label>
+              <div class="form-row"><label>Matrix user ID<input name="user" type="text" placeholder="@you:example.org" required autocomplete="username" /></label><label>Password<input name="password" type="password" required autocomplete="current-password" /></label></div>
+              <button class="primary-button" type="submit">Connect to Matrix <span aria-hidden="true">→</span></button>
+              <p class="form-note">Your password is used to sign in and then discarded. The session token stays in memory; encryption keys are managed by the Matrix SDK in this browser. Disconnect to sign out.</p>
+              <p class="status-line" id="connect-status" role="status" aria-live="polite"></p>
+            </form>
+          </div>
+
+          <section class="conversation" id="conversation" hidden>
+            <div class="timeline" id="timeline" role="log" aria-live="polite" aria-label="Room messages">
+              <div class="welcome-card" id="welcome-card">
+                <span class="welcome-star">✦</span><p class="eyebrow">BEGIN WHERE YOU ARE</p>
+                <h2>What feels present<br />for your circle today?</h2>
+                <p>Share a question, a small observation, or a moment you want to understand together.</p>
+              </div>
+            </div>
+            <form id="message-form" class="composer">
+              <label class="sr-only" for="message-input">Message your room</label>
+              <textarea id="message-input" rows="1" placeholder="Write a message to your room…" maxlength="4000" required></textarea>
+              <button class="send-button" type="submit" aria-label="Send message"><span aria-hidden="true">↑</span></button>
+              <p class="composer-note">The Metheus bot must be joined to this room to reply. Messages are shared with the whole room.</p>
+            </form>
+          </section>
+
+          <section class="settings-panel" id="settings-panel" hidden>
+            <div><p class="eyebrow">ROOM AND SESSION</p><h2>Connected with care.</h2><p>This client does not create rooms or invite members. Ask your room administrator to invite each participant and the Metheus bot.</p></div>
+            <dl id="session-details"></dl>
+            <button class="secondary-button" id="back-to-chat">Return to conversation</button>
+          </section>
+
+          <footer class="chat-footer"><span>METHEUS · DESIGN IN LIVED TIME</span><a href="https://github.com/CastaliaInstitute/metheus/blob/main/docs/matrix-chat-pwa.md">How this works</a><span id="sync-indicator">Not connected</span></footer>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

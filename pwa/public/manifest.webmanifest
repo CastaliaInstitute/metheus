@@ -1,0 +1,13 @@
+{
+  "name": "Metheus Circle",
+  "short_name": "Metheus",
+  "description": "A shared, Matrix-powered space for reflection.",
+  "start_url": "/chat/",
+  "scope": "/chat/",
+  "display": "standalone",
+  "background_color": "#111821",
+  "theme_color": "#111821",
+  "icons": [
+    { "src": "/chat/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

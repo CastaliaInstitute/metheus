@@ -1,0 +1,26 @@
+# Metheus Circle: Matrix chat PWA
+
+**Status:** static client prototype. It connects individual Matrix accounts to an existing room. The PWA does not host rooms, collect profiles, or provide the Metheus AI service.
+
+## What it does
+
+The installable client at `/chat/` signs a person into a Matrix homeserver, joins or opens a room ID/alias, displays room text messages, and sends a new text message. It uses `matrix-js-sdk` and initializes its Rust-backed crypto support. Each participant signs in with their own Matrix account; shared-room messages are visible to the room's members. Session tokens stay in client memory. Matrix SDK encryption state uses browser IndexedDB. The service worker caches only the application shell and static assets; it does not cache Matrix API responses or room messages. The app does not retain transcripts in its own storage. The client queries the SDK for the room's encryption setting and disables sending if Matrix reports encryption is off; it does not independently verify users' devices or the bot's key handling.
+
+The PWA is a presentation and transport client. An independently operated Metheus Matrix bot must join the room and respond to messages for users to chat with Metheus AI. The bot is not included in this repository, and the PWA has no model/API key or direct model connection.
+
+## Room setup required
+
+1. Operate a Matrix homeserver or choose one that permits the intended use and provides HTTPS, account registration/sign-in, and browser access (CORS) for the deployed Metheus origin.
+2. Create a private room for the intended participants. Decide who may invite members, whether room history is shared with new members, how long messages are retained, and how the room will be closed or deleted.
+3. Enable Matrix end-to-end encryption for the room and verify that the bot account is designed to participate in encrypted rooms. Encryption at the Matrix transport layer alone is not end-to-end encryption.
+4. Invite each adult participant and the Metheus bot. Give each person their own account; do not share passwords or access tokens.
+5. Make the bot's role, AI provider, model processing, retention, and escalation limitations clear to all participants before they disclose personal information. The bot should not represent itself as a therapist, clinician, mediator, or relationship judge.
+6. Open `/chat/`, enter homeserver, room ID/alias, and the user's own login. The PWA prompts Matrix to join the room if the account is not already a member.
+
+The current client does not provide room creation/invites, device verification/recovery UX, user management, per-person consent controls, moderation, transcript export/deletion, or message pagination and file/media support. The encryption check reports the room setting but does not verify participant devices, verify bot key handling, or certify the service. Treat it as an early client, not a secure health-data product. Before using it for reproductive, health, or intimate information, complete a security/privacy review and add trusted device verification and recovery flows, participation/consent controls, and an appropriate retention plan. Do not use it for children's personal data in this prototype.
+
+## Build and deploy
+
+The Pages workflow runs `npm ci --prefix pwa` and `npm run build --prefix pwa`, then publishes the repository root. The Vite build writes the static PWA to the ignored `chat/` directory. Local build: `npm ci --prefix pwa && npm run build --prefix pwa`.
+
+The client is configured for the custom domain path `/chat/`. Its installable shell works offline after first load, but Matrix sign-in, room sync, encryption key fetches, and message exchange require network access. Do not treat the offline shell as offline chat.
