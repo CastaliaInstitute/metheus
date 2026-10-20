@@ -23,6 +23,11 @@
       "type": "string",
       "minLength": 1
     },
+    "supersedes": {
+      "type": "string",
+      "minLength": 1,
+      "description": "ID of the prior same-subject interaction account corrected by this record. The earlier account remains historical and separately consented."
+    },
     "subjectId": {
       "type": "string",
       "minLength": 1,

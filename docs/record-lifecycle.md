@@ -4,7 +4,7 @@
 
 ## Correction creates a new record
 
-Treat a saved record as an immutable statement of what was known and reported at that point. To correct it, create a new record with a new ID and a `supersedes` field naming the prior same-subject record. Do not silently overwrite the older value. Observation, birth-chart-input, symbolic-map, phase-annotation, rhythm-summary, and subject-index schemas support this link. Consent grants use supersession and revocation for permission state; knowledge-catalog entries have their own catalog lifecycle. `resolve_current_records` targets subject-scoped histories with `id`, `subjectId`, and a single-predecessor correction meaning; it does not evaluate consent-grant revocation.
+Treat a saved record as an immutable statement of what was known and reported at that point. To correct it, create a new record with a new ID and a `supersedes` field naming the prior same-subject record. Do not silently overwrite the older value. Observation, interaction-event, birth-chart-input, symbolic-map, phase-annotation, rhythm-summary, and subject-index schemas support this link. Consent grants use supersession and revocation for permission state; knowledge-catalog entries have their own catalog lifecycle. `resolve_current_records` targets subject-scoped histories with `id`, `subjectId`, and a single-predecessor correction meaning; it does not evaluate consent-grant revocation.
 
 Within the history supplied for one subject:
 
@@ -18,6 +18,8 @@ Within the history supplied for one subject:
 `resolve_current_records` implements these rules and returns current records, superseded IDs, errors, and warnings. Rhythm and measurement summaries call it before applying their date and event filters, so a supplied older observation and its correction do not both contribute. Each summary carries `revisionResolution` counts for visible superseded records and unresolved predecessors, without exposing unrelated record IDs. Callers should pass all available subject history before restricting dates. If the supplied history contains a cycle, branch, nonconsecutive index revision, or duplicate ID, summaries fail closed rather than choose a version silently. If a predecessor is absent, the link remains unresolved and the resolver reports a warning; it does not guess which record was intended.
 
 The synthetic [bleeding-onset correction](../examples/bleeding-onset-correction.example.json) supersedes the [original report](../examples/bleeding-onset.example.json). It demonstrates version linkage only; the sample does not imply that dates identify menstrual phase.
+
+The synthetic [interaction correction](../examples/interaction-intimacy-correction.example.json) demonstrates the same immutable revision link for a date-only intimacy report. The correction does not inherit the earlier record's consent grant; the new record requires its own authorization.
 
 ```python
 from metheus import resolve_current_records

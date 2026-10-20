@@ -1,0 +1,37 @@
+{
+  "id": "interaction-subject-a-example-002",
+  "subjectId": "subject-a",
+  "recordType": "interaction_event",
+  "schemaVersion": "metheus-interaction-event/0.1.0",
+  "supersedes": "interaction-subject-a-example-001",
+  "eventKind": "intimacy",
+  "domain": "intimacy",
+  "time": {
+    "date": "2026-10-19",
+    "precision": "date_only"
+  },
+  "source": {
+    "kind": "subject"
+  },
+  "participantReferences": [
+    {
+      "reference": "subject-a",
+      "relationToRecorder": "recorder"
+    },
+    {
+      "reference": "participant-b-local",
+      "relationToRecorder": "partner"
+    }
+  ],
+  "perspective": {
+    "account": "I corrected the date I recorded for this interaction.",
+    "feltExperience": "not_reported",
+    "consentContext": "not_recorded"
+  },
+  "limitations": [
+    "This is the recorder's account; it does not establish another participant's consent, desire, experience, or health.",
+    "A recorded interaction or its timing does not establish a hormone state, cause, relationship status, or compatibility.",
+    "This synthetic correction does not inherit authorization from the record it supersedes.",
+    "This synthetic example contains no identifying details and is not a real person's record."
+  ]
+}
