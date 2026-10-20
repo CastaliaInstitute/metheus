@@ -357,6 +357,33 @@ Hormones are generally regulated by networks, not isolated “boost” triggers.
 
 Do not frame foods, supplements, sexual activity, exercise, or light exposure as ways to “hack” hormones in a general reading. In people with a medical condition or medication regimen, intentional hormone manipulation belongs with a qualified clinician.
 
+## 16. Developmental stages as Epimethean context
+
+Epimethean time should include development as well as repeating cycles. A developmental stage is context for interpreting observations, not a template that every person follows on schedule. Development reflects interacting biology, relationships, health, environment, opportunity, and individual variation; it cannot be reduced to hormones or a chart.
+
+| Life period | Useful optional context | Metheus framing |
+|---|---|---|
+| **Pregnancy and prenatal development** | Gestational timing when known, fetal movement as reported, pregnancy context, major transitions, birth circumstances | Context belongs to the pregnant person and family; no claim to infer fetal state, temperament, or future from parental data |
+| **Newborn and early infancy (birth–3 months)** | Feeding and settling rhythms, sleep/wake pattern, sensory responses, early gaze and social engagement, caregiver observations, birth or prematurity context | Newborn rhythms are still developing and strongly shaped by feeding, care, light/dark, and individual maturity; do not expect a fixed schedule |
+| **Later infancy (about 3–12 months)** | Sleep and feeding changes, movement and exploration, communication, social reciprocity, emerging routines, caregiver/infant co-regulation | Show observations over time and celebrate variation; do not predict ability or attachment from a single behavior or sensor |
+| **Toddlerhood and early childhood (about 1–5 years)** | Language, play, movement, regulation, sleep, appetite, relationships, transitions in care and learning | Organize around strengths, supports, and context; avoid personality labels or deterministic forecasts |
+| **Middle childhood (about 6–11 years)** | Learning contexts, peer and family relationships, sleep/activity patterns, physical growth, interests and self-described experience | Include the child's voice in age-appropriate ways and preserve privacy as autonomy grows |
+| **Adolescence** | Pubertal changes when relevant, sleep timing, identity exploration, relationships, school/social context, increasing autonomy | Puberty timing varies. Do not infer gender identity, sexuality, maturity, or consent from hormone levels, appearance, or age alone |
+| **Adulthood and caregiving years** | Work/rest rhythms, relationships, reproductive or non-reproductive transitions, caregiving, health changes, chosen goals | Life stages are not a single prescribed sequence; parenthood and partnership are not assumed |
+| **Later life and aging** | Changing sleep, mobility, health, roles, relationships, loss and renewal, personal meaning | Avoid reducing a person to decline or age norms; interpret in their own history and stated priorities |
+
+### Special care with babies
+
+For babies, a useful Metheus record would be caregiver-centered and observational: date/time, who observed, what happened, and what context might matter (feeding, sleep, illness, travel, new environment, or caregiver availability). Signals should be described in ordinary language—“settled after feeding,” “looked toward a voice,” “sleep was more interrupted”—without claiming to know the baby's inner state or hormone levels.
+
+The World Health Organization's nurturing-care framework groups early needs around **good health, adequate nutrition, safety and security, responsive caregiving, and opportunities for early learning**. This is a better organizing frame for baby-centered Epimethean context than a list of “baby hormones.” Responsive interaction and caregiver well-being belong in the picture too: an infant's rhythms unfold in relationship with caregivers and environment. The framework supports holistic context; it is not a diagnostic scoring system.
+
+Milestone references can help caregivers notice development, but they are not diagnostic tests and no single missed or early milestone should be interpreted by Metheus as a diagnosis or forecast. When caregivers have a concern, direct conversation with a pediatrician or developmental professional is the appropriate route. Include prematurity and corrected age when the family or clinician provides them, while avoiding assumptions about a child's future.
+
+Because an infant cannot meaningfully consent to persistent personal tracking, baby profiles should be controlled by a caregiver, collect the minimum needed, avoid public sharing, and include clear deletion and export controls. As the child matures, the design should support growing assent, voice, and privacy rather than treating caregiver access as permanent ownership.
+
+This developmental layer is distinct from endocrine interpretation. Hormones may be part of physiology across prenatal development, infancy, puberty, and aging, but a reading must not use behavior, sleep, temperament, crying, feeding, or attachment observations to infer a specific hormone or neurochemical level.
+
 ## Sources and further reading
 
 - [MedlinePlus: Hormones](https://medlineplus.gov/hormones.html) — accessible overview and common clinical hormone tests.
@@ -373,5 +400,9 @@ Do not frame foods, supplements, sexual activity, exercise, or light exposure as
 - [Circadian Clock Control of Endocrine Factors](https://pmc.ncbi.nlm.nih.gov/articles/PMC4304769/) — daily variation across endocrine systems.
 - [Endotext: The Pituitary Gland](https://www.ncbi.nlm.nih.gov/books/NBK27/) — releasing/inhibiting inputs and pituitary secretion patterns.
 - [NCBI Bookshelf: Endocrine System: Hormones and Regulation](https://www.ncbi.nlm.nih.gov/books/NBK613062/) — overview of hypothalamic-pituitary and peripheral regulation.
+- [WHO: Nurturing care for early childhood development](https://www.who.int/publications/i/item/9789241514064/) — health, nutrition, safety, responsive caregiving, and early learning.
+- [WHO: Child health and development](https://www.who.int/teams/maternal-newborn-child-adolescent-health-and-ageing/child-health/nurturing-care) — child development and nurturing-care overview.
+- [WHO: Nurturing care for young children through responsive feeding](https://www.who.int/publications/i/item/9789240070301) — responsive feeding as part of caregiving and nutrition.
+- [CDC: Learn the Signs. Act Early.](https://www.cdc.gov/act-early/) — family-facing milestone resources; milestones support observation and do not replace developmental screening.
 
 This reference is an educational starting point, not medical advice. It should be reviewed by an endocrinologist or other qualified subject-matter expert before driving product claims or individual recommendations.

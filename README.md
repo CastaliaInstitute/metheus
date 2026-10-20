@@ -9,7 +9,9 @@ Metheus is a developing framework for readings that bring symbolic design into c
 
 The distinction matters. Symbolic interpretation, measured signals, and a person's own report are different kinds of information. A reading can place them in conversation while keeping their sources visible and leaving meaning with the person.
 
-Possible Epimethean context includes hormonal rhythms across menstrual cycles, pregnancy, postpartum life, and menopause; sleep, temperature, heart-rate variability (HRV); conception and birth; relationship milestones, intimacy, and personal reflections. A person may reflect on how their own intimacy experiences relate to their own cycle notes over time. Such a perceived pattern does not establish hormonal causation, predict desire or behavior, or speak for a partner. Any clinical or laboratory results are distinct from calendar estimates and wearable proxies. Neurochemical activity should not be claimed as measured when it has not been measured. Relationship or intimacy notes are optional, private, and subjective; they cannot establish another person's consent, feelings, or compatibility. No context or tracking is assumed or required.
+Possible Epimethean context includes hormonal rhythms across menstrual cycles, pregnancy, postpartum life, and menopause; sleep, temperature, heart-rate variability (HRV); conception and birth; relationship milestones, intimacy, developmental stages, and personal reflections. A person may reflect on how their own intimacy experiences relate to their own cycle notes over time. Such a perceived pattern does not establish hormonal causation, predict desire or behavior, or speak for a partner. Any clinical or laboratory results are distinct from calendar estimates and wearable proxies. Neurochemical activity should not be claimed as measured when it has not been measured. Relationship or intimacy notes are optional, private, and subjective; they cannot establish another person's consent, feelings, or compatibility. No context or tracking is assumed or required.
+
+For babies and young children, developmental context may include changing sleep and feeding rhythms, growth, sensory and motor exploration, communication, co-regulation, and caregiver connection. These observations should support curiosity and responsive care, never score a child or substitute for developmental screening or pediatric guidance.
 
 ## Principles
 
@@ -25,7 +27,7 @@ This site is an early concept. Wearable integrations and personal data collectio
 
 ## Research reference
 
-See [Hormone and endocrine-signal reference](docs/hormone-reference.md) for a broad, categorized inventory and terminology notes. It distinguishes classical hormones from neurotransmitters, cytokines, growth factors, local mediators, and molecules whose endocrine classification is debated.
+See [Hormone and endocrine-signal reference](docs/hormone-reference.md) for a broad, categorized inventory, regulation notes, and developmental-stage guidance. It distinguishes classical hormones from neurotransmitters, cytokines, growth factors, local mediators, and molecules whose endocrine classification is debated.
 
 ## Site
 
