@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metheus.castalia.institute/schema/subject-index.schema.json",
+  "title": "Metheus subject index",
+  "description": "A minimal pseudonymous index linking separately stored, versioned resources. It is not a complete person profile, identity record, consent grant, or permission to access linked data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["subjectId", "recordType", "schemaVersion", "revision", "steward", "resourceRefs", "createdAt", "updatedAt"],
+  "properties": {
+    "subjectId": { "type": "string", "minLength": 1, "description": "Pseudonymous subject reference; do not use a name, email, or external account identifier." },
+    "recordType": { "const": "subject_index" },
+    "schemaVersion": { "type": "string", "minLength": 1 },
+    "revision": { "type": "integer", "minimum": 1 },
+    "supersedes": { "type": "string", "minLength": 1 },
+    "steward": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Declared stewardship metadata only; this does not verify identity, guardianship, or legal authority.",
+      "required": ["reference", "role"],
+      "properties": {
+        "reference": { "type": "string", "minLength": 1, "description": "Opaque local reference; do not embed direct identity details." },
+        "role": { "enum": ["subject", "parent_guardian", "legally_authorized_representative"] }
+      }
+    },
+    "resourceRefs": {
+      "type": "array",
+      "description": "Pointers only. A pointer does not imply consent, authorization, completeness, or permission to include that resource in a reading.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "kind", "schemaVersion"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "kind": { "enum": ["birth_chart_input", "symbolic_map", "observation", "phase_annotation", "derived_summary", "reading", "consent_grant"] },
+          "schemaVersion": { "type": "string", "minLength": 1 }
+        }
+      },
+      "uniqueItems": true
+    },
+    "preferences": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Optional display defaults only. These do not fill missing observation data or determine biological phase.",
+      "properties": {
+        "locale": { "type": "string" },
+        "timeZone": { "type": "string", "description": "IANA timezone used as a display default when a record-specific timezone is absent." },
+        "temperatureUnit": { "enum": ["celsius", "fahrenheit"] },
+        "distanceUnit": { "enum": ["metric", "imperial"] }
+      }
+    },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" }
+  }
+}

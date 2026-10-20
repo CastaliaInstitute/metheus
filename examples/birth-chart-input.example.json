@@ -1,0 +1,29 @@
+{
+  "id": "synthetic-birth-chart-input",
+  "subjectId": "synthetic-subject",
+  "recordType": "birth_chart_input",
+  "domain": "birth_chart_inputs",
+  "schemaVersion": "0.1",
+  "birthDate": {
+    "date": "2000-01-01",
+    "precision": "exact"
+  },
+  "birthTime": {
+    "localTime": "12:00",
+    "precision": "approximate",
+    "uncertaintyMinutes": 60
+  },
+  "birthLocation": {
+    "placeLabel": "Synthetic Example Place",
+    "countryCode": "ZZ",
+    "timeZone": "Etc/UTC",
+    "precision": "approximate"
+  },
+  "source": {
+    "kind": "unknown",
+    "method": "Synthetic value supplied only to illustrate the record shape."
+  },
+  "uncertainty": "All values are fabricated and must not be used for a chart calculation.",
+  "limitations": ["Synthetic example; not a real person's birth information or verified civil record."],
+  "createdAt": "2026-10-20T12:00:00Z"
+}

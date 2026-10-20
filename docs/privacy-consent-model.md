@@ -8,7 +8,7 @@ Metheus may represent exact birth details, body measurements, laboratory results
 
 ## Consent is scoped and revisable
 
-Consent must attach to a **subject**, **data domain**, and **purpose**. A person may allow a reading to use sleep timing while excluding reproductive notes, or allow a private analysis while declining sharing. A symbolic chart calculation from birth date/time/place is a separate purpose from storing or analyzing biometrics. A blanket “agree to Metheus” control is insufficient for optional sensitive domains.
+Consent must attach to a **subject**, **data domain**, and **purpose**. A person may allow a reading to use sleep timing while excluding reproductive notes, or allow a private analysis while declining sharing. A symbolic chart calculation from birth date/time/place is a separate purpose from storing or analyzing biometrics. Raw `birth_chart_inputs` and derived `symbolic` map records are also separate domains: granting access to the inputs does not authorize use of the derived map, and map access does not authorize recalculation from raw birth details. A blanket “agree to Metheus” control is insufficient for optional sensitive domains.
 
 Represent these separately:
 
@@ -18,6 +18,16 @@ Represent these separately:
 4. **Processing:** whether a task runs on the local device or sends selected data to a remote service. Remote processing is a separate permission from analysis; a remote reading requires both `analyze` and `remote_processing` authorization.
 
 The permission state must be inspectable and revocable. Withdrawing permission stops future use within that scope. Deletion, retention, or records required by a connected service depend on the actual storage architecture and must be made explicit before collection begins.
+
+An example chart workflow keeps both domain and purpose explicit:
+
+| Resource/action | Example scope | Meaning |
+|---|---|---|
+| Create or calculate from a birth input | `birth_chart_inputs` + `symbolic_calculation` + `collect`/`analyze` | Use only the selected birth-detail record for the named symbolic calculation. |
+| Create a derived symbolic map | `symbolic` + `symbolic_calculation` + `collect` | Store a versioned map and links to its feature records. |
+| Use the map in a reflective reading | `symbolic` + `personal_reflection` + `analyze` | Use the selected map/features without reopening the raw birth inputs. |
+
+These are separate grants or grant scopes; possession of a map pointer is not consent for any of these actions. A deployed system must define how revocation of birth-input access affects recalculation and how deletion propagates to derived maps and readings.
 
 ## Stewardship roles
 
@@ -39,6 +49,7 @@ These are product design goals. Rules about guardianship, minors, education reco
 - Ask only for fields needed by the current question. Exact birth location, complete menstrual/sexual histories, detailed food logs, or full wearable exports should not be defaults.
 - Prefer a narrow event or user-described context over broad free-text diaries. Do not request a partner's identity for a subject's own relationship reflection.
 - Treat birth time and location, reproductive history, intimacy, child records, and clinical results as sensitive even if a user does not label them that way.
+- Keep exact or approximate birth-chart inputs in the separate [`birth-chart input schema`](../schema/birth-chart-input.schema.json), authorized under `birth_chart_inputs`; a subject index or symbolic-map pointer does not authorize their use. Do not copy birth details into the index or a reading. A calculated map and each feature record remain separately versioned resources.
 
 ### Keep provenance and access separate
 
@@ -78,7 +89,7 @@ In the draft schema, `permittedActions` means currently authorized actions, not 
 
 The current in-memory policy prototype is [`metheus/authorization.py`](../metheus/authorization.py). `evaluate_authorization` requires every selected source record or phase annotation to match an active grant for the same subject, purpose, action, and domain; it checks duplicate record IDs, creation/expiry time, record-ID/date scopes, share recipient, remote-processing disclosure, supersession/revocation references, and explicit child dissent. Known phase systems map to narrow domains: symbolic transits to `symbolic`, menstrual/pregnancy/postpartum/menopause contexts to `reproductive`, development to `development`, and sleep/wake to `sleep`. A phase annotation and its source basis records are separate selected items and each must be authorized; one phase annotation cannot serve as another's basis. Date scopes must contain the full date span of an interval, including phase-annotation windows, not just the start date. An `ongoing` phase annotation has no finite end, so it cannot be covered by a date-scoped grant; use a specifically record-scoped grant if that ongoing context is authorized. Narrow consent domains are preferred; legacy broad scopes cover only the subdomains listed in that module. For a remote analysis, callers must require both `analyze` and `remote_processing`; for sharing, they must pass the exact recipient. Any denied record makes the batch unauthorized.
 
-`authorize_reading_inputs` in [`metheus/readings.py`](../metheus/readings.py) combines reference checks with consent evaluation for a reading's `analyze` or `remote_processing` action. It selects only personal objects named by the reading's `inputIds`; it also rejects unresolved or cross-subject phase bases and unresolved/ineligible references before evaluating grants. Pass the general correspondence and evidence-claim catalogs separately when the reading cites them. These catalog entries must not be subject-owned; a person's private reflective association belongs in a subject-scoped record with its own consent path. General references are checked for existence and permitted use but are not treated as subject records or covered by the subject's consent. Remote processing returns separate decisions for analysis and remote processing, and authorizes only if both pass. Sharing a reading still requires `evaluate_authorization` with `action="share"`, the selected recipient, and every personal input item; these helpers remain preflight prototypes, not storage-boundary controls.
+`authorize_reading_inputs` in [`metheus/readings.py`](../metheus/readings.py) combines reference checks with consent evaluation for a reading's `analyze` or `remote_processing` action. It selects only personal objects named by the reading's `inputIds`; it also rejects unresolved or cross-subject phase bases and unresolved/ineligible references before evaluating grants. Pass the general correspondence and evidence-claim catalogs separately when the reading cites them. These catalog entries must not be subject-owned; a person's private reflective association belongs in a subject-scoped record with its own consent path. General references are checked for existence and permitted use but are not treated as subject records or covered by the subject's consent. The `symbolic` and `birth_chart_inputs` domains have no broad-category fallback to each other. Remote processing returns separate decisions for analysis and remote processing, and authorizes only if both pass. Sharing a reading still requires `evaluate_authorization` with `action="share"`, the selected recipient, and every personal input item; these helpers remain preflight prototypes, not storage-boundary controls.
 
 ```python
 from metheus import authorize_reading_inputs
@@ -116,7 +127,7 @@ if not decision["authorized"]:
 
 When a reading includes phase annotations, pass each annotation itself and every supporting record named by its `basisRecordIds` in the evaluator's `records` argument. The evaluator checks that those supporting records are included, then evaluates each item's own consent scope.
 
-The synthetic [consent example](../examples/consent-grant.example.json) demonstrates record-ID and date-window scope. Subject-directed export is a data-access capability, not an additional consent action; a share with another recipient still requires `share` authorization.
+The synthetic [consent example](../examples/consent-grant.example.json) demonstrates record-ID and date-window scope for learning records and a symbolic reflection. It deliberately excludes `birth_chart_inputs`. Subject-directed export is a data-access capability, not an additional consent action; a share with another recipient still requires `share` authorization.
 
 This is a policy evaluator, not a complete authorization service: it does not authenticate a subject or grantor, verify guardian authority, validate incoming records against JSON Schema, persist an audit trail, mediate database access, or execute deletion/export. `authorized_delegate` grants also fail closed until their delegated authority can be verified. Callers must fail closed and enforce its decision at the storage and processing boundary. The evaluator is not yet covered by behavioral tests.
 

@@ -10,13 +10,15 @@ The main weakness is the gap between the breadth of the vision and the narrownes
 
 ## Findings
 
-### 1. The system has no subject/profile contract
+### 1. The subject/profile contract is new and not yet enforced end to end
 
-The ontology names `Subject`, `Profile context`, and `Symbolic map`, but there is no schema for a subject container or profile. Birth inputs, timezone and unit preferences, life-stage context, chart features, and their correction/version history therefore have no single contract that declares ownership and links them to observations. The observation and phase schemas are not substitutes for that container.
+This review adds a minimal [`subject index schema`](../schema/subject-index.schema.json), a separate [`birth-chart input schema`](../schema/birth-chart-input.schema.json), and a [`symbolic map schema`](../schema/symbolic-map.schema.json). The index contains pseudonymous ownership and versioned pointers, while exact birth details and calculated symbolic features remain in separate resources. This corrects the previous absence of any profile/index or symbolic-map contract.
 
 **Impact:** A future application could invent incompatible profile shapes, duplicate sensitive data, or blur stable chart inputs with changing life context.
 
-**Recommendation:** Define a minimal profile/index schema that stores pseudonymous subject identity and references to separately consented records. Keep exact birth data, chart calculations, and life context in distinct, versioned resources; do not make a comprehensive profile mandatory.
+**Remaining work:** These schemas are not yet cross-object validated. A profile resolver must ensure every pointer resolves to one resource of the declared kind/version and same subject, while still checking consent independently. Define correction, deletion, and supersession behavior for resources; do not make a comprehensive profile mandatory.
+
+**Consent correction in this review:** The authorization policy previously let `birth_chart_inputs` act as a broad fallback for the `symbolic` domain. That collapsed permission for private source details with permission to use a derived map. The fallback is removed; the learning example now grants only its selected learning and symbolic records, while birth inputs require their own explicit domain/purpose scope.
 
 ### 2. Reading references needed a real runtime boundary
 
@@ -85,4 +87,4 @@ The tracked repository has no automated test suite or schema/example-validation 
 
 ## Current capability statement
 
-At this review, Metheus can present its concept and documentation, represent draft observation/phase/reading/consent/reference records, summarize selected logged rhythms descriptively, and run caller-supplied in-memory reference/consent preflights. It cannot ingest device or laboratory data, retain personal histories, produce validated endocrine or developmental models, or provide a secure health-data service. That limitation should remain prominent until the corresponding capabilities are implemented and verified.
+At this review, Metheus can present its concept and documentation, represent draft subject-index, birth-input, symbolic-map, observation, phase, reading, consent, and reference records, summarize selected logged rhythms descriptively, and run caller-supplied in-memory reference/consent preflights. It cannot ingest device or laboratory data, retain personal histories, resolve the new profile pointers end to end, produce validated endocrine or developmental models, or provide a secure health-data service. That limitation should remain prominent until the corresponding capabilities are implemented and verified.

@@ -33,7 +33,6 @@ _BROAD_SCOPES: dict[str, set[str]] = {
     "hormone_assay": {"clinical_results"},
     "symptom": {"clinical_results"},
     "development": {"child_development"},
-    "symbolic": {"birth_chart_inputs"},
 }
 
 _DOMAIN_ALIASES = {"relationship": "relationships"}

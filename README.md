@@ -35,6 +35,8 @@ See the [critical review](docs/critical-review.md) for the current implementatio
 
 See [Metheus ontology](docs/ontology.md) for core entities and epistemic classes, with a draft [observation schema](schema/observation.schema.json) for time-bounded records.
 
+The draft [subject index](schema/subject-index.schema.json) links separately versioned resources without embedding a full profile. Sensitive birth inputs and their derived symbolic map have distinct contracts in the [birth-chart input schema](schema/birth-chart-input.schema.json) and [symbolic map schema](schema/symbolic-map.schema.json), with synthetic examples for the [index](examples/subject-index.example.json), [birth input](examples/birth-chart-input.example.json), and [map](examples/symbolic-map.example.json).
+
 See [Metheus reading grammar](docs/reading-grammar.md) for synthesis rules and worked examples, with a draft [reading schema](schema/reading.schema.json) for sourced claims, limitations, and subject-controlled reflection options.
 
 See [First executable rhythm summaries](docs/rhythm-analysis.md) for deterministic descriptions of logged sleep, meal/feeding timing, meal timing relative to wake, and gaps between reported bleeding-onset dates.

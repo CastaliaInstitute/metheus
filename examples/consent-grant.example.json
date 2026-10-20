@@ -5,8 +5,8 @@
     "reference": "example-subject-01",
     "role": "subject"
   },
-  "domains": ["learning", "birth_chart_inputs"],
-  "purposes": ["learning_support", "personal_reflection"],
+  "domains": ["learning", "symbolic"],
+  "purposes": ["learning_support"],
   "permittedActions": ["collect", "analyze"],
   "recordIds": [
     "learning-activity-2026-10-20-01",

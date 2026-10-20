@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metheus.castalia.institute/schema/symbolic-map.schema.json",
+  "title": "Metheus symbolic map index",
+  "description": "A versioned link between private calculation inputs and separately represented symbolic feature records. It carries no biological or clinical meaning by itself.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "subjectId", "recordType", "domain", "schemaVersion", "sourceSystem", "calculation", "createdAt"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "subjectId": { "type": "string", "minLength": 1 },
+    "recordType": { "const": "symbolic_map" },
+    "domain": { "const": "symbolic" },
+    "schemaVersion": { "type": "string", "minLength": 1 },
+    "sourceSystem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "lineage": { "type": "string" },
+        "version": { "type": "string", "minLength": 1 }
+      }
+    },
+    "calculation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "method", "methodVersion", "inputRecordIds", "featureRecordIds", "limitations"],
+      "properties": {
+        "status": { "enum": ["calculated", "partial", "illustrative"] },
+        "method": { "type": "string", "minLength": 1 },
+        "methodVersion": { "type": "string", "minLength": 1 },
+        "calculatedAt": { "type": "string", "format": "date-time" },
+        "inputRecordIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "featureRecordIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "limitations": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      },
+      "allOf": [
+        {
+          "if": { "required": ["status"], "properties": { "status": { "enum": ["calculated", "partial"] } } },
+          "then": {
+            "required": ["calculatedAt"],
+            "properties": {
+              "inputRecordIds": { "minItems": 1 },
+              "featureRecordIds": { "minItems": 1 }
+            }
+          }
+        },
+        {
+          "if": { "required": ["status"], "properties": { "status": { "const": "illustrative" } } },
+          "then": {
+            "properties": {
+              "limitations": { "contains": { "type": "string", "pattern": "([Ii]llustrative|[Ss]ynthetic|[Nn]ot calculated|[Nn]o calculation)" } }
+            }
+          }
+        }
+      ]
+    },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "supersedes": { "type": "string", "minLength": 1 }
+  }
+}

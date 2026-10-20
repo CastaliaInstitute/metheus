@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metheus.castalia.institute/schema/birth-chart-input.schema.json",
+  "title": "Metheus private birth-chart input",
+  "description": "Optional, sensitive birth data supplied for a named symbolic calculation. Store separately from the subject index and authorize under birth_chart_inputs; this is not a verified identity or civil record.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "subjectId", "recordType", "domain", "schemaVersion", "birthDate", "birthTime", "birthLocation", "source", "uncertainty", "limitations", "createdAt"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "subjectId": { "type": "string", "minLength": 1 },
+    "recordType": { "const": "birth_chart_input" },
+    "domain": { "const": "birth_chart_inputs" },
+    "schemaVersion": { "type": "string", "minLength": 1 },
+    "birthDate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["date", "precision"],
+      "properties": {
+        "date": { "type": "string", "format": "date" },
+        "precision": { "enum": ["exact", "approximate"] },
+        "uncertaintyDays": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "birthTime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["precision"],
+      "properties": {
+        "localTime": { "type": "string", "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d)?$" },
+        "precision": { "enum": ["exact", "approximate", "unknown"] },
+        "uncertaintyMinutes": { "type": "integer", "minimum": 0 }
+      },
+      "allOf": [
+        {
+          "if": { "required": ["precision"], "properties": { "precision": { "enum": ["exact", "approximate"] } } },
+          "then": { "required": ["localTime"] }
+        },
+        {
+          "if": { "required": ["precision"], "properties": { "precision": { "const": "unknown" } } },
+          "then": { "not": { "required": ["localTime"] } }
+        }
+      ]
+    },
+    "birthLocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["precision"],
+      "properties": {
+        "placeLabel": { "type": "string", "description": "Optional user-supplied place label. Avoid adding more detail than the calculation requires." },
+        "countryCode": { "type": "string", "minLength": 2, "maxLength": 3 },
+        "region": { "type": "string" },
+        "latitude": { "type": "number", "minimum": -90, "maximum": 90 },
+        "longitude": { "type": "number", "minimum": -180, "maximum": 180 },
+        "timeZone": { "type": "string", "description": "IANA timezone at the birth place and date when known; historical timezone rules may affect calculation." },
+        "precision": { "enum": ["exact", "approximate", "unknown"] }
+      },
+      "anyOf": [
+        { "required": ["placeLabel"] },
+        { "required": ["latitude", "longitude"] },
+        { "required": ["timeZone"] },
+        { "required": ["precision"], "properties": { "precision": { "const": "unknown" } } }
+      ],
+      "allOf": [
+        {
+          "if": { "required": ["latitude"] },
+          "then": { "required": ["longitude"] }
+        },
+        {
+          "if": { "required": ["longitude"] },
+          "then": { "required": ["latitude"] }
+        }
+      ]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": { "enum": ["self_reported", "caregiver_reported", "birth_record", "external_import", "unknown"] },
+        "reportedByRelation": { "enum": ["self", "parent_guardian", "caregiver", "other", "unknown"] },
+        "method": { "type": "string" }
+      }
+    },
+    "uncertainty": { "type": "string", "minLength": 1 },
+    "limitations": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "createdAt": { "type": "string", "format": "date-time" }
+  }
+}

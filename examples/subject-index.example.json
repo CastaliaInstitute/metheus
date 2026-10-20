@@ -1,0 +1,21 @@
+{
+  "subjectId": "synthetic-subject",
+  "recordType": "subject_index",
+  "schemaVersion": "0.1",
+  "revision": 1,
+  "steward": {
+    "reference": "synthetic-subject",
+    "role": "subject"
+  },
+  "resourceRefs": [
+    { "id": "synthetic-birth-chart-input", "kind": "birth_chart_input", "schemaVersion": "0.1" },
+    { "id": "synthetic-symbolic-map", "kind": "symbolic_map", "schemaVersion": "0.1" },
+    { "id": "synthetic-chart-feature", "kind": "observation", "schemaVersion": "0.1" }
+  ],
+  "preferences": {
+    "timeZone": "Etc/UTC",
+    "temperatureUnit": "celsius"
+  },
+  "createdAt": "2026-10-20T12:00:00Z",
+  "updatedAt": "2026-10-20T12:00:00Z"
+}

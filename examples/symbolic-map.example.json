@@ -1,0 +1,21 @@
+{
+  "id": "synthetic-symbolic-map",
+  "subjectId": "synthetic-subject",
+  "recordType": "symbolic_map",
+  "domain": "symbolic",
+  "schemaVersion": "0.1",
+  "sourceSystem": {
+    "name": "Human Design",
+    "lineage": "example-only",
+    "version": "example-only"
+  },
+  "calculation": {
+    "status": "illustrative",
+    "method": "No chart calculation; shape-only example linking a birth-input record to a synthetic symbolic feature.",
+    "methodVersion": "0.1-example",
+    "inputRecordIds": ["synthetic-birth-chart-input"],
+    "featureRecordIds": ["synthetic-chart-feature"],
+    "limitations": ["Synthetic illustrative example; no calculation was performed and no Human Design feature is asserted."]
+  },
+  "createdAt": "2026-10-20T12:00:00Z"
+}
