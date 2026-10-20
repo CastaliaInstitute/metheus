@@ -1,0 +1,924 @@
+{
+  "catalogId": "human-design-bodygraph-topology-v1",
+  "catalogStatus": "source_attributed_symbolism",
+  "version": "1.0.0",
+  "description": "Source-specific gate titles and Human Design BodyGraph topology. This catalog is symbolic reference data, not a biological model.",
+  "biologyBoundary": "No gate, center, or channel in this catalog is assigned a hormone, gland, neurochemical, physiological mechanism, developmental outcome, or predictive effect. Any future correspondence requires a separate source-attributed and reviewed record.",
+  "centers": [
+    {
+      "id": "head",
+      "name": "Head",
+      "gateNumbers": [
+        61,
+        63,
+        64
+      ]
+    },
+    {
+      "id": "ajna",
+      "name": "Ajna",
+      "gateNumbers": [
+        4,
+        11,
+        17,
+        24,
+        43,
+        47
+      ]
+    },
+    {
+      "id": "throat",
+      "name": "Throat",
+      "gateNumbers": [
+        8,
+        12,
+        16,
+        20,
+        23,
+        31,
+        33,
+        35,
+        45,
+        56,
+        62
+      ]
+    },
+    {
+      "id": "g_identity",
+      "name": "G / Identity",
+      "gateNumbers": [
+        1,
+        2,
+        7,
+        10,
+        13,
+        15,
+        25,
+        46
+      ]
+    },
+    {
+      "id": "heart",
+      "name": "Heart / Ego",
+      "gateNumbers": [
+        21,
+        26,
+        40,
+        51
+      ]
+    },
+    {
+      "id": "solar_plexus",
+      "name": "Solar Plexus",
+      "gateNumbers": [
+        6,
+        22,
+        30,
+        36,
+        37,
+        49,
+        55
+      ]
+    },
+    {
+      "id": "sacral",
+      "name": "Sacral",
+      "gateNumbers": [
+        3,
+        5,
+        9,
+        14,
+        27,
+        29,
+        34,
+        42,
+        59
+      ]
+    },
+    {
+      "id": "spleen",
+      "name": "Spleen",
+      "gateNumbers": [
+        18,
+        28,
+        32,
+        44,
+        48,
+        50,
+        57
+      ]
+    },
+    {
+      "id": "root",
+      "name": "Root",
+      "gateNumbers": [
+        19,
+        38,
+        39,
+        41,
+        52,
+        53,
+        54,
+        58,
+        60
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "number": 1,
+      "title": "Self-Expression",
+      "centerId": "g_identity",
+      "channelIds": [
+        "ch-1-8"
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Higher Knowing",
+      "centerId": "g_identity",
+      "channelIds": [
+        "ch-2-14"
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Ordering",
+      "centerId": "sacral",
+      "channelIds": [
+        "ch-3-60"
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Formulization",
+      "centerId": "ajna",
+      "channelIds": [
+        "ch-63-4"
+      ]
+    },
+    {
+      "number": 5,
+      "title": "Fixed Rhythms",
+      "centerId": "sacral",
+      "channelIds": [
+        "ch-5-15"
+      ]
+    },
+    {
+      "number": 6,
+      "title": "Friction",
+      "centerId": "solar_plexus",
+      "channelIds": [
+        "ch-59-6"
+      ]
+    },
+    {
+      "number": 7,
+      "title": "Role of the Self",
+      "centerId": "g_identity",
+      "channelIds": [
+        "ch-7-31"
+      ]
+    },
+    {
+      "number": 8,
+      "title": "Contribution",
+      "centerId": "throat",
+      "channelIds": [
+        "ch-1-8"
+      ]
+    },
+    {
+      "number": 9,
+      "title": "Focus",
+      "centerId": "sacral",
+      "channelIds": [
+        "ch-9-52"
+      ]
+    },
+    {
+      "number": 10,
+      "title": "Behavior of the Self",
+      "centerId": "g_identity",
+      "channelIds": [
+        "ch-10-20",
+        "ch-10-34",
+        "ch-10-57"
+      ]
+    },
+    {
+      "number": 11,
+      "title": "Ideas",
+      "centerId": "ajna",
+      "channelIds": [
+        "ch-11-56"
+      ]
+    },
+    {
+      "number": 12,
+      "title": "Caution",
+      "centerId": "throat",
+      "channelIds": [
+        "ch-12-22"
+      ]
+    },
+    {
+      "number": 13,
+      "title": "Listener",
+      "centerId": "g_identity",
+      "channelIds": [
+        "ch-13-33"
+      ]
+    },
+    {
+      "number": 14,
+      "title": "Power Skills",
+      "centerId": "sacral",
+      "channelIds": [
+        "ch-2-14"
+      ]
+    },
+    {
+      "number": 15,
+      "title": "Extremes",
+      "centerId": "g_identity",
+      "channelIds": [
+        "ch-5-15"
+      ]
+    },
+    {
+      "number": 16,
+      "title": "Skills",
+      "centerId": "throat",
+      "channelIds": [
+        "ch-48-16"
+      ]
+    },
+    {
+      "number": 17,
+      "title": "Opinions",
+      "centerId": "ajna",
+      "channelIds": [
+        "ch-17-62"
+      ]
+    },
+    {
+      "number": 18,
+      "title": "Correction",
+      "centerId": "spleen",
+      "channelIds": [
+        "ch-18-58"
+      ]
+    },
+    {
+      "number": 19,
+      "title": "Wanting",
+      "centerId": "root",
+      "channelIds": [
+        "ch-19-49"
+      ]
+    },
+    {
+      "number": 20,
+      "title": "Now",
+      "centerId": "throat",
+      "channelIds": [
+        "ch-10-20",
+        "ch-34-20",
+        "ch-57-20"
+      ]
+    },
+    {
+      "number": 21,
+      "title": "Hunter/Huntress",
+      "centerId": "heart",
+      "channelIds": [
+        "ch-21-45"
+      ]
+    },
+    {
+      "number": 22,
+      "title": "Openness",
+      "centerId": "solar_plexus",
+      "channelIds": [
+        "ch-12-22"
+      ]
+    },
+    {
+      "number": 23,
+      "title": "Assimilation",
+      "centerId": "throat",
+      "channelIds": [
+        "ch-43-23"
+      ]
+    },
+    {
+      "number": 24,
+      "title": "Rationalizing",
+      "centerId": "ajna",
+      "channelIds": [
+        "ch-61-24"
+      ]
+    },
+    {
+      "number": 25,
+      "title": "Spirit of the Self",
+      "centerId": "g_identity",
+      "channelIds": [
+        "ch-25-51"
+      ]
+    },
+    {
+      "number": 26,
+      "title": "Egoist",
+      "centerId": "heart",
+      "channelIds": [
+        "ch-26-44"
+      ]
+    },
+    {
+      "number": 27,
+      "title": "Caring",
+      "centerId": "sacral",
+      "channelIds": [
+        "ch-27-50"
+      ]
+    },
+    {
+      "number": 28,
+      "title": "Game Player",
+      "centerId": "spleen",
+      "channelIds": [
+        "ch-28-38"
+      ]
+    },
+    {
+      "number": 29,
+      "title": "Saying Yes",
+      "centerId": "sacral",
+      "channelIds": [
+        "ch-29-46"
+      ]
+    },
+    {
+      "number": 30,
+      "title": "Recognition of Feelings",
+      "centerId": "solar_plexus",
+      "channelIds": [
+        "ch-41-30"
+      ]
+    },
+    {
+      "number": 31,
+      "title": "Leading",
+      "centerId": "throat",
+      "channelIds": [
+        "ch-7-31"
+      ]
+    },
+    {
+      "number": 32,
+      "title": "Continuity",
+      "centerId": "spleen",
+      "channelIds": [
+        "ch-32-54"
+      ]
+    },
+    {
+      "number": 33,
+      "title": "Privacy",
+      "centerId": "throat",
+      "channelIds": [
+        "ch-13-33"
+      ]
+    },
+    {
+      "number": 34,
+      "title": "Power",
+      "centerId": "sacral",
+      "channelIds": [
+        "ch-34-20",
+        "ch-10-34",
+        "ch-34-57"
+      ]
+    },
+    {
+      "number": 35,
+      "title": "Change",
+      "centerId": "throat",
+      "channelIds": [
+        "ch-35-36"
+      ]
+    },
+    {
+      "number": 36,
+      "title": "Crisis",
+      "centerId": "solar_plexus",
+      "channelIds": [
+        "ch-35-36"
+      ]
+    },
+    {
+      "number": 37,
+      "title": "Friendship",
+      "centerId": "solar_plexus",
+      "channelIds": [
+        "ch-37-40"
+      ]
+    },
+    {
+      "number": 38,
+      "title": "Fighter",
+      "centerId": "root",
+      "channelIds": [
+        "ch-28-38"
+      ]
+    },
+    {
+      "number": 39,
+      "title": "Provocateur",
+      "centerId": "root",
+      "channelIds": [
+        "ch-39-55"
+      ]
+    },
+    {
+      "number": 40,
+      "title": "Aloneness",
+      "centerId": "heart",
+      "channelIds": [
+        "ch-37-40"
+      ]
+    },
+    {
+      "number": 41,
+      "title": "Contraction",
+      "centerId": "root",
+      "channelIds": [
+        "ch-41-30"
+      ]
+    },
+    {
+      "number": 42,
+      "title": "Growth",
+      "centerId": "sacral",
+      "channelIds": [
+        "ch-42-53"
+      ]
+    },
+    {
+      "number": 43,
+      "title": "Insight",
+      "centerId": "ajna",
+      "channelIds": [
+        "ch-43-23"
+      ]
+    },
+    {
+      "number": 44,
+      "title": "Alertness",
+      "centerId": "spleen",
+      "channelIds": [
+        "ch-26-44"
+      ]
+    },
+    {
+      "number": 45,
+      "title": "Gatherer",
+      "centerId": "throat",
+      "channelIds": [
+        "ch-21-45"
+      ]
+    },
+    {
+      "number": 46,
+      "title": "Determination of the Self",
+      "centerId": "g_identity",
+      "channelIds": [
+        "ch-29-46"
+      ]
+    },
+    {
+      "number": 47,
+      "title": "Realizing",
+      "centerId": "ajna",
+      "channelIds": [
+        "ch-64-47"
+      ]
+    },
+    {
+      "number": 48,
+      "title": "Depth",
+      "centerId": "spleen",
+      "channelIds": [
+        "ch-48-16"
+      ]
+    },
+    {
+      "number": 49,
+      "title": "Principles",
+      "centerId": "solar_plexus",
+      "channelIds": [
+        "ch-19-49"
+      ]
+    },
+    {
+      "number": 50,
+      "title": "Values",
+      "centerId": "spleen",
+      "channelIds": [
+        "ch-27-50"
+      ]
+    },
+    {
+      "number": 51,
+      "title": "Shock",
+      "centerId": "heart",
+      "channelIds": [
+        "ch-25-51"
+      ]
+    },
+    {
+      "number": 52,
+      "title": "Inaction",
+      "centerId": "root",
+      "channelIds": [
+        "ch-9-52"
+      ]
+    },
+    {
+      "number": 53,
+      "title": "Beginnings",
+      "centerId": "root",
+      "channelIds": [
+        "ch-42-53"
+      ]
+    },
+    {
+      "number": 54,
+      "title": "Ambition",
+      "centerId": "root",
+      "channelIds": [
+        "ch-32-54"
+      ]
+    },
+    {
+      "number": 55,
+      "title": "Spirit",
+      "centerId": "solar_plexus",
+      "channelIds": [
+        "ch-39-55"
+      ]
+    },
+    {
+      "number": 56,
+      "title": "Stimulation",
+      "centerId": "throat",
+      "channelIds": [
+        "ch-11-56"
+      ]
+    },
+    {
+      "number": 57,
+      "title": "Intuitive Insight",
+      "centerId": "spleen",
+      "channelIds": [
+        "ch-57-20",
+        "ch-10-57",
+        "ch-34-57"
+      ]
+    },
+    {
+      "number": 58,
+      "title": "Aliveness",
+      "centerId": "root",
+      "channelIds": [
+        "ch-18-58"
+      ]
+    },
+    {
+      "number": 59,
+      "title": "Sexuality",
+      "centerId": "sacral",
+      "channelIds": [
+        "ch-59-6"
+      ]
+    },
+    {
+      "number": 60,
+      "title": "Acceptance",
+      "centerId": "root",
+      "channelIds": [
+        "ch-3-60"
+      ]
+    },
+    {
+      "number": 61,
+      "title": "Mystery",
+      "centerId": "head",
+      "channelIds": [
+        "ch-61-24"
+      ]
+    },
+    {
+      "number": 62,
+      "title": "Detail",
+      "centerId": "throat",
+      "channelIds": [
+        "ch-17-62"
+      ]
+    },
+    {
+      "number": 63,
+      "title": "Doubt",
+      "centerId": "head",
+      "channelIds": [
+        "ch-63-4"
+      ]
+    },
+    {
+      "number": 64,
+      "title": "Confusion",
+      "centerId": "head",
+      "channelIds": [
+        "ch-64-47"
+      ]
+    }
+  ],
+  "channels": [
+    {
+      "id": "ch-64-47",
+      "gateA": 64,
+      "gateB": 47,
+      "centerA": "head",
+      "centerB": "ajna"
+    },
+    {
+      "id": "ch-61-24",
+      "gateA": 61,
+      "gateB": 24,
+      "centerA": "head",
+      "centerB": "ajna"
+    },
+    {
+      "id": "ch-63-4",
+      "gateA": 63,
+      "gateB": 4,
+      "centerA": "head",
+      "centerB": "ajna"
+    },
+    {
+      "id": "ch-17-62",
+      "gateA": 17,
+      "gateB": 62,
+      "centerA": "ajna",
+      "centerB": "throat"
+    },
+    {
+      "id": "ch-43-23",
+      "gateA": 43,
+      "gateB": 23,
+      "centerA": "ajna",
+      "centerB": "throat"
+    },
+    {
+      "id": "ch-11-56",
+      "gateA": 11,
+      "gateB": 56,
+      "centerA": "ajna",
+      "centerB": "throat"
+    },
+    {
+      "id": "ch-7-31",
+      "gateA": 7,
+      "gateB": 31,
+      "centerA": "g_identity",
+      "centerB": "throat"
+    },
+    {
+      "id": "ch-1-8",
+      "gateA": 1,
+      "gateB": 8,
+      "centerA": "g_identity",
+      "centerB": "throat"
+    },
+    {
+      "id": "ch-13-33",
+      "gateA": 13,
+      "gateB": 33,
+      "centerA": "g_identity",
+      "centerB": "throat"
+    },
+    {
+      "id": "ch-10-20",
+      "gateA": 10,
+      "gateB": 20,
+      "centerA": "g_identity",
+      "centerB": "throat"
+    },
+    {
+      "id": "ch-21-45",
+      "gateA": 21,
+      "gateB": 45,
+      "centerA": "heart",
+      "centerB": "throat"
+    },
+    {
+      "id": "ch-12-22",
+      "gateA": 12,
+      "gateB": 22,
+      "centerA": "throat",
+      "centerB": "solar_plexus"
+    },
+    {
+      "id": "ch-35-36",
+      "gateA": 35,
+      "gateB": 36,
+      "centerA": "throat",
+      "centerB": "solar_plexus"
+    },
+    {
+      "id": "ch-34-20",
+      "gateA": 34,
+      "gateB": 20,
+      "centerA": "sacral",
+      "centerB": "throat"
+    },
+    {
+      "id": "ch-57-20",
+      "gateA": 57,
+      "gateB": 20,
+      "centerA": "spleen",
+      "centerB": "throat"
+    },
+    {
+      "id": "ch-48-16",
+      "gateA": 48,
+      "gateB": 16,
+      "centerA": "spleen",
+      "centerB": "throat"
+    },
+    {
+      "id": "ch-5-15",
+      "gateA": 5,
+      "gateB": 15,
+      "centerA": "sacral",
+      "centerB": "g_identity"
+    },
+    {
+      "id": "ch-2-14",
+      "gateA": 2,
+      "gateB": 14,
+      "centerA": "g_identity",
+      "centerB": "sacral"
+    },
+    {
+      "id": "ch-29-46",
+      "gateA": 29,
+      "gateB": 46,
+      "centerA": "sacral",
+      "centerB": "g_identity"
+    },
+    {
+      "id": "ch-10-34",
+      "gateA": 10,
+      "gateB": 34,
+      "centerA": "g_identity",
+      "centerB": "sacral"
+    },
+    {
+      "id": "ch-10-57",
+      "gateA": 10,
+      "gateB": 57,
+      "centerA": "g_identity",
+      "centerB": "spleen"
+    },
+    {
+      "id": "ch-25-51",
+      "gateA": 25,
+      "gateB": 51,
+      "centerA": "g_identity",
+      "centerB": "heart"
+    },
+    {
+      "id": "ch-34-57",
+      "gateA": 34,
+      "gateB": 57,
+      "centerA": "sacral",
+      "centerB": "spleen"
+    },
+    {
+      "id": "ch-27-50",
+      "gateA": 27,
+      "gateB": 50,
+      "centerA": "sacral",
+      "centerB": "spleen"
+    },
+    {
+      "id": "ch-59-6",
+      "gateA": 59,
+      "gateB": 6,
+      "centerA": "sacral",
+      "centerB": "solar_plexus"
+    },
+    {
+      "id": "ch-3-60",
+      "gateA": 3,
+      "gateB": 60,
+      "centerA": "sacral",
+      "centerB": "root"
+    },
+    {
+      "id": "ch-42-53",
+      "gateA": 42,
+      "gateB": 53,
+      "centerA": "sacral",
+      "centerB": "root"
+    },
+    {
+      "id": "ch-9-52",
+      "gateA": 9,
+      "gateB": 52,
+      "centerA": "sacral",
+      "centerB": "root"
+    },
+    {
+      "id": "ch-18-58",
+      "gateA": 18,
+      "gateB": 58,
+      "centerA": "spleen",
+      "centerB": "root"
+    },
+    {
+      "id": "ch-28-38",
+      "gateA": 28,
+      "gateB": 38,
+      "centerA": "spleen",
+      "centerB": "root"
+    },
+    {
+      "id": "ch-32-54",
+      "gateA": 32,
+      "gateB": 54,
+      "centerA": "spleen",
+      "centerB": "root"
+    },
+    {
+      "id": "ch-19-49",
+      "gateA": 19,
+      "gateB": 49,
+      "centerA": "root",
+      "centerB": "solar_plexus"
+    },
+    {
+      "id": "ch-39-55",
+      "gateA": 39,
+      "gateB": 55,
+      "centerA": "root",
+      "centerB": "solar_plexus"
+    },
+    {
+      "id": "ch-41-30",
+      "gateA": 41,
+      "gateB": 30,
+      "centerA": "root",
+      "centerB": "solar_plexus"
+    },
+    {
+      "id": "ch-26-44",
+      "gateA": 26,
+      "gateB": 44,
+      "centerA": "heart",
+      "centerB": "spleen"
+    },
+    {
+      "id": "ch-37-40",
+      "gateA": 37,
+      "gateB": 40,
+      "centerA": "solar_plexus",
+      "centerB": "heart"
+    }
+  ],
+  "sources": [
+    {
+      "name": "Human.Design, Human Design Gates",
+      "url": "https://human.design/the-human-design-system/gates",
+      "retrievedAt": "2026-10-20",
+      "scope": "Source-specific titles for Gates 1–64 and the placement of gates within the nine centers."
+    },
+    {
+      "name": "Human.Design, Human Design Centers",
+      "url": "https://human.design/the-human-design-system/centers",
+      "retrievedAt": "2026-10-20",
+      "scope": "Nine-center vocabulary and center gate counts."
+    },
+    {
+      "name": "Jovian Archive, Channels in Human Design: The Life Force",
+      "url": "https://jovianarchive.com/pages/channels-in-human-design-the-life-force",
+      "retrievedAt": "2026-10-20",
+      "scope": "The Human Design definition of a channel as a two-gate connection between centers and the stated total of 36 channels."
+    }
+  ],
+  "topologyProvenance": "The channel endpoint list is transcribed from the channel inventory in the Metheus atlas. The cited overview sources establish the system vocabulary and totals, but do not individually verify every endpoint pair; independently verify this transcription against a canonical licensed BodyGraph reference before using it for chart calculation."
+}

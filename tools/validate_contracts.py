@@ -74,6 +74,7 @@ EXAMPLE_SCHEMAS = {
 CATALOG_SCHEMAS = {
     "endocrine-relations.json": "endocrine-relations-catalog.schema.json",
     "evidence-claims.json": "evidence-catalog.schema.json",
+    "human-design-bodygraph-topology.json": "human-design-bodygraph-topology.schema.json",
     "phase-vocabulary.json": "phase-vocabulary.schema.json",
 }
 
@@ -81,6 +82,110 @@ CATALOG_ITEM_SCHEMAS = {
     "endocrine-relations.json": ("relations", "endocrine-relation.schema.json"),
     "evidence-claims.json": ("claims", "evidence-claim.schema.json"),
 }
+
+EXPECTED_CENTER_GATE_COUNTS = {
+    "head": 3,
+    "ajna": 6,
+    "throat": 11,
+    "g_identity": 8,
+    "heart": 4,
+    "solar_plexus": 7,
+    "sacral": 9,
+    "spleen": 7,
+    "root": 9,
+}
+
+
+def validate_bodygraph_topology(catalog: Any) -> list[str]:
+    """Check graph integrity beyond what JSON Schema can express."""
+    if not isinstance(catalog, dict):
+        return ["catalog/human-design-bodygraph-topology.json: expected an object"]
+
+    errors: list[str] = []
+    centers = catalog.get("centers", [])
+    gates = catalog.get("gates", [])
+    channels = catalog.get("channels", [])
+    if not all(isinstance(items, list) for items in (centers, gates, channels)):
+        return ["catalog/human-design-bodygraph-topology.json: centers, gates, and channels must be arrays"]
+
+    center_ids = [center.get("id") for center in centers if isinstance(center, dict) and isinstance(center.get("id"), str)]
+    if len(center_ids) != len(set(center_ids)) or set(center_ids) != set(EXPECTED_CENTER_GATE_COUNTS):
+        errors.append("catalog/human-design-bodygraph-topology.json: centers must contain each expected center exactly once")
+
+    gate_by_number: dict[int, dict[str, Any]] = {}
+    for index, gate in enumerate(gates):
+        if not isinstance(gate, dict) or not isinstance(gate.get("number"), int):
+            continue
+        number = gate["number"]
+        if number in gate_by_number:
+            errors.append(f"catalog/human-design-bodygraph-topology.json at gates/{index}/number: duplicate gate {number}")
+        gate_by_number[number] = gate
+    if set(gate_by_number) != set(range(1, 65)):
+        errors.append("catalog/human-design-bodygraph-topology.json: gates must cover each number from 1 through 64 exactly once")
+
+    center_membership: dict[int, str] = {}
+    for index, center in enumerate(centers):
+        if not isinstance(center, dict):
+            continue
+        center_id = center.get("id")
+        gate_numbers = center.get("gateNumbers", [])
+        if not isinstance(gate_numbers, list):
+            continue
+        expected_count = EXPECTED_CENTER_GATE_COUNTS.get(center_id) if isinstance(center_id, str) else None
+        if len(gate_numbers) != expected_count:
+            errors.append(f"catalog/human-design-bodygraph-topology.json at centers/{index}/gateNumbers: unexpected gate count for {center_id}")
+        for number in gate_numbers:
+            if not isinstance(number, int) or isinstance(number, bool):
+                continue
+            if number in center_membership:
+                errors.append(f"catalog/human-design-bodygraph-topology.json at centers/{index}/gateNumbers: gate {number} occurs in multiple centers")
+            center_membership[number] = center_id
+            gate = gate_by_number.get(number)
+            if gate is not None and gate.get("centerId") != center_id:
+                errors.append(f"catalog/human-design-bodygraph-topology.json: gate {number} has inconsistent center membership")
+    if set(center_membership) != set(range(1, 65)):
+        errors.append("catalog/human-design-bodygraph-topology.json: center gate lists must partition all 64 gates")
+
+    channel_by_id: dict[str, dict[str, Any]] = {}
+    unordered_pairs: set[tuple[int, int]] = set()
+    gate_channels: dict[int, set[str]] = {number: set() for number in range(1, 65)}
+    for index, channel in enumerate(channels):
+        if not isinstance(channel, dict):
+            continue
+        channel_id = channel.get("id")
+        gate_a, gate_b = channel.get("gateA"), channel.get("gateB")
+        if isinstance(channel_id, str):
+            if channel_id in channel_by_id:
+                errors.append(f"catalog/human-design-bodygraph-topology.json at channels/{index}/id: duplicate channel ID {channel_id}")
+            channel_by_id[channel_id] = channel
+        if (
+            not isinstance(gate_a, int)
+            or isinstance(gate_a, bool)
+            or not isinstance(gate_b, int)
+            or isinstance(gate_b, bool)
+        ):
+            continue
+        pair = tuple(sorted((gate_a, gate_b)))
+        if gate_a == gate_b or pair in unordered_pairs:
+            errors.append(f"catalog/human-design-bodygraph-topology.json at channels/{index}: channel endpoints must be unique")
+        unordered_pairs.add(pair)
+        expected_id = f"ch-{gate_a}-{gate_b}"
+        if channel_id != expected_id:
+            errors.append(f"catalog/human-design-bodygraph-topology.json at channels/{index}/id: ID must match ordered gate endpoints")
+        if gate_a in gate_channels:
+            gate_channels[gate_a].add(channel_id)
+        if gate_b in gate_channels:
+            gate_channels[gate_b].add(channel_id)
+        if center_membership.get(gate_a) != channel.get("centerA") or center_membership.get(gate_b) != channel.get("centerB"):
+            errors.append(f"catalog/human-design-bodygraph-topology.json at channels/{index}: center endpoints do not match gate membership")
+    if len(channels) != 36 or len(unordered_pairs) != 36:
+        errors.append("catalog/human-design-bodygraph-topology.json: expected 36 unique channel edges")
+
+    for number, gate in gate_by_number.items():
+        declared = gate.get("channelIds")
+        if isinstance(declared, list) and all(isinstance(item, str) for item in declared) and set(declared) != gate_channels.get(number, set()):
+            errors.append(f"catalog/human-design-bodygraph-topology.json: gate {number} channel references are inconsistent")
+    return errors
 
 
 def load_json(path: Path) -> Any:
@@ -174,6 +279,8 @@ def main() -> int:
         for error in sorted(validator.iter_errors(catalog), key=lambda item: tuple(map(str, item.absolute_path))):
             location = "/".join(str(part) for part in error.absolute_path) or "$"
             errors.append(f"catalog/{filename} at {location}: {error.message}")
+        if filename == "human-design-bodygraph-topology.json":
+            errors.extend(validate_bodygraph_topology(catalog))
         item_schema_mapping = CATALOG_ITEM_SCHEMAS.get(filename)
         if item_schema_mapping is not None and isinstance(catalog, dict):
             collection_key, item_schema_filename = item_schema_mapping

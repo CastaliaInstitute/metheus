@@ -65,11 +65,13 @@ In Human Design the 36 channels connect pairs of gates in the bodygraph. The lis
 | Heart ↔ Spleen | 26–44 | Learned associations, effort, and perception |
 | Heart ↔ Solar Plexus | 37–40 | Social bonds, reciprocity, effort and recovery |
 
-The rows contain 36 unique channels. Channel membership and gate endpoints should be checked against a versioned Human Design source before any machine-readable catalog is published. Biological topics here are prompts for discussion, not correspondence claims eligible for inference.
+The rows contain 36 unique channels. Their machine-readable transcription records its source limits and must be checked against a versioned canonical BodyGraph reference before it is used for chart calculation. Biological topics here are prompts for discussion, not correspondence claims eligible for inference.
 
 ## Gate-level annotations
 
-The proposed source material gives only three sample annotations (61, 63, 64), not a complete 64-gate catalog. Preserve these as examples of a future annotation format, not as a finished atlas:
+The machine-readable [BodyGraph topology catalog](../catalog/human-design-bodygraph-topology.json) now covers all 64 source-specific gate titles, their nine-center membership, and a transcription of the 36 symbolic channel connections. Gate titles are lineage-specific labels, not biological constructs. The catalog deliberately assigns no gate a hormone, gland, neurochemical, or physiological mechanism, and its channel transcription is not yet suitable as a chart-calculation source.
+
+Only three gate-level reflective comparisons have been drafted so far. Keep them separate from the complete topology catalog and treat them as examples, not validated correspondences:
 
 | Gate | Traditional theme | Optional reflective analogy | Status |
 |---|---|---|---|
@@ -77,7 +79,7 @@ The proposed source material gives only three sample annotations (61, 63, 64), n
 | 63 | Doubt | Error detection and hypothesis testing | Analogy; not a gate-specific mechanism |
 | 64 | Confusion | Ambiguous input and memory integration | Analogy; not a gate-specific mechanism |
 
-A future complete catalog needs source-attributed traditional wording, the Human Design version/lineage, a separately authored candidate analogy, review status, and limitations for each gate. Do not assign a hormone to every gate merely to fill a table.
+A future biological crosswalk needs source-attributed wording, Human Design version/lineage, a separately authored candidate analogy, evidence review, and limitations for every proposed relation. Do not assign a hormone to every gate merely to fill a table. The current catalog's source-specific names are from [Human.Design's gate reference](https://human.design/the-human-design-system/gates); different lineages may use different names.
 
 ## Network architecture: map actual biology first
 
