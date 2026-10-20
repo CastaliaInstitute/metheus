@@ -104,7 +104,9 @@ export async function mountBodygraph() {
   correspondenceGroup.position.z = 2.8;
   plane.add(correspondenceGroup);
   let endocrineRecords = [];
+  let endocrineLoadPromise = null;
   let gateCorrespondences = [];
+  let visibleGateCorrespondences = [];
   const endocrineDomainLabels = {
     hpt: 'Thyroid regulation', hpa: 'Stress-axis regulation', hpg: 'Reproductive-axis regulation',
     circadian: 'Circadian regulation', glucose: 'Glucose regulation', gut: 'Gut-incretin signaling',
@@ -129,6 +131,7 @@ export async function mountBodygraph() {
       const searchable = [item.sourceFeature.label, item.sourceFeature.id, item.targetConcept.label, item.sourceSystem.name, item.sourceSystem.lineage, item.claimText].join(' ').toLocaleLowerCase();
       return !query || searchable.includes(query);
     });
+    visibleGateCorrespondences = visibleItems;
     list.replaceChildren();
     const byGate = new Map();
     for (const item of visibleItems) {
@@ -190,15 +193,58 @@ export async function mountBodygraph() {
     const limitations = document.createElement('span');
     limitations.textContent = ` Limits: ${item.limitations.join(' ')}`;
     detail.append(limitations);
+    appendCandidatePhysiology(detail, item);
+  }
+
+  function appendCandidatePhysiology(parent, item) {
+    const section = document.createElement('section');
+    const heading = document.createElement('strong');
+    heading.textContent = 'Separate candidate physiology catalog';
+    const note = document.createElement('span');
+    note.textContent = 'Checking for an exact shared organ ID…';
+    section.append(heading, note);
+    parent.append(section);
+    ensureEndocrineCatalog().then((records) => {
+      if (!section.isConnected) return;
+      const related = records.filter((relation) => relation.sourceEntity.id === item.targetConcept.id || relation.targetEntity.id === item.targetConcept.id);
+      section.replaceChildren(heading);
+      const boundary = document.createElement('span');
+      boundary.textContent = related.length
+        ? `Exact entity ID match: ${item.targetConcept.id}. This joins catalog entries for reference only; it does not validate the gate-to-organ teaching.`
+        : `No exact entity ID match for ${item.targetConcept.id} exists in the current endocrine relations catalog. No fuzzy name matching is used.`;
+      section.append(boundary);
+      if (!related.length) {
+        const empty = document.createElement('span');
+        empty.textContent = 'The two layers remain separate; absence of an exact catalog match is not evidence against either source.';
+        section.append(empty);
+        return;
+      }
+      for (const relation of related) {
+        const relationText = document.createElement('p');
+        relationText.textContent = `${relation.statement} Status: ${relation.evidenceStatus}; internal candidate physiology only.`;
+        section.append(relationText);
+        for (const source of relation.sourceCitations || []) {
+          const sourceLink = document.createElement('a');
+          sourceLink.href = source.url;
+          sourceLink.target = '_blank';
+          sourceLink.rel = 'noopener noreferrer';
+          sourceLink.textContent = `${source.title} · ${source.locator || 'Source'}`;
+          section.append(sourceLink);
+        }
+      }
+    }).catch(() => {
+      if (!section.isConnected) return;
+      note.textContent = 'The separate candidate physiology catalog could not be loaded. This does not affect the source-attributed gate entry above.';
+    });
   }
 
   function displayGateCorrespondences(gateId) {
-    const matches = gateCorrespondences.filter((entry) => entry.sourceFeature.id === gateId);
+    const matches = visibleGateCorrespondences.filter((entry) => entry.sourceFeature.id === gateId);
     if (matches.length === 1) return displayCorrespondence(matches[0]);
     if (!matches.length) return;
     detail.replaceChildren();
     for (const item of matches) {
-      const section = document.createElement('p');
+      const section = document.createElement('section');
       const summary = document.createElement('span');
       summary.textContent = `${item.sourceFeature.label} → ${item.targetConcept.label}. ${item.claimText} `;
       const citation = item.sourceCitations[0];
@@ -210,6 +256,7 @@ export async function mountBodygraph() {
       const limits = document.createElement('span');
       limits.textContent = ` Limits: ${item.limitations.join(' ')}`;
       section.append(summary, link, limits);
+      appendCandidatePhysiology(section, item);
       detail.append(section);
     }
   }
@@ -294,29 +341,44 @@ export async function mountBodygraph() {
     endocrineGroup.userData.positions = positions;
   }
 
+  async function ensureEndocrineCatalog() {
+    if (endocrineRecords.length) return endocrineRecords;
+    if (!endocrineLoadPromise) {
+      endocrineLoadPromise = (async () => {
+        const response = await fetch(ENDOCRINE_URL, { cache: 'force-cache' });
+        if (!response.ok) throw new Error('Candidate endocrine catalog could not be loaded.');
+        const catalog = await response.json();
+        endocrineRecords = catalog.relations.map((relation) => {
+          const text = `${relation.context?.setting || ''} ${relation.statement || ''}`.toLowerCase();
+          let domain = 'other';
+          if (/thyroid|\bhpt\b|trh|tsh/.test(text)) domain = 'hpt';
+          else if (/menstrual|ovarian|follicular|luteal|pregnancy|menopause|\bhpg\b|gonadotropin/.test(text)) domain = 'reproductive';
+          else if (/circadian|melatonin|sleep timing/.test(text)) domain = 'circadian';
+          else if (/glucose|insulin|glucagon/.test(text)) domain = 'glucose';
+          else if (/gut|incretin|\bglp-1\b/.test(text)) domain = 'gut';
+          else if (/stress|adrenal|cortisol|\bhpa\b/.test(text)) domain = 'hpa';
+          return { ...relation, domain };
+        });
+        const domains = [...new Set(endocrineRecords.map((relation) => relation.domain))].filter((domain) => domain !== 'all');
+        domains.forEach((domain) => {
+          if (filter.querySelector(`option[value="${domain}"]`)) return;
+          const option = document.createElement('option');
+          option.value = domain;
+          option.textContent = endocrineDomainLabels[domain] || domain;
+          filter.append(option);
+        });
+        return endocrineRecords;
+      })().catch((error) => {
+        endocrineLoadPromise = null;
+        throw error;
+      });
+    }
+    return endocrineLoadPromise;
+  }
+
   async function loadEndocrine() {
     try {
-      const response = await fetch(ENDOCRINE_URL, { cache: 'force-cache' });
-      if (!response.ok) throw new Error('Candidate endocrine catalog could not be loaded.');
-      const catalog = await response.json();
-      endocrineRecords = catalog.relations.map((relation) => {
-        const text = `${relation.context?.setting || ''} ${relation.statement || ''}`.toLowerCase();
-        let domain = 'other';
-        if (/thyroid|\bhpt\b|trh|tsh/.test(text)) domain = 'hpt';
-        else if (/menstrual|ovarian|follicular|luteal|pregnancy|menopause|\bhpg\b|gonadotropin/.test(text)) domain = 'reproductive';
-        else if (/circadian|melatonin|sleep timing/.test(text)) domain = 'circadian';
-        else if (/glucose|insulin|glucagon/.test(text)) domain = 'glucose';
-        else if (/gut|incretin|\bglp-1\b/.test(text)) domain = 'gut';
-        else if (/stress|adrenal|cortisol|\bhpa\b/.test(text)) domain = 'hpa';
-        return { ...relation, domain };
-      });
-      const domains = [...new Set(endocrineRecords.map((relation) => relation.domain))].filter((domain) => domain !== 'all');
-      domains.forEach((domain) => {
-        const option = document.createElement('option');
-        option.value = domain;
-        option.textContent = endocrineDomainLabels[domain] || domain;
-        filter.append(option);
-      });
+      await ensureEndocrineCatalog();
       renderEndocrine();
     } catch {
       detail.textContent = 'The candidate endocrine catalog could not be loaded. The BodyGraph reference is still available.';
