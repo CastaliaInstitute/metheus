@@ -33,6 +33,8 @@ See [Metheus as a systems model](docs/systems-model.md) for the intended archite
 
 See [Metheus ontology](docs/ontology.md) for core entities and epistemic classes, with a draft [observation schema](schema/observation.schema.json) for time-bounded records.
 
+See [Metheus reading grammar](docs/reading-grammar.md) for synthesis rules and worked examples, with a draft [reading schema](schema/reading.schema.json) for sourced claims and limitations.
+
 ## Site
 
 - GitHub Pages: https://castaliainstitute.github.io/metheus/

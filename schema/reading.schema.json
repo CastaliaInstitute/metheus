@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metheus.castalia.institute/schema/reading.schema.json",
+  "title": "Metheus reading",
+  "description": "Draft v0.1 output contract for a sourced, revisable reflective reading. Not a clinical interpretation standard.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "subjectId", "version", "purpose", "timeWindow", "claims", "generatedAt"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "subjectId": { "type": "string", "minLength": 1, "description": "Pseudonymous subject reference." },
+    "version": { "type": "string", "minLength": 1 },
+    "purpose": { "type": "string", "minLength": 1 },
+    "timeWindow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start", "end", "precision"],
+      "properties": {
+        "start": { "type": "string", "format": "date-time" },
+        "end": { "type": "string", "format": "date-time" },
+        "timeZone": { "type": "string" },
+        "precision": { "enum": ["exact", "approximate", "date_only"] }
+      }
+    },
+    "inputIds": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "excludedDomains": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["claimType", "text", "sourceIds", "support"],
+        "properties": {
+          "claimType": { "enum": ["observation", "estimate", "symbolic_prompt", "interpretive_question", "hypothesis", "boundary"] },
+          "text": { "type": "string", "minLength": 1 },
+          "sourceIds": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+          "support": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["confidence", "coverage"],
+            "properties": {
+              "confidence": { "enum": ["high", "moderate", "low", "not_applicable"] },
+              "coverage": { "enum": ["adequate", "partial", "sparse", "unknown"] },
+              "rationale": { "type": "string" },
+              "alternatives": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        }
+      }
+    },
+    "synthesis": { "type": "string" },
+    "reflectiveQuestion": { "type": "string" },
+    "limitations": { "type": "array", "items": { "type": "string" } },
+    "engine": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "version": { "type": "string" },
+        "symbolicSystems": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+      }
+    },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "feedback": { "enum": ["not_reviewed", "resonates", "does_not_fit", "uncertain", "revised"] },
+    "revisionOf": { "type": "string" }
+  }
+}
