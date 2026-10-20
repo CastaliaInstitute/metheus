@@ -45,6 +45,61 @@ These are optional editorial suggestions, not official biomedical stage definiti
 | Epimethean / development | Child or adolescent transition, when relevant and supplied | **The Expanding World** | A flexible reflective label. Avoid deadlines, comparisons, and deterministic forecasts. |
 | Epimethean / sleep-wake | Observed or estimated sleep-wake interval | **The Nightward Arc** | Retain timestamps, time zone, and source. Clock time is not biological circadian phase. |
 
+## Expanded phase palette
+
+The names below are a consistent vocabulary proposal, not standardized biomedical terminology. Treat the evocative name as a display layer: keep the canonical phase, time window, evidence basis, and uncertainty adjacent to it. A phase may be unnamed, skipped, overlapping, or personalized.
+
+### Promethean cycles and transits
+
+Promethean labels describe positions or periods within a named symbolic system. The system's canonical vocabulary and lineage take precedence; these names are optional editorial handles.
+
+| Canonical phase/context | Optional evocative name | Description |
+|---|---|---|
+| Natal/birth chart reference | **The Given Pattern** | A fixed symbolic map calculated from the birth data and named system. It is not a measured trait or a developmental verdict. |
+| Transit approaching an exact contact | **The Approaching Current** | A symbolic period leading toward a calculated contact. Show the calculation window and orb/method; do not imply an event is destined. |
+| Exact transit/contact | **The Meeting Point** | The exact or closest calculated contact to a chart feature. The astronomical calculation and the tradition's interpretation remain separate. |
+| Transit separating from contact | **The Passing Spark** | A symbolic prompt for a contact that is moving beyond its exact point. It does not establish that a life event occurred. |
+| Return cycle (for example, a named planetary return) | **The Returning Wheel** | A calculated return to a defined chart position. Name the body, reference position, system, and calculation method; avoid assigning a universal age-based meaning. |
+| Recurring cycle within a named system | **The Resonant Rhythm** | A repeatable symbolic cycle whose start, period, and phase conventions must be supplied by that system. Do not imply physiological periodicity. |
+
+### Epimethean reproductive and life-course contexts
+
+| Canonical phase/context | Optional evocative name | Description |
+|---|---|---|
+| Menarche / first reported menstrual bleeding | **The First Tide** | A milestone reported by the person or caregiver when appropriate. It is not a measure of maturity, fertility, or readiness. |
+| Bleeding onset / menstruation | **The Opening Tide** | A reported bleeding event or interval. Bleeding alone does not establish cycle phase, ovulation, hormone levels, or cause. |
+| Follicular phase, if method-supported | **The First Light** | A method-qualified phase estimate or assessment. A calendar day alone does not establish hormone state. |
+| Ovulatory event/window, if method-supported | **The Threshold** | State whether this is an estimate, observation, or clinical assessment and how it was established. Do not imply fertility certainty. |
+| Luteal phase, if method-supported | **The Returning Tide** | A method-qualified estimate or assessment. Do not infer progesterone or mood from dates, temperature, or HRV alone. |
+| Premenstrual symptoms, when self-reported | **The Nearing Edge** | A person's own symptom-window label, if useful. It is not a diagnosis and should not be inferred from a cycle calendar. |
+| Conception attempt or fertility care, if the person chooses to record it | **The Open Question** | A private context that records only the person's chosen event or process. Do not infer conception, pregnancy, fertility status, or another person's intent. |
+| Pregnancy | **The Becoming** | A user-selected reflection label for a reported or clinically documented pregnancy context; not a description of fetal health or outcome. |
+| Birth event | **The Arrival** | A dated event as recorded by the person or authorized caregiver; it does not predict emotional or physical experience. |
+| Postpartum context | **The Reweaving** | A flexible, potentially overlapping context for recovery and changed routines/relationships. No fixed duration, emotional course, or outcome is assumed. |
+| Lactation / feeding context, if relevant and chosen | **The Shared Rhythm** | A descriptive label for a reported feeding or lactation context. It must not assume lactation, feeding method, or caregiver identity. |
+| Perimenopause / menopause transition | **The Changing Tide** | A variable transition described by the person or clinician. Keep the canonical term and basis visible; do not infer it from age alone. |
+| Final menstrual period / menopause milestone, when established | **The Still Point** | A retrospective milestone with the applicable clinical convention and source recorded. It is not a single hormone state. |
+| Postmenopause context | **The New Baseline** | A flexible context after the menopause milestone; it does not promise symptoms stop or imply uniform physiology. |
+
+For conventional clinical terminology, Menopause Society definitions distinguish perimenopause/menopause transition, the final menstrual period, and postmenopause; terminology and criteria belong in the canonical field, not in the poetic label ([Menopause Society glossary](https://menopause.org/patient-education/menopause-glossary)). Menstrual cycle conventions count from the first day of one period to the first day of the next, but cycle timing alone is not hormone measurement ([ACOG amenorrhea FAQ](https://www.acog.org/womens-health/faqs/amenorrhea-absence-of-periods)).
+
+### Epimethean development, especially infancy
+
+These names organize observations and support, not developmental scoring. Age bands are optional context, not deadlines or a claim that development follows a single path. Use the child's and caregiver's preferred language, respect assent and privacy as the child grows, and rely on qualified assessment for clinical questions.
+
+| Canonical stage/context | Optional evocative name | Description |
+|---|---|---|
+| Prenatal context | **The Before-Beginning** | A pregnancy-period context, if relevant and authorized. Do not represent the fetus as a measured psychological subject. |
+| Newborn period | **The First Landing** | A context around birth and early adaptation. Record actual observations and care context separately; the name is not a wellbeing assessment. |
+| Early infancy | **The Nearing World** | A flexible context for early interaction, sensory experience, sleep, and feeding observations. Do not infer internal state from a schedule. |
+| Later infancy | **The Widening Reach** | A reflection label for emerging interaction and exploration when those are actually observed. No skill is presumed from age or label. |
+| Toddlerhood / early childhood | **The Moving Horizon** | A flexible context for changing communication, movement, play, and autonomy as observed by the child and caregivers. |
+| Middle childhood | **The Growing Constellation** | A context for evolving interests, relationships, and learning environments; not a fixed ability profile. |
+| Adolescence | **The Thresholding Years** | A broad, person-defined transition context. Avoid assuming puberty timing, identity, emotional pattern, or readiness. |
+| Adulthood / later life | **The Long Becoming** / **The Continuing Arc** | Optional life-course labels for change and continuity without treating any stage as decline, completion, or destiny. |
+
+WHO materials describe the first 1,000 days as conception to age two and distinguish a further early-childhood period from ages two to five; these are useful planning frames, not individual developmental schedules ([WHO/PMNCH overview](https://pmnch.who.int/news-and-events/events/item/2024/11/19/partner-events/new-lancet-series-early-childhood-development-and-the-next-1000-days)).
+
 A phase name should not encode a medical conclusion. If the user wants neutral display, use the canonical label alone.
 
 ## Data representation
