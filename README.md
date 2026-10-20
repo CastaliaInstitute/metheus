@@ -29,7 +29,7 @@ This site is an early concept. Wearable integrations and personal data collectio
 
 See [Hormone and endocrine-signal reference](docs/hormone-reference.md) for a broad, categorized inventory, regulation notes, and developmental-stage guidance. It distinguishes classical hormones from neurotransmitters, cytokines, growth factors, local mediators, and molecules whose endocrine classification is debated.
 
-The [candidate endocrine-relations catalog](catalog/endocrine-relations.json) demonstrates a typed, source-attributed representation of pathway relationships. Its initial thyroid-axis entries are under review, internal only, and not available to readings or individual inference.
+The [candidate endocrine-relations catalog](catalog/endocrine-relations.json) contains a typed, source-attributed graph of 28 candidate edges across HPT, HPA, HPG, circadian–melatonin, glucose-regulation, and gut-incretin physiology. Every edge remains under review, internal only, and unavailable to readings or individual inference. The [Human Design × Neuroendocrine Atlas](docs/human-design-neuroendocrine-atlas.md) explains why this biological graph remains separate from the symbolic bodygraph.
 
 See [Metheus as a systems model](docs/systems-model.md) for the intended architecture: a stable symbolic map in conversation with physiology, development, circadian and feeding rhythms, relationships, circumstances, and observations that change over time.
 

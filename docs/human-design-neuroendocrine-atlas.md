@@ -88,6 +88,8 @@ The more defensible comparison is between two graph representations, with differ
 
 For example, HPT, HPA, HPG, circadian, gut–brain, immune-endocrine, and autonomic networks can be described on their own terms and then placed beside symbolic features as optional prompts. Endocrine networks involve feedback and distributed regulation; resemblance between graph shapes is not evidence of biological equivalence.
 
+Metheus now has an initial, source-attributed [candidate endocrine-relations graph](../catalog/endocrine-relations.json) for selected HPT, HPA, HPG, circadian–melatonin, glucose-regulation, and gut-incretin relations. Its edges remain under review, internal only, and ineligible for readings. This is a starting set for network analysis, not an exhaustive pathway map or individual model.
+
 ## Research questions and validation
 
 One possible research question is whether prespecified chart features are associated with within-person variability in a named, validly measured outcome. This would test a statistical association, not a biological mechanism or individual diagnostic value.
