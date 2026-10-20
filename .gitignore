@@ -1,4 +1,6 @@
 node_modules/
 dist/
 /chat/
+bot/.env
+bot/data/
 .DS_Store

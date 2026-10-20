@@ -6,7 +6,7 @@
 
 The installable client at `/chat/` signs a person into a Matrix homeserver, joins or opens a room ID/alias, displays room text messages, and sends a new text message. It uses `matrix-js-sdk` and initializes its Rust-backed crypto support. Each participant signs in with their own Matrix account; shared-room messages are visible to the room's members. Session tokens stay in client memory. Matrix SDK encryption state uses browser IndexedDB. The service worker caches only the application shell and static assets; it does not cache Matrix API responses or room messages. The app does not retain transcripts in its own storage. The client queries the SDK for the room's encryption setting and disables sending if Matrix reports encryption is off; it does not independently verify users' devices or the bot's key handling.
 
-The PWA is a presentation and transport client. An independently operated Metheus Matrix bot must join the room and respond to messages for users to chat with Metheus AI. The bot is not included in this repository, and the PWA has no model/API key or direct model connection.
+The PWA is a presentation and transport client. An independently operated Metheus Matrix bot must join the room and respond to messages for users to chat with Metheus AI. A prototype bot is now included in [`bot/`](../bot/README.md), but it is not deployed or connected to the Pages client. It requires a separately operated Node service, an allowlisted Matrix bot account, persistent private crypto storage, and a server-side OpenAI API key. The PWA has no model/API key or direct model connection.
 
 ## Three.js bodygraph reference
 

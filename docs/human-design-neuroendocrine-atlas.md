@@ -1,6 +1,6 @@
 # Human Design × Neuroendocrine Atlas
 
-**Draft 0.1 — comparative systems model**  
+**Atlas framework v1.0 — comparative systems model**
 **Status:** hypothesis and reflection framework; not a validated biological map.
 
 This atlas places Human Design's nine-center, 64-gate, 36-channel bodygraph beside neuroendocrine physiology as two different kinds of model. It asks whether the symbolic vocabulary can help people formulate useful questions about lived experience. It does not claim that centers are glands, gates regulate hormones, channels are biological pathways, or chart features predict an individual's physiology. No Human Design–endocrine association has been established scientifically.
@@ -21,17 +21,19 @@ Each claim should also carry an evidence status: `source_attributed_symbolism`, 
 
 These are possible topics to place side by side in a reading, not anatomical assignments. The bodygraph's “Solar Plexus,” for example, is a symbolic center name and should not be mistaken for the anatomical celiac plexus. The hypothalamus and pituitary coordinate multiple axes; neither can be assigned exclusively to Head or Ajna. Likewise, many hormones and neurotransmitters act across tissues and networks.
 
-| Center | Symbolic theme (broad) | Possible biological conversation domain | Boundary |
+| Center (gate count) | Symbolic theme (broad) | Possible biological conversation domain | Boundary |
 |---|---|---|---|
-| Head | Inspiration, questions, mental pressure | Circadian inputs, hypothalamic regulation, cortical attention | Not the hypothalamus or pineal gland |
-| Ajna | Concepts, interpretation, certainty | Distributed cortical cognition and predictive processing | Not the pituitary; cognition is not one endocrine output |
-| Throat | Expression, communication, manifestation | Speech and motor systems; thyroid physiology may be discussed as separate context | Thyroid hormones are regulated through a distributed HPT feedback axis |
-| G / Identity | Identity, direction, love | Distributed self-representation, social cognition, attachment research | Oxytocin and dopamine are not “identity hormones” |
-| Heart / Ego / Will | Will, value, promises, resources | Circulatory and effort/recovery context; cardiac natriuretic peptides regulate volume and pressure | ANP/BNP do not establish a will or resource center |
-| Solar Plexus | Emotion, sensitivity, emotional change | Emotion-related neural/autonomic circuits, gut–brain signaling, pancreatic and intestinal metabolic signals | Not an anatomical plexus or a single emotional organ |
-| Sacral | Response, energy, reproductive themes | Activity and reproductive context; hypothalamic–pituitary–gonadal (HPG) axis | Gonadal hormones are not a measure of “sacral definition” |
-| Spleen | Instinct, immediacy, wellbeing | Interoception, autonomic responses, immune signaling | Immune function is distributed; cytokines and catecholamines are not spleen-specific hormones |
-| Root | Pressure, stress, drive | HPA axis, sympathetic-adrenal-medullary (SAM) response, allostatic adaptation | Cortisol, catecholamines and aldosterone have different control systems and time courses |
+| Head (3) | Inspiration, questions, mental pressure | Circadian inputs, hypothalamic regulation, cortical attention | Not the hypothalamus or pineal gland |
+| Ajna (6) | Concepts, interpretation, certainty | Distributed cortical cognition and predictive processing | Not the pituitary; cognition is not one endocrine output |
+| Throat (11) | Expression, communication, manifestation | Speech and motor systems; thyroid physiology may be discussed as separate context | Thyroid hormones are regulated through a distributed HPT feedback axis |
+| G / Identity (8) | Identity, direction, love | Distributed self-representation, social cognition, attachment research | Oxytocin and dopamine are not “identity hormones” |
+| Heart / Ego / Will (4) | Will, value, promises, resources | Circulatory and effort/recovery context; cardiac natriuretic peptides regulate volume and pressure | ANP/BNP do not establish a will or resource center |
+| Solar Plexus (7) | Emotion, sensitivity, emotional change | Emotion-related neural/autonomic circuits, gut–brain signaling, pancreatic and intestinal metabolic signals | Not an anatomical plexus or a single emotional organ |
+| Sacral (9) | Response, energy, reproductive themes | Activity and reproductive context; hypothalamic–pituitary–gonadal (HPG) axis | Gonadal hormones are not a measure of “sacral definition” |
+| Spleen (7) | Instinct, immediacy, wellbeing | Interoception, autonomic responses, immune signaling | Immune function is distributed; cytokines and catecholamines are not spleen-specific hormones |
+| Root (9) | Pressure, stress, drive | HPA axis, sympathetic-adrenal-medullary (SAM) response, allostatic adaptation | Cortisol, catecholamines and aldosterone have different control systems and time courses |
+
+The parenthetical counts sum to 64 gates. They identify the traditional BodyGraph partition only; they do not imply 64 physiological units.
 
 These refinements matter: the HPT axis includes hypothalamic TRH, pituitary TSH, thyroid T4/T3, and feedback; GLP-1 is produced principally by intestinal enteroendocrine L cells and acts on pancreatic and other targets; cortisol from the adrenal cortex and catecholamines from the adrenal medulla are related to stress but are not the same signal or pathway; aldosterone is principally regulated through renin–angiotensin and potassium rather than being a generic stress output. [Endotext: HPT-axis physiology](https://www.ncbi.nlm.nih.gov/books/NBK278958/), [Endotext: hypothalamus and pituitary](https://www.ncbi.nlm.nih.gov/books/NBK279126/), [Endotext: gut hormones and metabolism](https://www.ncbi.nlm.nih.gov/books/NBK556470/), [NCBI Bookshelf: adrenal gland physiology](https://www.ncbi.nlm.nih.gov/books/NBK537260/), [Endotext: natriuretic peptides](https://www.ncbi.nlm.nih.gov/books/NBK279096/).
 
