@@ -75,7 +75,7 @@ F[a,b]   = hν(selected Y[a,b], coverage, revision state)
 R        = r(P, F, Y, C, Q, evidence catalog, uncertainty)
 ```
 
-Here (ε) and (η) represent process and observation uncertainty; (θ), (φ), and (ν) identify explicit model/method versions. These equations are an architecture, not a claim that the variables or functions have been fitted. At present Metheus has no implemented (f_θ), (g_φ), or latent (Z) estimator. Existing descriptive helpers implement a small subset of (h_ν): they summarize logged intervals and numeric measurements, and compare two recorded windows using temporal-order relations.
+Here (ε) and (η) represent process and observation uncertainty; (θ), (φ), and (ν) identify explicit model/method versions. These equations are an architecture, not a claim that the variables or functions have been fitted. At present Metheus has no implemented (f_θ), (g_φ), or latent (Z) estimator. Existing descriptive helpers implement a small subset of (h_ν): they summarize logged intervals and numeric measurements, and compare explicitly selected recorded windows using pairwise temporal-order relations.
 
 **Non-interference constraint:** (P_s) is not an input to (f_θ), (g_φ), or any health/development estimate. A Promethean feature may be included as a separately typed input to (r) for a source-attributed symbolic prompt only. An empirically studied Promethean–Epimethean association would need its own preregistered feature definition, comparison group, outcomes, confounder plan, replication, and independent review; even then, association would not establish causation or individual predictive value.
 

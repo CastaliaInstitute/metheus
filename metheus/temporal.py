@@ -185,6 +185,54 @@ def describe_temporal_order(
     return _build_relation(subject_id, left_record_id, right_record_id, left, right)
 
 
+def describe_selected_temporal_relations(
+    records: Iterable[dict[str, Any]], *, subject_id: str,
+    left_record_ids: Iterable[str], right_record_ids: Iterable[str],
+    phase_annotations: Iterable[dict[str, Any]] = (), max_pairs: int = 500,
+) -> list[dict[str, Any]]:
+    """Compare explicitly selected cross-set pairs by their recorded times.
+
+    This supports descriptive timelines such as a selected behavior beside
+    separately recorded observations. It computes no effect, association, or
+    mechanism. Every selected ID must resolve to a current same-subject source
+    record or phase annotation, and the explicit cross product is bounded.
+    Callers must authorize all selected inputs before invoking the helper.
+    """
+    if not isinstance(max_pairs, int) or isinstance(max_pairs, bool) or max_pairs < 1:
+        raise ValueError("max_pairs must be a positive integer")
+    if not isinstance(subject_id, str) or not subject_id.strip():
+        raise ValueError("subject_id is required")
+    left_ids = list(left_record_ids)
+    right_ids = list(right_record_ids)
+    if not left_ids or not right_ids:
+        raise ValueError("explicit left and right record ID lists are required")
+    selected_ids = left_ids + right_ids
+    if not all(isinstance(value, str) and value for value in selected_ids):
+        raise ValueError("selected IDs must be nonempty strings")
+    if len(set(left_ids)) != len(left_ids) or len(set(right_ids)) != len(right_ids):
+        raise ValueError("selected IDs must be unique within each list")
+    if set(left_ids).intersection(right_ids):
+        raise ValueError("a record ID cannot appear on both sides of a temporal relation")
+    if len(left_ids) * len(right_ids) > max_pairs:
+        raise ValueError("selected record combinations exceed max_pairs")
+
+    record_list = list(records)
+    phase_list = list(phase_annotations)
+    resolution = _resolve_subject_history([*record_list, *phase_list], subject_id)
+    current = {record.get("id"): record for record in resolution["currentRecords"]}
+    allowed = {"observation", "event", "estimate", "context", "phase_annotation"}
+    for record_id in selected_ids:
+        record = current.get(record_id)
+        if record is None or record.get("recordType") not in allowed:
+            raise ValueError("every selected ID must resolve to a current same-subject source record or phase annotation")
+
+    return [
+        _build_relation(subject_id, left_id, right_id, current[left_id], current[right_id])
+        for left_id in left_ids
+        for right_id in right_ids
+    ]
+
+
 def describe_phase_observation_relations(
     records: Iterable[dict[str, Any]], *, subject_id: str,
     observation_record_ids: Iterable[str], phase_annotation_ids: Iterable[str],
