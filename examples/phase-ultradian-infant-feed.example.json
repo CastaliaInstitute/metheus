@@ -1,0 +1,23 @@
+{
+  "id": "phase-ultradian-infant-feed-example",
+  "subjectId": "synthetic-infant-subject",
+  "recordType": "phase_annotation",
+  "schemaVersion": "0.2",
+  "layer": "epimethean",
+  "phaseSystem": "ultradian_rhythm",
+  "canonicalPhase": "feeding_bout_reported",
+  "evocativeName": "The Nearing Rhythm",
+  "description": "A caregiver-reported infant feeding bout in its care context; timing alone does not assess wellbeing.",
+  "window": {
+    "kind": "point",
+    "start": "2026-10-20T09:15:00-06:00",
+    "timeZone": "America/Denver"
+  },
+  "basis": "reported",
+  "interpretation": "descriptive",
+  "basisRecordIds": ["synthetic-infant-feed-observation"],
+  "method": "Caregiver-reported feeding event; feeding method and health outcome not inferred.",
+  "uncertainty": "The example represents one reported event and not a complete feeding history.",
+  "limitations": ["Synthetic example; do not impose a schedule or infer infant wellbeing."],
+  "nameSource": "metheus_suggestion"
+}

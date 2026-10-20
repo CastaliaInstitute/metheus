@@ -1,0 +1,25 @@
+{
+  "id": "phase-eating-between-events-example",
+  "subjectId": "synthetic-subject",
+  "recordType": "phase_annotation",
+  "schemaVersion": "0.2",
+  "layer": "epimethean",
+  "phaseSystem": "eating_rhythm",
+  "canonicalPhase": "between_eating_events",
+  "evocativeName": "The Quiet Interval",
+  "description": "An interval between recorded eating events; a logging gap is not evidence of fasting.",
+  "window": {
+    "kind": "interval",
+    "start": "2026-10-20T12:00:00-06:00",
+    "end": "2026-10-20T17:30:00-06:00",
+    "timeZone": "America/Denver"
+  },
+  "basis": "derived",
+  "interpretation": "descriptive",
+  "basisRecordIds": ["synthetic-meal-before", "synthetic-meal-after"],
+  "method": "Interval bounded by two explicitly logged eating events; unlogged intake is unknown.",
+  "methodVersion": "example-v1",
+  "uncertainty": "Unlogged food or drink intake may have occurred during this interval.",
+  "limitations": ["Synthetic example; no fasting or metabolic state is inferred."],
+  "nameSource": "metheus_suggestion"
+}
