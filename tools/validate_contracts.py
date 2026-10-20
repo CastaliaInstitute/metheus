@@ -47,7 +47,12 @@ EXAMPLE_SCHEMAS = {
 }
 
 CATALOG_SCHEMAS = {
+    "evidence-claims.json": "evidence-catalog.schema.json",
     "phase-vocabulary.json": "phase-vocabulary.schema.json",
+}
+
+CATALOG_ITEM_SCHEMAS = {
+    "evidence-claims.json": ("claims", "evidence-claim.schema.json"),
 }
 
 
@@ -112,6 +117,31 @@ def main() -> int:
         for error in sorted(validator.iter_errors(catalog), key=lambda item: tuple(map(str, item.absolute_path))):
             location = "/".join(str(part) for part in error.absolute_path) or "$"
             errors.append(f"catalog/{filename} at {location}: {error.message}")
+        item_schema_mapping = CATALOG_ITEM_SCHEMAS.get(filename)
+        if item_schema_mapping is not None and isinstance(catalog, dict):
+            collection_key, item_schema_filename = item_schema_mapping
+            item_schema = schemas.get(item_schema_filename)
+            items = catalog.get(collection_key)
+            if item_schema is not None and isinstance(items, list):
+                item_validator = Draft202012Validator(item_schema, format_checker=format_checker)
+                item_ids: set[str] = set()
+                for index, item in enumerate(items):
+                    for error in sorted(item_validator.iter_errors(item), key=lambda item_error: tuple(map(str, item_error.absolute_path))):
+                        location = "/".join(str(part) for part in (collection_key, index, *error.absolute_path)) or "$"
+                        errors.append(f"catalog/{filename} at {location}: {error.message}")
+                    if isinstance(item, dict):
+                        item_id = item.get("id")
+                        if isinstance(item_id, str) and item_id in item_ids:
+                            errors.append(f"catalog/{filename} at {collection_key}/{index}/id: duplicate claim ID {item_id}")
+                        elif isinstance(item_id, str):
+                            item_ids.add(item_id)
+                        if catalog.get("catalogStatus") == "candidate_only" and (
+                            item.get("evidenceStatus") != "under_review"
+                            or item.get("permittedUse") != "internal_only"
+                        ):
+                            errors.append(
+                                f"catalog/{filename} at {collection_key}/{index}: candidate-only entries must remain under_review and internal_only"
+                            )
         phase_keys: set[tuple[str, str, str]] = set()
         for index, phase in enumerate(catalog.get("phases", []) if isinstance(catalog, dict) else []):
             if not isinstance(phase, dict):

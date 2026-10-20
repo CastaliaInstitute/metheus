@@ -46,6 +46,12 @@ The [evidence-claim schema](../schema/evidence-claim.schema.json) captures these
 
 No evidence-claim record should recommend a behavior, supplement, hormone treatment, educational placement, or medical action. Intervention evidence describes studied conditions and outcomes; it does not automatically make an intervention appropriate for a specific person.
 
+## Candidate evidence catalog
+
+The [candidate evidence catalog](../catalog/evidence-claims.json) starts with four measurement-boundary claims concerning cortisol sample context, basal body temperature, clinical actigraphy, and urinary LH tests. Every entry is `under_review` and `internal_only`; the catalog is intentionally ineligible for readings. Its citations identify source material to review, not an endorsement of the exact Metheus wording. The contract gate validates both the catalog envelope and each claim against the evidence-claim schema, and rejects any entry in a `candidate_only` catalog that is not kept internal and under review.
+
+Before any candidate becomes reading-eligible, a domain-qualified reviewer must check the exact claim against the cited source and relevant primary literature, narrow the scope, record contrary or null evidence, state limitations, and assign a review date/role and permitted use. A schema-valid claim is still not proof of source quality or reviewer qualification.
+
 ## Current boundary
 
-The repository contains broad reference documents and draft schemas, but it does not yet contain a reviewed evidence-claim library, qualified review workflow, or citation-quality process. The in-memory [`validate_reading_references`](../metheus/readings.py) preflight can resolve caller-supplied evidence-claim IDs and reject claims that are unevaluated, under review, internal-only, or incompatible with the reading claim type. It cannot authenticate a catalog or reviewer, assess citation quality, or enforce database access. Until a governed catalog and those controls exist, the schema and resolver are architectural safeguards, not an evidence-backed feature.
+The repository contains a candidate-only evidence catalog, but it does not yet contain a reviewed evidence-claim library, qualified review workflow, or automated citation-quality process. The in-memory [`validate_reading_references`](../metheus/readings.py) preflight can resolve caller-supplied evidence-claim IDs and reject claims that are unevaluated, under review, internal-only, or incompatible with the reading claim type. It cannot authenticate a catalog or reviewer, assess citation quality, or enforce database access. Until review and service-level controls exist, the catalog and resolver are research scaffolding, not an evidence-backed feature.

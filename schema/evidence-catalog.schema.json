@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metheus.castalia.institute/schema/evidence-catalog.schema.json",
+  "title": "Metheus evidence catalog envelope",
+  "description": "A versioned container for evidence claims. Each claim is separately validated against evidence-claim.schema.json; candidate catalogs are never automatically eligible for readings.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["catalogVersion", "catalogStatus", "claims", "policy"],
+  "properties": {
+    "$schema": { "type": "string", "format": "uri" },
+    "catalogVersion": { "type": "string", "minLength": 1 },
+    "catalogStatus": { "enum": ["candidate_only", "reviewed"] },
+    "policy": { "type": "string", "minLength": 1 },
+    "claims": { "type": "array", "items": { "type": "object" } }
+  }
+}

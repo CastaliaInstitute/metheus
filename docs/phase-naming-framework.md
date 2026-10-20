@@ -46,6 +46,15 @@ The [machine-readable phase vocabulary catalog](../catalog/phase-vocabulary.json
 | Epimethean / development | Infant development, user- or clinician-described context | **The First Discoveries** | Organize around observed skills, support, and context, not a prediction or score. Do not infer a baby's internal state from a label. |
 | Epimethean / development | Child or adolescent transition, when relevant and supplied | **The Expanding World** | A flexible reflective label. Avoid deadlines, comparisons, and deterministic forecasts. |
 | Epimethean / sleep-wake | Observed or estimated sleep-wake interval | **The Nightward Arc** | Retain timestamps, time zone, and source. Clock time is not biological circadian phase. |
+| Epimethean / circadian context | Waking and daybreak context | **The Dawnward Edge** | A person-defined or observed waking context; light and clock time do not establish internal circadian phase. |
+| Epimethean / circadian context | Flexible waking interval | **The Open Span** | Keep the person's schedule and constraints visible; do not equate clock hours with alertness or productivity. |
+| Epimethean / circadian context | Evening transition toward rest | **The Dimming Hour** | A chosen or observed wind-down context, not a measured melatonin rise or fixed bedtime. |
+| Epimethean / circadian context | Biological night estimate, if method-supported | **The Inner Night** | Name the estimation method and uncertainty; do not infer this from clock time or sleep onset alone. |
+| Epimethean / eating rhythm | Reported eating event | **The Shared Table** | A logged event in personal context; it does not imply that all intake was recorded. |
+| Epimethean / eating rhythm | Interval between logged eating events | **The Quiet Interval** | A gap in records is not proof of fasting or a particular metabolic state. |
+| Epimethean / eating rhythm | Explicitly reported fasting interval | **The Chosen Pause** | Record as reported, including circumstance when volunteered; do not prescribe or moralize fasting. |
+| Epimethean / ultradian rhythm | Within-day activity/rest pattern | **The Pulse and Pause** | Preserve signal, method, sampling and coverage; a wearable pattern does not identify a hormone pulse. |
+| Epimethean / infant feeding | Reported feeding bout | **The Nearing Rhythm** | Keep reporter and care context; timing alone does not assess infant wellbeing or prescribe a schedule. |
 
 ## Expanded phase palette
 
@@ -114,6 +123,10 @@ These names organize observations and support, not developmental scoring. Age ba
 | Adulthood / later life | **The Long Becoming** / **The Continuing Arc** | Optional life-course labels for change and continuity without treating any stage as decline, completion, or destiny. |
 
 WHO materials describe the first 1,000 days as conception to age two and distinguish a further early-childhood period from ages two to five; these are useful planning frames, not individual developmental schedules ([WHO/PMNCH overview](https://pmnch.who.int/news-and-events/events/item/2024/11/19/partner-events/new-lancet-series-early-childhood-development-and-the-next-1000-days)).
+
+### Epimethean daily rhythms
+
+Daily and within-day rhythms can sit beside reproductive and developmental contexts, but they use their own basis. Sleep/wake records describe reported or device-estimated intervals; circadian phase is an internal timing concept and must not be inferred from clock time alone. Eating-event records describe only what was logged. An interval between logged meals is not a fasting record unless fasting was explicitly reported. Infant feeding has a separate label and must never inherit adult fasting or meal-timing interpretations. These names are optional memory aids; they do not claim a measured hormone level, metabolic state, or health outcome.
 
 A phase name should not encode a medical conclusion. If the user wants neutral display, use the canonical label alone.
 

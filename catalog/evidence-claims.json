@@ -1,0 +1,128 @@
+{
+  "$schema": "../schema/evidence-catalog.schema.json",
+  "catalogVersion": "0.1.0",
+  "catalogStatus": "candidate_only",
+  "policy": "All included claims are under review and internal only. Catalog presence, schema validity, citation presence, and automated validation do not establish scientific quality. No entry may be rendered in a reading until a qualified review records scope, status, permitted use, reviewer role, and review date.",
+  "claims": [
+    {
+      "id": "cortisol-sample-matrix-and-timing-candidate",
+      "claimType": "measurement_validity",
+      "claimText": "Cortisol can be measured in blood, urine, or saliva, and collection time and protocol are part of interpreting a result; cortisol testing may use multiple samples or a timed urine collection depending on the clinical question.",
+      "scope": {
+        "description": "Named cortisol laboratory tests and their collection procedures.",
+        "population": "People receiving cortisol testing.",
+        "setting": "Clinical laboratory or clinician-directed home sampling.",
+        "exposureOrSignal": "Cortisol assay result.",
+        "routeOrSpecimen": "Blood, urine, or saliva.",
+        "outcome": "Method- and time-specific cortisol result.",
+        "timeframe": "At the specified collection time or interval."
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Cortisol Test: MedlinePlus Medical Test",
+          "url": "https://medlineplus.gov/lab-tests/cortisol-test/",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is a candidate summary of an official patient reference, not an independent evidence review.",
+        "It does not define a sampling protocol, reference range, diagnosis, or interpretation for an individual result.",
+        "It does not imply that Metheus currently imports or interprets cortisol assays."
+      ]
+    },
+    {
+      "id": "bbt-ovulation-timing-candidate",
+      "claimType": "measurement_validity",
+      "claimText": "Basal body temperature charting is retrospective for ovulation timing: a temperature rise may indicate that ovulation has already occurred, but BBT alone cannot predict the upcoming ovulation event.",
+      "scope": {
+        "description": "Basal body temperature used as one fertility-awareness sign.",
+        "population": "People using BBT charting in menstrual cycles.",
+        "setting": "Daily morning temperature tracking under the described method.",
+        "exposureOrSignal": "Basal body temperature series.",
+        "outcome": "Retrospective indication of an ovulatory transition.",
+        "timeframe": "Across a menstrual cycle."
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Fertility Awareness-Based Methods of Family Planning",
+          "url": "https://www.acog.org/womens-health/faqs/fertility-awareness-based-methods-of-family-planning",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        },
+        {
+          "title": "Evaluating Infertility",
+          "url": "https://www.acog.org/womens-health/faqs/evaluating-infertility",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This candidate describes a particular sign and does not estimate an individual's phase or fertility.",
+        "Illness and other conditions can affect temperature interpretation.",
+        "This is not contraceptive, fertility, or medical advice."
+      ]
+    },
+    {
+      "id": "clinical-actigraphy-estimation-candidate",
+      "claimType": "measurement_validity",
+      "claimText": "Clinical actigraphy estimates selected sleep parameters over time; polysomnography measures sleep-related physiological signals and is used as a reference method. Findings about clinical actigraphy should not be transferred automatically to a consumer wearable algorithm.",
+      "scope": {
+        "description": "Clinical actigraphy for evaluation of sleep disorders and circadian rhythm sleep-wake disorders.",
+        "population": "Adult and pediatric patients within the guideline's clinical scope.",
+        "setting": "Clinical evaluation using actigraphy and related sleep assessment.",
+        "exposureOrSignal": "Actigraphy-derived sleep parameters.",
+        "comparator": "Polysomnography and sleep logs, as relevant to the parameter.",
+        "outcome": "Estimated sleep parameters.",
+        "timeframe": "Repeated monitoring over the study interval."
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Use of Actigraphy for the Evaluation of Sleep Disorders and Circadian Rhythm Sleep-Wake Disorders: An American Academy of Sleep Medicine Clinical Practice Guideline",
+          "url": "https://jcsm.aasm.org/doi/pdf/10.5664/jcsm.7230",
+          "sourceType": "guideline",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "The guideline explicitly excludes consumer-marketed wearable devices from its scope.",
+        "This statement does not establish the accuracy of a specific device, algorithm, population, or metric.",
+        "This is a candidate summary and has not been reviewed for Metheus use."
+      ]
+    },
+    {
+      "id": "urinary-lh-test-surge-candidate",
+      "claimType": "measurement_validity",
+      "claimText": "Commercial urinary LH tests can identify a midcycle luteinizing-hormone surge that typically precedes ovulation by roughly one to two days; detecting a surge is not identical to directly observing follicular rupture or proving conception.",
+      "scope": {
+        "description": "Urinary LH ovulation-predictor tests used during fertility evaluation.",
+        "population": "People undergoing fertility evaluation, within the cited committee opinion's scope.",
+        "setting": "Commercial urine testing.",
+        "exposureOrSignal": "Urinary luteinizing-hormone surge.",
+        "outcome": "Detection of an LH surge preceding expected ovulation.",
+        "timeframe": "Approximately one to two days before expected ovulation."
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Fertility evaluation of infertile women: a committee opinion",
+          "url": "https://prod.asrm.org/practice-guidance/practice-committee-documents/fertility-evaluation-of-infertile-women-a-committee-opinion-2021/",
+          "sourceType": "guideline",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "The cited source is a professional committee opinion; the statement has not received independent Metheus review.",
+        "Test performance and interpretation depend on product, timing, user instructions, and clinical context.",
+        "This candidate must not be used to estimate an individual's fertility or guide a reproductive decision."
+      ]
+    }
+  ]
+}
