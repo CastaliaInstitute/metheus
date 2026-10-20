@@ -139,6 +139,50 @@ def render_assembled_reading_html(package: dict[str, Any]) -> str:
             "</article>"
         )
 
+    reflection_options: list[str] = []
+    for option in package.get("reflectionOptions", []):
+        affordance = option.get("environmentalAffordance", {})
+        details: list[str] = []
+        if affordance:
+            details.append(
+                '<p class="detail">Support type: '
+                f'{_text(affordance.get("deliveryMode", "")).replace("_", " ")} · '
+                f'Intended function: {_text(affordance.get("intendedFunction", "")).replace("_", " ")} · '
+                f'Role frame: {_text(affordance.get("roleFrame", "")).replace("_", " ")}</p>'
+            )
+            if affordance.get("userDefinedDescription"):
+                details.append(f'<p class="detail">Description: {_text(affordance["userDefinedDescription"])}</p>')
+            if affordance.get("trialWindow"):
+                details.append(f'<p class="detail">User-chosen review point: {_text(affordance["trialWindow"])}</p>')
+            safeguards = affordance.get("aiSafeguards", {})
+            if safeguards:
+                safeguard_names = []
+                if safeguards.get("identityTransparent") is True:
+                    safeguard_names.append("AI identity transparency")
+                if safeguards.get("privacyBoundariesDisclosed") is True:
+                    safeguard_names.append("privacy-boundary disclosure")
+                if safeguards.get("notHumanRelationshipSubstitute") is True:
+                    safeguard_names.append("not a human-relationship substitute")
+                if safeguard_names:
+                    details.append(
+                        '<p class="detail">Proposed safeguard requirements: '
+                        f'{_text("; ".join(safeguard_names))}. These are design requirements, not verification of a service.</p>'
+                    )
+        source_ids = option.get("sourceIds", [])
+        source_section = ""
+        if source_ids:
+            source_items = "".join(f"<li><code>{_text(source_id)}</code></li>" for source_id in source_ids)
+            source_section = f'<details><summary>Selected basis</summary><ul>{source_items}</ul></details>'
+        reflection_options.append(
+            '<article class="claim reflection-option">'
+            f'<p class="claim-kind">{_text(option["kind"]).replace("_", " ")} · status: {_text(option["subjectStatus"]).replace("_", " ")}</p>'
+            f'<p class="claim-text">{_text(option["text"])}</p>'
+            f'{"".join(details)}'
+            f'{_list(option.get("limitations"), "compact-list")}'
+            f'{source_section}'
+            '</article>'
+        )
+
     limitations = _list(package["limitations"], "")
     return f"""<!doctype html>
 <html lang="en">
@@ -155,6 +199,7 @@ def render_assembled_reading_html(package: dict[str, Any]) -> str:
     h1 {{ max-width: 42rem; font: 400 clamp(2rem, 7vw, 3.5rem)/1.08 Georgia, serif; }}
     .window, .support, .detail {{ color: GrayText; font-size: .9rem; }}
     .claim {{ margin-block: 1.2rem; border: 1px solid color-mix(in srgb, CanvasText 18%, transparent); border-radius: .65rem; padding: 1.25rem; }}
+    .reflection-option {{ border-style: dashed; }}
     .claim-kind {{ margin: 0; }}
     .claim-text {{ margin-block: .6rem; font-size: 1.1rem; }}
     .support {{ margin-bottom: 0; }}
@@ -175,6 +220,7 @@ def render_assembled_reading_html(package: dict[str, Any]) -> str:
     <h1>{_text(package["question"])}</h1>
     <p class="window">Selected time window: {date_range}</p>
     <section aria-label="Reading claims">{"".join(claims)}</section>
+    {("<section aria-label=\"Optional reflection options\"><h2>Optional ideas to consider</h2><p class=\"detail\">These are invitations, not recommendations. You can decline or revise them.</p>" + "".join(reflection_options) + "</section>") if reflection_options else ""}
     {("<section><h2>Reading limitations</h2>" + limitations + "</section>") if limitations else ""}
     <p class="notice">This page presents supplied claim text and provenance. It does not generate or verify the claims, diagnose, or provide medical advice.</p>
   </main>

@@ -1,0 +1,62 @@
+{
+  "assembled": true,
+  "readingId": "synthetic-ai-affordance-reading",
+  "subjectId": "synthetic-learning-subject",
+  "version": "0.1.0",
+  "purpose": "learning_support",
+  "question": "Would another kind of French conversation practice help me prepare?",
+  "timeWindow": {
+    "start": "2026-10-20T15:55:00-06:00",
+    "end": "2026-10-20T16:20:00-06:00",
+    "timeZone": "America/Denver",
+    "precision": "approximate"
+  },
+  "reflectionOptions": [
+    {
+      "id": "option-ai-dialogue-scaffold-01",
+      "kind": "environmental_affordance",
+      "text": "If you want another practice option, you could try a short dialogue with an AI tool; it is a rehearsal scaffold, not a human relationship, and you can choose what details to share or stop at any time.",
+      "basis": "learner_goal",
+      "sourceIds": ["learning-activity-2026-10-20-01"],
+      "sources": [
+        {
+          "id": "learning-activity-2026-10-20-01",
+          "recordType": "event",
+          "eventType": "learning_activity",
+          "domain": "learning",
+          "label": "Synthetic subject reports a short French conversation practice session",
+          "epistemicClass": "self_reported"
+        }
+      ],
+      "subjectStatus": "not_reviewed",
+      "limitations": [
+        "Optional design idea grounded in the learner's stated practice goal; not a claim that AI is better or will improve learning.",
+        "Disclosure and privacy safeguards are design requirements here, not verified properties of an AI service."
+      ],
+      "environmentalAffordance": {
+        "deliveryMode": "conversational_ai",
+        "intendedFunction": "communication_practice",
+        "roleFrame": "tool_or_scaffold",
+        "userDefinedDescription": "Practice a short French dialogue at the learner's pace.",
+        "aiSafeguards": {
+          "identityTransparent": true,
+          "privacyBoundariesDisclosed": true,
+          "notHumanRelationshipSubstitute": true
+        }
+      }
+    }
+  ],
+  "claims": [],
+  "limitations": [
+    "Entire package is synthetic.",
+    "The optional idea is not a recommendation, an AI service guarantee, or evidence of effectiveness."
+  ],
+  "assembly": {
+    "kind": "deterministic_claim_assembly",
+    "sourceTextGenerated": false,
+    "textEntailmentVerified": false,
+    "inputSchemasValidated": true,
+    "outputSchemaValidated": true,
+    "authorizedAction": "analyze"
+  }
+}

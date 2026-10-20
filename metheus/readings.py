@@ -862,6 +862,28 @@ def assemble_reading(
             "support": claim.get("support"),
         })
 
+    assembled_options: list[dict[str, Any]] = []
+    for option in reading.get("reflectionOptions", []):
+        option_source_ids = option.get("sourceIds", [])
+        option_sources = []
+        for source_id in option_source_ids:
+            source = record_index.get(source_id)
+            if source is not None:
+                option_sources.append({key: source[key] for key in source_fields if key in source})
+        assembled_option = {
+            "id": option.get("id"),
+            "kind": option.get("kind"),
+            "text": option.get("text"),
+            "basis": option.get("basis"),
+            "sourceIds": [source_id for source_id in option_source_ids if source_id in selected_ids],
+            "sources": option_sources,
+            "subjectStatus": option.get("subjectStatus"),
+            "limitations": option.get("limitations", []),
+        }
+        if "environmentalAffordance" in option:
+            assembled_option["environmentalAffordance"] = option["environmentalAffordance"]
+        assembled_options.append(assembled_option)
+
     provenance_issues = []
     for index, (claim, rendered) in enumerate(zip(reading["claims"], assembled_claims), start=1):
         expected_source_ids = [value for value in claim.get("sourceIds", []) if value in selected_ids]
@@ -876,6 +898,10 @@ def assemble_reading(
             provenance_issues.append({"claimPosition": index, "field": "phaseAnnotationIds"})
         if [item["id"] for item in rendered["references"]] != expected_reference_ids:
             provenance_issues.append({"claimPosition": index, "field": "referenceIds"})
+    for index, (option, rendered) in enumerate(zip(reading.get("reflectionOptions", []), assembled_options), start=1):
+        expected_option_sources = [value for value in option.get("sourceIds", []) if value in selected_ids]
+        if rendered["sourceIds"] != expected_option_sources or [item["id"] for item in rendered["sources"]] != expected_option_sources:
+            provenance_issues.append({"reflectionOptionPosition": index, "field": "sourceIds"})
     if provenance_issues:
         return {
             "assembled": False,
@@ -892,6 +918,7 @@ def assemble_reading(
         "purpose": reading.get("purpose"),
         "question": reading.get("question"),
         "timeWindow": reading.get("timeWindow"),
+        "reflectionOptions": assembled_options,
         "claims": assembled_claims,
         "limitations": reading.get("limitations", []),
         "assembly": {
