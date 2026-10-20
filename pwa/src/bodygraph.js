@@ -3,7 +3,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 const SVG_URL = '/chat/bodygraph-reference.svg?v=2';
 const ENDOCRINE_URL = '/chat/endocrine-relations.json?v=0.3.1';
-const CORRESPONDENCE_URL = '/chat/gate-endocrine-correspondences.json?v=0.4.0';
+const CORRESPONDENCE_URL = '/chat/gate-endocrine-correspondences.json?v=0.5.0';
 const $ = (selector) => document.querySelector(selector);
 
 function pointInRoot(root, element, x, y) {
@@ -228,17 +228,36 @@ export async function mountBodygraph() {
     ensureEndocrineCatalog().then((records) => {
       if (!section.isConnected) return;
       const related = records.filter((relation) => relation.sourceEntity.id === item.targetConcept.id || relation.targetEntity.id === item.targetConcept.id);
+      const contextReferences = item.contextReferences || [];
+      const topicRelated = contextReferences.flatMap((reference) => records
+        .filter((relation) => reference.catalog === 'endocrine-relations' && reference.selectorType === 'domain' && relation.domain === reference.selector)
+        .map((relation) => ({ relation, reference })));
       section.replaceChildren(heading);
       const boundary = document.createElement('span');
       boundary.textContent = related.length
-        ? `Metheus found a biology reference for ${item.targetConcept.label}. This is separate information; it does not prove the gate link is biological.`
-        : `There is no matching biology reference for ${item.targetConcept.label} in this map.`;
+        ? `This biology entry names the same signal or body part. It comes from a separate source and does not prove the gate link is biological.`
+        : topicRelated.length
+          ? 'These entries cover a broader topic mentioned by the gate source. They are not direct matches and do not show that the gate affects these body processes.'
+          : `There is no matching biology reference for ${item.targetConcept.label} in this map.`;
       section.append(boundary);
-      if (!related.length) {
+      if (!related.length && !topicRelated.length) {
         const empty = document.createElement('span');
         empty.textContent = 'That only means this map has no matching entry.';
         section.append(empty);
         return;
+      }
+      if (topicRelated.length && !related.length) {
+        const rationale = document.createElement('span');
+        rationale.textContent = contextReferences.map((reference) => reference.rationale).join(' ');
+        const explore = document.createElement('button');
+        explore.type = 'button';
+        explore.className = 'context-explore-button';
+        explore.textContent = `Explore ${topicRelated.length} ${contextReferences[0].label.toLocaleLowerCase()} references`;
+        explore.addEventListener('click', () => {
+          filter.value = contextReferences[0].selector;
+          setMapMode('endocrine');
+        });
+        section.append(rationale, explore);
       }
       for (const relation of related) {
         const relationText = document.createElement('p');
@@ -387,7 +406,7 @@ export async function mountBodygraph() {
           let domain = 'other';
           if (relation.relationType === 'synthesizes' && ['gland', 'organ', 'tissue'].includes(relation.sourceEntity.entityType)) domain = 'organ_context';
           else if (/thyroid|\bhpt\b|trh|tsh/.test(text)) domain = 'hpt';
-          else if (/menstrual|ovarian|follicular|luteal|pregnancy|menopause|\bhpg\b|gonadotropin/.test(text)) domain = 'reproductive';
+          else if (/menstrual|ovarian|follicular phase|luteal|pregnancy|menopause|\bhpg\b|gonadotropin|\bgnrh\b|sex steroid/.test(text)) domain = 'reproductive';
           else if (/circadian|melatonin|sleep timing/.test(text)) domain = 'circadian';
           else if (/glucose|insulin|glucagon/.test(text)) domain = 'glucose';
           else if (/gut|incretin|\bglp-1\b/.test(text)) domain = 'gut';

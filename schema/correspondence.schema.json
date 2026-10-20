@@ -43,6 +43,24 @@
     "evidenceStatus": { "enum": ["not_evaluated", "under_review", "supported_for_scope", "not_supported", "conflicting"] },
     "permittedUse": { "enum": ["optional_reflective_prompt", "research_hypothesis", "educational_context"] },
     "claimText": { "type": "string", "minLength": 1 },
+    "contextReferences": {
+      "type": "array",
+      "description": "Explicitly curated pointers to broader reference topics. These provide context only and do not assert a direct match, mechanism, or association.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["catalog", "selectorType", "selector", "label", "relationship", "rationale", "limitations"],
+        "properties": {
+          "catalog": { "const": "endocrine-relations" },
+          "selectorType": { "const": "domain" },
+          "selector": { "enum": ["hpt", "hpa", "hpg", "circadian", "glucose", "gut", "reproductive", "organ_context", "other"] },
+          "label": { "type": "string", "minLength": 1 },
+          "relationship": { "const": "topic_context_only" },
+          "rationale": { "type": "string", "minLength": 1 },
+          "limitations": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 }
+        }
+      }
+    },
     "sourceCitations": {
       "type": "array",
       "items": {

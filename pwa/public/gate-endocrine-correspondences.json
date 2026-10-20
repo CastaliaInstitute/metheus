@@ -1,6 +1,6 @@
 {
   "$schema": "../schema/correspondence-catalog.schema.json",
-  "catalogVersion": "0.4.0",
+  "catalogVersion": "0.5.0",
   "catalogStatus": "source_attributed",
   "policy": "These entries record specific Human Design sources' gate-level organ, tissue, or hormonal correspondences. They are not established biology, assay interpretation, or evidence that a gate causes, measures, or predicts a hormone. Preserve each source and its wording; do not generalize one source's teaching to all Human Design lineages. Conflicting source attributions are retained separately and must not be summarized as lineage consensus.",
   "correspondences": [
@@ -25,6 +25,20 @@
       "evidenceStatus": "not_evaluated",
       "permittedUse": "optional_reflective_prompt",
       "claimText": "Human Design App's Gate 6 article says Gate 6 is linked to the female reproductive system and hormone production. This is that source's correspondence, not an established physiological association.",
+      "contextReferences": [
+        {
+          "catalog": "endocrine-relations",
+          "selectorType": "domain",
+          "selector": "reproductive",
+          "label": "Reproductive-cycle biology",
+          "relationship": "topic_context_only",
+          "rationale": "The source mentions reproductive hormone production but names no specific hormone or pathway. This broader topic is offered only as general biology context.",
+          "limitations": [
+            "This topic link is curated by Metheus and is not a direct entity match or evidence that Gate 6 affects reproductive physiology.",
+            "The endocrine catalog entries are general reference material under review and do not describe an individual's cycle or hormone levels."
+          ]
+        }
+      ],
       "sourceCitations": [
         {
           "title": "Gate 6 Human Design: The Gate of Friction and Emotional Awareness",
