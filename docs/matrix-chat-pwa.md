@@ -8,6 +8,10 @@ The installable client at `/chat/` signs a person into a Matrix homeserver, join
 
 The PWA is a presentation and transport client. An independently operated Metheus Matrix bot must join the room and respond to messages for users to chat with Metheus AI. The bot is not included in this repository, and the PWA has no model/API key or direct model connection.
 
+## Three.js bodygraph reference
+
+The chat places a Three.js/WebGL-rendered bodygraph beside the room timeline. It uses vector geometry from the shared Astrolabe Human Design bodygraph template, with its embedded scripts removed and all natal/transit activation values, personal status, and source-specific labels stripped. The reference has no participant chart data. Drag to orbit, scroll/pinch to zoom, click a gate/channel to highlight it, or enter a reference such as `Gate 34` or `Channel 34-20`. Gate/channel mentions in room messages are also highlighted when the diagram is open. This only locates a symbolic reference in the drawing; it does not validate a chart or imply a relationship to physiology.
+
 ## Room setup required
 
 1. Operate a Matrix homeserver or choose one that permits the intended use and provides HTTPS, account registration/sign-in, and browser access (CORS) for the deployed Metheus origin.
@@ -17,7 +21,7 @@ The PWA is a presentation and transport client. An independently operated Metheu
 5. Make the bot's role, AI provider, model processing, retention, and escalation limitations clear to all participants before they disclose personal information. The bot should not represent itself as a therapist, clinician, mediator, or relationship judge.
 6. Open `/chat/`, enter homeserver, room ID/alias, and the user's own login. The PWA prompts Matrix to join the room if the account is not already a member.
 
-The current client does not provide room creation/invites, device verification/recovery UX, user management, per-person consent controls, moderation, transcript export/deletion, or message pagination and file/media support. The encryption check reports the room setting but does not verify participant devices, verify bot key handling, or certify the service. Treat it as an early client, not a secure health-data product. Before using it for reproductive, health, or intimate information, complete a security/privacy review and add trusted device verification and recovery flows, participation/consent controls, and an appropriate retention plan. Do not use it for children's personal data in this prototype.
+The current client does not provide room creation/invites, participant-specific charts, device verification/recovery UX, user management, per-person consent controls, moderation, transcript export/deletion, or message pagination and file/media support. The encryption check reports the room setting but does not verify participant devices, verify bot key handling, or certify the service. Treat it as an early client, not a secure health-data product. Before using it for reproductive, health, or intimate information, complete a security/privacy review and add trusted device verification and recovery flows, participation/consent controls, and an appropriate retention plan. Do not use it for children's personal data in this prototype.
 
 ## Build and deploy
 

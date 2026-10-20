@@ -12,6 +12,15 @@ const messageForm = $('#message-form');
 const messageInput = $('#message-input');
 const session = { client: null, sdk: null, userId: null, roomId: null, encrypted: false, seen: new Set() };
 let deferredInstall = null;
+let bodygraph = null;
+const recentBodygraphMentions = [];
+
+function extractBodygraphMentions(text) {
+  return [
+    ...[...text.matchAll(/\bgate\s*#?\s*(\d{1,2})\b/gi)].map((match) => `Gate ${match[1]}`),
+    ...[...text.matchAll(/\bchannel\s*#?\s*(\d{1,2})\s*[-–/]\s*(\d{1,2})\b/gi)].map((match) => `Channel ${match[1]}-${match[2]}`),
+  ];
+}
 
 window.addEventListener('beforeinstallprompt', (event) => {
   event.preventDefault();
@@ -53,7 +62,7 @@ function safeText(parent, tag, text, className) {
 function displayEvent(event) {
   if (!event || event.getType() !== 'm.room.message') return;
   const content = event.getContent();
-  if (content?.msgtype !== 'm.text' || typeof content.body !== 'string') return;
+  if (!['m.text', 'm.notice'].includes(content?.msgtype) || typeof content.body !== 'string') return;
   const id = event.getId() || `${event.getSender()}-${event.getTs()}-${content.body}`;
   if (session.seen.has(id)) return;
   session.seen.add(id);
@@ -66,6 +75,12 @@ function displayEvent(event) {
   safeText(article, 'time', new Date(event.getTs()).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }), 'message-time');
   timeline.append(article);
   timeline.scrollTop = timeline.scrollHeight;
+  const mentions = extractBodygraphMentions(content.body);
+  if (bodygraph) mentions.forEach((mention) => bodygraph.highlightFromText(mention));
+  else if (mentions.length) {
+    recentBodygraphMentions.push(...mentions);
+    if (recentBodygraphMentions.length > 80) recentBodygraphMentions.splice(0, recentBodygraphMentions.length - 80);
+  }
 }
 
 function getPlainBody(error) {
@@ -151,12 +166,27 @@ connectForm.addEventListener('submit', async (event) => {
     $('#logout-button').hidden = false;
     $('#install-button').hidden = false;
     syncIndicator.textContent = 'Connected to Matrix';
+    try {
+      const { mountBodygraph } = await import('./bodygraph.js');
+      bodygraph = await mountBodygraph();
+      recentBodygraphMentions.forEach((message) => bodygraph.highlightFromText(message));
+      recentBodygraphMentions.length = 0;
+    } catch (error) {
+      const fallback = document.createElement('img');
+      fallback.src = '/chat/bodygraph-reference.svg';
+      fallback.alt = 'Generic BodyGraph reference. Three-dimensional interaction is unavailable in this browser.';
+      $('#bodygraph-viewer').replaceChildren(fallback);
+      $('#bodygraph-detail').textContent = 'The reference is shown without interactive 3D highlighting in this browser.';
+      recentBodygraphMentions.length = 0;
+      syncIndicator.textContent = `Connected · chart fallback (${getPlainBody(error)})`;
+    }
     client.on(sdk.ClientEvent.Sync, (state) => {
       if (state === 'SYNCING' || state === 'PREPARED') syncIndicator.textContent = 'Live · Matrix';
       else if (state === 'ERROR') syncIndicator.textContent = 'Reconnecting…';
     });
   } catch (error) {
     connectForm.elements.password.value = '';
+    recentBodygraphMentions.length = 0;
     const client = session.client;
     session.client = null;
     if (client) client.stopClient();
@@ -201,6 +231,9 @@ $('#logout-button').addEventListener('click', async () => {
     client.stopClient();
     try { await client.logout(); } catch { /* local disconnect still proceeds */ }
   }
+  bodygraph?.dispose();
+  bodygraph = null;
+  recentBodygraphMentions.length = 0;
   session.client = null;
   session.sdk = null;
   session.userId = null;

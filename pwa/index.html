@@ -52,19 +52,38 @@
           </div>
 
           <section class="conversation" id="conversation" hidden>
-            <div class="timeline" id="timeline" role="log" aria-live="polite" aria-label="Room messages">
-              <div class="welcome-card" id="welcome-card">
-                <span class="welcome-star">✦</span><p class="eyebrow">BEGIN WHERE YOU ARE</p>
-                <h2>What feels present<br />for your circle today?</h2>
-                <p>Share a question, a small observation, or a moment you want to understand together.</p>
+            <div class="conversation-layout">
+              <div class="chat-column">
+                <div class="timeline" id="timeline" role="log" aria-live="polite" aria-label="Room messages">
+                  <div class="welcome-card" id="welcome-card">
+                    <span class="welcome-star">✦</span><p class="eyebrow">BEGIN WHERE YOU ARE</p>
+                    <h2>What feels present<br />for your circle today?</h2>
+                    <p>Share a question, a small observation, or a moment you want to understand together.</p>
+                  </div>
+                </div>
+                <form id="message-form" class="composer">
+                  <label class="sr-only" for="message-input">Message your room</label>
+                  <textarea id="message-input" rows="1" placeholder="Write a message to your room…" maxlength="4000" required></textarea>
+                  <button class="send-button" type="submit" aria-label="Send message"><span aria-hidden="true">↑</span></button>
+                  <p class="composer-note">The Metheus bot must be joined to this room to reply. Messages are shared with the whole room.</p>
+                </form>
               </div>
+              <details class="bodygraph-panel" id="bodygraph-panel" open>
+                <summary><span><span class="eyebrow">REFERENCE MAP</span><strong>Bodygraph</strong></span><span class="bodygraph-badge">GENERIC TEMPLATE</span></summary>
+                <div class="bodygraph-viewer" id="bodygraph-viewer">
+                  <canvas id="bodygraph-canvas" tabindex="0" role="img" aria-label="Generic Human Design BodyGraph. Click a gate or channel to highlight it; drag to orbit and scroll to zoom."></canvas>
+                </div>
+                <p class="bodygraph-hint">A reference map, not a personal chart. Chat mentions of gates and channels highlight here.</p>
+                <form class="bodygraph-search" id="bodygraph-search">
+                  <label class="sr-only" for="bodygraph-query">Highlight a gate or channel</label>
+                  <input id="bodygraph-query" type="text" placeholder="Gate 34 or Channel 34–20" autocomplete="off" />
+                  <button type="submit" aria-label="Highlight reference">↗</button>
+                </form>
+                <div class="bodygraph-detail" id="bodygraph-detail" aria-live="polite">Choose a gate or channel to explore its place in the map.</div>
+                <div class="bodygraph-source" id="bodygraph-source" aria-hidden="true"></div>
+                <button type="button" class="bodygraph-clear" id="bodygraph-clear">Clear highlight</button>
+              </details>
             </div>
-            <form id="message-form" class="composer">
-              <label class="sr-only" for="message-input">Message your room</label>
-              <textarea id="message-input" rows="1" placeholder="Write a message to your room…" maxlength="4000" required></textarea>
-              <button class="send-button" type="submit" aria-label="Send message"><span aria-hidden="true">↑</span></button>
-              <p class="composer-note">The Metheus bot must be joined to this room to reply. Messages are shared with the whole room.</p>
-            </form>
           </section>
 
           <section class="settings-panel" id="settings-panel" hidden>
