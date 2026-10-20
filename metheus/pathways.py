@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+from datetime import datetime
 from typing import Any, Iterable
 
+from .resources import authorize_subject_index_resources
 from .schema_validation import validate_record_schema, validate_schema_instance
 
 
@@ -158,4 +160,116 @@ def validate_experience_pathway_references(
         "resolvedRecordIds": sorted(resolved_record_ids),
         "resolvedEvidenceClaimIds": sorted(resolved_evidence_ids),
         "issues": issues,
+    }
+
+
+def preflight_experience_pathway_sources(
+    pathway: dict[str, Any],
+    subject_index: dict[str, Any],
+    resources: Iterable[dict[str, Any]],
+    selected_source_ids: Iterable[str],
+    grants: Iterable[dict[str, Any]],
+    *,
+    purpose: str,
+    evidence_claims: Iterable[dict[str, Any]] = (),
+    now: datetime | None = None,
+) -> dict[str, Any]:
+    """Check that every pathway source is explicitly selected and authorized.
+
+    `resources` must include the subject index's complete indexed resource set
+    because index resolution checks every pointer. Pass all evidence claims
+    cited by the graph in `evidence_claims`; candidate status remains unchanged
+    by validation. When personal source records are referenced, this preflight
+    supports local `analyze` authorization for those records. The caller must
+    explicitly select exactly the source IDs referenced by the graph. Remote
+    processing, sharing, storage, and authorization of the pathway artifact
+    itself are outside this helper.
+    """
+    if not isinstance(pathway, dict):
+        return {"sourceRecordsAuthorized": False, "reason": "invalid_pathway_shape"}
+    if not isinstance(purpose, str) or not purpose.strip():
+        return {"sourceRecordsAuthorized": False, "reason": "invalid_purpose"}
+
+    resource_list = list(resources)
+    grant_list = list(grants)
+    evidence_list = list(evidence_claims)
+    integrity = validate_experience_pathway_references(pathway, resource_list, evidence_list)
+    if not integrity["valid"]:
+        return {
+            "sourceRecordsAuthorized": False,
+            "reason": "invalid_pathway_references",
+            "integrity": integrity,
+        }
+
+    subject_id = pathway.get("subjectId")
+    if not isinstance(subject_index, dict):
+        return {"sourceRecordsAuthorized": False, "reason": "invalid_subject_index", "integrity": integrity}
+    index_schema = validate_schema_instance(subject_index, "subject-index.schema.json")
+    if not index_schema["valid"]:
+        return {
+            "sourceRecordsAuthorized": False,
+            "reason": "invalid_subject_index_schema",
+            "integrity": integrity,
+        }
+    if subject_index.get("subjectId") != subject_id:
+        return {
+            "sourceRecordsAuthorized": False,
+            "reason": "pathway_subject_index_mismatch",
+            "integrity": integrity,
+        }
+
+    selected_values: list[str]
+    if isinstance(selected_source_ids, (str, bytes, dict)):
+        return {"sourceRecordsAuthorized": False, "reason": "invalid_selected_source_ids", "integrity": integrity}
+    try:
+        selected_values = list(selected_source_ids)
+    except TypeError:
+        return {"sourceRecordsAuthorized": False, "reason": "invalid_selected_source_ids", "integrity": integrity}
+    if not all(isinstance(value, str) and value for value in selected_values):
+        return {"sourceRecordsAuthorized": False, "reason": "invalid_selected_source_ids", "integrity": integrity}
+    if len(set(selected_values)) != len(selected_values):
+        return {"sourceRecordsAuthorized": False, "reason": "duplicate_selected_source_id", "integrity": integrity}
+
+    referenced_ids = set(integrity["resolvedRecordIds"])
+    selected_ids = set(selected_values)
+    if selected_ids != referenced_ids:
+        return {
+            "sourceRecordsAuthorized": False,
+            "reason": "selected_source_ids_must_match_pathway_references",
+            "unselectedReferenceIds": sorted(referenced_ids - selected_ids),
+            "unreferencedSelectedIds": sorted(selected_ids - referenced_ids),
+            "integrity": integrity,
+        }
+
+    if not referenced_ids:
+        return {
+            "sourceRecordsAuthorized": None,
+            "pathwayId": integrity.get("pathwayId"),
+            "subjectId": subject_id,
+            "sourceAuthorization": {"authorized": None, "reason": "no_personal_source_records_referenced"},
+            "integrity": integrity,
+            "limitations": [
+                "This preflight does not authorize the pathway artifact itself or authorize storage or remote processing."
+            ],
+        }
+
+    authorization = authorize_subject_index_resources(
+        subject_index,
+        resource_list,
+        selected_values,
+        grant_list,
+        purpose=purpose,
+        action="analyze",
+        now=now,
+    )
+    return {
+        "sourceRecordsAuthorized": bool(authorization.get("authorized")),
+        "pathwayId": integrity.get("pathwayId"),
+        "subjectId": subject_id,
+        "sourceAuthorization": authorization,
+        "integrity": integrity,
+        "limitations": [
+            "This preflight authorizes only the explicitly referenced source records for local analysis.",
+            "It does not authorize the pathway artifact itself, remote processing, sharing, storage, or access at a service boundary.",
+        ],
     }

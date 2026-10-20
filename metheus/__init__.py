@@ -23,7 +23,7 @@ from .temporal import (
     describe_selected_temporal_relations,
     describe_temporal_order,
 )
-from .pathways import validate_experience_pathway_references
+from .pathways import preflight_experience_pathway_sources, validate_experience_pathway_references
 
 __all__ = [
     "evaluate_authorization",
@@ -46,4 +46,5 @@ __all__ = [
     "summarize_meal_timing_relative_to_wake",
     "summarize_numeric_measurements",
     "validate_experience_pathway_references",
+    "preflight_experience_pathway_sources",
 ]
