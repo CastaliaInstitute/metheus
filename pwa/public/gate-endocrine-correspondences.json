@@ -1,6 +1,6 @@
 {
   "$schema": "../schema/correspondence-catalog.schema.json",
-  "catalogVersion": "0.3.1",
+  "catalogVersion": "0.4.0",
   "catalogStatus": "source_attributed",
   "policy": "These entries record specific Human Design sources' gate-level organ, tissue, or hormonal correspondences. They are not established biology, assay interpretation, or evidence that a gate causes, measures, or predicts a hormone. Preserve each source and its wording; do not generalize one source's teaching to all Human Design lineages. Conflicting source attributions are retained separately and must not be summarized as lineage consensus.",
   "correspondences": [
@@ -2524,6 +2524,636 @@
         "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
         "It does not measure or predict an individual’s organ function, hormone level, or health."
       ]
+    },
+    {
+      "id": "gate-1-liver-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "HumDes gate reference, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "1",
+        "label": "Gate 1"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "liver",
+        "label": "Liver"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 1 reference lists “Hematopoietic lobe of the liver” as the gate’s physiology. Metheus records this source-specific gate-to-tissue attribution; it does not establish that Gate 1 regulates hormone production, secretion, concentration, or response in that tissue.",
+      "sourceCitations": [
+        {
+          "title": "Gate 1 · HumDes Human Design Gate Reference",
+          "url": "https://www.humdes.com/en/kb/gates/1/",
+          "locator": "Physiology field",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference page, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The page names a physiology/tissue association but does not establish a gate-specific hormone, mechanism, direction, timing, or effect size.",
+        "The association does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
+    },
+    {
+      "id": "gate-10-heart-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "HumDes gate reference, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "10",
+        "label": "Gate 10"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "heart",
+        "label": "Heart"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 10 reference lists “Heart (chest)” as the gate’s physiology. Metheus records this source-specific gate-to-tissue attribution; it does not establish that Gate 10 regulates hormone production, secretion, concentration, or response in that tissue.",
+      "sourceCitations": [
+        {
+          "title": "Gate 10 · HumDes Human Design Gate Reference",
+          "url": "https://www.humdes.com/en/kb/gates/10/",
+          "locator": "Physiology field",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference page, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The page names a physiology/tissue association but does not establish a gate-specific hormone, mechanism, direction, timing, or effect size.",
+        "The association does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
+    },
+    {
+      "id": "gate-12-thyroid-gland-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "HumDes gate reference, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "12",
+        "label": "Gate 12"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "thyroid-gland",
+        "label": "Thyroid gland"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 12 reference lists “Thyroid Gland” as the gate’s physiology. Metheus records this source-specific gate-to-tissue attribution; it does not establish that Gate 12 regulates hormone production, secretion, concentration, or response in that tissue.",
+      "sourceCitations": [
+        {
+          "title": "Gate 12 · HumDes Human Design Gate Reference",
+          "url": "https://www.humdes.com/en/kb/gates/12/",
+          "locator": "Physiology field",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference page, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The page names a physiology/tissue association but does not establish a gate-specific hormone, mechanism, direction, timing, or effect size.",
+        "The association does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
+    },
+    {
+      "id": "gate-14-small-intestine-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "HumDes gate reference, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "14",
+        "label": "Gate 14"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "small-intestine",
+        "label": "Small intestine"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 14 reference lists “Small intestine” as the gate’s physiology. Metheus records this source-specific gate-to-tissue attribution; it does not establish that Gate 14 regulates hormone production, secretion, concentration, or response in that tissue.",
+      "sourceCitations": [
+        {
+          "title": "Gate 14 · HumDes Human Design Gate Reference",
+          "url": "https://www.humdes.com/en/kb/gates/14/",
+          "locator": "Physiology field",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference page, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The page names a physiology/tissue association but does not establish a gate-specific hormone, mechanism, direction, timing, or effect size.",
+        "The association does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
+    },
+    {
+      "id": "gate-15-liver-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "HumDes gate reference, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "15",
+        "label": "Gate 15"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "liver",
+        "label": "Liver"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 15 reference lists “Liver” as the gate’s physiology. Metheus records this source-specific gate-to-tissue attribution; it does not establish that Gate 15 regulates hormone production, secretion, concentration, or response in that tissue.",
+      "sourceCitations": [
+        {
+          "title": "Gate 15 · HumDes Human Design Gate Reference",
+          "url": "https://www.humdes.com/en/kb/gates/15/",
+          "locator": "Physiology field",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference page, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The page names a physiology/tissue association but does not establish a gate-specific hormone, mechanism, direction, timing, or effect size.",
+        "The association does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
+    },
+    {
+      "id": "gate-16-parathyroid-gland-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "HumDes gate reference, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "16",
+        "label": "Gate 16"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "parathyroid-gland",
+        "label": "Parathyroid gland"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 16 reference lists “Parathyroid Gland” as the gate’s physiology. Metheus records this source-specific gate-to-tissue attribution; it does not establish that Gate 16 regulates hormone production, secretion, concentration, or response in that tissue.",
+      "sourceCitations": [
+        {
+          "title": "Gate 16 · HumDes Human Design Gate Reference",
+          "url": "https://www.humdes.com/en/kb/gates/16/",
+          "locator": "Physiology field",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference page, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The page names a physiology/tissue association but does not establish a gate-specific hormone, mechanism, direction, timing, or effect size.",
+        "The association does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
+    },
+    {
+      "id": "gate-25-heart-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "HumDes gate reference, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "25",
+        "label": "Gate 25"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "heart",
+        "label": "Heart"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 25 reference lists “Heart” as the gate’s physiology. Metheus records this source-specific gate-to-tissue attribution; it does not establish that Gate 25 regulates hormone production, secretion, concentration, or response in that tissue.",
+      "sourceCitations": [
+        {
+          "title": "Gate 25 · HumDes Human Design Gate Reference",
+          "url": "https://www.humdes.com/en/kb/gates/25/",
+          "locator": "Physiology field",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference page, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The page names a physiology/tissue association but does not establish a gate-specific hormone, mechanism, direction, timing, or effect size.",
+        "The association does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
+    },
+    {
+      "id": "gate-26-thymus-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "HumDes gate reference, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "26",
+        "label": "Gate 26"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "thymus",
+        "label": "Thymus gland"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 26 reference lists “Thymus gland (Thymus)” as the gate’s physiology. Metheus records this source-specific gate-to-tissue attribution; it does not establish that Gate 26 regulates hormone production, secretion, concentration, or response in that tissue.",
+      "sourceCitations": [
+        {
+          "title": "Gate 26 · HumDes Human Design Gate Reference",
+          "url": "https://www.humdes.com/en/kb/gates/26/",
+          "locator": "Physiology field",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference page, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The page names a physiology/tissue association but does not establish a gate-specific hormone, mechanism, direction, timing, or effect size.",
+        "The association does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
+    },
+    {
+      "id": "gate-28-kidney-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "HumDes gate reference, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "28",
+        "label": "Gate 28"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "kidney",
+        "label": "Kidneys"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 28 reference lists “Kidneys” as the gate’s physiology. Metheus records this source-specific gate-to-tissue attribution; it does not establish that Gate 28 regulates hormone production, secretion, concentration, or response in that tissue.",
+      "sourceCitations": [
+        {
+          "title": "Gate 28 · HumDes Human Design Gate Reference",
+          "url": "https://www.humdes.com/en/kb/gates/28/",
+          "locator": "Physiology field",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference page, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The page names a physiology/tissue association but does not establish a gate-specific hormone, mechanism, direction, timing, or effect size.",
+        "The association does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
+    },
+    {
+      "id": "gate-30-gastrointestinal-tract-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "HumDes gate reference, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "30",
+        "label": "Gate 30"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "gastrointestinal-tract",
+        "label": "Digestive system (Solar plexus)"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 30 reference lists “Digestive system (Solar plexus)” as the gate’s physiology. Metheus records this source-specific gate-to-tissue attribution; it does not establish that Gate 30 regulates hormone production, secretion, concentration, or response in that tissue.",
+      "sourceCitations": [
+        {
+          "title": "Gate 30 · HumDes Human Design Gate Reference",
+          "url": "https://www.humdes.com/en/kb/gates/30/",
+          "locator": "Physiology field",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference page, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The page names a physiology/tissue association but does not establish a gate-specific hormone, mechanism, direction, timing, or effect size.",
+        "The association does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
+    },
+    {
+      "id": "gate-31-thyroid-gland-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "HumDes gate reference, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "31",
+        "label": "Gate 31"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "thyroid-gland",
+        "label": "Throat (thyroid gland)"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 31 reference lists “Throat (thyroid gland)” as the gate’s physiology. Metheus records this source-specific gate-to-tissue attribution; it does not establish that Gate 31 regulates hormone production, secretion, concentration, or response in that tissue.",
+      "sourceCitations": [
+        {
+          "title": "Gate 31 · HumDes Human Design Gate Reference",
+          "url": "https://www.humdes.com/en/kb/gates/31/",
+          "locator": "Physiology field",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference page, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The page names a physiology/tissue association but does not establish a gate-specific hormone, mechanism, direction, timing, or effect size.",
+        "The association does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
+    },
+    {
+      "id": "gate-33-thyroid-gland-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "HumDes gate reference, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "33",
+        "label": "Gate 33"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "thyroid-gland",
+        "label": "Thyroid gland"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 33 reference lists “Thyroid gland” as the gate’s physiology. Metheus records this source-specific gate-to-tissue attribution; it does not establish that Gate 33 regulates hormone production, secretion, concentration, or response in that tissue.",
+      "sourceCitations": [
+        {
+          "title": "Gate 33 · HumDes Human Design Gate Reference",
+          "url": "https://www.humdes.com/en/kb/gates/33/",
+          "locator": "Physiology field",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference page, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The page names a physiology/tissue association but does not establish a gate-specific hormone, mechanism, direction, timing, or effect size.",
+        "The association does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
+    },
+    {
+      "id": "gate-35-thyroid-parathyroid-glands-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "HumDes gate reference, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "35",
+        "label": "Gate 35"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "thyroid-parathyroid-glands",
+        "label": "Thyroid gland (Parathyroid gland)"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 35 reference lists “Thyroid gland (Parathyroid gland)” as the gate’s physiology. Metheus records this source-specific gate-to-tissue attribution; it does not establish that Gate 35 regulates hormone production, secretion, concentration, or response in that tissue.",
+      "sourceCitations": [
+        {
+          "title": "Gate 35 · HumDes Human Design Gate Reference",
+          "url": "https://www.humdes.com/en/kb/gates/35/",
+          "locator": "Physiology field",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference page, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The page names a physiology/tissue association but does not establish a gate-specific hormone, mechanism, direction, timing, or effect size.",
+        "The association does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
+    },
+    {
+      "id": "gate-38-adrenal-glands-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "HumDes gate reference, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "38",
+        "label": "Gate 38"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "adrenal-glands",
+        "label": "Adrenal glands (adrenaline glands)"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 38 reference lists “Adrenal glands (adrenaline glands)” as the gate’s physiology. Metheus records this source-specific gate-to-tissue attribution; it does not establish that Gate 38 regulates hormone production, secretion, concentration, or response in that tissue.",
+      "sourceCitations": [
+        {
+          "title": "Gate 38 · HumDes Human Design Gate Reference",
+          "url": "https://www.humdes.com/en/kb/gates/38/",
+          "locator": "Physiology field",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference page, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The page names a physiology/tissue association but does not establish a gate-specific hormone, mechanism, direction, timing, or effect size.",
+        "The association does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
+    },
+    {
+      "id": "gate-39-adrenal-glands-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "HumDes gate reference, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "39",
+        "label": "Gate 39"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "adrenal-glands",
+        "label": "Adrenal glands (adrenaline glands)"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 39 reference lists “Adrenal glands (adrenaline glands)” as the gate’s physiology. Metheus records this source-specific gate-to-tissue attribution; it does not establish that Gate 39 regulates hormone production, secretion, concentration, or response in that tissue.",
+      "sourceCitations": [
+        {
+          "title": "Gate 39 · HumDes Human Design Gate Reference",
+          "url": "https://www.humdes.com/en/kb/gates/39/",
+          "locator": "Physiology field",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference page, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The page names a physiology/tissue association but does not establish a gate-specific hormone, mechanism, direction, timing, or effect size.",
+        "The association does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
+    },
+    {
+      "id": "gate-40-stomach-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "HumDes gate reference, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "40",
+        "label": "Gate 40"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "stomach",
+        "label": "Stomach"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 40 reference lists “Stomach” as the gate’s physiology. Metheus records this source-specific gate-to-tissue attribution; it does not establish that Gate 40 regulates hormone production, secretion, concentration, or response in that tissue.",
+      "sourceCitations": [
+        {
+          "title": "Gate 40 · HumDes Human Design Gate Reference",
+          "url": "https://www.humdes.com/en/kb/gates/40/",
+          "locator": "Physiology field",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference page, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The page names a physiology/tissue association but does not establish a gate-specific hormone, mechanism, direction, timing, or effect size.",
+        "The association does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
+    },
+    {
+      "id": "gate-45-thyroid-gland-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "HumDes gate reference, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "45",
+        "label": "Gate 45"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "thyroid-gland",
+        "label": "Thyroid gland"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 45 reference lists “Thyroid gland” as the gate’s physiology. Metheus records this source-specific gate-to-tissue attribution; it does not establish that Gate 45 regulates hormone production, secretion, concentration, or response in that tissue.",
+      "sourceCitations": [
+        {
+          "title": "Gate 45 · HumDes Human Design Gate Reference",
+          "url": "https://www.humdes.com/en/kb/gates/45/",
+          "locator": "Physiology field",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference page, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The page names a physiology/tissue association but does not establish a gate-specific hormone, mechanism, direction, timing, or effect size.",
+        "The association does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
+    },
+    {
+      "id": "gate-56-thyroid-parathyroid-glands-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "HumDes gate reference, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "56",
+        "label": "Gate 56"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "thyroid-parathyroid-glands",
+        "label": "Thyroid and parathyroid glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 56 reference lists “Thyroid and Parathyroid Glands” as the gate’s physiology. Metheus records this source-specific gate-to-tissue attribution; it does not establish that Gate 56 regulates hormone production, secretion, concentration, or response in that tissue.",
+      "sourceCitations": [
+        {
+          "title": "Gate 56 · HumDes Human Design Gate Reference",
+          "url": "https://www.humdes.com/en/kb/gates/56/",
+          "locator": "Physiology field",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference page, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The page names a physiology/tissue association but does not establish a gate-specific hormone, mechanism, direction, timing, or effect size.",
+        "The association does not measure or predict an individual’s organ function, hormone level, or health."
+      ]
     }
   ],
   "sourceRegister": [
@@ -2575,10 +3205,11 @@
     },
     {
       "id": "humdes-gate-physiology-reference",
-      "title": "HumDes Human Design Gate Reference Articles",
+      "title": "HumDes Human Design Gate Reference Articles (64-gate physiology audit)",
       "limitations": [
         "Source-attributed gate physiology labels are not experimentally validated gate mechanisms.",
-        "Selected gate pages include both endocrine-related and non-endocrine organ/tissue assignments to preserve source disagreement."
+        "The catalog includes endocrine-relevant tissue assignments and selected non-endocrine entries where needed to preserve source disagreement; excluded pages remain documented in the source register.",
+        "The physiology scope is based on biomedical literature and does not imply that a named gate has biological control over the tissue or its hormones."
       ],
       "includedEntryIds": [
         "gate-41-adrenal-physiology-source-attribution",
@@ -2593,44 +3224,196 @@
         "gate-24-neocortex-humdes-source-attribution",
         "gate-43-inner-ear-humdes-source-attribution",
         "gate-47-neocortex-humdes-source-attribution",
-        "gate-62-thyroid-gland-humdes-source-attribution"
+        "gate-62-thyroid-gland-humdes-source-attribution",
+        "gate-1-liver-humdes-source-attribution",
+        "gate-10-heart-humdes-source-attribution",
+        "gate-12-thyroid-gland-humdes-source-attribution",
+        "gate-14-small-intestine-humdes-source-attribution",
+        "gate-15-liver-humdes-source-attribution",
+        "gate-16-parathyroid-gland-humdes-source-attribution",
+        "gate-25-heart-humdes-source-attribution",
+        "gate-26-thymus-humdes-source-attribution",
+        "gate-28-kidney-humdes-source-attribution",
+        "gate-30-gastrointestinal-tract-humdes-source-attribution",
+        "gate-31-thyroid-gland-humdes-source-attribution",
+        "gate-33-thyroid-gland-humdes-source-attribution",
+        "gate-35-thyroid-parathyroid-glands-humdes-source-attribution",
+        "gate-38-adrenal-glands-humdes-source-attribution",
+        "gate-39-adrenal-glands-humdes-source-attribution",
+        "gate-40-stomach-humdes-source-attribution",
+        "gate-45-thyroid-gland-humdes-source-attribution",
+        "gate-56-thyroid-parathyroid-glands-humdes-source-attribution"
       ],
       "includedGateIds": [
+        "1",
         "4",
         "8",
+        "10",
         "11",
+        "12",
+        "14",
+        "15",
+        "16",
         "17",
         "23",
         "24",
+        "25",
+        "26",
+        "28",
+        "30",
+        "31",
+        "33",
+        "35",
+        "38",
+        "39",
+        "40",
         "41",
         "43",
+        "45",
         "47",
+        "56",
         "61",
         "62",
         "63",
         "64"
       ],
       "coveredGateIds": [
+        "1",
+        "2",
+        "3",
         "4",
+        "5",
+        "6",
+        "7",
         "8",
+        "9",
+        "10",
         "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
         "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
         "23",
         "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
         "41",
+        "42",
         "43",
+        "44",
+        "45",
+        "46",
         "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60",
         "61",
         "62",
         "63",
         "64"
       ],
-      "excludedGateIds": [],
+      "excludedGateIds": [
+        "2",
+        "3",
+        "5",
+        "6",
+        "7",
+        "9",
+        "13",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "27",
+        "29",
+        "32",
+        "34",
+        "36",
+        "37",
+        "42",
+        "44",
+        "46",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "57",
+        "58",
+        "59",
+        "60"
+      ],
       "reviewStatus": "not_independently_reviewed",
       "citationUrlPrefix": "https://www.humdes.com/en/kb/gates/",
       "lineage": "HumDes reference catalog",
-      "sourceScope": "Selected individual gate articles consulted; this register is not a complete extraction of all 64 HumDes gate pages.",
-      "scopeCitations": []
+      "sourceScope": "All 64 individual HumDes gate reference pages were inventoried for their physiology field. The included subset retains source assignments to classical endocrine glands and other tissues with documented hormone production or endocrine secretion (including liver, heart, kidney, stomach, and intestine), plus four non-endocrine assignments (Gates 4, 24, 43, and 47) to preserve visible source-specific differences. Other page assignments were reviewed but excluded from this endocrine-focused catalog because their named targets are not a direct endocrine source/tissue under this scope. This source scope does not validate any gate-to-tissue association.",
+      "scopeCitations": [
+        {
+          "title": "Glands and Hormones · NCBI Bookshelf",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK22231/",
+          "locator": "Classical endocrine glands; diffuse endocrine cells in heart, stomach, and small intestine",
+          "accessedAt": "2026-10-20"
+        },
+        {
+          "title": "Newly discovered endocrine functions of the liver",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8637678/",
+          "locator": "Liver synthesis of IGF-1, angiotensinogen, and 25-hydroxyvitamin D",
+          "accessedAt": "2026-10-20"
+        },
+        {
+          "title": "The Kidney as an Endocrine Organ",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6369613/",
+          "locator": "Renin and erythropoietin production",
+          "accessedAt": "2026-10-20"
+        },
+        {
+          "title": "Thymus Hormones · NCBI MeSH",
+          "url": "https://www.ncbi.nlm.nih.gov/mesh/D013951",
+          "locator": "Humoral factors secreted by the thymus gland",
+          "accessedAt": "2026-10-20"
+        },
+        {
+          "title": "Physiology, Gastrointestinal Hormonal Control · NCBI Bookshelf",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK537284/",
+          "locator": "Enteroendocrine cells and gastrointestinal hormone secretion",
+          "accessedAt": "2026-10-20"
+        }
+      ]
     },
     {
       "id": "7-jewels-64-gate-organ-table",
