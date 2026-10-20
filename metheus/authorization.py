@@ -7,6 +7,7 @@ or enforce access at a storage boundary.
 
 from __future__ import annotations
 
+from collections import Counter
 from datetime import date, datetime, timezone
 from typing import Any, Iterable
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
@@ -280,9 +281,17 @@ def evaluate_authorization(
     evaluated_at = evaluated_at.astimezone(timezone.utc)
 
     selected_records = list(records)
-    selected_record_ids = {
+    selected_record_id_values = [
         record.get("id") for record in selected_records
         if isinstance(record, dict) and isinstance(record.get("id"), str)
+    ]
+    selected_record_ids = set(selected_record_id_values)
+    duplicate_record_ids = {
+        record_id for record_id, count in Counter(selected_record_id_values).items() if count > 1
+    }
+    selected_phase_ids = {
+        record.get("id") for record in selected_records
+        if isinstance(record, dict) and _is_phase_annotation(record) and isinstance(record.get("id"), str)
     }
     grant_list = [grant for grant in grants if isinstance(grant, dict)]
     inactive_ids = _inactive_grant_ids(grant_list)
@@ -306,6 +315,9 @@ def evaluate_authorization(
         if not isinstance(record_id, str) or not record_id.strip():
             decisions.append({"recordId": None, "authorized": False, "reason": "missing_record_id"})
             continue
+        if record_id in duplicate_record_ids:
+            decisions.append({"recordId": record_id, "authorized": False, "reason": "duplicate_record_id"})
+            continue
         if record.get("subjectId") != subject_id:
             decisions.append({"recordId": record_id, "authorized": False, "reason": "subject_mismatch"})
             continue
@@ -323,6 +335,9 @@ def evaluate_authorization(
                 continue
             if any(value not in selected_record_ids for value in basis_ids):
                 decisions.append({"recordId": record_id, "authorized": False, "reason": "phase_basis_record_not_selected"})
+                continue
+            if any(value in selected_phase_ids for value in basis_ids):
+                decisions.append({"recordId": record_id, "authorized": False, "reason": "phase_basis_must_be_source_record"})
                 continue
 
         matching_grant: dict[str, Any] | None = None

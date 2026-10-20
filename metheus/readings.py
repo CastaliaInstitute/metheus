@@ -61,6 +61,9 @@ def validate_reading_references(
         if not isinstance(record_id, str) or not record_id:
             issue("missing_record_id")
             continue
+        if record.get("recordType") == "phase_annotation":
+            issue("phase_annotation_in_source_records", record_id)
+            continue
         if record_id in record_index:
             issue("duplicate_record_id", record_id)
             continue
@@ -93,6 +96,25 @@ def validate_reading_references(
             issue("source_subject_mismatch", input_id)
         elif input_id in phase_index and phase_index[input_id].get("subjectId") != subject_id:
             issue("phase_annotation_subject_mismatch", input_id)
+
+    def check_phase_basis(phase_id: str, annotation: dict[str, Any]) -> None:
+        support_ids = annotation.get("basisRecordIds", [])
+        if not isinstance(support_ids, list) or not all(isinstance(x, str) and x for x in support_ids):
+            issue("invalid_phase_basis_record_ids", phase_id)
+            return
+        for support_id in support_ids:
+            if support_id not in selected_ids:
+                issue("phase_basis_record_not_selected", support_id)
+            support_record = record_index.get(support_id)
+            if support_record is None:
+                issue("unresolved_phase_basis_record", support_id)
+            elif support_record.get("subjectId") != subject_id:
+                issue("phase_basis_subject_mismatch", support_id)
+
+    for phase_id in selected_ids.intersection(phase_index):
+        annotation = phase_index[phase_id]
+        if annotation.get("subjectId") == subject_id:
+            check_phase_basis(phase_id, annotation)
 
     claims = reading.get("claims", [])
     if not isinstance(claims, list):
@@ -130,18 +152,7 @@ def validate_reading_references(
                 continue
             if annotation.get("subjectId") != subject_id:
                 issue("phase_annotation_subject_mismatch", phase_id)
-
-            support_ids = annotation.get("basisRecordIds", [])
-            if not isinstance(support_ids, list) or not all(isinstance(x, str) and x for x in support_ids):
-                issue("invalid_phase_basis_record_ids", phase_id)
-                continue
-            for support_id in support_ids:
-                if support_id not in selected_ids:
-                    issue("phase_basis_record_not_selected", support_id)
-                support_record = record_index.get(support_id)
-                if support_record is None:
-                    issue("unresolved_phase_basis_record", support_id)
-                elif support_record.get("subjectId") != subject_id:
-                    issue("phase_basis_subject_mismatch", support_id)
+            else:
+                check_phase_basis(phase_id, annotation)
 
     return {"valid": not issues, "issues": issues}
