@@ -1,6 +1,7 @@
 """Early deterministic components for the Metheus systems model."""
 
 from .authorization import evaluate_authorization
+from .affordances import validate_environmental_affordance_links
 from .readings import (
     assemble_reading,
     authorize_reading_inputs,
@@ -27,6 +28,7 @@ from .pathways import preflight_experience_pathway_sources, validate_experience_
 
 __all__ = [
     "evaluate_authorization",
+    "validate_environmental_affordance_links",
     "authorize_reading_inputs",
     "validate_reading_references",
     "preflight_subject_reading",

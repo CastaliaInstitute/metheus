@@ -10,6 +10,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any, Iterable
 
+from .affordances import validate_environmental_affordance_links
 from .authorization import evaluate_authorization, record_domain
 from .resources import resolve_subject_index
 from .rhythms import measurement_series_source_matches
@@ -252,6 +253,29 @@ def validate_reading_references(
         summary = record_index[summary_id]
         if summary.get("recordType") == "rhythm_summary" and summary.get("subjectId") == subject_id:
             check_summary_basis(summary_id, summary)
+
+    reflection_options = reading.get("reflectionOptions", [])
+    if not isinstance(reflection_options, list):
+        issue("invalid_reflection_options")
+        reflection_options = []
+    for option in reflection_options:
+        if not isinstance(option, dict):
+            issue("invalid_reflection_option")
+            continue
+        source_ids = option.get("sourceIds", [])
+        if not isinstance(source_ids, list) or not all(isinstance(value, str) and value for value in source_ids):
+            issue("invalid_reflection_option_source_ids")
+            continue
+        if option.get("kind") == "environmental_affordance" and not source_ids:
+            issue("environmental_affordance_requires_selected_basis")
+        for source_id in source_ids:
+            if source_id not in selected_ids:
+                issue("reflection_option_source_not_selected", source_id)
+            source_record = record_index.get(source_id)
+            if source_record is None:
+                issue("unresolved_reflection_option_source", source_id)
+            elif source_record.get("subjectId") != subject_id:
+                issue("reflection_option_source_subject_mismatch", source_id)
 
     claims = reading.get("claims", [])
     if not isinstance(claims, list):
@@ -533,6 +557,7 @@ def preflight_subject_reading(
     now: datetime | None = None,
     correspondences: Iterable[dict[str, Any]] = (),
     evidence_claims: Iterable[dict[str, Any]] = (),
+    affordance_source_readings: Iterable[dict[str, Any]] = (),
 ) -> dict[str, Any]:
     """Preflight a reading against one subject index and its consent grants.
 
@@ -613,6 +638,20 @@ def preflight_subject_reading(
             "resolution": resolution,
         }
 
+    affordance_links = validate_environmental_affordance_links(
+        [reading, *list(affordance_source_readings)],
+        resource_list,
+        selected_record_ids=input_ids,
+    )
+    if not affordance_links["valid"]:
+        return {
+            "authorized": False,
+            "preflightPassed": False,
+            "reason": "invalid_environmental_affordance_links",
+            "affordanceLinks": affordance_links,
+            "resolution": resolution,
+        }
+
     records = [
         resource for resource in resource_list
         if isinstance(resource, dict) and resource.get("recordType") != "phase_annotation"
@@ -637,6 +676,7 @@ def preflight_subject_reading(
         "readingId": reading.get("id"),
         "subjectId": subject_id,
         "resolution": resolution,
+        "affordanceLinks": affordance_links,
         "authorization": authorization,
     }
 
@@ -651,6 +691,7 @@ def assemble_reading(
     now: datetime | None = None,
     correspondences: Iterable[dict[str, Any]] = (),
     evidence_claims: Iterable[dict[str, Any]] = (),
+    affordance_source_readings: Iterable[dict[str, Any]] = (),
 ) -> dict[str, Any]:
     """Assemble an authorized reading into typed, provenance-carrying claims.
 
@@ -672,6 +713,7 @@ def assemble_reading(
         now=now,
         correspondences=correspondence_list,
         evidence_claims=evidence_list,
+        affordance_source_readings=affordance_source_readings,
     )
     if not preflight.get("preflightPassed"):
         return {
