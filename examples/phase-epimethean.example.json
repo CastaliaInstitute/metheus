@@ -3,19 +3,18 @@
   "subjectId": "synthetic-subject",
   "layer": "epimethean",
   "phaseSystem": "menstrual_cycle",
-  "canonicalPhase": "bleeding_reported",
+  "canonicalPhase": "bleeding_onset_reported",
   "evocativeName": "The Opening Tide",
-  "description": "A bleeding window entered by the person.",
+  "description": "A person-reported bleeding onset; no phase inference.",
   "window": {
-    "start": "2026-04-03",
-    "end": "2026-04-06"
+    "start": "2026-04-03"
   },
   "basis": "reported",
   "interpretation": "descriptive",
   "basisRecordIds": ["synthetic-bleeding-observation"],
   "method": "Person-reported event; no phase inference.",
   "methodVersion": "1.0",
-  "uncertainty": "Does not establish cycle phase, ovulation, cause, or hormone levels.",
+  "uncertainty": "Does not establish cycle phase, duration, ovulation, cause, or hormone levels.",
   "limitations": ["Synthetic example; no actual person's data."],
   "nameSource": "metheus_suggestion"
 }

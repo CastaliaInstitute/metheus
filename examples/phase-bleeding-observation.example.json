@@ -1,0 +1,24 @@
+{
+  "id": "synthetic-bleeding-observation",
+  "subjectId": "synthetic-subject",
+  "recordType": "event",
+  "eventType": "bleeding_start",
+  "epistemicClass": "self_reported",
+  "time": {
+    "date": "2026-04-03",
+    "precision": "date_only",
+    "scale": "reproductive"
+  },
+  "source": {
+    "kind": "subject",
+    "reportedByRelation": "self"
+  },
+  "domain": "reproductive",
+  "label": "reported bleeding began",
+  "privacy": {
+    "sensitivity": "sensitive",
+    "subjectControlled": true,
+    "sharing": "private"
+  },
+  "notes": "Synthetic example; does not specify cause or menstrual-cycle phase."
+}
