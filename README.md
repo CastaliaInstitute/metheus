@@ -65,11 +65,13 @@ See the [evidence-claim model](docs/evidence-claim-model.md), [evidence review p
 
 See [Epimethean behavior layer](docs/behavior-layer.md) for representing chosen or constrained eating patterns, fasting, exercise, supplements, sleep/light routines, and other practices alongside physiology without treating the model as a prescriber.
 
+See [Environmental affordances and designed “channels”](docs/environmental-affordance-layer.md) for the proposed way to turn a Promethean theme into an optional, goal-grounded environmental support—including a transparent AI-mediated scaffold—without changing chart definition or treating openness as a deficit.
+
 See [Sensory, aroma, and flavor layer](docs/sensory-aroma-flavor-layer.md) for recording scent, taste, flavor, and route separately from measured or reported outcomes, with evidence limits on hormone-response claims.
 
 See [Developmental psychology and learning layer](docs/developmental-learning-layer.md) for using developmental and learning sciences to shape revisable learning options while keeping symbolic design reflective rather than deterministic.
 
-The [synthetic learning example set](examples/learning-reading.example.json) shows a Promethean prompt, learning activity, separate learner feedback, and a structured reading with subject-controlled reflection options.
+The [synthetic learning example](examples/learning-reading.example.json) shows a Promethean prompt, learning activity, separate learner feedback, and a goal-grounded optional AI dialogue scaffold whose role and privacy boundaries are explicit.
 
 The [phase-aware reading example](examples/phase-aware-reading.example.json) places an optional Promethean transit, a reported bleeding event, and a qualitative urinary LH home-test record side by side while retaining their distinct evidence classes and limits. The test does not determine the phase annotation or validate the symbolic transit.
 

@@ -21,6 +21,7 @@ PERSON + LIFE CONTEXT
 │   ├── relationships and care
 │   ├── environment and daily conditions
 │   ├── behaviors, intentions, sensory exposures, and constraints
+│   ├── environmental affordances offered or available by choice
 │   ├── events, choices, and personal meaning
 │   └── observations over time
 │
@@ -84,6 +85,8 @@ Capture what is happening now: sleep, activity, illness or recovery as self-repo
 
 Represent eating patterns, explicit fasting intervals, movement/exercise, supplements, sleep/light routines, sensory practices, and other user-selected or externally imposed exposures as dated behaviors. Distinguish intention, occurrence, dose/amount, route, and later response. Also preserve when an action is constrained by access, disability, caregiving, work, illness, or other circumstance. This is not a universal “controllable factors” panel: agency is contextual, and the Promethean map may prompt reflection but must never prescribe a behavior. See the [Epimethean behavior layer](behavior-layer.md) and its [sensory, aroma, and flavor sublayer](sensory-aroma-flavor-layer.md).
 
+An **environmental affordance** is separate from behavior: it records what support, tool, space, routine, person, group, or AI-mediated scaffold is available or offered, while a separate record says whether the person chose to use it and what they experienced. A Promethean theme may open a question about what the person wants their environment to make easier, but an undefined gate does not prove a lack or select a support. See the [environmental affordance layer](environmental-affordance-layer.md).
+
 ### 6. Observation and interpretation
 
 Each data point should carry its source and uncertainty:
@@ -108,7 +111,7 @@ Learning belongs in the Epimethean layer as a changing interaction among develop
 The model should represent change, feedback, and timing instead of assigning a single “Metheus type” or wellbeing score. A useful conceptual form is:
 
 ```text
-state(t + Δt) = transition(state(t), context(t), behavior(t), events(t), uncertainty)
+state(t + Δt) = transition(state(t), context(t), affordances(t), behavior(t), events(t), uncertainty)
 observation(t) = observe(state(t), device_or_report, method)
 reading(t) = reflect(symbolic_map, observations, life_stage, person's_question)
 ```

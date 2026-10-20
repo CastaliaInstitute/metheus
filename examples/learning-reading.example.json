@@ -85,6 +85,26 @@
       "limitations": []
     },
     {
+      "id": "option-ai-dialogue-scaffold-01",
+      "kind": "environmental_affordance",
+      "text": "If you want another practice option, you could try a short dialogue with an AI tool; it is a rehearsal scaffold, not a human relationship, and you can choose what details to share or stop at any time.",
+      "basis": "learner_goal",
+      "sourceIds": ["learning-activity-2026-10-20-01"],
+      "subjectStatus": "not_reviewed",
+      "limitations": ["This is an optional design idea grounded in the recorded conversation-practice goal, not a claim that AI practice is better or that it will improve learning.", "The example does not implement an AI conversation service or specify its actual data-retention policy."],
+      "environmentalAffordance": {
+        "deliveryMode": "conversational_ai",
+        "intendedFunction": "communication_practice",
+        "roleFrame": "tool_or_scaffold",
+        "userDefinedDescription": "Practice a short French dialogue at the learner's pace.",
+        "aiSafeguards": {
+          "identityTransparent": true,
+          "privacyBoundariesDisclosed": true,
+          "notHumanRelationshipSubstitute": true
+        }
+      }
+    },
+    {
       "id": "option-symbolic-reflection-01",
       "kind": "reflection_question",
       "text": "Does the theme you selected feel relevant to how you want to practice, or would you set it aside?",

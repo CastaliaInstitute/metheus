@@ -212,6 +212,8 @@ A reading should carry these fields internally:
 
 The reading schema prevents a symbolic prompt from serving as the basis for a learning approach. Symbolism may support a `reflection_question`; a `learning_approach` must be grounded in non-symbolic learning context or evidence.
 
+An `environmental_affordance` option may describe a support the person could choose to make available. It requires a non-symbolic basis and one or more source records; an undefined Promethean feature alone cannot trigger a suggested action. For conversational AI, the option must frame it as a tool/scaffold and disclose AI identity, privacy boundaries, and that it is not a human-relationship substitute. This schema gate constrains the authored option but does not establish that a real AI service meets those disclosures or safeguards. See the [environmental affordance layer](environmental-affordance-layer.md).
+
 The draft output contract is [`../schema/reading.schema.json`](../schema/reading.schema.json).
 
 ## Quality review checklist

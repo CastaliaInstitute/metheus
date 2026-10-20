@@ -61,6 +61,7 @@ For a subject (s) and time (t), define:
 - (P_s): optional Promethean map, including source, lineage, calculation, version, and symbolic features;
 - (Y_{s,t}): Epimethean source observations and reports available at (t);
 - (C_{s,t}): supplied context such as life stage, schedule, environment, access constraints, and events;
+- (A_{s,t}): environmental affordances available or offered at time (t), including routines, spaces, people, tools, and optional AI-mediated scaffolds;
 - (B_{s,t}): reported behaviors or exposures, with intention/occurrence and route/dose kept distinct;
 - (Z_{s,t}): a vector of latent physiological, experiential, or developmental states, usually unknown;
 - (F_{s,[a,b]}): deterministic, versioned features computed from explicit records in a window;
@@ -69,15 +70,17 @@ For a subject (s) and time (t), define:
 A future state-space implementation might be written:
 
 ```text
-Z(t + Δt) = fθ(Z(t), B(t), C(t), ε(t))
+Z(t + Δt) = fθ(Z(t), B(t), C(t), A(t), ε(t))
 Y(t)      = gφ(Z(t), method(t), device(t), reporter(t), η(t))
 F[a,b]   = hν(selected Y[a,b], coverage, revision state)
-R        = r(P, F, Y, C, Q, evidence catalog, uncertainty)
+R        = r(P, F, Y, C, A, Q, evidence catalog, uncertainty)
 ```
 
-Here (ε) and (η) represent process and observation uncertainty; (θ), (φ), and (ν) identify explicit model/method versions. These equations are an architecture, not a claim that the variables or functions have been fitted. At present Metheus has no implemented (f_θ), (g_φ), or latent (Z) estimator. Existing descriptive helpers implement a small subset of (h_ν): they summarize logged intervals and numeric measurements, and compare explicitly selected recorded windows using pairwise temporal-order relations.
+Here (A) means an opportunity that is present or offered, not that the subject chose, used, or benefited from it; those are separately recorded in (B) and (Y). (ε) and (η) represent process and observation uncertainty; (θ), (φ), and (ν) identify explicit model/method versions. These equations are an architecture, not a claim that the variables or functions have been fitted. At present Metheus has no implemented (f_θ), (g_φ), or latent (Z) estimator. Existing descriptive helpers implement a small subset of (h_ν): they summarize logged intervals and numeric measurements, and compare explicitly selected recorded windows using pairwise temporal-order relations.
 
 **Non-interference constraint:** (P_s) is not an input to (f_θ), (g_φ), or any health/development estimate. A Promethean feature may be included as a separately typed input to (r) for a source-attributed symbolic prompt only. An empirically studied Promethean–Epimethean association would need its own preregistered feature definition, comparison group, outcomes, confounder plan, replication, and independent review; even then, association would not establish causation or individual predictive value.
+
+An undefined Promethean gate or channel may motivate an optional reflective question about the person's environment, but it does not define a deficit or determine (A). Any specific affordance option must be grounded in the person's chosen goal, reported need, task demand, access context, or other non-symbolic evidence. A conversational AI may be represented as a tool/scaffold the person can choose; its presence does not complete or activate a Human Design channel, and a later response does not validate the symbolic pairing. See the [environmental affordance layer](environmental-affordance-layer.md).
 
 ## 5. Temporal structure
 
@@ -163,6 +166,7 @@ Before any M2 or higher feature, publish a model card describing target, intende
 | Epimethean source records | Observation schema, provenance, consent, index, and lifecycle rules | M0 contract; no persistent user service |
 | Time-window and measurement summaries | Sleep, meal/feed, meal-to-wake, bleeding-onset-gap, same-signature numeric-series summaries, and pairwise temporal order | Selected M1 descriptive operations; no biological phase estimate, trend model, or clinical interpretation |
 | Cross-layer reading | Typed claims, evidence/correspondence references, preflight, deterministic assembly | M1 assembly of authored claims; no prose generation or entailment check |
+| Environmental affordances | Goal-grounded optional reading options with separate availability, behavior, and response; AI scaffold role/privacy boundaries | M0 reading contract and synthetic example only; no affordance recommender, AI service, or outcome evaluator |
 | Physiological/developmental latent state | Documentation and hormone/reference catalogs | M0 conceptual vocabulary; no fitted or validated model |
 | Evidence governance | Candidate-only claim catalog, candidate-only typed endocrine-relation catalog, and written review protocol | No completed Metheus claim reviews; no authenticated review/catalog service; endocrine edges remain internal and are not reading-eligible |
 | Personal data product | Static Pages site and caller-supplied in-memory functions | No ingestion, persistence, authentication, or storage authorization |

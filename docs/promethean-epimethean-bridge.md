@@ -60,6 +60,12 @@ Treat a channel first as a **Promethean relation** between two gates and their c
 
 If a chakra correspondence is used, record the chakra tradition, lineage, and version explicitly. “Chakra,” Human Design's nine-center BodyGraph, and the anatomical/endocrine systems are not interchangeable vocabularies. Do not force a one-to-one seven-chakra-to-nine-center conversion; a source may describe a transformation or adaptation, but Metheus must preserve that source's own claim rather than present it as universal history or anatomy.
 
+### Designing an environment around an open theme
+
+Metheus can extend the reflective use of an undefined gate/channel by asking what practice, access support, routine, space, person, group, or tool the subject wants available. Call this an **environmental affordance** or **functional analogue**, not a new chart definition. In Human Design terminology, definition remains a chart/calculation property; lineage descriptions of conditioning through another person or transit remain attributed symbolic doctrine. A Metheus-created support must be grounded in a non-symbolic goal, observed need, task demand, developmental context, or access constraint, and the person chooses whether to try it. The chart can suggest a question but cannot decide what needs filling. See the [environmental affordance layer](environmental-affordance-layer.md).
+
+An AI conversation can offer a repeatable conversational scaffold—for example, rehearsal, reflection, or problem-solving practice—if that is what the person wants. A subject may describe their own experience of an AI interaction in relationship-like terms; Metheus should retain it as the subject's description while representing the AI's product role as a tool/scaffold. It must not say that an AI carries the complementary gate, forms a Human Design channel, has reciprocal feelings, or replaces a human relationship. Outcomes and any biological measurements remain separate from the interaction record.
+
 ## The reading sequence
 
 1. **Name the Promethean feature.** Show chart source/version and the selected center, gate, channel, line, or other feature.

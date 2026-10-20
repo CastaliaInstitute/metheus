@@ -101,17 +101,57 @@
         "required": ["id", "kind", "text", "basis", "sourceIds", "subjectStatus"],
         "properties": {
           "id": { "type": "string", "minLength": 1 },
-          "kind": { "enum": ["learning_approach", "observation_question", "reflection_question", "professional_consultation", "other"] },
+          "kind": { "enum": ["learning_approach", "environmental_affordance", "observation_question", "reflection_question", "professional_consultation", "other"] },
           "text": { "type": "string", "minLength": 1 },
           "basis": { "enum": ["learner_goal", "task_demand", "access_need", "developmental_context", "symbolic_prompt", "evidence_reference", "multiple_non_symbolic_inputs", "unspecified"] },
           "sourceIds": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
           "subjectStatus": { "enum": ["not_reviewed", "chosen", "declined", "revised"] },
-          "limitations": { "type": "array", "items": { "type": "string" } }
+          "limitations": { "type": "array", "items": { "type": "string" } },
+          "environmentalAffordance": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["deliveryMode", "intendedFunction", "roleFrame"],
+            "properties": {
+              "deliveryMode": { "enum": ["conversational_ai", "human_peer", "human_professional", "group_or_community", "physical_environment", "routine_or_practice", "digital_tool", "sensory_cue", "other"] },
+              "intendedFunction": { "enum": ["communication_practice", "reflection", "problem_solving", "learning", "structure_or_routine", "access_support", "sensory_context", "connection", "other"] },
+              "roleFrame": { "enum": ["tool_or_scaffold", "human_relationship", "environmental_condition", "other"] },
+              "trialWindow": { "type": "string", "description": "Optional person-chosen trial duration or review point; not a prescribed treatment duration." },
+              "userDefinedDescription": { "type": "string", "description": "Optional description of the support the person wants to try." },
+              "aiSafeguards": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["identityTransparent", "privacyBoundariesDisclosed", "notHumanRelationshipSubstitute"],
+                "properties": {
+                  "identityTransparent": { "const": true },
+                  "privacyBoundariesDisclosed": { "const": true },
+                  "notHumanRelationshipSubstitute": { "const": true }
+                }
+              }
+            }
+          }
         },
         "allOf": [
           {
             "if": { "required": ["kind"], "properties": { "kind": { "const": "learning_approach" } } },
             "then": { "properties": { "basis": { "enum": ["learner_goal", "task_demand", "access_need", "developmental_context", "evidence_reference", "multiple_non_symbolic_inputs"] } } }
+          },
+          {
+            "if": { "required": ["kind"], "properties": { "kind": { "const": "environmental_affordance" } } },
+            "then": {
+              "required": ["environmentalAffordance"],
+              "properties": {
+                "basis": { "enum": ["learner_goal", "task_demand", "access_need", "developmental_context", "evidence_reference", "multiple_non_symbolic_inputs"] },
+                "sourceIds": { "minItems": 1 }
+              }
+            }
+          },
+          {
+            "if": { "required": ["environmentalAffordance"] },
+            "then": { "properties": { "kind": { "const": "environmental_affordance" } } }
+          },
+          {
+            "if": { "required": ["environmentalAffordance"], "properties": { "environmentalAffordance": { "properties": { "deliveryMode": { "const": "conversational_ai" } }, "required": ["deliveryMode"] } } },
+            "then": { "properties": { "environmentalAffordance": { "required": ["aiSafeguards"], "properties": { "roleFrame": { "const": "tool_or_scaffold" } } } } }
           },
           {
             "if": { "required": ["basis"], "properties": { "basis": { "const": "symbolic_prompt" } } },
