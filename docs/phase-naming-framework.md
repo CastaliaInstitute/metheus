@@ -62,6 +62,7 @@ A phase annotation is separate from the observation records that support it. It 
   "description": "A bleeding window entered by the person.",
   "window": { "start": "2026-04-03", "end": "2026-04-06" },
   "basis": "reported",
+  "interpretation": "descriptive",
   "basisRecordIds": ["observation-example"],
   "method": "person-reported event; no phase inference",
   "methodVersion": "1.0",
@@ -70,7 +71,7 @@ A phase annotation is separate from the observation records that support it. It 
 }
 ```
 
-For transit annotations, use `layer: "promethean"`, a named symbolic `phaseSystem`, and retain the chart/transit feature, source lineage, calculation method/version, and interval. The calculated position is a derived astronomical input; its meaning is symbolic interpretation. Do not use `basis: "measured"` for a symbolic meaning.
+For transit annotations, use `layer: "promethean"`, `basis: "derived"`, and `interpretation: "symbolic"`. Supply the named symbolic `phaseSystem`, source name and version, and retain the chart/transit feature, calculation method/version, and interval. The calculated position is a derived astronomical input; its meaning is symbolic interpretation. The two are related but distinct claims.
 
 ## Display grammar
 

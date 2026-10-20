@@ -5,7 +5,7 @@
   "description": "An optional evocative label attached to a time-bounded symbolic or lived phase. It does not replace canonical terminology, source provenance, or uncertainty.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["id", "subjectId", "layer", "phaseSystem", "canonicalPhase", "window", "basis", "method", "limitations"],
+    "required": ["id", "subjectId", "layer", "phaseSystem", "canonicalPhase", "window", "basis", "interpretation", "method", "limitations"],
   "properties": {
     "id": { "type": "string", "minLength": 1 },
     "subjectId": { "type": "string", "minLength": 1 },
@@ -24,7 +24,8 @@
         "timeZone": { "type": "string", "description": "IANA time zone when the window is expressed in local civil time." }
       }
     },
-    "basis": { "enum": ["reported", "observed", "derived", "clinically_assessed", "symbolic_calculation", "user_named"] },
+    "basis": { "enum": ["reported", "observed", "derived", "clinically_assessed"] },
+    "interpretation": { "enum": ["descriptive", "symbolic", "reflective"] },
     "basisRecordIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
     "sourceSystem": {
       "type": "object",
@@ -46,9 +47,12 @@
     {
       "if": { "properties": { "layer": { "const": "promethean" } } },
       "then": {
+        "required": ["sourceSystem"],
         "properties": {
           "phaseSystem": { "enum": ["human_design_transit", "astrological_transit"] },
-          "basis": { "const": "symbolic_calculation" }
+          "basis": { "const": "derived" },
+          "interpretation": { "const": "symbolic" },
+          "sourceSystem": { "required": ["name", "version"] }
         }
       }
     },
@@ -57,7 +61,8 @@
       "then": {
         "properties": {
           "phaseSystem": { "enum": ["menstrual_cycle", "pregnancy", "postpartum", "menopause", "development", "sleep_wake", "other"] },
-          "basis": { "enum": ["reported", "observed", "derived", "clinically_assessed", "user_named"] }
+          "basis": { "enum": ["reported", "observed", "derived", "clinically_assessed"] },
+          "interpretation": { "enum": ["descriptive", "reflective"] }
         }
       }
     }
