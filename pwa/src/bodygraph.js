@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 const SVG_URL = '/chat/bodygraph-reference.svg?v=2';
-const ENDOCRINE_URL = '/chat/endocrine-relations.json?v=0.3.0';
+const ENDOCRINE_URL = '/chat/endocrine-relations.json?v=0.3.1';
 const CORRESPONDENCE_URL = '/chat/gate-endocrine-correspondences.json?v=0.4.0';
 const $ = (selector) => document.querySelector(selector);
 

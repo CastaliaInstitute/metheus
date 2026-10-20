@@ -1,6 +1,6 @@
 {
   "$schema": "../schema/endocrine-relations-catalog.schema.json",
-  "catalogVersion": "0.3.0",
+  "catalogVersion": "0.3.1",
   "catalogStatus": "candidate_only",
   "policy": "Every edge is under review and internal only. Relations are source-attributed summaries of general physiology across selected endocrine networks, not an exhaustive pathway database. They do not estimate a person's hormone state, explain an individual observation, or establish an individual causal effect of behavior. Symbolic Human Design features are not nodes in this biological network. Do not expose catalog entries in readings until appropriate domain review approves the exact claim and use.",
   "relations": [
@@ -2679,6 +2679,44 @@
         "This is a summary of general physiology and does not estimate an individual hormone concentration, physiological state, or response.",
         "It is an organ-to-signal physiology relation, not evidence that any symbolic gate or channel regulates, measures, or predicts that signal.",
         "Composite source-target entries are navigation aids; each relation statement identifies the organ or cell type to which the cited secretion applies.",
+        "Catalog inclusion and citation do not constitute independent Metheus scientific review."
+      ]
+    },
+    {
+      "id": "adrenal-glands-synthesizes-adrenaline-candidate",
+      "sourceEntity": {
+        "id": "adrenal-glands",
+        "label": "Adrenal glands",
+        "entityType": "gland",
+        "compartment": "adrenal medulla"
+      },
+      "targetEntity": {
+        "id": "adrenaline",
+        "label": "Adrenaline (epinephrine)",
+        "entityType": "hormone",
+        "compartment": "adrenal medulla / circulation"
+      },
+      "relationType": "synthesizes",
+      "statement": "Chromaffin cells in the adrenal medulla synthesize and secrete adrenaline (epinephrine) and smaller amounts of noradrenaline (norepinephrine) in response to sympathetic preganglionic input.",
+      "context": {
+        "organism": "human",
+        "setting": "General human adrenal-medullary physiology",
+        "timescale": "Rapid sympathetic-adrenal-medullary response; no individual hormone state inferred"
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "The Adrenal Gland · Endocrinology: An Integrated Approach",
+          "url": "https://ncbi.nlm.nih.gov/sites/books/NBK26/",
+          "locator": "Catecholamine synthesis and secretion; adrenal medulla",
+          "sourceType": "official_reference",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This summarizes general adrenal-medullary physiology and does not estimate an individual adrenaline concentration, physiological state, or response.",
+        "It is an organ-to-hormone relation, not evidence that any symbolic gate or channel regulates, measures, or predicts adrenaline.",
         "Catalog inclusion and citation do not constitute independent Metheus scientific review."
       ]
     }
