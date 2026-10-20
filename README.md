@@ -65,7 +65,7 @@ See [Developmental psychology and learning layer](docs/developmental-learning-la
 
 The [synthetic learning example set](examples/learning-reading.example.json) shows a Promethean prompt, learning activity, separate learner feedback, and a structured reading with subject-controlled reflection options.
 
-The [phase-aware reading example](examples/phase-aware-reading.example.json) shows how an optional Promethean transit name and an Epimethean reported-cycle label can appear side by side while retaining distinct sources and limits.
+The [phase-aware reading example](examples/phase-aware-reading.example.json) places an optional Promethean transit, a reported bleeding event, and a qualitative urinary LH home-test record side by side while retaining their distinct evidence classes and limits. The test does not determine the phase annotation or validate the symbolic transit.
 
 See the [privacy, consent, and data stewardship model](docs/privacy-consent-model.md) and draft [consent-grant schema](schema/consent.schema.json) for scoped permissions, child participation, relationship-data boundaries, and required data lifecycle controls.
 

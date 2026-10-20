@@ -3,14 +3,14 @@
   "subjectId": "synthetic-subject",
   "version": "0.1",
   "purpose": "personal_reflection",
-  "question": "Illustrate how distinct phase annotations can be cited in a reflective reading.",
+  "question": "Illustrate how a symbolic transit, a reported bleeding event, and a qualitative home-test result can be considered without treating them as the same kind of evidence.",
   "timeWindow": {
     "start": "2026-04-03T00:00:00Z",
     "end": "2026-04-10T00:00:00Z",
     "timeZone": "UTC",
     "precision": "approximate"
   },
-  "inputIds": ["phase-promethean-example", "phase-epimethean-example", "synthetic-chart-feature", "synthetic-bleeding-observation"],
+  "inputIds": ["phase-promethean-example", "phase-epimethean-example", "synthetic-chart-feature", "synthetic-bleeding-observation", "synthetic-urinary-lh-test"],
   "claims": [
     {
       "claimType": "symbolic_prompt",
@@ -46,6 +46,37 @@
       }
     },
     {
+      "claimType": "observation",
+      "text": "A synthetic urinary LH home test was recorded as positive on April 7.",
+      "sourceIds": ["synthetic-urinary-lh-test"],
+      "support": {
+        "confidence": "moderate",
+        "coverage": "partial",
+        "rationale": "The record preserves a qualitative result from one named synthetic home test; it is not a laboratory concentration."
+      }
+    },
+    {
+      "claimType": "boundary",
+      "text": "This qualitative home-test result does not quantify LH or establish ovulation, fertility, or conception.",
+      "sourceIds": ["synthetic-urinary-lh-test"],
+      "support": {
+        "confidence": "not_applicable",
+        "coverage": "partial",
+        "rationale": "This is a limit on what the example's categorical test record can establish."
+      }
+    },
+    {
+      "claimType": "boundary",
+      "text": "The overlap between a symbolic transit window and a separately recorded home-test result does not show that the transit affected physiology.",
+      "sourceIds": ["synthetic-urinary-lh-test"],
+      "phaseAnnotationIds": ["phase-promethean-example"],
+      "support": {
+        "confidence": "not_applicable",
+        "coverage": "partial",
+        "rationale": "The two records use different evidence classes; their time overlap is not a biological association or causal result."
+      }
+    },
+    {
       "claimType": "boundary",
       "text": "A reported onset alone does not establish cycle phase, duration, or hormone levels.",
       "sourceIds": ["synthetic-bleeding-observation"],
@@ -57,6 +88,6 @@
       }
     }
   ],
-  "limitations": ["Synthetic example; no actual person's data or medical interpretation."],
+  "limitations": ["Synthetic example; no actual person's data or medical interpretation.", "The home-test result is categorical and is not used to classify a cycle phase."],
   "generatedAt": "2026-04-10T12:00:00Z"
 }
