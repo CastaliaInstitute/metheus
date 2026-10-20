@@ -27,6 +27,7 @@
 | **Learning activity** | A time-bounded learning task, approaches, and supports used in a setting | Caregiver-supported play, guided practice, independent retrieval practice, accessible lesson |
 | **Learning evidence** | A separately sourced observation of the learner's report or demonstrated knowledge/skill | Learner feedback, prompted or independent demonstration, transfer observation |
 | **Estimate** | A derived quantity or phase computed from inputs | Cycle-day estimate, sleep midpoint, deviation from personal baseline |
+| **Phase annotation** | A time-bounded label for a symbolic transit or lived phase; canonical term, optional name, basis, method, and limitations stay together | “The Passing Spark” linked to a named transit calculation; “The Opening Tide” linked to a reported bleeding window |
 | **Development context** | Age/stage information and optional developmental observations | Gestational/chronological age, corrected age if supplied, milestone note |
 | **Relationship context** | A subject's account of a relationship or interaction | Felt closeness, a personally noted intimacy event, caregiving relation |
 | **Reading** | A time-bounded interpretation generated from selected inputs | A reflective prompt with claims, sources, confidence, and revision history |
@@ -73,6 +74,7 @@ Store timestamps in an unambiguous format with offset/time zone when available. 
 - **Rhythm event:** an occurrence such as lights-out, waking, a meal, feeding, activity, or symptom.
 - **Rhythm series:** repeated events or measurements grouped by a declared rule and time window.
 - **Phase estimate:** an estimated position in a rhythm, such as an inferred sleep phase or menstrual-cycle day. Always carry method and uncertainty.
+- **Phase annotation:** a named interval or context that may be symbolic, reported, observed, derived, or clinically assessed. Its optional evocative name never replaces canonical terminology or changes the epistemic class of its supporting records. Promethean annotations are source-attributed symbolic interpretations; Epimethean annotations describe lived context and state their basis and method.
 - **Regularity:** a summary of variation in timing or interval, never a moralized “good/bad” label.
 - **Baseline:** a subject-specific reference computed from an explicit window and adequate coverage. Baseline changes over development and circumstance; do not imply a permanent norm.
 - **Alignment / co-variation:** temporal relation between two series. This may suggest a question but does not demonstrate causation.
@@ -87,6 +89,7 @@ A reading is a versioned object with:
 - the person's question or purpose;
 - the time window and life-stage context considered;
 - selected input record identifiers;
+- selected phase annotations cited by claim, with canonical labels and optional evocative names kept visibly distinct;
 - claims or prompts, each labeled as observation, estimate, symbolic interpretation, or hypothesis;
 - the rationale and relevant alternative explanations;
 - confidence/coverage limits;
@@ -103,7 +106,7 @@ For a child, identify who made each observation and distinguish caregiver report
 
 ## Draft JSON Schema
 
-The machine-readable starters are the [`observation schema`](../schema/observation.schema.json), which defines one time-bounded record at a time; [`correspondence schema`](../schema/correspondence.schema.json), which defines a source-attributed crosswalk; and [`consent schema`](../schema/consent.schema.json), which models scoped, revisable permissions. Optional `measurementDetails` preserves assay/device context; `behaviorContext` preserves a reported action or intention without treating it as a health outcome; `learningActivity` records what learning approaches and supports were used; `sensoryExposure` distinguishes smell, taste, and ingestion. See the [measurement landscape](measurement-landscape.md), [behavior layer](behavior-layer.md), [developmental learning layer](developmental-learning-layer.md), [sensory exposure layer](sensory-aroma-flavor-layer.md), [Promethean–Epimethean bridge](promethean-epimethean-bridge.md), and [privacy/consent model](privacy-consent-model.md). A future profile/container schema should reference records rather than embed all sensitive history in a single object.
+The machine-readable starters are the [`observation schema`](../schema/observation.schema.json), which defines one time-bounded record at a time; [`phase annotation schema`](../schema/phase-annotation.schema.json), which defines optional time-bounded phase labels; [`reading schema`](../schema/reading.schema.json), which can cite phase annotations by ID; [`correspondence schema`](../schema/correspondence.schema.json), which defines a source-attributed crosswalk; and [`consent schema`](../schema/consent.schema.json), which models scoped, revisable permissions. Optional `measurementDetails` preserves assay/device context; `behaviorContext` preserves a reported action or intention without treating it as a health outcome; `learningActivity` records what learning approaches and supports were used; `sensoryExposure` distinguishes smell, taste, and ingestion. See the [measurement landscape](measurement-landscape.md), [phase naming framework](phase-naming-framework.md), [behavior layer](behavior-layer.md), [developmental learning layer](developmental-learning-layer.md), [sensory exposure layer](sensory-aroma-flavor-layer.md), [Promethean–Epimethean bridge](promethean-epimethean-bridge.md), and [privacy/consent model](privacy-consent-model.md). A future profile/container schema should reference records rather than embed all sensitive history in a single object.
 
 ## Open design questions
 

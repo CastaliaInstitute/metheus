@@ -70,6 +70,10 @@ For each repeated process, represent (when available):
 
 Do not force meal events into fixed breakfast/lunch/dinner slots. Do not infer a circadian phase from clock time alone when sleep timing, light exposure, or work schedule is unknown. Do not describe an observed alignment between sleep, meals, temperature, mood, or hormones as causal without evidence that supports that claim.
 
+#### Phase annotations
+
+Metheus may attach an optional evocative name to a canonical phase or time-bounded context. Keep the two together with the layer, dates, basis, method/version, source, uncertainty, and limitations. A Promethean transit annotation names a source-defined symbolic interpretation of a derived transit calculation; an Epimethean annotation describes a reported, observed, estimated, or clinically assessed lived phase. A name such as “The Returning Tide” cannot establish a menstrual phase or hormone state, and a life-stage label such as postpartum or menopause must not imply a universal sequence or duration. Readings cite phase annotations by ID and show the canonical label and evidential basis beside any poetic name. See the [phase naming framework](phase-naming-framework.md) and [phase annotation schema](../schema/phase-annotation.schema.json).
+
 ### 4. State and circumstance
 
 Capture what is happening now: sleep, activity, illness or recovery as self-reported, travel, workload, stressors, meals, location context, relationship events, and the person's current intentions. State is transient and should not be turned into trait.
