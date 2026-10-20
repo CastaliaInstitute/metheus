@@ -4,9 +4,9 @@
 
 ## Core rule: an interaction is not shared evidence by default
 
-One person can record their own account of an interaction. That record cannot stand in for another participant's account or disclose another person's private records. The [`interaction-event schema`](../schema/interaction-event.schema.json) stores a pseudonymous participant reference, the recorder's perspective, a coarse event category, time precision, and explicit limitations. It supports conversation, caregiving, conflict, repair, affection, intimacy, and shared activity without requiring relationship status or explicit sexual detail.
+One person can record their own account of an interaction. That record cannot stand in for another participant's account or disclose another person's private records. The [`interaction-event schema`](../schema/interaction-event.schema.json) is a subject-owned resource with its own record type and a record domain (`relationship` or `intimacy`). Authorization maps `relationship` records to the narrow `relationships` consent scope and keeps `intimacy` separate. It stores pseudonymous participant references, the recorder's perspective, a coarse event category, time precision, and explicit limitations. It supports conversation, caregiving, conflict, repair, affection, intimacy, and shared activity without requiring relationship status or explicit sexual detail.
 
-A reference to a participant is not an account for that participant. A reference to one of their records is not permission to read it. Each participant remains the owner of their own observations and grants separate, current, purpose-specific access when they choose to contribute them. The current consent contract is subject-scoped; the interaction schema does not implement multi-party authorization, identity verification, persistence, or revocation propagation.
+A reference to a participant is not an account for that participant. This first contract does not link another participant's records. Each participant remains the owner of their own observations and would need separate, current, purpose-specific access before those records could be combined. The current consent contract evaluates each subject's records separately; it does not implement multi-party authorization, identity verification, persistence, or revocation propagation.
 
 ## Intimacy events and consent context
 
@@ -22,6 +22,6 @@ The same boundary applies to family interactions: a caregiver can report an even
 
 ## Example and implementation boundary
 
-The synthetic [`interaction-intimacy` example](../examples/interaction-intimacy.example.json) shows a date-only record with no third-party identifying details or physiological claim. The contract validator checks the JSON Schema and example shape. The repository does not yet store interaction events, enforce per-participant consent, provide partner-account linkage, or calculate relationship patterns. Until those controls exist, this is a design contract only.
+The synthetic [`interaction-intimacy` example](../examples/interaction-intimacy.example.json) shows a date-only record with no third-party identifying details or physiological claim. Its [subject-index example](../examples/interaction-subject-index.example.json) makes the record discoverable, while the [consent example](../examples/interaction-intimacy-consent.example.json) grants only this subject's own record for personal reflection. Resource resolution and authorization recognize this record type for caller-supplied records. The repository does not store interaction events, enforce access at a storage boundary, provide partner-account linkage, or calculate relationship patterns. Until those controls exist, this remains an in-memory contract and policy path.
 
 Related: [ontology](ontology.md), [privacy and consent](privacy-consent-model.md), [temporal comparison](rhythm-system.md), and [Methean model core](model-core-spec.md).

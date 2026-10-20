@@ -179,7 +179,7 @@ def describe_temporal_order(
     right = current.get(right_record_id)
     if left is None or right is None:
         raise ValueError("both records must be current and belong to the requested subject")
-    allowed = {"observation", "event", "estimate", "context", "phase_annotation"}
+    allowed = {"observation", "event", "estimate", "context", "interaction_event", "phase_annotation"}
     if left.get("recordType") not in allowed or right.get("recordType") not in allowed:
         raise ValueError("temporal order supports observations, events, contexts, estimates, and phase annotations")
     return _build_relation(subject_id, left_record_id, right_record_id, left, right)

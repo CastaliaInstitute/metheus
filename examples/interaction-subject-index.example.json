@@ -1,0 +1,20 @@
+{
+  "id": "subject-a-index-example-revision-1",
+  "subjectId": "subject-a",
+  "recordType": "subject_index",
+  "schemaVersion": "0.1",
+  "revision": 1,
+  "steward": {
+    "reference": "subject-a",
+    "role": "subject"
+  },
+  "resourceRefs": [
+    {
+      "id": "interaction-subject-a-example-001",
+      "kind": "interaction_event",
+      "schemaVersion": "metheus-interaction-event/0.1.0"
+    }
+  ],
+  "createdAt": "2026-10-20T12:00:00Z",
+  "updatedAt": "2026-10-20T12:00:00Z"
+}

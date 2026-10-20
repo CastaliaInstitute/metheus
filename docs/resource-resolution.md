@@ -11,6 +11,7 @@ The subject index is a pseudonymous navigation record. Each `resourceRefs` entry
 | `birth_chart_input` | `birth_chart_input` | `schemaVersion` |
 | `symbolic_map` | `symbolic_map` | `schemaVersion` |
 | `observation` | `observation`, `event`, `estimate`, `symbolic_feature`, or `context` | `schemaVersion` |
+| `interaction_event` | `interaction_event` | `schemaVersion` |
 | `phase_annotation` | `phase_annotation` | `schemaVersion` |
 | `rhythm_summary` | `rhythm_summary` | `schemaVersion` |
 

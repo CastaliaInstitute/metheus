@@ -18,6 +18,7 @@ _SCHEMA_BY_RECORD_TYPE = {
     "estimate": "observation.schema.json",
     "symbolic_feature": "observation.schema.json",
     "context": "observation.schema.json",
+    "interaction_event": "interaction-event.schema.json",
     "phase_annotation": "phase-annotation.schema.json",
     "rhythm_summary": "rhythm-summary.schema.json",
     "subject_index": "subject-index.schema.json",

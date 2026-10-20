@@ -14,6 +14,7 @@ _KIND_RECORD_TYPES = {
     "birth_chart_input": {"birth_chart_input"},
     "symbolic_map": {"symbolic_map"},
     "observation": {"observation", "event", "estimate", "symbolic_feature", "context"},
+    "interaction_event": {"interaction_event"},
     "phase_annotation": {"phase_annotation"},
     "rhythm_summary": {"rhythm_summary"},
 }

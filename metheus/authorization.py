@@ -221,6 +221,10 @@ def _covers_domain(grant_domains: Any, record_domain: Any) -> bool:
 
 
 def record_domain(record: dict[str, Any]) -> str | None:
+    if record.get("recordType") == "interaction_event":
+        if record.get("eventKind") == "intimacy":
+            return "intimacy" if record.get("domain") == "intimacy" else None
+        return "relationships" if record.get("domain") == "relationship" else None
     if "phaseSystem" in record:
         if not _is_phase_annotation(record):
             return None

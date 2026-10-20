@@ -1,7 +1,6 @@
 {
   "id": "interaction-subject-a-example-001",
   "schemaVersion": "metheus-interaction-event/0.1.0",
-  "recordedBySubjectId": "subject-a",
   "eventKind": "intimacy",
   "time": {
     "date": "2026-10-18",
@@ -13,13 +12,11 @@
   "participantReferences": [
     {
       "reference": "subject-a",
-      "relationToRecorder": "recorder",
-      "contribution": "no_record_contributed"
+      "relationToRecorder": "recorder"
     },
     {
       "reference": "participant-b-local",
-      "relationToRecorder": "partner",
-      "contribution": "no_record_contributed"
+      "relationToRecorder": "partner"
     }
   ],
   "perspective": {
@@ -31,5 +28,8 @@
     "This is the recorder's account; it does not establish another participant's consent, desire, experience, or health.",
     "A recorded interaction or its timing does not establish a hormone state, cause, relationship status, or compatibility.",
     "This synthetic example contains no identifying details and is not a real person's record."
-  ]
+  ],
+  "subjectId": "subject-a",
+  "recordType": "interaction_event",
+  "domain": "intimacy"
 }

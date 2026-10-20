@@ -1,0 +1,17 @@
+{
+  "id": "consent-interaction-intimacy-example",
+  "subjectId": "subject-a",
+  "grantor": {
+    "reference": "subject-a",
+    "role": "subject"
+  },
+  "domains": ["intimacy"],
+  "purposes": ["personal_reflection"],
+  "permittedActions": ["collect", "analyze"],
+  "recordIds": ["interaction-subject-a-example-001"],
+  "status": "granted",
+  "consentTextVersion": "synthetic-interaction-consent/0.1.0",
+  "createdAt": "2026-10-20T12:00:00Z",
+  "expiresAt": "2026-11-20T12:00:00Z",
+  "auditReference": "synthetic-example-only"
+}
