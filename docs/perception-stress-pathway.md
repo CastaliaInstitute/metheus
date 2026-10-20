@@ -17,10 +17,18 @@ flowchart LR
     A <--> E[Affect and named emotion: e.g. fear, anxiety, anger, grief]
     A <--> B[Bodily response: autonomic, endocrine, muscular, attentional]
     E --> R[Response, coping, expression, action, or inhibition]
+    R -. optional, person-reported .-> T[Repetitive thought / rumination]
+    R -. optional activity .-> J[Journaling]
+    R -. optional activity .-> F[Venting / talking with a friend]
+    R -. optional activity .-> AI[Conversation with an AI chatbot]
+    T -. may loop back .-> A
+    J -. may shape later reflection .-> A
+    F -. may shape later reflection .-> A
+    AI -. may shape later reflection .-> A
     B --> P
     R --> C2[Consequences and changed context]
     C2 --> P
-    A --> M[Reappraisal, memory, rumination, or changed meaning]
+    A --> M[Reappraisal, memory, or changed meaning]
     M --> A
     E --> S[Person-reported suffering / burden]
     C --> S
@@ -45,6 +53,11 @@ The dotted paths are optional hypotheses, not prerequisites or diagnoses. “Hat
 | Hostility / hate | Only the person's own chosen description, with optional distinction between momentary feeling, enduring stance, target category, and action | A compulsory phase, moral judgment about the person, prediction of violence, or attribution to a third party without their account |
 | Suffering / burden | The person's report of distress, pain, loss, impairment, meaning, or burden in their own terms | That suffering is measurable from a biomarker, proportional to a stressor, or proof of a particular cause |
 | Response / coping | What the person did, wanted to do, avoided, expressed, restrained, or could not do; include constraints and consequences | Agency, safety, effectiveness, or voluntariness where not reported |
+| Repetitive thought / rumination | The person's own description of thoughts returning, looping, or being difficult to disengage from; whether it felt chosen or unwanted when they choose to say | That repeated thinking is always harmful, intentional, irrational, or a disorder |
+| Journaling | A person's report that they wrote or recorded reflections, optionally with purpose or context | That writing necessarily reduces distress or changes an appraisal |
+| Venting / social disclosure | A person's report of talking with a friend or another chosen person about an experience; avoid third-party identifiers or claims about the listener's private state | That disclosure always helps, harms, or is safe in every relationship |
+| AI chatbot conversation | A person's report that they used an AI chatbot, with optional service/context and their own account of the interaction | That a generated reply is evidence, therapy, clinical judgment, or a reliable interpretation of the person's situation |
+| After-effect | A separate report of what the person noticed after journaling, social disclosure, chatbot use, or another activity, including no change or uncertainty | That the activity caused the reported change or is generally effective |
 
 ## Relation vocabulary for future records
 
@@ -56,6 +69,8 @@ The current observation contract can hold a self-reported experience as a generi
 - `literature_mechanism`: a general, sourced mechanism within a bounded population/context;
 - `model_hypothesis`: a clearly marked, unresolved relation proposed for exploration;
 - `reappraisal`: a person-reported later reinterpretation of an earlier appraisal;
+- `coping_activity`: in the schema, this is a node construct, not a claim about effectiveness; journaling, venting, and chatbot use remain reported activities;
+- `reported_aftereffect`: the person's separately sourced account of what they noticed afterward; it does not establish that the activity caused it;
 - `within_person_association`: a future relation requiring repeated-data analysis with a declared method and uncertainty; it is not yet supported by this contract.
 - There is deliberately no causal-effect edge in this draft contract. Causal estimation requires an appropriate design, assumptions, and review; it cannot be represented as a casual link between two episode nodes.
 
@@ -69,8 +84,11 @@ For a person who chooses to explore an episode, a future flow might let them add
 2. What they noticed and how they appraised it, in their words.
 3. Felt emotions and bodily sensations, allowing several, changing, or unknown answers.
 4. Any measured signals, stored as independent records with device/assay, time, and method.
-5. Their response, coping, constraint, or choice not to act.
-6. Consequences, experienced suffering or relief, and any later reappraisal.
+5. Their response, coping, constraint, or choice not to act. Optional examples include noticing rumination, journaling, venting to a friend, or talking with an AI chatbot. These are separate branches; do not assume one is better or that it occurred.
+6. Their own experience after an activity, if they want to record it, as a separate report: for example, unchanged, relieved, more distressed, clarified, or uncertain. Do not assign the experience from the activity type.
+7. Consequences, experienced suffering or relief, and any later reappraisal.
+
+For AI chatbot use, an episode map may record only that the conversation occurred, the person's own assessment of it, and any context they choose to include. Full prompts, replies, or transcripts may contain sensitive material about the subject or other people; the generic pathway graph does not require or define transcript retention. A chatbot's generated text is not a Metheus evidence claim or clinical finding.
 
 Do not force completion of every step, require graphic or intimate detail, score a person, or use the pathway to predict behavior. A person can skip, correct, rename, hide, or delete optional reflections. Child-focused use requires age-appropriate assent, stewardship, and safeguards before any product collection.
 
@@ -82,6 +100,6 @@ The existing endocrine reference discusses HPA and sympathetic pathways, but tho
 
 ## Current implementation status
 
-The page and schema are conceptual only. The generic observation schema can represent selected self-reports, bodily measures, and contextual events; the new graph contract can reference these records while keeping nodes and relations distinct. There is no specialized episode-capture workflow, association model, causal model, or clinical tool. Maps default to private and are subject-controlled; explicit sharing is represented only as user-authorized sharing intent and does not implement access control. Any future runtime must verify that every referenced record exists, belongs to the same subject, is authorized, and has a compatible source/time basis before displaying or analyzing the graph.
+The page and schema are conceptual only. The generic observation schema can represent selected self-reports, bodily measures, and contextual events; the graph contract can reference these records while keeping nodes and relations distinct. It now allows separate nodes for repetitive thought, journaling, venting to a friend, and AI chatbot conversation; it does not score or rank those activities. There is no specialized episode-capture workflow, association model, causal model, or clinical tool. Maps default to private and are subject-controlled; explicit sharing is represented only as user-authorized sharing intent and does not implement access control. Any future runtime must verify that every referenced record exists, belongs to the same subject, is authorized, and has a compatible source/time basis before displaying or analyzing the graph.
 
 Related: [ontology](ontology.md), [model core](model-core-spec.md), [measurement landscape](measurement-landscape.md), [hormone reference](hormone-reference.md), and [reading grammar](reading-grammar.md).
