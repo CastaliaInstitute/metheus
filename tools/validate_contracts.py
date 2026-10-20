@@ -27,6 +27,7 @@ EXAMPLE_SCHEMAS = {
     "assembled-reading.example.json": "assembled-reading.schema.json",
     "assembled-reading-circadian.example.json": "assembled-reading.schema.json",
     "assembled-reading-ai-affordance.example.json": "assembled-reading.schema.json",
+    "assembled-reading-measurement-series.example.json": "assembled-reading.schema.json",
     "birth-chart-input.example.json": "birth-chart-input.schema.json",
     "birth-input-calculation-consent.example.json": "consent.schema.json",
     "bleeding-onset.example.json": "observation.schema.json",

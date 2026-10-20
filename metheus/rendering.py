@@ -31,6 +31,88 @@ def _list(items: Any, class_name: str) -> str:
     return f"<ul{class_attribute}>{rendered}</ul>" if rendered else ""
 
 
+def _render_measurement_summary(source: dict[str, Any]) -> str:
+    """Render a bucketed numeric summary as descriptive, source-linked context."""
+    summary = source.get("derivedSummary")
+    if not isinstance(summary, dict) or summary.get("summaryMeasure") != "measurement_series":
+        return ""
+    signature = summary.get("measurementSeries")
+    if not isinstance(signature, dict):
+        return ""
+    unit = signature.get("unit", "")
+    analyte = signature.get("analyteOrSignal", "numeric signal")
+    window = summary.get("window", {})
+    window_label = " – ".join(
+        _text(window.get(key)) for key in ("startDate", "endDate")
+        if isinstance(window, dict) and window.get(key) is not None
+    )
+    detail_fields = (
+        ("epistemicClass", "record class"), ("sourceKind", "source type"),
+        ("sourceName", "source"), ("sourceMethod", "source method"),
+        ("sourceVersion", "source version"), ("methodDetails", "method details"),
+        ("specimen", "specimen"), ("sensorLocation", "sensor location"),
+        ("deviceOrAssay", "device/assay"), ("deviceModel", "device model"),
+        ("algorithmVersion", "algorithm version"), ("collectionConditions", "collection conditions"),
+    )
+    signature_text = " · ".join(
+        f"{label}: {_text(signature.get(field))}"
+        for field, label in detail_fields
+        if signature.get(field) not in (None, "", "unspecified")
+    )
+    bucket_rows = []
+    buckets = summary.get("timeBuckets", [])
+    if isinstance(buckets, list):
+        for bucket in buckets:
+            if not isinstance(bucket, dict):
+                continue
+            bucket_window = " – ".join(
+                _text(bucket.get(key)) for key in ("startDate", "endDate")
+                if bucket.get(key) is not None
+            )
+            count = bucket.get("nMeasurements", 0)
+            n_dates = bucket.get("nDistinctMeasurementDates", 0)
+            days = bucket.get("inclusiveDays", 0)
+            if count:
+                median_value = bucket.get("medianValue")
+                mad = bucket.get("medianAbsoluteDeviationValue")
+                metrics = (
+                    f"median {_text(median_value)} {_text(unit)}; "
+                    f"median absolute deviation {_text(mad)} {_text(unit)}"
+                )
+                coverage = f"{_text(n_dates)} of {_text(days)} dates with records"
+            else:
+                metrics = "no eligible measurements recorded"
+                coverage = f"0 of {_text(days)} dates with records"
+            ids = bucket.get("inputRecordIds", [])
+            id_list = _list(ids, "compact-list")
+            bucket_rows.append(
+                '<li class="measurement-bucket">'
+                f'<strong>{bucket_window}</strong>: {_text(count)} measurements; {metrics}; {coverage}'
+                f'{("<details><summary>Bucket source records</summary>" + id_list + "</details>") if id_list else ""}'
+                "</li>"
+            )
+    overall = (
+        f'<p class="detail">{_text(summary.get("nMeasurements"))} measurements across '
+        f'{_text(summary.get("nDistinctMeasurementDates"))} dates; overall median '
+        f'{_text(summary.get("medianNumericValue"))} {_text(unit)}; median absolute deviation '
+        f'{_text(summary.get("medianAbsoluteDeviationValue"))} {_text(unit)}; '
+        f'range {_text(summary.get("minimumValue"))}–{_text(summary.get("maximumValue"))} {_text(unit)}.</p>'
+    )
+    buckets_html = f'<ul class="measurement-buckets">{"".join(bucket_rows)}</ul>' if bucket_rows else ""
+    bucket_days = summary.get("bucketDays")
+    return (
+        '<section class="derived-measurement-summary">'
+        f'<h4>Descriptive measurement summary: {_text(analyte)}</h4>'
+        f'<p class="detail">Window: {window_label} · method {_text(summary.get("methodVersion"))} · fixed {_text(bucket_days)}-day buckets anchored at the window start.</p>'
+        f'<p class="detail">Source signature: {_text(signature_text)}</p>'
+        f'{overall}{buckets_html}'
+        '<p class="detail">These are summaries of logged measurements. They do not establish a trend, '
+        'biological phase, hormone state, clinical range, or cause.</p>'
+        f'{_list(summary.get("limitations"), "compact-list")}'
+        '</section>'
+    )
+
+
 def render_assembled_reading_html(package: dict[str, Any]) -> str:
     """Render a schema-valid assembled package as a self-contained HTML page.
 
@@ -55,6 +137,15 @@ def render_assembled_reading_html(package: dict[str, Any]) -> str:
         if source_ids:
             items = "".join(f"<li><code>{_text(source_id)}</code></li>" for source_id in source_ids)
             provenance.append(f'<section><h4>Selected records</h4><ul>{items}</ul></section>')
+
+        measurement_summaries = [
+            _render_measurement_summary(source)
+            for source in claim["sources"]
+            if isinstance(source, dict) and source.get("recordType") == "rhythm_summary"
+        ]
+        measurement_summaries = [item for item in measurement_summaries if item]
+        if measurement_summaries:
+            provenance.append("".join(measurement_summaries))
 
         phase_items = []
         for phase in claim["phaseAnnotations"]:
@@ -210,6 +301,9 @@ def render_assembled_reading_html(package: dict[str, Any]) -> str:
     h4 {{ margin: .6rem 0 .2rem; font-size: .85rem; }}
     ul {{ padding-left: 1.25rem; }}
     .compact-list {{ margin-block: .2rem; font-size: .88rem; }}
+    .measurement-buckets {{ margin-block: .5rem; font-size: .92rem; }}
+    .measurement-bucket {{ margin-block: .35rem; }}
+    .derived-measurement-summary {{ margin-top: .8rem; border-left: 2px solid color-mix(in srgb, CanvasText 24%, transparent); padding-left: .8rem; }}
     code {{ overflow-wrap: anywhere; }}
     .notice {{ margin-top: 2rem; border-left: 3px solid #a48761; padding: .3rem 0 .3rem 1rem; color: GrayText; font-size: .88rem; }}
   </style>
