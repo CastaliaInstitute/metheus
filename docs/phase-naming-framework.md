@@ -27,6 +27,8 @@ The name may be poetic. The canonical label and provenance may not be omitted.
 
 These are optional editorial suggestions, not official biomedical stage definitions. A person can choose another name or no name.
 
+The [machine-readable phase vocabulary catalog](../catalog/phase-vocabulary.json) provides the starter names, descriptions, basis guidance, and constraints as structured entries. It is validated against the [phase vocabulary schema](../schema/phase-vocabulary.schema.json). Applications should treat these as suggestions, preserve canonical labels and provenance, and allow the person to choose a different or neutral name.
+
 | Layer / system | Canonical phase or context | Optional evocative name | Description and guardrail |
 |---|---|---|---|
 | Promethean / Human Design transit | Named planetary transit to a chart feature (include body, gate/line/center, exact interval, chart and ephemeris versions) | **The Passing Spark** | A moving symbolic prompt crossing a fixed chart reference. State the Human Design source/lineage. The prompt is not a physiological event or prediction. |

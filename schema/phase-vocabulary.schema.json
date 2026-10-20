@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metheus.castalia.institute/schema/phase-vocabulary.schema.json",
+  "title": "Metheus phase vocabulary catalog",
+  "description": "Editorial names for symbolic and lived phases. Entries do not define biomedical phases or infer phase from measurements.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["catalogVersion", "labelPolicy", "phases"],
+  "properties": {
+    "$schema": { "type": "string", "format": "uri" },
+    "catalogVersion": { "type": "string", "minLength": 1 },
+    "labelPolicy": { "type": "string", "minLength": 1 },
+    "phases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["layer", "phaseSystem", "canonicalPhase", "evocativeName", "description", "basisGuidance", "constraints"],
+        "properties": {
+          "layer": { "enum": ["promethean", "epimethean"] },
+          "phaseSystem": { "enum": ["human_design_transit", "astrological_transit", "menstrual_cycle", "pregnancy", "postpartum", "menopause", "development", "sleep_wake"] },
+          "canonicalPhase": { "type": "string", "minLength": 1 },
+          "evocativeName": { "type": "string", "minLength": 1 },
+          "description": { "type": "string", "minLength": 1 },
+          "basisGuidance": { "type": "string", "minLength": 1 },
+          "constraints": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 }
+        }
+      }
+    }
+  }
+}
