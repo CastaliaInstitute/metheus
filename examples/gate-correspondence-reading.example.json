@@ -1,0 +1,30 @@
+{
+  "id": "synthetic-gate-correspondence-reading",
+  "subjectId": "synthetic-subject",
+  "version": "0.1",
+  "purpose": "personal_reflection",
+  "question": "What does this source say about Gate 6?",
+  "timeWindow": {
+    "start": "2026-10-20T00:00:00Z",
+    "end": "2026-10-21T00:00:00Z",
+    "timeZone": "Etc/UTC",
+    "precision": "exact"
+  },
+  "inputIds": [],
+  "referenceIds": ["gate-6-reproductive-hormone-source-attribution"],
+  "claims": [
+    {
+      "claimType": "symbolic_prompt",
+      "text": "One contemporary Human Design source links Gate 6 with the female reproductive system and hormone production; Metheus has not evaluated this as a biological association.",
+      "sourceIds": [],
+      "correspondenceIds": ["gate-6-reproductive-hormone-source-attribution"],
+      "support": {
+        "confidence": "not_applicable",
+        "coverage": "unknown",
+        "rationale": "This sentence attributes a source's symbolic teaching and does not assert an individual physiological state."
+      }
+    }
+  ],
+  "limitations": ["Synthetic example. A source-attributed correspondence is not a hormone measurement or biological mechanism."],
+  "generatedAt": "2026-10-20T12:00:00Z"
+}

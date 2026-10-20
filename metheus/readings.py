@@ -817,13 +817,20 @@ def assemble_reading(
         for reference_id in correspondence_ids:
             correspondence = correspondence_index.get(reference_id)
             if correspondence is not None and reference_id in selected_refs:
-                claim_refs.append({
+                reference_package = {
                     "id": reference_id,
                     "kind": "correspondence",
                     "claimText": correspondence.get("claimText"),
                     "sourceCitations": correspondence.get("sourceCitations", []),
                     "limitations": correspondence.get("limitations", []),
-                })
+                }
+                for field in (
+                    "relationType", "evidenceStatus", "permittedUse", "sourceSystem",
+                    "sourceFeature", "targetConcept",
+                ):
+                    if field in correspondence:
+                        reference_package[field] = correspondence[field]
+                claim_refs.append(reference_package)
         for reference_id in evidence_ids:
             evidence = evidence_index.get(reference_id)
             if evidence is not None and reference_id in selected_refs:

@@ -25,6 +25,7 @@ CATALOG_DIR = ROOT / "catalog"
 
 EXAMPLE_SCHEMAS = {
     "assembled-reading.example.json": "assembled-reading.schema.json",
+    "assembled-reading-correspondence.example.json": "assembled-reading.schema.json",
     "assembled-reading-circadian.example.json": "assembled-reading.schema.json",
     "assembled-reading-ai-affordance.example.json": "assembled-reading.schema.json",
     "assembled-reading-measurement-series.example.json": "assembled-reading.schema.json",
@@ -39,6 +40,7 @@ EXAMPLE_SCHEMAS = {
     "development-context-preterm-corrected-age.example.json": "observation.schema.json",
     "experience-pathway-synthetic.example.json": "experience-pathway.schema.json",
     "experience-pathway-local-preflight.example.json": "experience-pathway-case.schema.json",
+    "gate-correspondence-reading.example.json": "reading.schema.json",
     "interaction-intimacy.example.json": "interaction-event.schema.json",
     "interaction-intimacy-correction.example.json": "interaction-event.schema.json",
     "interaction-intimacy-consent.example.json": "consent.schema.json",
@@ -326,6 +328,28 @@ def main() -> int:
                     endpoint_id = relation.get(endpoint)
                     if not isinstance(endpoint_id, str) or endpoint_id not in known_node_ids:
                         errors.append(f"examples/{filename} at relations/{index}/{endpoint}: unresolved pathway node")
+        if filename == "gate-correspondence-reading.example.json" and isinstance(instance, dict):
+            catalog_path = CATALOG_DIR / "gate-endocrine-correspondences.json"
+            try:
+                catalog = load_json(catalog_path)
+            except (json.JSONDecodeError, OSError) as exc:
+                errors.append(f"examples/{filename}: cannot load correspondence catalog: {exc}")
+                catalog = {}
+            known_correspondences = {
+                item.get("id") for item in catalog.get("correspondences", [])
+                if isinstance(item, dict) and isinstance(item.get("id"), str)
+            }
+            selected_references = set(instance.get("referenceIds", []))
+            for index, claim in enumerate(instance.get("claims", [])):
+                if not isinstance(claim, dict):
+                    continue
+                for correspondence_id in claim.get("correspondenceIds", []):
+                    if correspondence_id not in known_correspondences:
+                        errors.append(f"examples/{filename} at claims/{index}/correspondenceIds: unresolved correspondence {correspondence_id}")
+                    if correspondence_id not in selected_references:
+                        errors.append(f"examples/{filename} at claims/{index}/correspondenceIds: correspondence {correspondence_id} is not selected in referenceIds")
+                if claim.get("correspondenceIds") and claim.get("claimType") not in {"symbolic_prompt", "interpretive_question"}:
+                    errors.append(f"examples/{filename} at claims/{index}/claimType: correspondence requires a symbolic prompt or interpretive question")
 
     actual_catalogs = {path.name for path in CATALOG_DIR.glob("*.json")} if CATALOG_DIR.exists() else set()
     mapped_catalogs = set(CATALOG_SCHEMAS)

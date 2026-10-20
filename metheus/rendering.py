@@ -198,9 +198,29 @@ def render_assembled_reading_html(package: dict[str, Any]) -> str:
                 citation_text = " · ".join(part for part in (title, url, locator) if part)
                 if citation_text:
                     citations.append(f"<li>{citation_text}</li>")
+            if reference.get("kind") == "correspondence":
+                feature = reference.get("sourceFeature", {})
+                concept = reference.get("targetConcept", {})
+                system = reference.get("sourceSystem", {})
+                feature_label = feature.get("label") or feature.get("id")
+                concept_label = concept.get("label") or concept.get("id")
+                source_label = " · ".join(
+                    _text(system.get(field)) for field in ("name", "lineage", "version")
+                    if system.get(field)
+                )
+                attribution = "Source-attributed symbolic correspondence"
+                if feature_label or concept_label:
+                    attribution += f": {_text(feature_label)} → {_text(concept_label)}"
+                if source_label:
+                    attribution += f" · source: {source_label}"
+                if reference.get("evidenceStatus") == "not_evaluated":
+                    attribution += " · not evaluated as a biological association"
+                attribution = f'<p class="detail correspondence-attribution">{attribution}</p>'
+            else:
+                attribution = ""
             reference_items.append(
                 "<li>"
-                f'<strong>{_text(reference.get("kind"))}</strong>: '
+                f'{attribution}<strong>{_text(reference.get("kind"))}</strong>: '
                 f'{_text(reference.get("claimText"))}'
                 f'{_list(reference.get("limitations"), "compact-list")}'
                 f'{("<ul>" + "".join(citations) + "</ul>") if citations else ""}'
@@ -304,6 +324,7 @@ def render_assembled_reading_html(package: dict[str, Any]) -> str:
     .measurement-buckets {{ margin-block: .5rem; font-size: .92rem; }}
     .measurement-bucket {{ margin-block: .35rem; }}
     .derived-measurement-summary {{ margin-top: .8rem; border-left: 2px solid color-mix(in srgb, CanvasText 24%, transparent); padding-left: .8rem; }}
+    .correspondence-attribution {{ border-left: 2px solid #9a5eac; padding-left: .55rem; }}
     code {{ overflow-wrap: anywhere; }}
     .notice {{ margin-top: 2rem; border-left: 3px solid #a48761; padding: .3rem 0 .3rem 1rem; color: GrayText; font-size: .88rem; }}
   </style>

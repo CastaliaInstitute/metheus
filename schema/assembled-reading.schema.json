@@ -175,6 +175,39 @@
         "kind": { "enum": ["correspondence", "evidence_claim"] },
         "claimText": { "type": "string", "minLength": 1 },
         "evidenceStatus": { "type": "string" },
+        "relationType": { "enum": ["tradition_attributed", "reflective_association", "empirical_association"] },
+        "permittedUse": { "enum": ["optional_reflective_prompt", "research_hypothesis", "educational_context"] },
+        "sourceSystem": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name"],
+          "properties": {
+            "name": { "type": "string", "minLength": 1 },
+            "lineage": { "type": "string" },
+            "version": { "type": "string" }
+          }
+        },
+        "sourceFeature": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "id"],
+          "properties": {
+            "kind": { "enum": ["center", "gate", "channel", "chakra", "chart_feature", "other"] },
+            "id": { "type": "string", "minLength": 1 },
+            "label": { "type": "string" },
+            "line": { "type": "integer", "minimum": 1, "maximum": 6 }
+          }
+        },
+        "targetConcept": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "id"],
+          "properties": {
+            "kind": { "enum": ["hormone", "neurochemical", "organ", "physiological_process", "experience", "developmental_context", "other"] },
+            "id": { "type": "string", "minLength": 1 },
+            "label": { "type": "string" }
+          }
+        },
         "scope": {
           "type": "object",
           "additionalProperties": false,

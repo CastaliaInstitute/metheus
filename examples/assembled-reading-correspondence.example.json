@@ -1,0 +1,51 @@
+{
+  "assembled": true,
+  "readingId": "synthetic-gate-correspondence-reading",
+  "subjectId": "synthetic-subject",
+  "version": "0.1",
+  "purpose": "personal_reflection",
+  "question": "What does this source say about Gate 6?",
+  "timeWindow": {
+    "start": "2026-10-20T00:00:00Z",
+    "end": "2026-10-21T00:00:00Z",
+    "timeZone": "Etc/UTC",
+    "precision": "exact"
+  },
+  "claims": [
+    {
+      "position": 1,
+      "claimType": "symbolic_prompt",
+      "text": "One contemporary Human Design source links Gate 6 with the female reproductive system and hormone production; Metheus has not evaluated this as a biological association.",
+      "sourceIds": [],
+      "sources": [],
+      "phaseAnnotations": [],
+      "references": [
+        {
+          "id": "gate-6-reproductive-hormone-source-attribution",
+          "kind": "correspondence",
+          "claimText": "Human Design App's Gate 6 article says Gate 6 is linked to the female reproductive system and hormone production. This is that source's correspondence, not an established physiological association.",
+          "relationType": "tradition_attributed",
+          "evidenceStatus": "not_evaluated",
+          "permittedUse": "optional_reflective_prompt",
+          "sourceSystem": { "name": "Human Design", "lineage": "Human Design App / Healing Shore LLC", "version": "web article accessed 2026-10-20" },
+          "sourceFeature": { "kind": "gate", "id": "6", "label": "Gate 6 · Friction" },
+          "targetConcept": { "kind": "physiological_process", "id": "reproductive-hormone-production", "label": "Female reproductive system and hormone production" },
+          "sourceCitations": [
+            { "title": "Gate 6 Human Design: The Gate of Friction and Emotional Awareness", "url": "https://www.humandesignapp.com/human-design-gates/gate-6-human-design/", "locator": "Biological & Energetic Connection of Gate 6" }
+          ],
+          "limitations": ["This is one source's attribution, not evidence that Gate 6 regulates or predicts hormones."]
+        }
+      ],
+      "support": { "confidence": "not_applicable", "coverage": "unknown", "rationale": "Source attribution only." }
+    }
+  ],
+  "limitations": ["Synthetic example; correspondence is not a biological finding."],
+  "assembly": {
+    "kind": "deterministic_claim_assembly",
+    "sourceTextGenerated": false,
+    "textEntailmentVerified": false,
+    "inputSchemasValidated": true,
+    "outputSchemaValidated": true,
+    "authorizedAction": "analyze"
+  }
+}
