@@ -105,6 +105,7 @@ Every relation between quantities must be typed before it can appear in a model 
 |---|---|---|
 | `temporal_order` | A precedes, overlaps, or follows B | Compatible timestamps, precision, and interval semantics |
 | `co_occurrence` | A and B appear in the same declared window | Window rule, source coverage, and missingness disclosure |
+| `literature_association` | A source reports a population-level statistical association between constructs | Evidence claim with matching population, setting, measures, and limitations; no causal or mechanistic inference |
 | `within_person_association` | A and B vary together for one person in observed data | Prespecified features/window, adequate repeated observations, uncertainty, alternative explanations; no causal language |
 | `mechanistic_hypothesis` | A proposed biological process could connect A and B | Evidence claim with matching scope; distinguish established mechanism from individual application |
 | `causal_effect` | Changing A would change B under specified conditions | A suitable causal design and assumptions; observational co-variation is insufficient |
@@ -113,7 +114,7 @@ Every relation between quantities must be typed before it can appear in a model 
 
 The default relation produced by a timeline is `temporal_order` or `co_occurrence`, never mechanism or cause. An exploratory within-person association is a question-generating feature, not a health recommendation or a transferable profile of other people.
 
-The draft [experience-pathway graph contract](../schema/experience-pathway.schema.json) implements only a restricted subset of this vocabulary. It supports time-based order/co-occurrence, subject-reported links, evidence-cited general mechanisms, explicit model hypotheses, and reappraisal links. It deliberately has no `causal_effect` or `within_person_association` relation type; those require separate analysis designs and review.
+The draft [experience-pathway graph contract](../schema/experience-pathway.schema.json) implements only a restricted subset of this vocabulary. It supports time-based order/co-occurrence, subject-reported links, evidence-cited literature associations and general mechanisms, explicit model hypotheses, and reappraisal links. It deliberately has no `causal_effect` or `within_person_association` relation type; those require separate analysis designs and review.
 
 ## 7. Personal reference patterns
 

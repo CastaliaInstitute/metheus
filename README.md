@@ -33,7 +33,7 @@ The [candidate endocrine-relations catalog](catalog/endocrine-relations.json) de
 
 See [Metheus as a systems model](docs/systems-model.md) for the intended architecture: a stable symbolic map in conversation with physiology, development, circadian and feeding rhythms, relationships, circumstances, and observations that change over time.
 
-See [Perception, stress, emotion, and suffering](docs/perception-stress-pathway.md) for a provisional, branching map that separates subjective appraisal and feeling from physiology, behavior, and later meaning.
+See [Perception, stress, emotion, and suffering](docs/perception-stress-pathway.md) for a provisional, branching map that separates subjective appraisal and feeling from physiology, behavior, and later meaning. Its synthetic graph distinguishes rumination, co-rumination, journaling, friend conversations, and chatbot use, and keeps candidate population-level cortisol/HRV associations separate from mechanisms and individual records.
 
 The [synthetic experience-pathway example](examples/experience-pathway-synthetic.example.json) demonstrates the draft graph contract at [experience-pathway.schema.json](schema/experience-pathway.schema.json); nodes refer to separately sourced observations, and relation types distinguish personal reports from timing overlap.
 

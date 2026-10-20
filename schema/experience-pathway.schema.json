@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://metheus.castalia.institute/schema/experience-pathway.schema.json",
   "title": "Metheus reflective experience pathway map",
-  "description": "A subject-scoped graph of reported, measured, interpretive episode elements and separately typed, source-attributed model constructs. It is not a psychological assessment or causal model.",
+  "description": "A subject-scoped graph of reported, measured, interpretive episode elements and separately typed, source-attributed model constructs. Literature associations and mechanisms are distinct relation types. It is not a psychological assessment or causal model.",
   "type": "object",
   "additionalProperties": false,
   "required": ["id", "subjectId", "schemaVersion", "modelVersion", "dataStatus", "window", "nodes", "relations", "privacy", "limitations"],
@@ -30,7 +30,7 @@
         "properties": {
           "nodeId": { "type": "string", "minLength": 1 },
           "construct": { "enum": ["context", "situation", "noticed_cue", "appraisal", "perceived_stress", "emotion", "hostile_orientation", "bodily_sensation", "measured_response", "neuropsych_process", "physiological_system", "action_or_inhibition", "repetitive_thought", "coping_activity", "reported_aftereffect", "consequence", "suffering", "reappraisal", "reflection"] },
-          "processKind": { "enum": ["rumination", "appraisal", "social_evaluative_appraisal", "attentional_deployment", "cognitive_reappraisal", "response_modulation", "social_support", "co_rumination", "journaling", "venting_to_friend", "talking_with_ai_chatbot", "seeking_support", "problem_solving", "distraction", "withdrawal", "other", "unknown"] },
+          "processKind": { "enum": ["rumination", "perseverative_cognition", "appraisal", "social_evaluative_appraisal", "attentional_deployment", "cognitive_reappraisal", "response_modulation", "social_support", "co_rumination", "journaling", "venting_to_friend", "talking_with_ai_chatbot", "seeking_support", "problem_solving", "distraction", "withdrawal", "other", "unknown"] },
           "systemKind": { "enum": ["hpa_axis", "sympathetic_adrenomedullary_system", "autonomic_nervous_system", "parasympathetic_regulation", "immune_inflammatory_signaling", "other", "unknown"], "description": "Named physiological system or signaling domain; this is a model category, not evidence that it activated in this episode." },
           "informationDisclosure": { "enum": ["not_recorded", "general_context", "personal", "sensitive", "unknown"], "description": "Optional subject report of the sensitivity of information shared in an interaction; not a transcript or service privacy assessment." },
           "epistemicKind": { "enum": ["person_reported", "caregiver_reported", "observed", "measured", "derived", "clinician_reported", "model_construct"] },
@@ -43,7 +43,7 @@
           { "if": { "properties": { "epistemicKind": { "const": "model_construct" } }, "required": ["epistemicKind"] }, "then": { "properties": { "construct": { "enum": ["neuropsych_process", "physiological_system"] } } } },
           { "if": { "properties": { "epistemicKind": { "not": { "const": "model_construct" } } }, "required": ["epistemicKind"] }, "then": { "required": ["basisRecordIds"] } },
           { "if": { "properties": { "construct": { "const": "repetitive_thought" } }, "required": ["construct"] }, "then": { "required": ["processKind"], "properties": { "processKind": { "const": "rumination" } } } },
-          { "if": { "properties": { "construct": { "const": "neuropsych_process" } }, "required": ["construct"] }, "then": { "required": ["processKind"], "properties": { "processKind": { "enum": ["appraisal", "social_evaluative_appraisal", "attentional_deployment", "cognitive_reappraisal", "response_modulation", "social_support", "co_rumination", "other", "unknown"] } } } },
+          { "if": { "properties": { "construct": { "const": "neuropsych_process" } }, "required": ["construct"] }, "then": { "required": ["processKind"], "properties": { "processKind": { "enum": ["appraisal", "social_evaluative_appraisal", "perseverative_cognition", "attentional_deployment", "cognitive_reappraisal", "response_modulation", "social_support", "co_rumination", "other", "unknown"] } } } },
           { "if": { "properties": { "construct": { "const": "physiological_system" } }, "required": ["construct"] }, "then": { "required": ["systemKind"], "properties": { "epistemicKind": { "const": "model_construct" } } } },
           { "if": { "properties": { "construct": { "const": "coping_activity" } }, "required": ["construct"] }, "then": { "required": ["processKind"], "properties": { "processKind": { "enum": ["journaling", "venting_to_friend", "talking_with_ai_chatbot", "seeking_support", "problem_solving", "distraction", "withdrawal", "other", "unknown"] } } } },
           { "if": { "properties": { "processKind": { "const": "talking_with_ai_chatbot" } }, "required": ["processKind"] }, "then": { "properties": { "informationDisclosure": { "enum": ["not_recorded", "general_context", "personal", "sensitive", "unknown"] } } } }
@@ -59,7 +59,7 @@
           "relationId": { "type": "string", "minLength": 1 },
           "fromNodeId": { "type": "string", "minLength": 1 },
           "toNodeId": { "type": "string", "minLength": 1 },
-          "relationType": { "enum": ["temporal_order", "co_occurrence", "person_reported_link", "literature_mechanism", "model_hypothesis", "reappraisal"] },
+          "relationType": { "enum": ["temporal_order", "co_occurrence", "person_reported_link", "literature_association", "literature_mechanism", "model_hypothesis", "reappraisal"] },
           "basis": { "enum": ["record_times", "person_report", "cited_evidence", "explicit_hypothesis"] },
           "basisRecordIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
           "evidenceClaimIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
@@ -70,6 +70,7 @@
           { "if": { "properties": { "relationType": { "const": "temporal_order" } }, "required": ["relationType"] }, "then": { "required": ["basisRecordIds"], "properties": { "basis": { "const": "record_times" }, "basisRecordIds": { "minItems": 2 } } } },
           { "if": { "properties": { "relationType": { "const": "co_occurrence" } }, "required": ["relationType"] }, "then": { "required": ["basisRecordIds"], "properties": { "basis": { "const": "record_times" }, "basisRecordIds": { "minItems": 2 } } } },
           { "if": { "properties": { "relationType": { "const": "person_reported_link" } }, "required": ["relationType"] }, "then": { "required": ["basisRecordIds"], "properties": { "basis": { "const": "person_report" }, "basisRecordIds": { "minItems": 1 } } } },
+          { "if": { "properties": { "relationType": { "const": "literature_association" } }, "required": ["relationType"] }, "then": { "required": ["evidenceClaimIds"], "properties": { "basis": { "const": "cited_evidence" }, "evidenceClaimIds": { "minItems": 1 } } } },
           { "if": { "properties": { "relationType": { "const": "literature_mechanism" } }, "required": ["relationType"] }, "then": { "required": ["evidenceClaimIds"], "properties": { "basis": { "const": "cited_evidence" }, "evidenceClaimIds": { "minItems": 1 } } } },
           { "if": { "properties": { "relationType": { "const": "model_hypothesis" } }, "required": ["relationType"] }, "then": { "required": ["basisRecordIds"], "properties": { "basis": { "const": "explicit_hypothesis" }, "basisRecordIds": { "minItems": 1 } } } },
           { "if": { "properties": { "relationType": { "const": "reappraisal" } }, "required": ["relationType"] }, "then": { "required": ["basisRecordIds"], "properties": { "basis": { "const": "person_report" }, "basisRecordIds": { "minItems": 1 } } } }

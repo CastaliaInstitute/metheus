@@ -181,6 +181,41 @@
       ]
     },
     {
+      "id": "perseverative-cognition-cortisol-autonomic-candidate",
+      "claimType": "biomedical_association",
+      "claimText": "A systematic review and meta-analysis of studies in healthy participants found associations between perseverative cognition (including rumination and worry) and cortisol, heart-rate, HRV, and blood-pressure measures; results varied by study design, measurement, and moderators, so they do not establish a universal response or individual prediction.",
+      "scope": {
+        "description": "Physiological correlates of experimentally induced or measured perseverative cognition.",
+        "population": "Healthy participants in the included studies.",
+        "setting": "Experimental and correlational research represented in a 60-study systematic review and meta-analysis.",
+        "exposureOrSignal": "Perseverative cognition, including rumination and worry; cortisol, heart rate, HRV, and blood pressure measures.",
+        "outcome": "Study-level associations with cardiovascular, autonomic, and endocrine measures.",
+        "timeframe": "Acute laboratory responses and correlational measurement windows, as defined in the included studies."
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Physiological concomitants of perseverative cognition: A systematic review and meta-analysis",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/26689087/",
+          "sourceType": "systematic_review",
+          "accessedAt": "2026-10-20"
+        },
+        {
+          "title": "State rumination links major life stressors to acute stressor cortisol response in healthy adults",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39550801/",
+          "sourceType": "primary_study",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "The meta-analysis combined different forms and measures of perseverative cognition and multiple physiological outcomes; moderators included sex, ethnicity, induction, state versus trait measurement, duration, and study quality.",
+        "Associations do not establish that rumination caused a physiological response or that a physiological signal reveals rumination.",
+        "The 2024 study examined a laboratory social-evaluative stress task in healthy adults; its mediation results differed between cortisol responders and non-responders and do not support a general individual prediction.",
+        "Neither source supports inferring an individual's cortisol, HRV, cardiovascular state, diagnosis, or health risk from self-reported rumination."
+      ]
+    },
+    {
       "id": "guided-expressive-writing-cortisol-hrv-candidate",
       "claimType": "intervention_effect",
       "claimText": "In one randomized study, guided expressive writing did not show a general effect on cortisol or HRV reactivity or recovery; an interaction suggested greater cortisol recovery for participants reporting more taxing nominated stressors.",
@@ -206,6 +241,35 @@
         "One study does not establish efficacy for journaling generally.",
         "The interaction requires replication and does not support an individual recommendation.",
         "No general cortisol or HRV effect was observed in this sample."
+      ]
+    },
+    {
+      "id": "structured-chatbot-stress-training-candidate",
+      "claimType": "intervention_effect",
+      "claimText": "In one three-week randomized trial of a structured chatbot program for stress, mindfulness, and interoception, the study found no significant change in perceived or momentary stress; mindfulness and reappraisal increased in the intervention group over time. Cortisol was not measured.",
+      "scope": {
+        "description": "A structured chatbot-guided psychoeducation and skills program, not an unrestricted conversational AI companion.",
+        "population": "Adults with medium to high stress levels in a multicenter trial (N=118).",
+        "setting": "Three-week smartphone intervention with two daily interactive sessions, compared with treatment as usual.",
+        "exposureOrSignal": "Chatbot-guided content on stress, mindfulness, and interoception.",
+        "outcome": "Perceived and momentary stress, mindfulness, interoceptive sensibility, well-being, and emotion-regulation measures.",
+        "timeframe": "Preintervention, after three weeks, and six-week follow-up."
+      },
+      "evidenceStatus": "under_review",
+      "permittedUse": "internal_only",
+      "sourceCitations": [
+        {
+          "title": "Effects of a Chatbot-Based Intervention on Stress and Health-Related Parameters in a Stressed Sample: Randomized Controlled Trial",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/38805259/",
+          "sourceType": "primary_study",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This claim describes one structured program and does not generalize to journaling, venting, a general-purpose chatbot, or other AI systems.",
+        "No significant perceived-stress change was observed in this study; within-group increases in mindfulness and reappraisal do not establish a biological mechanism.",
+        "Cortisol and other endocrine biomarkers were not measured, so the trial does not support a hormone-response claim.",
+        "The candidate has not completed Metheus evidence review and is not eligible for readings."
       ]
     }
   ]

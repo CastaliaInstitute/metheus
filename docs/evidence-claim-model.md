@@ -21,6 +21,7 @@ Each claim has a stable ID, exact claim text, claim type, scope, evidence status
 Claim types include:
 
 - `biomedical_mechanism` — a biological process or mechanism;
+- `biomedical_association` — a population-level statistical association among biological or neuropsychological measures, without implying mechanism or causation;
 - `measurement_validity` — what an instrument, assay, or proxy can validly measure under specified conditions;
 - `intervention_effect` — an outcome associated with an intervention in an identified study scope;
 - `developmental_context` — a developmental or learning-science statement;
@@ -50,7 +51,7 @@ No evidence-claim record should recommend a behavior, supplement, hormone treatm
 
 ## Candidate evidence catalog
 
-The [candidate evidence catalog](../catalog/evidence-claims.json) starts with four measurement-boundary claims concerning cortisol sample context, basal body temperature, clinical actigraphy, and urinary LH tests. Every entry is `under_review` and `internal_only`; the catalog is intentionally ineligible for readings. Its citations identify source material to review, not an endorsement of the exact Metheus wording. The contract gate validates both the catalog envelope and each claim against the evidence-claim schema, and rejects any entry in a `candidate_only` catalog that is not kept internal and under review.
+The [candidate evidence catalog](../catalog/evidence-claims.json) includes measurement-boundary claims as well as candidate psychoneuroendocrine and intervention claims on social-evaluative threat, co-rumination, perseverative cognition, expressive writing, and one structured chatbot program. Every entry is `under_review` and `internal_only`; the catalog is intentionally ineligible for readings. Its citations identify source material to review, not an endorsement of the exact Metheus wording. The contract gate validates both the catalog envelope and each claim against the evidence-claim schema, and rejects any entry in a `candidate_only` catalog that is not kept internal and under review.
 
 Before any candidate becomes reading-eligible, a domain-qualified reviewer must check the exact claim against the cited source and relevant primary literature, narrow the scope, record contrary or null evidence, state limitations, and assign a review date/role and permitted use. A schema-valid claim is still not proof of source quality or reviewer qualification.
 

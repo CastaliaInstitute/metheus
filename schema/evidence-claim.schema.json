@@ -8,7 +8,7 @@
   "required": ["id", "claimType", "claimText", "scope", "evidenceStatus", "permittedUse", "sourceCitations", "limitations"],
   "properties": {
     "id": { "type": "string", "minLength": 1 },
-    "claimType": { "enum": ["biomedical_mechanism", "measurement_validity", "intervention_effect", "developmental_context", "other"] },
+    "claimType": { "enum": ["biomedical_mechanism", "biomedical_association", "measurement_validity", "intervention_effect", "developmental_context", "other"] },
     "claimText": { "type": "string", "minLength": 1 },
     "scope": {
       "type": "object",
