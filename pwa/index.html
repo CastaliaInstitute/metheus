@@ -85,32 +85,32 @@
                 <summary><span><span class="eyebrow">REFERENCE MAP</span><strong>Bodygraph</strong></span><span class="bodygraph-badge">GENERIC TEMPLATE</span></summary>
                 <div class="map-mode" role="group" aria-label="Select reference map">
                   <button type="button" class="map-mode-button is-selected" id="map-mode-bodygraph" aria-pressed="true">BodyGraph</button>
-                  <button type="button" class="map-mode-button" id="map-mode-correspondence" aria-pressed="false">Gate links</button>
-                  <button type="button" class="map-mode-button" id="map-mode-endocrine" aria-pressed="false">Endocrine network</button>
+                  <button type="button" class="map-mode-button" id="map-mode-correspondence" aria-pressed="false">Gate source links</button>
+                  <button type="button" class="map-mode-button" id="map-mode-endocrine" aria-pressed="false">Body biology</button>
                 </div>
-                <p class="map-boundary" id="map-boundary">Gate links are source-attributed teachings pinned to the generic BodyGraph. Explicit hormone, hormone/process, and tissue links can be filtered separately; they do not indicate measured or gate-caused physiology.</p>
+                <p class="map-boundary" id="map-boundary">This is a generic reference chart. Gate source links show what a named Human Design source associates with a gate. They are not hormone measurements and do not show that a gate changes the body.</p>
                 <div class="gate-correspondence-tools" id="gate-correspondence-tools" hidden>
-                  <label for="gate-correspondence-filter">Find a gate link</label>
+                  <label for="gate-correspondence-filter">Find a gate, body part, hormone, or source</label>
                   <input id="gate-correspondence-filter" type="search" placeholder="Gate, organ, hormone, or source" autocomplete="off" />
-                  <label for="gate-correspondence-kind">Overlay layer</label>
+                  <label for="gate-correspondence-kind">Show links where the source mentions</label>
                   <select id="gate-correspondence-kind">
-                    <option value="all">All source correspondences</option>
-                    <option value="hormone">Explicit hormone attributions</option>
-                    <option value="process">Hormone or physiological-process attributions</option>
-                    <option value="tissue">Endocrine-related organ/tissue attributions</option>
+                    <option value="all">Anything</option>
+                    <option value="hormone">A named hormone</option>
+                    <option value="process">Hormone production or a body process</option>
+                    <option value="tissue">An organ or body tissue</option>
                   </select>
-                  <p class="gate-correspondence-legend"><span class="legend-hormone">●</span> explicit hormone <span class="legend-process">●</span> hormone/process <span class="legend-tissue">●</span> tissue</p>
+                  <p class="gate-correspondence-legend"><span class="legend-hormone">●</span> names a hormone <span class="legend-process">●</span> mentions a process <span class="legend-tissue">●</span> names an organ/tissue</p>
                   <p id="gate-correspondence-count" role="status" aria-live="polite"></p>
                 </div>
                 <div class="gate-correspondence-list" id="gate-correspondence-list" aria-label="Sourced gate correspondences" hidden></div>
                 <div class="endocrine-controls" id="endocrine-controls" hidden>
-                  <label for="endocrine-filter">Network domain</label>
-                  <select id="endocrine-filter"><option value="all">All candidate relations</option></select>
+                  <label for="endocrine-filter">Show body topic</label>
+                  <select id="endocrine-filter"><option value="all">All listed connections</option></select>
                 </div>
                 <div class="bodygraph-viewer" id="bodygraph-viewer">
-                  <canvas id="bodygraph-canvas" tabindex="0" role="img" aria-label="Generic Human Design BodyGraph. Click a gate or channel to highlight it; drag to orbit and scroll to zoom."></canvas>
+                  <canvas id="bodygraph-canvas" tabindex="0" role="img" aria-label="Generic Human Design BodyGraph. Select a gate or channel to explore it; drag to orbit and scroll to zoom."></canvas>
                 </div>
-                <div class="endocrine-entity-list" id="endocrine-entity-list" aria-label="Endocrine network entities" hidden></div>
+                <div class="endocrine-entity-list" id="endocrine-entity-list" aria-label="Body signals, organs, and pathways" hidden></div>
                 <p class="bodygraph-hint">A reference map, not a personal chart. Chat mentions of gates and channels highlight here.</p>
                 <form class="bodygraph-search" id="bodygraph-search">
                   <label class="sr-only" for="bodygraph-query">Highlight a gate or channel</label>

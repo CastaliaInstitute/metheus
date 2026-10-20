@@ -108,9 +108,9 @@ export async function mountBodygraph() {
   let gateCorrespondences = [];
   let visibleGateCorrespondences = [];
   const endocrineDomainLabels = {
-    hpt: 'Thyroid regulation', hpa: 'Stress-axis regulation', hpg: 'Reproductive-axis regulation',
-    circadian: 'Circadian regulation', glucose: 'Glucose regulation', gut: 'Gut-incretin signaling',
-    reproductive: 'Reproductive-cycle regulation', organ_context: 'Organ-to-signal context',
+    hpt: 'Thyroid signals', hpa: 'Stress and adrenal signals', hpg: 'Reproductive hormones',
+    circadian: 'Body clock and melatonin', glucose: 'Blood sugar signals', gut: 'Gut signals',
+    reproductive: 'Reproductive cycle', organ_context: 'Organs that release signals',
   };
   const colorsByType = { hormone: 0x75c8be, process: 0xf0b66d, hormone_group: 0xd99fc8, receptor: 0x9eacd8, gland: 0xc990ac, organ: 0x8caad4, tissue: 0xd0b271 };
 
@@ -144,8 +144,7 @@ export async function mountBodygraph() {
       group.push(item);
       byGate.set(item.sourceFeature.id, group);
     }
-    const layerNames = { all: 'all source correspondence types', hormone: 'explicit hormone attributions', process: 'hormone/process attributions', tissue: 'organ/tissue attributions' };
-    $('#gate-correspondence-count').textContent = `Showing ${visibleItems.length} ${layerNames[kind]} across ${byGate.size} gates. These are source teachings, not measured gate effects.`;
+    $('#gate-correspondence-count').textContent = `${visibleItems.length} source link${visibleItems.length === 1 ? '' : 's'} at ${byGate.size} gate${byGate.size === 1 ? '' : 's'}. A link tells you what its cited source says; it is not a body measurement.`;
     for (const [gateId, items] of byGate) {
       const target = targets.find((entry) => entry.kind === 'gate' && entry.id === gateId);
       if (!target) continue;
@@ -181,8 +180,8 @@ export async function mountBodygraph() {
         const button = document.createElement('button');
         button.type = 'button';
         button.dataset.correspondenceId = item.id;
-        const kindLabel = item.targetConcept.kind === 'hormone' ? 'hormone attribution' : item.targetConcept.kind === 'physiological_process' ? 'process attribution' : 'tissue attribution';
-        button.textContent = `${item.sourceFeature.label} → ${item.targetConcept.label} · ${kindLabel} · ${item.sourceSystem.lineage || item.sourceSystem.name} · select for source and limits`;
+        const kindLabel = item.targetConcept.kind === 'hormone' ? 'source names a hormone' : item.targetConcept.kind === 'physiological_process' ? 'source mentions a body process' : 'source names an organ or tissue';
+        button.textContent = `${item.sourceFeature.label} → ${item.targetConcept.label} · ${kindLabel} · ${item.sourceSystem.lineage || item.sourceSystem.name}. Select to see what this means.`;
         list.append(button);
       }
     }
@@ -192,27 +191,38 @@ export async function mountBodygraph() {
     if (!item) return;
     const citation = item.sourceCitations[0];
     detail.replaceChildren();
+    const heading = document.createElement('strong');
+    heading.textContent = 'What the source says';
     const summary = document.createElement('span');
-    summary.textContent = `${item.sourceFeature.label} → ${item.targetConcept.label}. ${item.claimText} `;
-    detail.append(summary);
+    summary.textContent = `${item.sourceFeature.label} is linked to ${item.targetConcept.label}. ${item.claimText}`;
+    const meaning = document.createElement('p');
+    meaning.className = 'map-plain-language';
+    meaning.textContent = item.targetConcept.kind === 'hormone'
+      ? 'In plain language: this source names a hormone in its gate teaching. Metheus has not measured this hormone or shown that the gate changes it.'
+      : item.targetConcept.kind === 'physiological_process'
+        ? 'In plain language: this source mentions a body process, but does not name a specific hormone. This is a source’s idea, not a finding about a person’s body.'
+        : 'In plain language: this source links a gate with a body part. A body part may have biological functions, but this link does not show that the gate controls them.';
+    const sourceHeading = document.createElement('strong');
+    sourceHeading.textContent = 'Read the source';
     const link = document.createElement('a');
     link.href = citation.url;
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
     link.textContent = `${citation.title} · ${citation.locator || 'Source'}`;
-    detail.append(link);
+    const limitsHeading = document.createElement('strong');
+    limitsHeading.textContent = 'What this does not tell us';
     const limitations = document.createElement('span');
-    limitations.textContent = ` Limits: ${item.limitations.join(' ')}`;
-    detail.append(limitations);
+    limitations.textContent = item.limitations.join(' ');
+    detail.append(heading, summary, meaning, sourceHeading, link, limitsHeading, limitations);
     appendCandidatePhysiology(detail, item);
   }
 
   function appendCandidatePhysiology(parent, item) {
     const section = document.createElement('section');
     const heading = document.createElement('strong');
-    heading.textContent = 'Separate candidate physiology catalog';
+    heading.textContent = 'Related body science (a separate reference)';
     const note = document.createElement('span');
-    note.textContent = 'Checking for an exact shared organ ID…';
+    note.textContent = 'Looking for a matching body-science entry…';
     section.append(heading, note);
     parent.append(section);
     ensureEndocrineCatalog().then((records) => {
@@ -221,18 +231,18 @@ export async function mountBodygraph() {
       section.replaceChildren(heading);
       const boundary = document.createElement('span');
       boundary.textContent = related.length
-        ? `Exact entity ID match: ${item.targetConcept.id}. This joins catalog entries for reference only; it does not validate the gate-to-organ teaching.`
-        : `No exact entity ID match for ${item.targetConcept.id} exists in the current endocrine relations catalog. No fuzzy name matching is used.`;
+        ? `Metheus found a biology reference for ${item.targetConcept.label}. This is separate information; it does not prove the gate link is biological.`
+        : `There is no matching biology reference for ${item.targetConcept.label} in this map.`;
       section.append(boundary);
       if (!related.length) {
         const empty = document.createElement('span');
-        empty.textContent = 'The two layers remain separate; absence of an exact catalog match is not evidence against either source.';
+        empty.textContent = 'That only means this map has no matching entry.';
         section.append(empty);
         return;
       }
       for (const relation of related) {
         const relationText = document.createElement('p');
-        relationText.textContent = `${relation.statement} Status: ${relation.evidenceStatus}; internal candidate physiology only.`;
+        relationText.textContent = `${relation.statement} This biology reference is still being reviewed.`;
         section.append(relationText);
         for (const source of relation.sourceCitations || []) {
           const sourceLink = document.createElement('a');
@@ -279,7 +289,7 @@ export async function mountBodygraph() {
       const catalog = await response.json();
       gateCorrespondences = catalog.correspondences;
       renderCorrespondences();
-      detail.textContent = `Select a ring or source-list entry to read the attributed wording and limitations. Dense overlays omit on-map labels for readability; use the filter to find a gate, organ, or source.`;
+      detail.textContent = 'A ring marks a gate mentioned by a source. Choose a link below to read the source, what it means, and what it cannot tell us.';
     } catch {
       detail.textContent = 'The gate correspondence catalog could not be loaded. The generic BodyGraph is still available.';
     }
@@ -311,11 +321,12 @@ export async function mountBodygraph() {
       const button = document.createElement('button');
       button.type = 'button';
       button.dataset.endocrineEntityId = entity.id;
-      button.textContent = `${entity.label} · ${entity.entityType}`;
+      const typeName = { hormone: 'body signal', hormone_group: 'signal group', process: 'body process', receptor: 'receptor', gland: 'gland', organ: 'organ', tissue: 'tissue' }[entity.entityType] || 'body term';
+      button.textContent = `${entity.label} · ${typeName}`;
       entityList.append(button);
     });
     if (!nodes.length) {
-      detail.textContent = 'No candidate relations are available in this domain.';
+      detail.textContent = 'No connections are listed for this topic yet.';
       return;
     }
     const positions = new Map();
@@ -357,8 +368,8 @@ export async function mountBodygraph() {
         endocrineGroup.add(sprite);
       }
     });
-    const domainName = selectedDomain === 'all' ? 'all listed domains' : endocrineDomainLabels[selectedDomain] || selectedDomain;
-    detail.textContent = `${nodes.length} candidate entities · ${relations.length} relations · ${domainName}. Select a node or an entity in the list for catalog context. ${nodes.length > 18 ? 'The dense map hides labels; use the list or filter to identify nodes. ' : ''}All entries are under review and internal only.`;
+    const domainName = selectedDomain === 'all' ? 'all topics' : endocrineDomainLabels[selectedDomain] || selectedDomain;
+    detail.textContent = `${nodes.length} body terms · ${relations.length} listed connections · ${domainName}. Choose a dot or name to see the source. ${nodes.length > 18 ? 'The list below is easier to read when the map is crowded. ' : ''}These references are being reviewed; they are not a personal health reading.`;
     endocrineGroup.userData.relations = relations;
     endocrineGroup.userData.entities = entities;
     endocrineGroup.userData.positions = positions;
@@ -369,7 +380,7 @@ export async function mountBodygraph() {
     if (!endocrineLoadPromise) {
       endocrineLoadPromise = (async () => {
         const response = await fetch(ENDOCRINE_URL, { cache: 'force-cache' });
-        if (!response.ok) throw new Error('Candidate endocrine catalog could not be loaded.');
+      if (!response.ok) throw new Error('Body biology references could not be loaded.');
         const catalog = await response.json();
         endocrineRecords = catalog.relations.map((relation) => {
           const text = `${relation.context?.setting || ''} ${relation.statement || ''}`.toLowerCase();
@@ -405,7 +416,7 @@ export async function mountBodygraph() {
       await ensureEndocrineCatalog();
       renderEndocrine();
     } catch {
-      detail.textContent = 'The candidate endocrine catalog could not be loaded. The BodyGraph reference is still available.';
+      detail.textContent = 'Body biology references could not be loaded. The BodyGraph is still available.';
     }
   }
 
@@ -424,7 +435,7 @@ export async function mountBodygraph() {
     modeEndocrine.classList.toggle('is-selected', endocrine);
     modeEndocrine.setAttribute('aria-pressed', String(endocrine));
     canvas.setAttribute('aria-label', endocrine
-      ? 'Candidate endocrine network under review. Select an entity in the list or map to read its physiology context.'
+      ? 'Body biology reference map. Select a dot or a name below to read about a signal, organ, or pathway.'
       : 'Generic Human Design BodyGraph. Click a gate or channel to highlight it; drag to orbit and scroll to zoom.');
     endocrineControls.hidden = !endocrine;
     $('#gate-correspondence-list').hidden = !correspondence;
@@ -433,10 +444,10 @@ export async function mountBodygraph() {
     search.hidden = endocrine || correspondence;
     $('#bodygraph-clear').hidden = endocrine || correspondence;
     boundary.textContent = endocrine
-      ? 'Separate candidate biology network · under review · internal only. Node positions are diagram layout, not anatomy. No gate/channel equivalence or personal inference.'
+      ? 'This view shows body signals and pathways described in biology references. The map is still being reviewed; node positions are for layout, not body locations. It does not connect pathways to gates or describe your health.'
       : correspondence
-        ? 'Source-attributed Human Design gate-to-organ teachings. Sources may differ; compare each lineage’s claim and limits. The overlay does not assert a gate-to-hormone mechanism or describe a person’s biology.'
-        : 'The endocrine network is a separate candidate biology graph. Gate links are shown only in the distinct Correspondence view.';
+        ? 'Rings mark gates that a named Human Design source links to a hormone, body process, organ, or tissue. Sources can disagree. A link is not a measured body effect.'
+        : 'This generic BodyGraph is a reference picture, not a personal chart. The other views show source claims and body-science references separately.';
     if (endocrine) { if (!endocrineRecords.length) loadEndocrine(); else renderEndocrine(); }
     else if (correspondence) { if (!gateCorrespondences.length) loadCorrespondences(); else renderCorrespondences(); }
     else detail.textContent = 'Choose a gate or channel to explore its place in the map.';
@@ -632,9 +643,10 @@ export async function mountBodygraph() {
     const related = endocrineGroup.userData.relations.filter((relation) => relation.sourceEntity.id === entity.id || relation.targetEntity.id === entity.id);
     detail.replaceChildren();
     const heading = document.createElement('strong');
-    heading.textContent = `${entity.label} · ${entity.entityType} · ${entity.compartment}`;
+    const typeName = { hormone: 'body signal', hormone_group: 'signal group', process: 'body process', receptor: 'receptor', gland: 'gland', organ: 'organ', tissue: 'tissue' }[entity.entityType] || 'body term';
+    heading.textContent = `${entity.label} · ${typeName}`;
     const status = document.createElement('span');
-    status.textContent = `${related.length} candidate relation${related.length === 1 ? '' : 's'}; under review and internal only.`;
+    status.textContent = `${related.length} listed connection${related.length === 1 ? '' : 's'}. These source references are being reviewed; they do not describe your personal health.`;
     detail.append(heading, status);
     for (const relation of related) {
       const section = document.createElement('section');
