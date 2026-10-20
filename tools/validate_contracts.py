@@ -13,6 +13,9 @@ from jsonschema.exceptions import SchemaError
 
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from metheus.phase_domains import phase_authorization_domain
+
 SCHEMA_DIR = ROOT / "schema"
 EXAMPLE_DIR = ROOT / "examples"
 CATALOG_DIR = ROOT / "catalog"
@@ -164,6 +167,10 @@ def main() -> int:
             expected_layer = "promethean" if phase.get("phaseSystem") in {"human_design_transit", "astrological_transit"} else "epimethean"
             if phase.get("layer") != expected_layer:
                 errors.append(f"catalog/{filename} at phases/{index}/layer: layer does not match phaseSystem")
+            if phase_authorization_domain(phase.get("phaseSystem"), phase.get("canonicalPhase")) is None:
+                errors.append(
+                    f"catalog/{filename} at phases/{index}: phase has no authorization-domain mapping"
+                )
 
     if errors:
         print("Metheus contract validation failed:", file=sys.stderr)

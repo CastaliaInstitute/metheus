@@ -12,6 +12,7 @@ from datetime import date, datetime, timezone
 from typing import Any, Iterable
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
+from .phase_domains import phase_authorization_domain
 from .rhythms import measurement_series_source_matches, measurement_series_summary_valid
 
 
@@ -66,24 +67,6 @@ _SUMMARY_SOURCE_TYPES = {
         ("wake", "sleep"), ("wake", "circadian"),
         ("meal", "feeding"), ("meal", "nutrition"),
     },
-}
-
-_PHASE_SYSTEM_DOMAINS = {
-    "human_design_transit": "symbolic",
-    "astrological_transit": "symbolic",
-    "menstrual_cycle": "reproductive",
-    "pregnancy": "reproductive",
-    "postpartum": "reproductive",
-    "menopause": "reproductive",
-    "development": "development",
-    "sleep_wake": "sleep",
-    "circadian_rhythm": "circadian",
-    "eating_rhythm": "nutrition",
-    "other": "other",
-}
-_ULTRADIAN_PHASE_DOMAINS = {
-    "feeding_bout_reported": "feeding",
-    "within_day_activity_rest_cycle": "activity",
 }
 
 _CHILD_STEWARD_ROLES = {"parent_guardian", "legally_authorized_representative"}
@@ -241,9 +224,7 @@ def record_domain(record: dict[str, Any]) -> str | None:
     if "phaseSystem" in record:
         if not _is_phase_annotation(record):
             return None
-        if record.get("phaseSystem") == "ultradian_rhythm":
-            return _ULTRADIAN_PHASE_DOMAINS.get(record.get("canonicalPhase"))
-        return _PHASE_SYSTEM_DOMAINS.get(record.get("phaseSystem"))
+        return phase_authorization_domain(record.get("phaseSystem"), record.get("canonicalPhase"))
     record_type = record.get("recordType")
     domain = record.get("domain")
     if not isinstance(domain, str) or domain not in _RECORD_DOMAINS:
