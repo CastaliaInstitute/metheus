@@ -50,7 +50,7 @@ The draft schema also checks basic source/class agreement: self-reports identify
 
 ## Correspondence evidence status
 
-A correspondence is not an epistemic class for the target observation. Store its relation type, source lineage, evidence status, permitted use, citations, and limitations separately using the draft [`correspondence schema`](../schema/correspondence.schema.json). The bridge document specifies four lanes: lineage-attributed doctrine, reflective association, empirical association, and physiological mechanism. Only evidence reviewed for a precise scope can support the latter two; a tradition-attributed pairing may be offered as an optional reflection but may not explain or predict a measured value.
+A correspondence is not an epistemic class for the target observation. Store its relation type, source lineage, evidence status, permitted use, citations, and limitations separately using the draft [`correspondence schema`](../schema/correspondence.schema.json). The bridge distinguishes symbolic doctrine, reflective association, and empirical association. General biomedical or developmental facts use the separate [`evidence-claim schema`](../schema/evidence-claim.schema.json); they are not crosswalks and cannot validate symbolic doctrine. A tradition-attributed pairing may be offered as an optional reflection but may not explain or predict a measured value.
 
 ## Temporal model
 

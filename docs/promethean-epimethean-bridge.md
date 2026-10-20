@@ -8,20 +8,19 @@ Metheus can place a person's Promethean map beside Epimethean records and ask wh
 
 This distinction matters because Human Design describes a BodyGraph of nine centers, 64 gates, and 36 channels as an internal symbolic architecture. A channel is defined by two gates connecting centers inside that framework. Some Human Design teaching also gives centers biological or glandular correspondences. Those are **claims within a symbolic lineage**, not a validated endocrine anatomy or clinical assessment. In physiology, glands release hormones into circulation, feedback loops regulate them, and many hormones act across multiple tissues; an endocrine organ is not equivalent to a symbolic center. [Jovian Archive's system description](https://jovianarchive.com/blogs/human-design-basics/centers-gates-and-channels), [IHDS center correspondences](https://ihumandesignschool.com/the-nine-centers/), [MedlinePlus on endocrine glands](https://medlineplus.gov/encyc/article/002351.htm), [NCBI Bookshelf: principles of endocrinology](https://www.ncbi.nlm.nih.gov/books/NBK20/).
 
-## Four evidence lanes
+## Three crosswalk relation types
 
-Every cross-reference should declare which lane it occupies:
+Every symbolic-to-lived crosswalk should declare one relation type:
 
-| Lane | What it means | Example | What it does not mean |
+| Relation | What it means | Example | What it does not mean |
 |---|---|---|---|
 | **Symbolic doctrine** | A relationship taught by a named version or lineage of Human Design, chakra practice, or another symbolic system | “This lineage associates the Root center with adrenal themes.” | A medical fact or a measured adrenal state |
 | **Reflective association** | A user- or author-chosen thematic pairing used to formulate a question | Placing a person's fatigue notes next to a Root-centered prompt | Evidence that the symbolic feature explains the fatigue |
 | **Empirical association** | A testable statistical relation between prespecified symbolic features and specified, appropriately collected Epimethean variables | A preregistered study asks whether a chart feature is associated with a repeated, validated measure after relevant covariates | Causation, clinical validity, or individual prediction without further evidence |
-| **Physiological mechanism** | An established mechanism supported by biomedical evidence and precisely scoped | A named assay measures a named hormone in a specified specimen at a specified time | A channel, gate, or chakra is the mechanism or assay |
 
-Empirical-association and physiological-mechanism records are not publishable merely because someone assigns an evidence status. They require at least one directly relevant citation, a dated review, and a named reviewer role. Mechanism claims must be scoped to the population, tissue/process, exposure, and outcome supported by that evidence. The correspondence schema encodes these minimum metadata requirements; it does not establish that a citation is high quality or that a reviewer is qualified.
+The correspondence schema represents relations involving a symbolic feature. It is not a container for general biomedical mechanisms: an assay's validity or a hormone pathway is a general evidence claim, not a symbolic crosswalk. Metheus stores those claims separately using the [evidence-claim model](evidence-claim-model.md) and [scoped evidence-claim schema](../schema/evidence-claim.schema.json), which capture scope, citations, review, status, limitations, and permitted use. A mechanism described in biomedical sources does not validate a Human Design or chakra association.
 
-Store these as different relation types. Never silently upgrade a lineage statement or reflective pairing to empirical association, or an association to mechanism.
+Empirical-association records require at least one directly relevant citation, a dated review, and a named reviewer role. They cannot be used to explain a person's measurements or predict an individual's outcome. Never silently upgrade a lineage statement or reflective pairing to empirical association.
 
 ## A cautious center-level conversation map
 

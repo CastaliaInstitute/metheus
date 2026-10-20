@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metheus.castalia.institute/schema/evidence-claim.schema.json",
+  "title": "Metheus scoped evidence claim",
+  "description": "A sourced, scope-limited general evidence statement. It is not an individual measurement, diagnosis, or treatment recommendation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "claimType", "claimText", "scope", "evidenceStatus", "permittedUse", "sourceCitations", "limitations"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "claimType": { "enum": ["biomedical_mechanism", "measurement_validity", "intervention_effect", "developmental_context", "other"] },
+    "claimText": { "type": "string", "minLength": 1 },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["description"],
+      "properties": {
+        "description": { "type": "string", "minLength": 1 },
+        "population": { "type": "string" },
+        "setting": { "type": "string" },
+        "exposureOrSignal": { "type": "string" },
+        "routeOrSpecimen": { "type": "string" },
+        "comparator": { "type": "string" },
+        "outcome": { "type": "string" },
+        "timeframe": { "type": "string" }
+      }
+    },
+    "evidenceStatus": { "enum": ["not_evaluated", "under_review", "supported_for_scope", "not_supported", "conflicting"] },
+    "permittedUse": { "enum": ["internal_only", "educational_context", "reading_boundary"] },
+    "sourceCitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["title", "url"],
+        "properties": {
+          "title": { "type": "string", "minLength": 1 },
+          "url": { "type": "string", "format": "uri" },
+          "locator": { "type": "string" },
+          "sourceType": { "enum": ["primary_study", "systematic_review", "guideline", "official_reference", "other"] },
+          "accessedAt": { "type": "string", "format": "date" }
+        }
+      }
+    },
+    "reviewedAt": { "type": "string", "format": "date" },
+    "reviewerRole": { "type": "string", "minLength": 1 },
+    "limitations": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "supersedes": { "type": "string" }
+  },
+  "allOf": [
+    {
+      "if": { "required": ["permittedUse"], "properties": { "permittedUse": { "enum": ["educational_context", "reading_boundary"] } } },
+      "then": {
+        "required": ["reviewedAt", "reviewerRole"],
+        "properties": {
+          "sourceCitations": { "minItems": 1 },
+          "evidenceStatus": { "enum": ["supported_for_scope", "not_supported", "conflicting"] }
+        }
+      }
+    }
+  ]
+}

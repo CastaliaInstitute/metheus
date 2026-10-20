@@ -38,9 +38,9 @@
         "label": { "type": "string" }
       }
     },
-    "relationType": { "enum": ["tradition_attributed", "reflective_association", "empirical_association", "physiological_mechanism"] },
+    "relationType": { "enum": ["tradition_attributed", "reflective_association", "empirical_association"] },
     "evidenceStatus": { "enum": ["not_evaluated", "under_review", "supported_for_scope", "not_supported", "conflicting"] },
-    "permittedUse": { "enum": ["optional_reflective_prompt", "research_hypothesis", "educational_context", "mechanism_explanation"] },
+    "permittedUse": { "enum": ["optional_reflective_prompt", "research_hypothesis", "educational_context"] },
     "claimText": { "type": "string", "minLength": 1 },
     "sourceCitations": {
       "type": "array",
@@ -67,6 +67,10 @@
       "then": { "properties": { "sourceCitations": { "minItems": 1 }, "permittedUse": { "const": "optional_reflective_prompt" } } }
     },
     {
+      "if": { "required": ["relationType"], "properties": { "relationType": { "const": "reflective_association" } } },
+      "then": { "properties": { "permittedUse": { "const": "optional_reflective_prompt" } } }
+    },
+    {
       "if": { "properties": { "relationType": { "const": "empirical_association" } } },
       "then": {
         "required": ["reviewedAt", "reviewerRole"],
@@ -74,17 +78,6 @@
           "sourceCitations": { "minItems": 1 },
           "evidenceStatus": { "not": { "const": "not_evaluated" } },
           "permittedUse": { "enum": ["research_hypothesis", "educational_context"] }
-        }
-      }
-    },
-    {
-      "if": { "properties": { "relationType": { "const": "physiological_mechanism" } } },
-      "then": {
-        "required": ["reviewedAt", "reviewerRole"],
-        "properties": {
-          "sourceCitations": { "minItems": 1 },
-          "evidenceStatus": { "const": "supported_for_scope" },
-          "permittedUse": { "const": "mechanism_explanation" }
         }
       }
     }

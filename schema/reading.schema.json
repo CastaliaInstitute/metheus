@@ -34,6 +34,8 @@
           "claimType": { "enum": ["observation", "estimate", "symbolic_prompt", "interpretive_question", "hypothesis", "boundary"] },
           "text": { "type": "string", "minLength": 1 },
           "sourceIds": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+          "correspondenceIds": { "type": "array", "items": { "type": "string" }, "uniqueItems": true, "minItems": 1 },
+          "evidenceClaimIds": { "type": "array", "items": { "type": "string" }, "uniqueItems": true, "minItems": 1 },
           "support": {
             "type": "object",
             "additionalProperties": false,
@@ -45,7 +47,22 @@
               "alternatives": { "type": "array", "items": { "type": "string" } }
             }
           }
-        }
+        },
+        "allOf": [
+          {
+            "if": { "required": ["correspondenceIds"] },
+            "then": { "properties": { "claimType": { "enum": ["symbolic_prompt", "interpretive_question"] } } }
+          },
+          {
+            "if": { "required": ["evidenceClaimIds"] },
+            "then": { "properties": { "claimType": { "enum": ["hypothesis", "boundary"] } } }
+          }
+        ],
+        "anyOf": [
+          { "properties": { "sourceIds": { "minItems": 1 } } },
+          { "required": ["correspondenceIds"] },
+          { "required": ["evidenceClaimIds"] }
+        ]
       }
     },
     "reflectionOptions": {

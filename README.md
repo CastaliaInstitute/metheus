@@ -43,6 +43,8 @@ See [Rhythm system model](docs/rhythm-system.md) for how circadian, sleep/wake, 
 
 See [Promethean–Epimethean bridge](docs/promethean-epimethean-bridge.md) for a source-attributed way to place gates, channels, centers, chakra traditions, and lived physiology in conversation without conflating symbolism with endocrine mechanisms. The draft [correspondence schema](schema/correspondence.schema.json) keeps these crosswalks distinct from measured observations.
 
+See the [evidence-claim model](docs/evidence-claim-model.md) and [scoped evidence-claim schema](schema/evidence-claim.schema.json) for separately sourced biomedical, measurement-validity, intervention, and developmental claims. General scientific evidence does not turn a symbolic correspondence into a biological finding.
+
 See [Epimethean behavior layer](docs/behavior-layer.md) for representing chosen or constrained eating patterns, fasting, exercise, supplements, sleep/light routines, and other practices alongside physiology without treating the model as a prescriber.
 
 See [Sensory, aroma, and flavor layer](docs/sensory-aroma-flavor-layer.md) for recording scent, taste, flavor, and route separately from measured or reported outcomes, with evidence limits on hormone-response claims.

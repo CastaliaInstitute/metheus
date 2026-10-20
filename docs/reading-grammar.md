@@ -33,7 +33,7 @@ Every sentence that makes a substantive claim belongs to one of these types:
 | `hypothesis` | A tentative, testable possibility, explicitly non-causal unless evidence supports stronger language | “One possibility to explore is that the later meals and later sleep are moving together for you.” |
 | `boundary` | What the data cannot establish | “These logs do not show why the schedule changed or whether it affects how rested you feel.” |
 
-The user-facing text need not show enum names, but the system should preserve claim type and source links internally.
+The user-facing text need not show enum names, but the system should preserve claim type and source links internally. Keep `sourceIds` for selected subject-level records, `correspondenceIds` for optional symbolic crosswalks, and `evidenceClaimIds` for general scientific or developmental evidence. The reading schema permits a correspondence only on a symbolic prompt or interpretive question, and an evidence claim only on a bounded hypothesis or boundary. Neither source type substitutes for an observation about this subject.
 
 ## Construction sequence
 
@@ -71,7 +71,7 @@ Close with one or two questions or options the person can accept, reject, or rev
 
 ## Inclusion and wording rules
 
-- Every factual claim must resolve to one or more record IDs, symbolic-source IDs, or an explicitly general knowledge source.
+- Every factual claim must resolve to one or more record IDs or to an explicitly general knowledge source; symbolic sources support only claims attributed to that symbolic tradition.
 - Confidence attaches to each claim, not to the person as a whole. Confidence describes support/coverage, not whether a person's experience is valid.
 - Prefer “you recorded,” “the device estimated,” “in this framework,” “may,” “one possibility,” and “does this fit?”
 - Do not say “your hormones caused,” “your body wants,” “you are a…,” or “this proves” without appropriate direct evidence and reviewed domain logic; in most reflective readings, avoid causal language entirely.
