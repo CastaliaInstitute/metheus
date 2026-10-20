@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://metheus.castalia.institute/schema/reading.schema.json",
   "title": "Metheus reading",
-  "description": "Draft v0.1 output contract for a sourced, revisable reflective reading. Not a clinical interpretation standard.",
+  "description": "Draft v0.2 output contract for a sourced, revisable reflective reading. Not a clinical interpretation standard.",
   "type": "object",
   "additionalProperties": false,
   "required": ["id", "subjectId", "version", "purpose", "timeWindow", "claims", "generatedAt"],
@@ -23,6 +23,12 @@
       }
     },
     "inputIds": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "referenceIds": {
+      "type": "array",
+      "description": "Selected non-personal correspondence and evidence-claim catalog entries. Subject-owned reflections belong in personal records. Catalog references are resolved separately and do not authorize access to subject records.",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
     "excludedDomains": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
     "claims": {
       "type": "array",

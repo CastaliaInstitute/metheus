@@ -31,6 +31,8 @@ See [Hormone and endocrine-signal reference](docs/hormone-reference.md) for a br
 
 See [Metheus as a systems model](docs/systems-model.md) for the intended architecture: a stable symbolic map in conversation with physiology, development, circadian and feeding rhythms, relationships, circumstances, and observations that change over time.
 
+See the [critical review](docs/critical-review.md) for the current implementation limits, unresolved architecture and validation gaps, and a prioritized path toward an end-to-end Metheus prototype.
+
 See [Metheus ontology](docs/ontology.md) for core entities and epistemic classes, with a draft [observation schema](schema/observation.schema.json) for time-bounded records.
 
 See [Metheus reading grammar](docs/reading-grammar.md) for synthesis rules and worked examples, with a draft [reading schema](schema/reading.schema.json) for sourced claims, limitations, and subject-controlled reflection options.
@@ -59,7 +61,7 @@ The [phase-aware reading example](examples/phase-aware-reading.example.json) sho
 
 See the [privacy, consent, and data stewardship model](docs/privacy-consent-model.md) and draft [consent-grant schema](schema/consent.schema.json) for scoped permissions, child participation, relationship-data boundaries, and required data lifecycle controls.
 
-The Python package includes an in-memory [`evaluate_authorization`](metheus/authorization.py) policy prototype, [`validate_reading_references`](metheus/readings.py) integrity check, and [`authorize_reading_inputs`](metheus/readings.py) preflight for selected reading analysis. They evaluate caller-supplied objects but do not authenticate users or enforce access to storage.
+The Python package includes an in-memory [`evaluate_authorization`](metheus/authorization.py) policy prototype, [`validate_reading_references`](metheus/readings.py) integrity check, and [`authorize_reading_inputs`](metheus/readings.py) preflight for selected reading analysis. The preflight resolves subject records and phase annotations separately from non-personal correspondence/evidence catalogs, and checks their use before consent evaluation. These functions evaluate caller-supplied objects but do not authenticate users or enforce access to storage.
 
 ## Site
 

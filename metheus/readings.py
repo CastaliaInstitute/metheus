@@ -17,14 +17,18 @@ def validate_reading_references(
     reading: dict[str, Any],
     records: Iterable[dict[str, Any]],
     phase_annotations: Iterable[dict[str, Any]] = (),
+    correspondences: Iterable[dict[str, Any]] = (),
+    evidence_claims: Iterable[dict[str, Any]] = (),
 ) -> dict[str, Any]:
     """Check that reading citations resolve to selected, same-subject inputs.
 
-    `records` and `phase_annotations` are the candidate input objects supplied
-    by a trusted caller. Every reading `inputId` must resolve to exactly one of
-    these objects. Claim-level source and phase references, plus phase support
-    record references, must be selected by the reading and belong to its
-    subject. The result contains only issue codes and identifiers.
+    `records` and `phase_annotations` are subject-level candidate inputs.
+    `correspondences` and `evidence_claims` are separately selected, non-personal
+    reference catalogs. Every `inputId` and `referenceId` must resolve to the
+    matching catalog; claim-level references must be selected in the reading.
+    Subject-level records must belong to the reading subject. Evidence claims
+    and correspondences must be eligible for the claim's permitted use. The
+    result contains only issue codes and identifiers.
     """
     issues: list[dict[str, str | None]] = []
     seen_issues: set[tuple[str, str | None]] = set()
@@ -54,6 +58,15 @@ def validate_reading_references(
         selected_ids = set(selected_value)
         if len(selected_ids) != len(selected_value):
             issue("duplicate_input_id")
+
+    reference_value = reading.get("referenceIds", [])
+    if not isinstance(reference_value, list) or not all(isinstance(x, str) and x for x in reference_value):
+        selected_reference_ids: set[str] = set()
+        issue("invalid_reference_ids")
+    else:
+        selected_reference_ids = set(reference_value)
+        if len(selected_reference_ids) != len(reference_value):
+            issue("duplicate_reference_id")
 
     record_index: dict[str, dict[str, Any]] = {}
     for record in records:
@@ -92,6 +105,42 @@ def validate_reading_references(
             continue
         phase_index[annotation_id] = annotation
 
+    def index_reference_catalog(
+        items: Iterable[dict[str, Any]], label: str
+    ) -> dict[str, dict[str, Any]]:
+        result: dict[str, dict[str, Any]] = {}
+        for item in items:
+            if not isinstance(item, dict):
+                issue(f"invalid_{label}")
+                continue
+            item_id = item.get("id")
+            if not isinstance(item_id, str) or not item_id:
+                issue(f"missing_{label}_id")
+                continue
+            if "subjectId" in item:
+                issue(f"subject_owned_{label}_cannot_be_catalog_reference", item_id)
+            if item_id in result:
+                issue(f"duplicate_{label}_id", item_id)
+                continue
+            result[item_id] = item
+        return result
+
+    correspondence_index = index_reference_catalog(correspondences, "correspondence")
+    evidence_index = index_reference_catalog(evidence_claims, "evidence_claim")
+
+    all_catalog_ids = (
+        set(record_index) | set(phase_index) |
+        set(correspondence_index) | set(evidence_index)
+    )
+    if len(all_catalog_ids) != len(record_index) + len(phase_index) + len(correspondence_index) + len(evidence_index):
+        for catalog in (record_index, phase_index, correspondence_index, evidence_index):
+            for item_id in catalog:
+                occurrences = sum(item_id in candidate for candidate in (
+                    record_index, phase_index, correspondence_index, evidence_index
+                ))
+                if occurrences > 1:
+                    issue("ambiguous_catalog_id", item_id)
+
     for input_id in selected_ids:
         matches = int(input_id in record_index) + int(input_id in phase_index)
         if matches == 0:
@@ -102,6 +151,17 @@ def validate_reading_references(
             issue("source_subject_mismatch", input_id)
         elif input_id in phase_index and phase_index[input_id].get("subjectId") != subject_id:
             issue("phase_annotation_subject_mismatch", input_id)
+        if input_id in correspondence_index or input_id in evidence_index:
+            issue("reference_item_in_subject_inputs", input_id)
+
+    for reference_id in selected_reference_ids:
+        matches = int(reference_id in correspondence_index) + int(reference_id in evidence_index)
+        if matches == 0:
+            issue("unresolved_reference_id", reference_id)
+        elif matches > 1:
+            issue("ambiguous_reference_id", reference_id)
+        if reference_id in record_index or reference_id in phase_index:
+            issue("subject_item_in_reference_ids", reference_id)
 
     def check_phase_basis(phase_id: str, annotation: dict[str, Any]) -> None:
         support_ids = annotation.get("basisRecordIds", [])
@@ -193,6 +253,69 @@ def validate_reading_references(
                 if not source_ids:
                     issue("phase_hypothesis_requires_subject_sources")
 
+        correspondence_ids = claim.get("correspondenceIds", [])
+        if not isinstance(correspondence_ids, list) or not all(isinstance(x, str) and x for x in correspondence_ids):
+            issue("invalid_correspondence_ids")
+            correspondence_ids = []
+        for correspondence_id in correspondence_ids:
+            if correspondence_id not in selected_reference_ids:
+                issue("correspondence_not_selected", correspondence_id)
+            correspondence = correspondence_index.get(correspondence_id)
+            if correspondence is None:
+                issue("unresolved_correspondence", correspondence_id)
+                continue
+            if correspondence.get("permittedUse") != "optional_reflective_prompt":
+                issue("correspondence_not_permitted_in_reading", correspondence_id)
+            if claim.get("claimType") not in {"symbolic_prompt", "interpretive_question"}:
+                issue("correspondence_claim_type_not_permitted", correspondence_id)
+            if correspondence.get("relationType") not in {"tradition_attributed", "reflective_association"}:
+                issue("invalid_correspondence_relation_type", correspondence_id)
+            if not isinstance(correspondence.get("claimText"), str) or not correspondence["claimText"].strip():
+                issue("correspondence_missing_claim_text", correspondence_id)
+            if not isinstance(correspondence.get("limitations"), list) or not correspondence["limitations"]:
+                issue("correspondence_missing_limitations", correspondence_id)
+            if correspondence.get("relationType") == "tradition_attributed" and not correspondence.get("sourceCitations"):
+                issue("tradition_correspondence_missing_citation", correspondence_id)
+
+        evidence_ids = claim.get("evidenceClaimIds", [])
+        if not isinstance(evidence_ids, list) or not all(isinstance(x, str) and x for x in evidence_ids):
+            issue("invalid_evidence_claim_ids")
+            evidence_ids = []
+        for evidence_id in evidence_ids:
+            if evidence_id not in selected_reference_ids:
+                issue("evidence_claim_not_selected", evidence_id)
+            evidence_claim = evidence_index.get(evidence_id)
+            if evidence_claim is None:
+                issue("unresolved_evidence_claim", evidence_id)
+                continue
+            status = evidence_claim.get("evidenceStatus")
+            permitted_use = evidence_claim.get("permittedUse")
+            if status not in {"supported_for_scope", "not_supported", "conflicting"}:
+                issue("evidence_claim_not_reviewed", evidence_id)
+            if status in {"not_supported", "conflicting"} and claim.get("claimType") != "boundary":
+                issue("unsupported_evidence_requires_boundary_claim", evidence_id)
+            if permitted_use not in {"educational_context", "reading_boundary"}:
+                issue("evidence_claim_not_permitted_in_reading", evidence_id)
+            if not isinstance(evidence_claim.get("claimText"), str) or not evidence_claim["claimText"].strip():
+                issue("evidence_claim_missing_text", evidence_id)
+            scope = evidence_claim.get("scope")
+            if not isinstance(scope, dict) or not isinstance(scope.get("description"), str) or not scope["description"].strip():
+                issue("evidence_claim_missing_scope", evidence_id)
+            if not isinstance(evidence_claim.get("sourceCitations"), list) or not evidence_claim["sourceCitations"]:
+                issue("evidence_claim_missing_citations", evidence_id)
+            if not isinstance(evidence_claim.get("limitations"), list) or not evidence_claim["limitations"]:
+                issue("evidence_claim_missing_limitations", evidence_id)
+            if not isinstance(evidence_claim.get("reviewedAt"), str) or not evidence_claim["reviewedAt"].strip():
+                issue("evidence_claim_missing_review_date", evidence_id)
+            if not isinstance(evidence_claim.get("reviewerRole"), str) or not evidence_claim["reviewerRole"].strip():
+                issue("evidence_claim_missing_reviewer_role", evidence_id)
+            if claim.get("claimType") not in {"hypothesis", "boundary"}:
+                issue("evidence_claim_type_not_permitted", evidence_id)
+            if permitted_use == "reading_boundary" and claim.get("claimType") != "boundary":
+                issue("evidence_boundary_requires_boundary_claim", evidence_id)
+            if claim.get("claimType") == "hypothesis" and not source_ids:
+                issue("evidence_hypothesis_requires_subject_sources", evidence_id)
+
     return {"valid": not issues, "issues": issues}
 
 
@@ -204,13 +327,17 @@ def authorize_reading_inputs(
     *,
     action: str = "analyze",
     now: datetime | None = None,
+    correspondences: Iterable[dict[str, Any]] = (),
+    evidence_claims: Iterable[dict[str, Any]] = (),
 ) -> dict[str, Any]:
     """Preflight selected reading inputs for reference integrity and consent.
 
     `action` may be `analyze` or `remote_processing`. Remote processing also
-    requires a separate successful `analyze` authorization. Only objects named
-    by the reading's `inputIds` are sent to the consent evaluator. This is an
-    in-memory preflight, not an authentication or storage access boundary.
+    requires a separate successful `analyze` authorization. Only personal
+    objects named by the reading's `inputIds` are sent to the consent evaluator.
+    Correspondence and evidence reference catalogs are resolved separately and
+    are not treated as subject records requiring the subject's consent. This is
+    an in-memory preflight, not an authentication or storage access boundary.
     """
     if not isinstance(action, str) or action not in {"analyze", "remote_processing"}:
         raise ValueError("action must be 'analyze' or 'remote_processing'")
@@ -219,8 +346,16 @@ def authorize_reading_inputs(
 
     record_list = list(records)
     phase_list = list(phase_annotations)
+    correspondence_list = list(correspondences)
+    evidence_list = list(evidence_claims)
     grant_list = list(grants)
-    reference_check = validate_reading_references(reading, record_list, phase_list)
+    reference_check = validate_reading_references(
+        reading,
+        record_list,
+        phase_list,
+        correspondence_list,
+        evidence_list,
+    )
     if not reference_check["valid"]:
         return {
             "authorized": False,

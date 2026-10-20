@@ -48,4 +48,4 @@ No evidence-claim record should recommend a behavior, supplement, hormone treatm
 
 ## Current boundary
 
-The repository contains broad reference documents and draft schemas, but it does not yet contain a reviewed evidence-claim library, qualified review workflow, citation-quality scoring process, or runtime ID/permission resolver. Until those exist, the new schema is an architectural contract, not an evidence-backed feature.
+The repository contains broad reference documents and draft schemas, but it does not yet contain a reviewed evidence-claim library, qualified review workflow, or citation-quality process. The in-memory [`validate_reading_references`](../metheus/readings.py) preflight can resolve caller-supplied evidence-claim IDs and reject claims that are unevaluated, under review, internal-only, or incompatible with the reading claim type. It cannot authenticate a catalog or reviewer, assess citation quality, or enforce database access. Until a governed catalog and those controls exist, the schema and resolver are architectural safeguards, not an evidence-backed feature.
