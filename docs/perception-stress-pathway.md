@@ -82,7 +82,7 @@ The dotted paths are optional hypotheses, not prerequisites or diagnoses. “Hat
 
 ## Relation vocabulary for future records
 
-The current observation contract can hold a self-reported experience as a generic observation. The draft [experience-pathway schema](../schema/experience-pathway.schema.json) now provides a subject-controlled graph over separately sourced records, and a synthetic [example](../examples/experience-pathway-synthetic.example.json) shows branching, bypass, co-occurrence, person-reported links, and reappraisal. It is a representation contract only; no runtime builder or analyzer exists. Its relation vocabulary distinguishes:
+The current observation contract can hold a self-reported experience as a generic observation. The draft [experience-pathway schema](../schema/experience-pathway.schema.json) provides a subject-controlled graph over separately sourced records and separately typed general model constructs. The synthetic [example](../examples/experience-pathway-synthetic.example.json) shows branching, bypass, co-occurrence, person-reported links, reappraisal, and a disconnected literature-reference branch linking model constructs for social-evaluative appraisal and co-rumination to the HPA axis. That branch cites candidate internal evidence claims and is deliberately disconnected from the synthetic person's reported episode: a cited mechanism is not evidence that the mechanism occurred in them. It is a representation contract only; no runtime builder or analyzer exists. Its relation vocabulary distinguishes:
 
 - `temporal_order`: one record happened before another;
 - `co_occurrence`: records overlap a declared window;
