@@ -2,23 +2,31 @@
 
 Metheus is a developing framework for readings that bring symbolic design into conversation with lived, changing experience.
 
-The Promethean layer begins with a design map such as Human Design. The Epimethean layer adds what unfolds through time: personal rhythms, life transitions, and voluntarily shared observations such as temperature, heart-rate variability (HRV), and sleep.
+## The two layers
+
+- **Promethean — the design map.** A symbolic starting point such as Human Design: a birth-based lens for noticing patterns and asking questions.
+- **Epimethean — the lived story.** What unfolds over time: personal rhythms, changing bodies, relationships, life transitions, and voluntarily shared observations.
+
+The distinction matters. Symbolic interpretation, measured signals, and a person's own report are different kinds of information. A reading can place them in conversation while keeping their sources visible and leaving meaning with the person.
+
+Possible Epimethean context includes menstrual cycles when relevant, conception, pregnancy, birth, postpartum life, menopause, sleep, temperature, heart-rate variability (HRV), and personal reflections. No context or tracking is assumed or required.
 
 ## Principles
 
-- Keep symbolic interpretations, measured observations, and user-reported context distinct and clearly labeled.
-- Describe patterns relative to an individual's own history; avoid turning correlations into causes or fixed traits.
-- Make intimate data optional, local-first where practical, and under the person's control.
+- Describe patterns relative to the person's own history; do not turn correlation into cause or a fixed trait.
+- Make intimate data optional, minimized, protected, and under the person's control.
 - Treat cycle timing and wearable signals as estimates and reflective context, not diagnosis or medical advice.
-- Include diverse bodies and life paths: cycles may be absent, irregular, changing, or not relevant; menopause, pregnancy, postpartum, conception, and birth are optional contexts.
+- Include diverse bodies and life paths: cycles may be absent, irregular, changing, or not relevant.
+- Let people decide what fits and what, if anything, they want to do with a reading.
 
 ## Project status
 
-This repository is an initial concept and static-site scaffold. No wearable integrations, personal data collection, or clinical claims are implemented.
+This site is an early concept. Wearable integrations and personal data collection are not implemented.
 
 ## Site
 
-Intended domain: https://metheus.castalia.institute/
+- GitHub Pages: https://castaliainstitute.github.io/metheus/
+- Intended custom domain: https://metheus.castalia.institute/
 
 ## Local preview
 
