@@ -1,0 +1,41 @@
+{
+  "id": "synthetic-serum-tsh-result",
+  "subjectId": "synthetic-subject",
+  "recordType": "observation",
+  "schemaVersion": "0.2",
+  "eventType": "hormone_result",
+  "epistemicClass": "measured",
+  "time": {
+    "observedAt": "2026-10-20T08:30:00-06:00",
+    "timeZone": "America/Denver",
+    "precision": "exact",
+    "scale": "instant"
+  },
+  "source": {
+    "kind": "laboratory",
+    "name": "Synthetic laboratory report",
+    "method": "Synthetic example; assay platform and protocol intentionally unspecified."
+  },
+  "domain": "hormone_assay",
+  "label": "Synthetic TSH assay result",
+  "value": {
+    "number": 2.1,
+    "unit": "mIU/L"
+  },
+  "measurementDetails": {
+    "analyteOrSignal": "Thyroid-stimulating hormone (TSH; thyrotropin)",
+    "specimen": "serum",
+    "deviceOrAssay": "Synthetic laboratory assay; method unspecified",
+    "collectionConditions": "Synthetic fixture; no clinical collection context supplied."
+  },
+  "uncertainty": {
+    "level": "unknown",
+    "notes": "Synthetic fixture only. No laboratory reference interval or clinical interpretation is represented."
+  },
+  "privacy": {
+    "sensitivity": "highly_sensitive",
+    "subjectControlled": true,
+    "sharing": "private"
+  },
+  "notes": "Synthetic contract example; not a real result or medical guidance."
+}

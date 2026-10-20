@@ -53,6 +53,7 @@ EXAMPLE_SCHEMAS = {
     "rhythm-subject-index.example.json": "subject-index.schema.json",
     "rhythm-summary-consent.example.json": "consent.schema.json",
     "rhythm-summary-reading.example.json": "reading.schema.json",
+    "serum-tsh-laboratory.example.json": "observation.schema.json",
     "subject-index.example.json": "subject-index.schema.json",
     "symbolic-map-reading.example.json": "reading.schema.json",
     "symbolic-map-reflection-consent.example.json": "consent.schema.json",

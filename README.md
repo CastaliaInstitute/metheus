@@ -47,7 +47,7 @@ See [Metheus reading grammar](docs/reading-grammar.md) for synthesis rules and w
 
 See [First executable rhythm summaries](docs/rhythm-analysis.md) for deterministic descriptions of logged sleep, meal/feeding timing, meal timing relative to wake, and gaps between reported bleeding-onset dates. These now have a dedicated [derived rhythm-summary schema](schema/rhythm-summary.schema.json), subject-index references, source-record dependencies, and a fully synthetic [consented sleep-summary reading example](examples/rhythm-summary-reading.example.json).
 
-See [Measurement landscape](docs/measurement-landscape.md) for a modality-by-modality account of what Metheus could record, what is only an estimate, and the limits of wearables, urine tests, laboratory results, self-reports, and developmental records.
+See [Measurement landscape](docs/measurement-landscape.md) for a modality-by-modality account of what Metheus could record, what is only an estimate, and the limits of wearables, urine tests, laboratory results, self-reports, and developmental records. The [synthetic serum TSH example](examples/serum-tsh-laboratory.example.json) shows the direct-assay record shape; its fictional value has no reference interval or interpretation.
 
 See [Rhythm system model](docs/rhythm-system.md) for how circadian, sleep/wake, eating/feeding, activity, reproductive, developmental, and social rhythms may be represented and compared over time.
 
