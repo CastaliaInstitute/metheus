@@ -88,10 +88,18 @@
                   <button type="button" class="map-mode-button" id="map-mode-correspondence" aria-pressed="false">Gate links</button>
                   <button type="button" class="map-mode-button" id="map-mode-endocrine" aria-pressed="false">Endocrine network</button>
                 </div>
-                <p class="map-boundary" id="map-boundary">The endocrine network is a separate candidate biology graph. It does not map hormones or glands to Human Design centers, gates, or channels.</p>
+                <p class="map-boundary" id="map-boundary">Gate links are source-attributed teachings pinned to the generic BodyGraph. Explicit hormone, hormone/process, and tissue links can be filtered separately; they do not indicate measured or gate-caused physiology.</p>
                 <div class="gate-correspondence-tools" id="gate-correspondence-tools" hidden>
                   <label for="gate-correspondence-filter">Find a gate link</label>
                   <input id="gate-correspondence-filter" type="search" placeholder="Gate, organ, hormone, or source" autocomplete="off" />
+                  <label for="gate-correspondence-kind">Overlay layer</label>
+                  <select id="gate-correspondence-kind">
+                    <option value="all">All source correspondences</option>
+                    <option value="hormone">Explicit hormone attributions</option>
+                    <option value="process">Hormone or physiological-process attributions</option>
+                    <option value="tissue">Endocrine-related organ/tissue attributions</option>
+                  </select>
+                  <p class="gate-correspondence-legend"><span class="legend-hormone">●</span> explicit hormone <span class="legend-process">●</span> hormone/process <span class="legend-tissue">●</span> tissue</p>
                   <p id="gate-correspondence-count" role="status" aria-live="polite"></p>
                 </div>
                 <div class="gate-correspondence-list" id="gate-correspondence-list" aria-label="Sourced gate correspondences" hidden></div>

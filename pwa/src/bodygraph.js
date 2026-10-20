@@ -127,9 +127,14 @@ export async function mountBodygraph() {
     clearCorrespondences();
     const list = $('#gate-correspondence-list');
     const query = $('#gate-correspondence-filter').value.trim().toLocaleLowerCase();
+    const kind = $('#gate-correspondence-kind').value;
     const visibleItems = gateCorrespondences.filter((item) => {
       const searchable = [item.sourceFeature.label, item.sourceFeature.id, item.targetConcept.label, item.sourceSystem.name, item.sourceSystem.lineage, item.claimText].join(' ').toLocaleLowerCase();
-      return !query || searchable.includes(query);
+      const kindMatches = kind === 'all'
+        || (kind === 'hormone' && item.targetConcept.kind === 'hormone')
+        || (kind === 'process' && ['hormone', 'physiological_process'].includes(item.targetConcept.kind))
+        || (kind === 'tissue' && ['organ', 'tissue'].includes(item.targetConcept.kind));
+      return kindMatches && (!query || searchable.includes(query));
     });
     visibleGateCorrespondences = visibleItems;
     list.replaceChildren();
@@ -139,12 +144,16 @@ export async function mountBodygraph() {
       group.push(item);
       byGate.set(item.sourceFeature.id, group);
     }
-    $('#gate-correspondence-count').textContent = `Showing ${visibleItems.length} of ${gateCorrespondences.length} source-attributed entries across ${byGate.size} gates.`;
+    const layerNames = { all: 'all source correspondence types', hormone: 'explicit hormone attributions', process: 'hormone/process attributions', tissue: 'organ/tissue attributions' };
+    $('#gate-correspondence-count').textContent = `Showing ${visibleItems.length} ${layerNames[kind]} across ${byGate.size} gates. These are source teachings, not measured gate effects.`;
     for (const [gateId, items] of byGate) {
       const target = targets.find((entry) => entry.kind === 'gate' && entry.id === gateId);
       if (!target) continue;
       const [x, y] = toPlane(target.point);
-      const marker = new THREE.Mesh(new THREE.RingGeometry(6, 9, 28), new THREE.MeshBasicMaterial({ color: 0x9a5eac, side: THREE.DoubleSide, depthTest: false }));
+      const hasHormone = items.some((item) => item.targetConcept.kind === 'hormone');
+      const hasProcess = items.some((item) => item.targetConcept.kind === 'physiological_process');
+      const markerColor = hasHormone ? 0x36b7ad : hasProcess ? 0xd7a64b : 0x9a5eac;
+      const marker = new THREE.Mesh(new THREE.RingGeometry(6, 9, 28), new THREE.MeshBasicMaterial({ color: markerColor, side: THREE.DoubleSide, depthTest: false }));
       marker.position.set(x, y, 2);
       marker.userData.gateId = gateId;
       correspondenceGroup.add(marker);
@@ -155,7 +164,8 @@ export async function mountBodygraph() {
         const context = labelCanvas.getContext('2d');
         context.font = 'bold 23px system-ui, sans-serif';
         context.fillStyle = '#51335d';
-        const targetLabel = items.length > 1 ? `${items.length} sourced links` : items[0].targetConcept.label;
+        const typeLabel = hasHormone ? 'Hormone' : hasProcess ? 'Hormone process' : 'Tissue';
+        const targetLabel = items.length > 1 ? `${typeLabel} · ${items.length} sourced links` : items[0].targetConcept.label;
         const shortLabel = targetLabel.length > 34 ? `${targetLabel.slice(0, 31)}…` : targetLabel;
         context.fillText(`Gate ${gateId} · ${shortLabel}`, 8, 42);
         const texture = new THREE.CanvasTexture(labelCanvas);
@@ -171,7 +181,8 @@ export async function mountBodygraph() {
         const button = document.createElement('button');
         button.type = 'button';
         button.dataset.correspondenceId = item.id;
-        button.textContent = `${item.sourceFeature.label} → ${item.targetConcept.label} · ${item.sourceSystem.lineage || item.sourceSystem.name} · source-attributed; select for details`;
+        const kindLabel = item.targetConcept.kind === 'hormone' ? 'hormone attribution' : item.targetConcept.kind === 'physiological_process' ? 'process attribution' : 'tissue attribution';
+        button.textContent = `${item.sourceFeature.label} → ${item.targetConcept.label} · ${kindLabel} · ${item.sourceSystem.lineage || item.sourceSystem.name} · select for source and limits`;
         list.append(button);
       }
     }
@@ -440,6 +451,7 @@ export async function mountBodygraph() {
     if (button) displayEndocrineEntity(button.dataset.endocrineEntityId);
   });
   $('#gate-correspondence-filter').addEventListener('input', renderCorrespondences);
+  $('#gate-correspondence-kind').addEventListener('change', renderCorrespondences);
   $('#gate-correspondence-list').addEventListener('click', (event) => {
     const button = event.target.closest('[data-correspondence-id]');
     if (!button) return;
