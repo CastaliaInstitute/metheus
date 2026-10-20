@@ -214,6 +214,33 @@ messageForm.addEventListener('submit', async (event) => {
   }
 });
 
+document.querySelectorAll('[data-ai-command]').forEach((button) => {
+  button.addEventListener('click', async () => {
+    if (!session.client || !session.roomId || !session.encrypted) return;
+    const command = button.dataset.aiCommand;
+    button.disabled = true;
+    $('#ai-guide-status').textContent = `Sending ${command} to the shared room…`;
+    try {
+      await session.client.sendTextMessage(session.roomId, command);
+      $('#ai-guide-status').textContent = `${command} sent. The bot’s reply, if available, will appear in the room timeline.`;
+    } catch (error) {
+      $('#ai-guide-status').textContent = `Command not sent · ${getPlainBody(error)}`;
+    } finally {
+      button.disabled = false;
+    }
+  });
+});
+
+$('#ai-ask-start').addEventListener('click', () => {
+  if (!session.client || !session.roomId || !session.encrypted) return;
+  messageInput.value = '!metheus ask ';
+  messageInput.focus();
+  messageInput.setSelectionRange(messageInput.value.length, messageInput.value.length);
+  messageInput.style.height = 'auto';
+  messageInput.style.height = `${Math.min(messageInput.scrollHeight, 160)}px`;
+  $('#ai-guide-status').textContent = 'Add your prompt after “!metheus ask”. Only this explicit command and recent Metheus exchange are sent to the configured AI provider.';
+});
+
 messageInput.addEventListener('input', () => {
   messageInput.style.height = 'auto';
   messageInput.style.height = `${Math.min(messageInput.scrollHeight, 160)}px`;

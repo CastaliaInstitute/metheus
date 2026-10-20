@@ -61,6 +61,18 @@
                     <p>Share a question, a small observation, or a moment you want to understand together.</p>
                   </div>
                 </div>
+                <details class="ai-guide" id="ai-guide">
+                  <summary><span><span class="eyebrow">OPTIONAL · SHARED ROOM AI</span><strong>Metheus AI</strong></span><span class="ai-guide-mark" aria-hidden="true">＋</span></summary>
+                  <p class="ai-guide-copy">The bot processes only explicit <code>!metheus ask</code> messages, and only after every currently joined person has read its disclosure and opted in. Ordinary room chat is not sent to the model. The commands below are posted to everyone in this room.</p>
+                  <div class="ai-actions">
+                    <button type="button" class="ai-action" data-ai-command="!metheus ai-info">Request AI disclosure</button>
+                    <button type="button" class="ai-action" data-ai-command="!metheus ai-opt-in">Opt in after reading</button>
+                    <button type="button" class="ai-action ai-action-muted" data-ai-command="!metheus ai-opt-out">Opt out and clear bot context</button>
+                    <button type="button" class="ai-action ai-action-ask" id="ai-ask-start">Ask Metheus AI</button>
+                  </div>
+                  <p class="ai-guide-footnote">Opting out clears the bot’s short in-memory context. A request already sent to the AI provider cannot be recalled. Avoid sensitive health, reproductive, child, or intimate details in this prototype.</p>
+                  <p class="ai-guide-status" id="ai-guide-status" role="status" aria-live="polite"></p>
+                </details>
                 <form id="message-form" class="composer">
                   <label class="sr-only" for="message-input">Message your room</label>
                   <textarea id="message-input" rows="1" placeholder="Write a message to your room…" maxlength="4000" required></textarea>
