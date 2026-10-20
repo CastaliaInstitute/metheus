@@ -8,6 +8,7 @@
   "evocativeName": "The Opening Tide",
   "description": "A person-reported bleeding onset; no phase inference.",
   "window": {
+    "kind": "point",
     "start": "2026-04-03"
   },
   "basis": "reported",

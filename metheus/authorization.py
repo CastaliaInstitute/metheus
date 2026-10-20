@@ -95,23 +95,46 @@ def _record_dates(record: dict[str, Any]) -> tuple[date, date] | None:
         window = record.get("window")
         if not isinstance(window, dict):
             return None
+        kind = window.get("kind")
         zone_name = window.get("timeZone")
         start_date = _local_date(window.get("start"), zone_name)
-        end_date = _local_date(window.get("end", window.get("start")), zone_name)
-        if start_date is None or end_date is None or end_date < start_date:
+        if start_date is None:
+            return None
+        if kind == "point":
+            if "end" in window:
+                return None
+            return start_date, start_date
+        if kind == "ongoing":
+            # An open-ended life-stage context cannot be covered by a finite
+            # date scope. A specifically record-scoped grant can still match.
+            if "end" in window:
+                return None
+            return None
+        if kind != "interval" or "end" not in window:
+            return None
+        end_date = _local_date(window.get("end"), zone_name)
+        if end_date is None or end_date < start_date:
             return None
         return start_date, end_date
 
     time_data = record.get("time")
     if isinstance(time_data, dict):
         if time_data.get("precision") == "date_only":
+            if any(key in time_data for key in ("observedAt", "start", "end")):
+                return None
             observed = _local_date(time_data.get("date"))
             return (observed, observed) if observed is not None else None
         zone_name = time_data.get("timeZone")
-        start_value = time_data.get("observedAt") or time_data.get("start")
-        if start_value is not None:
-            start_date = _local_date(start_value, zone_name)
-            end_date = _local_date(time_data.get("end", start_value), zone_name)
+        if time_data.get("observedAt") is not None:
+            if "start" in time_data or "end" in time_data:
+                return None
+            observed = _local_date(time_data.get("observedAt"), zone_name)
+            return (observed, observed) if observed is not None else None
+        if time_data.get("start") is not None:
+            if "end" not in time_data:
+                return None
+            start_date = _local_date(time_data.get("start"), zone_name)
+            end_date = _local_date(time_data.get("end"), zone_name)
             if start_date is None or end_date is None or end_date < start_date:
                 return None
             return start_date, end_date

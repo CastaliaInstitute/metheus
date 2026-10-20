@@ -8,6 +8,7 @@
   "evocativeName": "The Passing Spark",
   "description": "A symbolic prompt for a calculated transit interval.",
   "window": {
+    "kind": "interval",
     "start": "2026-04-03T00:00:00Z",
     "end": "2026-04-10T00:00:00Z"
   },

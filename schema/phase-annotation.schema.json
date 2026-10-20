@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://metheus.castalia.institute/schema/phase-annotation.schema.json",
   "title": "Metheus phase annotation",
-  "description": "An optional evocative label attached to a time-bounded symbolic or lived phase. It does not replace canonical terminology, source provenance, or uncertainty.",
+  "description": "An optional evocative label attached to a point, interval, or ongoing symbolic or lived phase context. It does not replace canonical terminology, source provenance, or uncertainty.",
   "type": "object",
   "additionalProperties": false,
   "required": ["id", "subjectId", "recordType", "layer", "phaseSystem", "canonicalPhase", "window", "basis", "interpretation", "basisRecordIds", "method", "limitations"],
@@ -18,12 +18,27 @@
     "window": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["start"],
+      "required": ["kind", "start"],
       "properties": {
+        "kind": { "enum": ["point", "interval", "ongoing"] },
         "start": { "type": "string", "anyOf": [{ "format": "date" }, { "format": "date-time" }] },
         "end": { "type": "string", "anyOf": [{ "format": "date" }, { "format": "date-time" }] },
         "timeZone": { "type": "string", "description": "IANA time zone when the window is expressed in local civil time." }
-      }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "point" } } },
+          "then": { "not": { "required": ["end"] } }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "interval" } } },
+          "then": { "required": ["end"] }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "ongoing" } } },
+          "then": { "not": { "required": ["end"] } }
+        }
+      ]
     },
     "basis": { "enum": ["reported", "observed", "derived", "clinically_assessed"] },
     "interpretation": { "enum": ["descriptive", "symbolic", "reflective"] },

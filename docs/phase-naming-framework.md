@@ -1,6 +1,6 @@
 # Promethean and Epimethean phase names
 
-**Status:** design proposal, version 0.1. Evocative labels are optional interpretive language. Canonical phase names, dates, source, method, and uncertainty remain visible wherever a label appears.
+**Status:** design proposal, version 0.1. Evocative labels are optional interpretive language. Canonical phase names, window kind (point, interval, or ongoing), dates, source, method, and uncertainty remain visible wherever a label appears.
 
 ## Purpose
 
@@ -61,7 +61,7 @@ A phase annotation is separate from the observation records that support it. It 
   "canonicalPhase": "bleeding_reported",
   "evocativeName": "The Opening Tide",
   "description": "A bleeding window entered by the person.",
-  "window": { "start": "2026-04-03", "end": "2026-04-06" },
+  "window": { "kind": "interval", "start": "2026-04-03", "end": "2026-04-06" },
   "basis": "reported",
   "interpretation": "descriptive",
   "basisRecordIds": ["observation-example"],
