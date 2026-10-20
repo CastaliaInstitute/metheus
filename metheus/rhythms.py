@@ -16,6 +16,7 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 
 METHOD_VERSION = "metheus-rhythm-summary/0.1.0"
+FEEDING_METHOD_VERSION = "metheus-feeding-summary/0.2.0"
 WAKE_RELATIVE_METHOD_VERSION = "metheus-wake-relative-meal/0.1.0"
 BLEEDING_ONSET_METHOD_VERSION = "metheus-bleeding-onset-gap/0.1.0"
 
@@ -265,18 +266,19 @@ def summarize_main_sleep(
 
 
 def summarize_feeding_events(
-    records: Iterable[dict[str, Any]], *, subject_id: str, start_date: str, end_date: str, include_infant_feeds: bool = False
+    records: Iterable[dict[str, Any]], *, subject_id: str, start_date: str, end_date: str, event_kind: str = "meal"
 ) -> dict[str, Any]:
-    """Summarize logged meal timing, or caregiver-reported infant feeds.
+    """Summarize either logged meals or caregiver-reported feeding events.
 
-    By default, only eventType=meal is included. Infant feeding records require
-    explicit opt-in and eventType=feeding. The result never estimates calories,
-    fasting duration, adequacy, hunger, or nutritional status.
+    The event types are intentionally summarized separately; a meal statistic
+    and infant-feed statistic are not combined. The result never estimates
+    calories, fasting duration, adequacy, hunger, or nutritional status.
     """
     if not subject_id:
         raise ValueError("subject_id is required to prevent cross-subject aggregation")
+    if event_kind not in {"meal", "feeding"}:
+        raise ValueError("event_kind must be 'meal' or 'feeding'")
     first_day, last_day, window_days = _window(start_date, end_date)
-    allowed = {"meal", "feeding"} if include_infant_feeds else {"meal"}
     events_by_day: dict[date, list[tuple[int, str]]] = {}
     clock_contexts: set[str] = set()
 
@@ -286,7 +288,7 @@ def summarize_feeding_events(
         if record.get("recordType") not in {"observation", "event"}:
             continue
         event_type = record.get("eventType")
-        if event_type not in allowed:
+        if event_type != event_kind:
             continue
         if event_type == "meal" and record.get("domain") not in {"feeding", "nutrition"}:
             continue
@@ -305,11 +307,7 @@ def summarize_feeding_events(
         clock_contexts.add(_clock_context(record, observed_at))
         events_by_day.setdefault(local_day, []).append((_clock_minute(observed_at), record.get("id", "")))
 
-    event_type_label = (
-        "logged meal and caregiver-reported feeding events"
-        if include_infant_feeds
-        else "logged meal events"
-    )
+    event_type_label = "caregiver-reported feeding events" if event_kind == "feeding" else "logged meal events"
     event_count = sum(len(events) for events in events_by_day.values())
     recorded_spans: list[float] = []
     clock_comparable = len(clock_contexts) <= 1
@@ -327,13 +325,13 @@ def summarize_feeding_events(
     deviations = [float(_clock_distance(item, center)) for item in time_values] if center is not None else []
     source_ids = [record_id for events in events_by_day.values() for _, record_id in events if record_id]
     return {
-        "summaryId": _summary_id("feeding", first_day, last_day),
+        "summaryId": f"{event_kind}:{FEEDING_METHOD_VERSION}:{first_day.isoformat()}:{last_day.isoformat()}",
         "subjectId": subject_id,
         "summaryType": "derived_rhythm_summary",
         "epistemicClass": "derived",
-        "domain": "feeding" if include_infant_feeds else "nutrition",
+        "domain": "feeding" if event_kind == "feeding" else "nutrition",
         "label": event_type_label,
-        "methodVersion": METHOD_VERSION,
+        "methodVersion": FEEDING_METHOD_VERSION,
         "window": {"startDate": first_day.isoformat(), "endDate": last_day.isoformat(), "inclusiveDays": window_days},
         "inputRecordIds": sorted(set(source_ids)),
         "nEvents": event_count,
@@ -349,7 +347,7 @@ def summarize_feeding_events(
             "Summarizes logged events only; it does not establish that all meals or feeds were recorded.",
             "Within-day span is not a fasting interval and is not an eating-window recommendation.",
             "Does not infer appetite, calories, feeding adequacy, nutritional status, or hormone levels.",
-            "Infant feed mode is caregiver-report context only and is not a feeding assessment.",
+            "Feeding mode includes caregiver reports only and is not an intake or feeding assessment.",
             "Day coverage means days with at least one matching log; it is not sensor or behavioral completeness.",
         ],
     }

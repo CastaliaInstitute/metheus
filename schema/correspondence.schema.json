@@ -68,11 +68,25 @@
     },
     {
       "if": { "properties": { "relationType": { "const": "empirical_association" } } },
-      "then": { "properties": { "permittedUse": { "enum": ["research_hypothesis", "educational_context"] } } }
+      "then": {
+        "required": ["reviewedAt", "reviewerRole"],
+        "properties": {
+          "sourceCitations": { "minItems": 1 },
+          "evidenceStatus": { "not": { "const": "not_evaluated" } },
+          "permittedUse": { "enum": ["research_hypothesis", "educational_context"] }
+        }
+      }
     },
     {
       "if": { "properties": { "relationType": { "const": "physiological_mechanism" } } },
-      "then": { "properties": { "evidenceStatus": { "const": "supported_for_scope" }, "permittedUse": { "const": "mechanism_explanation" } } }
+      "then": {
+        "required": ["reviewedAt", "reviewerRole"],
+        "properties": {
+          "sourceCitations": { "minItems": 1 },
+          "evidenceStatus": { "const": "supported_for_scope" },
+          "permittedUse": { "const": "mechanism_explanation" }
+        }
+      }
     }
   ]
 }

@@ -19,6 +19,8 @@ Every cross-reference should declare which lane it occupies:
 | **Empirical association** | A testable statistical relation between prespecified symbolic features and specified, appropriately collected Epimethean variables | A preregistered study asks whether a chart feature is associated with a repeated, validated measure after relevant covariates | Causation, clinical validity, or individual prediction without further evidence |
 | **Physiological mechanism** | An established mechanism supported by biomedical evidence and precisely scoped | A named assay measures a named hormone in a specified specimen at a specified time | A channel, gate, or chakra is the mechanism or assay |
 
+Empirical-association and physiological-mechanism records are not publishable merely because someone assigns an evidence status. They require at least one directly relevant citation, a dated review, and a named reviewer role. Mechanism claims must be scoped to the population, tissue/process, exposure, and outcome supported by that evidence. The correspondence schema encodes these minimum metadata requirements; it does not establish that a citation is high quality or that a reviewer is qualified.
+
 Store these as different relation types. Never silently upgrade a lineage statement or reflective pairing to empirical association, or an association to mechanism.
 
 ## A cautious center-level conversation map

@@ -74,8 +74,16 @@
       "then": { "properties": { "permittedActions": { "maxItems": 0 } } }
     },
     {
+      "if": { "required": ["status"], "properties": { "status": { "const": "pending" } } },
+      "then": { "properties": { "permittedActions": { "maxItems": 0 } } }
+    },
+    {
       "if": { "required": ["status"], "properties": { "status": { "const": "withdrawn" } } },
-      "then": { "required": ["withdrawnAt"] }
+      "then": { "required": ["withdrawnAt"], "properties": { "permittedActions": { "maxItems": 0 } } }
+    },
+    {
+      "if": { "required": ["status"], "properties": { "status": { "const": "expired" } } },
+      "then": { "required": ["expiresAt"], "properties": { "permittedActions": { "maxItems": 0 } } }
     },
     {
       "if": { "required": ["permittedActions"], "properties": { "permittedActions": { "contains": { "const": "share" } } } },

@@ -18,9 +18,9 @@ This is a summary of logged main-sleep intervals. It is **not** circadian-phase 
 
 ### Meals and caregiver-reported feeds
 
-`summarize_feeding_events(records, subject_id=..., start_date=..., end_date=...)` summarizes explicitly logged `meal` events. It reports event counts, days with events, median events per observed day, typical clock time, variation in event clock time, and median within-day span for days with at least two events.
+`summarize_feeding_events(records, subject_id=..., start_date=..., end_date=..., event_kind="meal")` summarizes one event class at a time. `event_kind="meal"` summarizes explicitly logged meal events; `event_kind="feeding"` summarizes caregiver-reported feeding events. The schema does not establish age or clinical feeding context, so the output must not label a record “infant” unless that context is separately and explicitly supplied. It reports event counts, days with events, median events per observed day, typical clock time, variation in event clock time, and median within-day span for days with at least two events.
 
-Set `include_infant_feeds=True` only when a caregiver explicitly requests a combined summary. This additionally includes `feeding` events only when their epistemic class is `caregiver_reported`. These are feed logs, not a measure of infant intake or adequacy.
+Meal and caregiver-reported feeding events are never combined in one statistic. Feeding summaries include only `feeding` events whose epistemic class is `caregiver_reported`. These are event logs, not a measure of intake or adequacy.
 
 The reported within-day span is **not** an inferred fasting duration or a recommended eating window. Missing meal/feed records do not show that no meal/feed occurred. The functions do not calculate calories, infer appetite, assess nutrition, or infer hormone levels.
 

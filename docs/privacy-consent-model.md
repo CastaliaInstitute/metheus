@@ -74,6 +74,8 @@ A future `consentGrant` record should include:
 
 A consent grant must not be assumed from device connection, chart calculation, prior use, a caregiver's relationship, or a general service account. A permission to analyze one reading does not silently authorize future readings or sharing.
 
+In the draft schema, `permittedActions` means currently authorized actions, not requested actions: it must be empty while permission is pending, denied, withdrawn, or expired. An expired grant must carry its expiry time. These structural checks do not enforce authorization at runtime; a future service must check the subject, domain, purpose, time window, recipient, and requested action against active grants before every collection, analysis, export, or remote-processing operation.
+
 The [synthetic consent example](../examples/consent-grant.example.json) permits local collection and analysis for learning support and personal reflection, while granting no sharing or remote processing. It is an illustration of the data shape, not an active permission or deployed consent flow.
 
 ## Reading and inference boundaries

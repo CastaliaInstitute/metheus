@@ -115,4 +115,4 @@ non-claims and user feedback
 5. Consider biological phase estimates only after method review and user testing. They are not required for a useful system.
 6. Review developmental and nutrition-related behavior with relevant domain experts before making product claims or recommendations.
 
-The current executable prototype summarizes explicitly logged main sleep and meals/feeds, compares adult meal events with explicit wake anchors, and describes calendar gaps between reported bleeding-onset dates. It does not infer menstrual phase, ovulation, hormone dynamics, or health status. The other rhythm stages remain design work, not implemented functionality.
+The current executable prototype summarizes explicitly logged main sleep, meals and caregiver-reported feeding events in separate outputs, compares meal events with explicit wake anchors, and describes calendar gaps between reported bleeding-onset dates. It does not infer menstrual phase, ovulation, hormone dynamics, or health status. The other rhythm stages remain design work, not implemented functionality.
