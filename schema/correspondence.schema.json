@@ -25,7 +25,8 @@
       "properties": {
         "kind": { "enum": ["center", "gate", "channel", "chakra", "chart_feature", "other"] },
         "id": { "type": "string", "minLength": 1 },
-        "label": { "type": "string" }
+        "label": { "type": "string" },
+        "line": { "type": "integer", "minimum": 1, "maximum": 6 }
       }
     },
     "targetConcept": {

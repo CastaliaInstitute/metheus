@@ -23,7 +23,7 @@
     {
       "id": "gate-41-adrenaline-source-attribution",
       "sourceSystem": { "name": "Human Design", "lineage": "Ra Uru Hu teaching as reproduced by HD Navigator", "version": "Gate 41.1 article accessed 2026-10-20" },
-      "sourceFeature": { "kind": "gate", "id": "41", "label": "Gate 41 · Decrease / Contraction" },
+      "sourceFeature": { "kind": "gate", "id": "41", "line": 1, "label": "Gate 41.1 · Decrease / Contraction" },
       "targetConcept": { "kind": "hormone", "id": "adrenaline", "label": "Adrenaline (epinephrine)" },
       "relationType": "tradition_attributed",
       "evidenceStatus": "not_evaluated",

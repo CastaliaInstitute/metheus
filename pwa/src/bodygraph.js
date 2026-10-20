@@ -102,7 +102,7 @@ export async function mountBodygraph() {
   const correspondenceGroup = new THREE.Group();
   correspondenceGroup.visible = false;
   correspondenceGroup.position.z = 2.8;
-  scene.add(correspondenceGroup);
+  plane.add(correspondenceGroup);
   let endocrineRecords = [];
   let gateCorrespondences = [];
   const endocrineDomainLabels = {
