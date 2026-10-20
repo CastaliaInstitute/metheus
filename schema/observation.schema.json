@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metheus.castalia.institute/schema/observation.schema.json",
+  "title": "Metheus observation or event record",
+  "description": "A single time-bounded record that preserves epistemic class, source, and uncertainty. Draft v0.1; not a clinical data standard.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "subjectId", "recordType", "epistemicClass", "time", "source", "domain", "label"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "subjectId": { "type": "string", "minLength": 1, "description": "Pseudonymous local subject reference; avoid direct identifiers." },
+    "recordType": { "enum": ["observation", "event", "estimate", "symbolic_feature", "context"] },
+    "epistemicClass": { "enum": ["measured", "self_reported", "caregiver_reported", "clinician_reported", "derived", "symbolic", "imported"] },
+    "time": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["precision"],
+      "properties": {
+        "start": { "type": "string", "format": "date-time" },
+        "end": { "type": "string", "format": "date-time" },
+        "observedAt": { "type": "string", "format": "date-time" },
+        "timeZone": { "type": "string", "description": "IANA time-zone name when known, for example America/Denver." },
+        "precision": { "enum": ["exact", "approximate", "date_only", "unknown"] },
+        "scale": { "enum": ["instant", "interval", "ultradian", "circadian", "daily", "weekly", "reproductive", "developmental", "life_course", "unknown"] }
+      },
+      "anyOf": [{ "required": ["observedAt"] }, { "required": ["start"] }]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": { "enum": ["sensor", "laboratory", "subject", "caregiver", "clinician", "symbolic_system", "algorithm", "external_import", "unknown"] },
+        "name": { "type": "string" },
+        "method": { "type": "string" },
+        "version": { "type": "string" },
+        "reportedByRelation": { "enum": ["self", "parent_guardian", "caregiver", "clinician", "other", "unknown"] }
+      }
+    },
+    "domain": { "enum": ["circadian", "sleep", "feeding", "nutrition", "hydration", "activity", "physiology", "hormone_assay", "symptom", "reproductive", "development", "relationship", "environment", "life_event", "symbolic", "other"] },
+    "label": { "type": "string", "minLength": 1 },
+    "value": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "number": { "type": "number" },
+        "text": { "type": "string" },
+        "boolean": { "type": "boolean" },
+        "category": { "type": "string" },
+        "unit": { "type": "string" },
+        "range": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": { "low": { "type": "number" }, "high": { "type": "number" } }
+        }
+      },
+      "minProperties": 1
+    },
+    "methodDetails": { "type": "string" },
+    "uncertainty": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "level": { "enum": ["low", "moderate", "high", "unknown"] },
+        "notes": { "type": "string" },
+        "coverage": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "derivedFrom": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "methodVersion": { "type": "string" },
+    "contextTags": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "developmentContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "lifeStage": { "enum": ["prenatal", "newborn", "infancy", "early_childhood", "middle_childhood", "adolescence", "adulthood", "pregnancy", "postpartum", "menopause_transition", "later_life", "unspecified"] },
+        "ageDays": { "type": "integer", "minimum": 0 },
+        "gestationalAgeDays": { "type": "integer", "minimum": 0 },
+        "correctedAgeDays": { "type": "integer", "minimum": 0 },
+        "basis": { "enum": ["reported", "calculated", "unknown"] }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sensitivity": { "enum": ["ordinary", "personal", "sensitive", "highly_sensitive"] },
+        "subjectControlled": { "type": "boolean" },
+        "sharing": { "enum": ["private", "explicitly_shared", "unknown"] }
+      }
+    },
+    "supersedes": { "type": "string" },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "notes": { "type": "string", "description": "Keep notes to the minimum necessary; do not put unconsented third-party sensitive data here." }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "epistemicClass": { "const": "derived" } } },
+      "then": { "required": ["derivedFrom", "methodVersion", "uncertainty"] }
+    },
+    {
+      "if": { "properties": { "epistemicClass": { "const": "symbolic" } } },
+      "then": { "properties": { "source": { "properties": { "kind": { "const": "symbolic_system" } } } } }
+    },
+    {
+      "if": { "properties": { "domain": { "const": "hormone_assay" } } },
+      "then": { "properties": { "epistemicClass": { "const": "measured" }, "source": { "properties": { "kind": { "const": "laboratory" } } }, "value": { "required": ["unit"] } } }
+    }
+  ]
+}

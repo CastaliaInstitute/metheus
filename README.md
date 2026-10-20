@@ -31,6 +31,8 @@ See [Hormone and endocrine-signal reference](docs/hormone-reference.md) for a br
 
 See [Metheus as a systems model](docs/systems-model.md) for the intended architecture: a stable symbolic map in conversation with physiology, development, circadian and feeding rhythms, relationships, circumstances, and observations that change over time.
 
+See [Metheus ontology](docs/ontology.md) for core entities and epistemic classes, with a draft [observation schema](schema/observation.schema.json) for time-bounded records.
+
 ## Site
 
 - GitHub Pages: https://castaliainstitute.github.io/metheus/
