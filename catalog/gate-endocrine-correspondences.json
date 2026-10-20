@@ -1,8 +1,8 @@
 {
   "$schema": "../schema/correspondence-catalog.schema.json",
-  "catalogVersion": "0.2.0",
+  "catalogVersion": "0.2.1",
   "catalogStatus": "source_attributed",
-  "policy": "These entries record specific Human Design sources' gate-level biological or hormonal correspondences. They are not established biology, assay interpretation, or evidence that a gate causes, measures, or predicts a hormone. Preserve each source and its wording; do not generalize one source's teaching to all Human Design lineages.",
+  "policy": "These entries record specific Human Design sources' gate-level organ, tissue, or hormonal correspondences. They are not established biology, assay interpretation, or evidence that a gate causes, measures, or predicts a hormone. Preserve each source and its wording; do not generalize one source's teaching to all Human Design lineages. Conflicting source attributions are retained separately and must not be summarized as lineage consensus.",
   "correspondences": [
     {
       "id": "gate-6-reproductive-hormone-source-attribution",
@@ -1893,6 +1893,321 @@
         "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
         "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
         "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-4-neocortex-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "Gate 4 article accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "4",
+        "label": "Gate 4"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "neocortex",
+        "label": "Neocortex (cerebral cortex)"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 4 reference lists “Neocortex (Cerebral cortex)” as the gate’s physiology. Metheus records the named organ/tissue as a source-specific attribution; this does not establish a gate-specific endocrine mechanism or hormone effect.",
+      "sourceCitations": [
+        {
+          "title": "Gate 4 Formulization (Youthful Folly)",
+          "url": "https://www.humdes.com/en/kb/gates/4/",
+          "locator": "Summary of the Gates in Rave Chart Structure · Physiology",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference catalog, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The source names a physiological correspondence but does not establish that the gate regulates, measures, or predicts the named organ or any hormone.",
+        "The source wording includes associated anatomy where shown; this record does not infer function from that wording or estimate an individual health state."
+      ]
+    },
+    {
+      "id": "gate-8-thyroid-gland-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "Gate 8 article accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "8",
+        "label": "Gate 8"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "thyroid-gland",
+        "label": "Thyroid gland (Adam’s apple)"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 8 reference lists “Thyroid gland (Adam's apple)” as the gate’s physiology. Metheus records the named organ/tissue as a source-specific attribution; this does not establish a gate-specific endocrine mechanism or hormone effect.",
+      "sourceCitations": [
+        {
+          "title": "Gate 8 Holding Together (Contribution)",
+          "url": "https://www.humdes.com/en/kb/gates/8/",
+          "locator": "Summary of the Gates in Rave Chart Structure · Physiology",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference catalog, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The source names a physiological correspondence but does not establish that the gate regulates, measures, or predicts the named organ or any hormone.",
+        "The source wording includes associated anatomy where shown; this record does not infer function from that wording or estimate an individual health state."
+      ]
+    },
+    {
+      "id": "gate-11-pituitary-gland-right-hemisphere-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "Gate 11 article accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "11",
+        "label": "Gate 11"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "pituitary-gland-right-hemisphere",
+        "label": "Pituitary gland (right hemisphere)"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 11 reference lists “Pituitary gland (Right hemisphere), Left eyeball” as the gate’s physiology. Metheus records the named organ/tissue as a source-specific attribution; this does not establish a gate-specific endocrine mechanism or hormone effect.",
+      "sourceCitations": [
+        {
+          "title": "Gate 11 Ideas (Peace)",
+          "url": "https://www.humdes.com/en/kb/gates/11/",
+          "locator": "Summary of the Gates in Rave Chart Structure · Physiology",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference catalog, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The source names a physiological correspondence but does not establish that the gate regulates, measures, or predicts the named organ or any hormone.",
+        "The source wording includes associated anatomy where shown; this record does not infer function from that wording or estimate an individual health state."
+      ]
+    },
+    {
+      "id": "gate-17-pituitary-gland-left-hemisphere-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "Gate 17 article accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "17",
+        "label": "Gate 17"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "pituitary-gland-left-hemisphere",
+        "label": "Pituitary gland (left hemisphere)"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 17 reference lists “Pituitary gland (Left hemisphere), Right eyeball” as the gate’s physiology. Metheus records the named organ/tissue as a source-specific attribution; this does not establish a gate-specific endocrine mechanism or hormone effect.",
+      "sourceCitations": [
+        {
+          "title": "Gate 17 Opinions (Following)",
+          "url": "https://www.humdes.com/en/kb/gates/17/",
+          "locator": "Summary of the Gates in Rave Chart Structure · Physiology",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference catalog, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The source names a physiological correspondence but does not establish that the gate regulates, measures, or predicts the named organ or any hormone.",
+        "The source wording includes associated anatomy where shown; this record does not infer function from that wording or estimate an individual health state."
+      ]
+    },
+    {
+      "id": "gate-23-thyroid-gland-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "Gate 23 article accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "23",
+        "label": "Gate 23"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "thyroid-gland",
+        "label": "Thyroid gland"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 23 reference lists “Thyroid Gland” as the gate’s physiology. Metheus records the named organ/tissue as a source-specific attribution; this does not establish a gate-specific endocrine mechanism or hormone effect.",
+      "sourceCitations": [
+        {
+          "title": "Gate 23 Assimilation (Splitting Apart)",
+          "url": "https://www.humdes.com/en/kb/gates/23/",
+          "locator": "Summary of the Gates in Rave Chart Structure · Physiology",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference catalog, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The source names a physiological correspondence but does not establish that the gate regulates, measures, or predicts the named organ or any hormone.",
+        "The source wording includes associated anatomy where shown; this record does not infer function from that wording or estimate an individual health state."
+      ]
+    },
+    {
+      "id": "gate-24-neocortex-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "Gate 24 article accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "24",
+        "label": "Gate 24"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "neocortex",
+        "label": "Neocortex (cerebral cortex)"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 24 reference lists “Neocortex (Cerebral cortex)” as the gate’s physiology. Metheus records the named organ/tissue as a source-specific attribution; this does not establish a gate-specific endocrine mechanism or hormone effect.",
+      "sourceCitations": [
+        {
+          "title": "Gate 24 Rationalization (Return)",
+          "url": "https://www.humdes.com/en/kb/gates/24/",
+          "locator": "Summary of the Gates in Rave Chart Structure · Physiology",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference catalog, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The source names a physiological correspondence but does not establish that the gate regulates, measures, or predicts the named organ or any hormone.",
+        "The source wording includes associated anatomy where shown; this record does not infer function from that wording or estimate an individual health state."
+      ]
+    },
+    {
+      "id": "gate-43-inner-ear-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "Gate 43 article accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "43",
+        "label": "Gate 43"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "inner-ear",
+        "label": "Inner ear"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 43 reference lists “Inner ear” as the gate’s physiology. Metheus records the named organ/tissue as a source-specific attribution; this does not establish a gate-specific endocrine mechanism or hormone effect.",
+      "sourceCitations": [
+        {
+          "title": "Gate 43 Insight (Breakthrough)",
+          "url": "https://www.humdes.com/en/kb/gates/43/",
+          "locator": "Summary of the Gates in Rave Chart Structure · Physiology",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference catalog, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The source names a physiological correspondence but does not establish that the gate regulates, measures, or predicts the named organ or any hormone.",
+        "The source wording includes associated anatomy where shown; this record does not infer function from that wording or estimate an individual health state."
+      ]
+    },
+    {
+      "id": "gate-47-neocortex-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "Gate 47 article accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "47",
+        "label": "Gate 47"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "neocortex",
+        "label": "Neocortex (cerebral cortex)"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 47 reference lists “Neocortex (Cerebral cortex)” as the gate’s physiology. Metheus records the named organ/tissue as a source-specific attribution; this does not establish a gate-specific endocrine mechanism or hormone effect.",
+      "sourceCitations": [
+        {
+          "title": "Gate 47 Oppression (Realization)",
+          "url": "https://www.humdes.com/en/kb/gates/47/",
+          "locator": "Summary of the Gates in Rave Chart Structure · Physiology",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference catalog, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The source names a physiological correspondence but does not establish that the gate regulates, measures, or predicts the named organ or any hormone.",
+        "The source wording includes associated anatomy where shown; this record does not infer function from that wording or estimate an individual health state."
+      ]
+    },
+    {
+      "id": "gate-62-thyroid-gland-humdes-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "Gate 62 article accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "62",
+        "label": "Gate 62"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "thyroid-gland",
+        "label": "Thyroid gland"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 62 reference lists “Thyroid Gland” as the gate’s physiology. Metheus records the named organ/tissue as a source-specific attribution; this does not establish a gate-specific endocrine mechanism or hormone effect.",
+      "sourceCitations": [
+        {
+          "title": "Gate 62 Details (Preponderance of the Small)",
+          "url": "https://www.humdes.com/en/kb/gates/62/",
+          "locator": "Summary of the Gates in Rave Chart Structure · Physiology",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to the HumDes reference catalog, not an experimentally validated biological association or a universal Human Design lineage claim.",
+        "The source names a physiological correspondence but does not establish that the gate regulates, measures, or predicts the named organ or any hormone.",
+        "The source wording includes associated anatomy where shown; this record does not infer function from that wording or estimate an individual health state."
       ]
     }
   ]
