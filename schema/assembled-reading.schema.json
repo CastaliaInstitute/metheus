@@ -23,7 +23,7 @@
         "properties": {
           "position": { "type": "integer", "minimum": 1 },
           "claimType": { "enum": ["observation", "estimate", "symbolic_prompt", "interpretive_question", "hypothesis", "boundary"] },
-          "text": { "type": "string", "minLength": 1 },
+          "text": { "type": "string", "minLength": 1, "description": "One substantive sentence or atomic statement, preserving the source links for this claim only." },
           "sourceIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
           "sources": { "type": "array", "items": { "$ref": "#/$defs/source" } },
           "phaseAnnotations": { "type": "array", "items": { "$ref": "#/$defs/phaseAnnotation" } },

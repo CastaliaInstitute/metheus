@@ -25,13 +25,35 @@
     },
     {
       "claimType": "observation",
-      "text": "You reported that bleeding began on April 3. The optional name is ‘The Opening Tide’; this report alone does not establish menstrual phase, duration, or hormone levels.",
+      "text": "You reported that bleeding began on April 3.",
       "sourceIds": ["synthetic-bleeding-observation"],
       "phaseAnnotationIds": ["phase-epimethean-example"],
       "support": {
         "confidence": "moderate",
         "coverage": "partial",
         "rationale": "Synthetic onset report illustrates one dated entry; subsequent bleeding is not represented."
+      }
+    },
+    {
+      "claimType": "observation",
+      "text": "The reported onset carries the optional Epimethean name ‘The Opening Tide.’",
+      "sourceIds": ["synthetic-bleeding-observation"],
+      "phaseAnnotationIds": ["phase-epimethean-example"],
+      "support": {
+        "confidence": "moderate",
+        "coverage": "partial",
+        "rationale": "The phase annotation is a synthetic optional label attached to the reported onset."
+      }
+    },
+    {
+      "claimType": "boundary",
+      "text": "A reported onset alone does not establish cycle phase, duration, or hormone levels.",
+      "sourceIds": ["synthetic-bleeding-observation"],
+      "phaseAnnotationIds": ["phase-epimethean-example"],
+      "support": {
+        "confidence": "not_applicable",
+        "coverage": "partial",
+        "rationale": "This boundary prevents the example's event and optional name from being read as a physiological phase or assay."
       }
     }
   ],

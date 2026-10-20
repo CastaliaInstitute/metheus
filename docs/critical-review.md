@@ -38,7 +38,7 @@ The reading schema supports `correspondenceIds` and `evidenceClaimIds`, but the 
 
 **Impact:** The initial claim assembly now checks that record, phase, and reference IDs survive rendering without mismatch, but there is still no executable check that authored or generated language is supported by those sources.
 
-**Recommendation:** Continue the synthetic-data-only pipeline with sentence-level attribution/evaluation. A claim can contain several sentences, so language evaluation needs explicit claim boundaries and must identify unsupported text, missing alternatives, and scope drift. Add language generation only after that evaluation exists.
+**Recommendation:** Continue the synthetic-data-only pipeline with sentence-level attribution/evaluation. The reading contract now specifies one substantive sentence or atomic statement per claim object, and the phase-aware example splits observation, label, and boundary into separately cited claims. This makes the intended attribution boundary explicit but does not enforce or evaluate it: the schema cannot parse sentences, and no component checks entailment, missing alternatives, or scope drift. Add language generation only after a reviewed evaluator can identify those failures.
 
 ### 4. The physiology is organized, not modeled
 

@@ -46,7 +46,7 @@
         "required": ["claimType", "text", "sourceIds", "support"],
         "properties": {
           "claimType": { "enum": ["observation", "estimate", "symbolic_prompt", "interpretive_question", "hypothesis", "boundary"] },
-          "text": { "type": "string", "minLength": 1 },
+          "text": { "type": "string", "minLength": 1, "description": "One substantive sentence or atomic statement. Split text with different evidence bases, claim types, or material propositions into separate claim objects so each statement has its own provenance." },
           "sourceIds": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
           "phaseAnnotationIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true, "minItems": 1 },
           "correspondenceIds": { "type": "array", "items": { "type": "string" }, "uniqueItems": true, "minItems": 1 },

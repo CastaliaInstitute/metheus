@@ -37,6 +37,8 @@ Every sentence that makes a substantive claim belongs to one of these types:
 
 The user-facing text need not show enum names, but the system should preserve claim type and source links internally. Keep `sourceIds` for selected subject-level records, `correspondenceIds` for optional symbolic crosswalks, and `evidenceClaimIds` for general scientific or developmental evidence. `inputIds` selects personal records and phase annotations; `referenceIds` selects non-personal correspondence/evidence catalog entries. Subject-owned reflections cannot be placed in that catalog; they need a subject-scoped record and consent path. The catalogs are resolved separately and do not grant access to personal data. The reading schema permits a correspondence only on a symbolic prompt or interpretive question, and an evidence claim only on a bounded hypothesis or boundary. Neither source type substitutes for an observation about this subject.
 
+Author one substantive sentence or atomic statement per claim object. Split multi-sentence prose, or propositions that rely on different evidence bases or claim types, into separate ordered claim objects so each statement has its own citations, support, and limitations. The schema documents this authoring contract and the phase-aware example demonstrates it; JSON Schema does not parse sentences or prove entailment, so this remains an authoring rule until a reviewed language-evaluation method exists.
+
 Phase annotations may be cited with `phaseAnnotationIds` on a claim. Readings should display the annotation's canonical phase beside any optional evocative name, plus its time window, basis, method, source, and uncertainty. A Promethean transit can support a source-attributed `symbolic_prompt`; an Epimethean phase can support a reported observation or method-qualified estimate. Do not treat a phase's poetic name as evidence, and do not imply the annotation establishes a hormone level or causal link. See the [phase naming framework](phase-naming-framework.md) and [phase annotation schema](../schema/phase-annotation.schema.json).
 
 Claim type must match the cited phase layer and basis: `symbolic_prompt` requires Promethean annotations; `observation` requires a reported, observed, or clinically assessed Epimethean basis; `estimate` requires a derived Epimethean basis. An Epimethean-linked `hypothesis` requires separately cited subject records and cannot cite a Promethean phase. Cross-object checks for these rules run in `validate_reading_references`; JSON Schema alone cannot resolve annotation IDs.
@@ -190,7 +192,7 @@ A reading should carry these fields internally:
 1. `id`, `subjectId`, and reading/rule version;
 2. purpose/question and time window;
 3. selected input IDs and exclusions where useful;
-4. ordered claims, each with `claimType`, text, source IDs, confidence/coverage, and rationale;
+4. ordered atomic claims, each with `claimType`, one substantive sentence, source IDs, confidence/coverage, and rationale;
 5. optional `reflectionOptions`, each labeled with its basis and the subject's status (not reviewed, chosen, declined, or revised);
 6. user-facing synthesis and optional reflective question;
 7. boundaries/limitations;

@@ -131,7 +131,7 @@ A future Metheus reading should be assembled in this order:
 2. Identify the Promethean feature, named source/lineage, and symbolic status, if the person selected one.
 3. List the Epimethean records/features actually selected, including source, epistemic kind, time basis, and coverage.
 4. State direct descriptive results before offering interpretation.
-5. Separate supported general evidence, subject-specific association, symbolic prompt, and person interpretation into distinct claim types.
+5. Use one substantive sentence or atomic proposition per ordered claim object; separate supported general evidence, subject-specific association, symbolic prompt, and person interpretation into distinct claim types and citations.
 6. Surface missingness, plausible alternatives, and non-claims adjacent to the relevant statement.
 7. Invite the person to correct, contextualize, disagree, or leave the pattern unexplored.
 
