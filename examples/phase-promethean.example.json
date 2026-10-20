@@ -1,0 +1,25 @@
+{
+  "id": "phase-promethean-example",
+  "subjectId": "synthetic-subject",
+  "layer": "promethean",
+  "phaseSystem": "human_design_transit",
+  "canonicalPhase": "transit_to_gate_18",
+  "evocativeName": "The Passing Spark",
+  "description": "A symbolic prompt for a calculated transit interval.",
+  "window": {
+    "start": "2026-04-03T00:00:00Z",
+    "end": "2026-04-10T00:00:00Z"
+  },
+  "basis": "derived",
+  "interpretation": "symbolic",
+  "sourceSystem": {
+    "name": "Human Design",
+    "lineage": "synthetic named lineage",
+    "version": "example-v1"
+  },
+  "method": "Illustrative ephemeris calculation; not a real chart reading.",
+  "methodVersion": "example-v1",
+  "uncertainty": "Illustrative interval only; no individual prediction.",
+  "limitations": ["Symbolic interpretation is not a physiological measurement or causal claim."],
+  "nameSource": "metheus_suggestion"
+}

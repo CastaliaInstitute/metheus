@@ -55,6 +55,8 @@ See [Developmental psychology and learning layer](docs/developmental-learning-la
 
 The [synthetic learning example set](examples/learning-reading.example.json) shows a Promethean prompt, learning activity, separate learner feedback, and a structured reading with subject-controlled reflection options.
 
+The [phase-aware reading example](examples/phase-aware-reading.example.json) shows how an optional Promethean transit name and an Epimethean reported-cycle label can appear side by side while retaining distinct sources and limits.
+
 See the [privacy, consent, and data stewardship model](docs/privacy-consent-model.md) and draft [consent-grant schema](schema/consent.schema.json) for scoped permissions, child participation, relationship-data boundaries, and required data lifecycle controls.
 
 The Python package includes an in-memory [`evaluate_authorization`](metheus/authorization.py) policy prototype. It evaluates selected records against grants but does not authenticate users or enforce access to storage.

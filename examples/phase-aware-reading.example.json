@@ -1,0 +1,39 @@
+{
+  "id": "phase-aware-reading-example",
+  "subjectId": "synthetic-subject",
+  "version": "0.1",
+  "purpose": "Illustrate how distinct phase annotations can be cited in a reflective reading.",
+  "timeWindow": {
+    "start": "2026-04-03T00:00:00Z",
+    "end": "2026-04-10T00:00:00Z",
+    "timeZone": "UTC",
+    "precision": "approximate"
+  },
+  "inputIds": ["phase-promethean-example", "phase-epimethean-example", "synthetic-bleeding-observation"],
+  "claims": [
+    {
+      "claimType": "symbolic_prompt",
+      "text": "In the named Human Design source, this transit is offered as a symbolic prompt; it does not describe a bodily event.",
+      "sourceIds": [],
+      "phaseAnnotationIds": ["phase-promethean-example"],
+      "support": {
+        "confidence": "not_applicable",
+        "coverage": "unknown",
+        "rationale": "This is source-attributed symbolism, not an empirical claim."
+      }
+    },
+    {
+      "claimType": "observation",
+      "text": "You reported a bleeding window from April 3 through April 6. The optional name is ‘The Opening Tide’; this report alone does not establish menstrual phase or hormone levels.",
+      "sourceIds": ["synthetic-bleeding-observation"],
+      "phaseAnnotationIds": ["phase-epimethean-example"],
+      "support": {
+        "confidence": "moderate",
+        "coverage": "partial",
+        "rationale": "Synthetic report illustrates a dated entry; completeness is unknown."
+      }
+    }
+  ],
+  "limitations": ["Synthetic example; no actual person's data or medical interpretation."],
+  "generatedAt": "2026-04-10T12:00:00Z"
+}

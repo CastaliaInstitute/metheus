@@ -35,6 +35,8 @@ Every sentence that makes a substantive claim belongs to one of these types:
 
 The user-facing text need not show enum names, but the system should preserve claim type and source links internally. Keep `sourceIds` for selected subject-level records, `correspondenceIds` for optional symbolic crosswalks, and `evidenceClaimIds` for general scientific or developmental evidence. The reading schema permits a correspondence only on a symbolic prompt or interpretive question, and an evidence claim only on a bounded hypothesis or boundary. Neither source type substitutes for an observation about this subject.
 
+Phase annotations may be cited with `phaseAnnotationIds` on a claim. Readings should display the annotation's canonical phase beside any optional evocative name, plus its time window, basis, method, source, and uncertainty. A Promethean transit can support a source-attributed `symbolic_prompt`; an Epimethean phase can support a reported observation or method-qualified estimate. Do not treat a phase's poetic name as evidence, and do not imply the annotation establishes a hormone level or causal link. See the [phase naming framework](phase-naming-framework.md) and [phase annotation schema](../schema/phase-annotation.schema.json).
+
 ## Construction sequence
 
 ### 1. Establish scope
