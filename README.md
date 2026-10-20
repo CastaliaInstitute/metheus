@@ -23,6 +23,10 @@ Possible Epimethean context includes hormonal rhythms across menstrual cycles, p
 
 This site is an early concept. Wearable integrations and personal data collection are not implemented.
 
+## Research reference
+
+See [Hormone and endocrine-signal reference](docs/hormone-reference.md) for a broad, categorized inventory and terminology notes. It distinguishes classical hormones from neurotransmitters, cytokines, growth factors, local mediators, and molecules whose endocrine classification is debated.
+
 ## Site
 
 - GitHub Pages: https://castaliainstitute.github.io/metheus/
