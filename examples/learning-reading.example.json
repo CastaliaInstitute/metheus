@@ -2,7 +2,8 @@
   "id": "learning-reading-example-01",
   "subjectId": "example-subject-01",
   "version": "metheus-reading/0.1.0",
-  "purpose": "Reflect on a French conversation practice session",
+  "purpose": "learning_support",
+  "question": "Reflect on a French conversation practice session",
   "timeWindow": {
     "start": "2026-10-20T15:55:00-06:00",
     "end": "2026-10-20T16:20:00-06:00",

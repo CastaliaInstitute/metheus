@@ -6,6 +6,7 @@ from datetime import datetime
 from typing import Any, Iterable
 
 from .authorization import evaluate_authorization
+from .schema_validation import validate_record_schema, validate_schema_instance
 
 
 _KIND_RECORD_TYPES = {
@@ -241,7 +242,8 @@ def authorize_subject_index_resources(
 
     Index membership is navigation metadata, never consent. Each selected ID
     must be listed in the index and resolve to a same-subject object with the
-    declared kind and schema version. Remote processing also requires a
+    declared kind and schema version. The index, indexed resources, and
+    same-subject grants are checked against their schemas. Remote processing also requires a
     separate successful `analyze` decision. This is an in-memory preflight,
     not authentication or storage-boundary enforcement.
     """
@@ -252,11 +254,43 @@ def authorize_subject_index_resources(
 
     resource_list = list(resources)
     grant_list = list(grants)
+    index_schema = validate_schema_instance(subject_index, "subject-index.schema.json")
+    if not index_schema["valid"]:
+        return {
+            "authorized": False,
+            "reason": "invalid_subject_index_schema",
+            "schemaIssues": index_schema["issues"],
+            "authorizationChecks": [],
+        }
     resolution, resolved = _resolve_index(subject_index, resource_list)
     if not resolution["valid"]:
         return {
             "authorized": False,
             "reason": "invalid_subject_index_references",
+            "resolution": resolution,
+            "authorizationChecks": [],
+        }
+
+    invalid_schemas = []
+    for resource_id, resource in resolved.items():
+        validation = validate_record_schema(resource)
+        if not validation["valid"]:
+            invalid_schemas.append({"id": resource_id, "kind": "indexed_resource", "issues": validation["issues"]})
+    subject_id = subject_index.get("subjectId")
+    for grant in grant_list:
+        if isinstance(grant, dict) and grant.get("subjectId") == subject_id:
+            validation = validate_schema_instance(grant, "consent.schema.json")
+            if not validation["valid"]:
+                invalid_schemas.append({
+                    "id": grant.get("id") if isinstance(grant.get("id"), str) else None,
+                    "kind": "consent_grant",
+                    "issues": validation["issues"],
+                })
+    if invalid_schemas:
+        return {
+            "authorized": False,
+            "reason": "invalid_selected_schema",
+            "schemaIssues": invalid_schemas,
             "resolution": resolution,
             "authorizationChecks": [],
         }
@@ -281,7 +315,6 @@ def authorize_subject_index_resources(
             "authorizationChecks": [],
         }
 
-    subject_id = subject_index.get("subjectId")
     selected_resources = [resolved[resource_id] for resource_id in selected_values]
     required_actions = ["analyze", "remote_processing"] if action == "remote_processing" else [action]
     checks = [

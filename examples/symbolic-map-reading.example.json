@@ -3,6 +3,7 @@
   "subjectId": "synthetic-subject",
   "version": "0.1",
   "purpose": "personal_reflection",
+  "question": "Reflect on this synthetic symbolic map without using excluded sensitive domains.",
   "timeWindow": {
     "start": "2026-10-20T00:00:00Z",
     "end": "2026-10-21T00:00:00Z",

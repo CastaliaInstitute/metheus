@@ -5,12 +5,13 @@
   "description": "Draft v0.2 output contract for a sourced, revisable reflective reading. Not a clinical interpretation standard.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["id", "subjectId", "version", "purpose", "timeWindow", "claims", "generatedAt"],
+  "required": ["id", "subjectId", "version", "purpose", "question", "timeWindow", "claims", "generatedAt"],
   "properties": {
     "id": { "type": "string", "minLength": 1 },
     "subjectId": { "type": "string", "minLength": 1, "description": "Pseudonymous subject reference." },
     "version": { "type": "string", "minLength": 1 },
-    "purpose": { "type": "string", "minLength": 1 },
+    "purpose": { "enum": ["symbolic_calculation", "personal_reflection", "rhythm_summary", "learning_support", "health_record_organization", "caregiver_coordination", "clinical_sharing", "other"] },
+    "question": { "type": "string", "minLength": 1, "description": "The subject's chosen question or reflection focus. Keep it distinct from the consent purpose category." },
     "timeWindow": {
       "type": "object",
       "additionalProperties": false,

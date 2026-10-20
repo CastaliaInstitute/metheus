@@ -2,7 +2,8 @@
   "id": "phase-aware-reading-example",
   "subjectId": "synthetic-subject",
   "version": "0.1",
-  "purpose": "Illustrate how distinct phase annotations can be cited in a reflective reading.",
+  "purpose": "personal_reflection",
+  "question": "Illustrate how distinct phase annotations can be cited in a reflective reading.",
   "timeWindow": {
     "start": "2026-04-03T00:00:00Z",
     "end": "2026-04-10T00:00:00Z",

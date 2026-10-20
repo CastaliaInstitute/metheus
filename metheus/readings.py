@@ -1,8 +1,8 @@
 """Reference-integrity checks for Metheus reflective readings.
 
-This module checks selected in-memory inputs before a reading is presented. It
-does not validate JSON Schema, authorize access, authenticate a subject, or
-enforce a storage boundary.
+This module validates selected contracts and checks their references and
+consent before assembling a supplied reading. It does not generate or entailment
+check claim text, authenticate a subject, or enforce a storage boundary.
 """
 
 from __future__ import annotations
@@ -12,6 +12,7 @@ from typing import Any, Iterable
 
 from .authorization import evaluate_authorization, record_domain
 from .resources import resolve_subject_index
+from .schema_validation import validate_record_schema, validate_schema_instance
 
 
 _READING_DOMAINS = {
@@ -403,18 +404,74 @@ def authorize_reading_inputs(
     objects named by the reading's `inputIds` are sent to the consent evaluator.
     Correspondence and evidence reference catalogs are resolved separately and
     are not treated as subject records requiring the subject's consent. This is
-    an in-memory preflight, not an authentication or storage access boundary.
+    an in-memory preflight. The reading, selected resources, same-subject
+    grants, and selected references are schema-validated before authorization;
+    this is not an authentication or storage access boundary.
     """
     if not isinstance(action, str) or action not in {"analyze", "remote_processing"}:
         raise ValueError("action must be 'analyze' or 'remote_processing'")
     if not isinstance(reading, dict):
         return {"authorized": False, "reason": "invalid_reading"}
 
+    reading_schema = validate_schema_instance(reading, "reading.schema.json")
+    if not reading_schema["valid"]:
+        return {
+            "authorized": False,
+            "reason": "invalid_reading_schema",
+            "schemaIssues": reading_schema["issues"],
+            "authorizationChecks": [],
+        }
+
     record_list = list(records)
     phase_list = list(phase_annotations)
     correspondence_list = list(correspondences)
     evidence_list = list(evidence_claims)
     grant_list = list(grants)
+    subject_id = reading.get("subjectId")
+    selected_ids = set(reading.get("inputIds", []))
+    selected_references = set(reading.get("referenceIds", []))
+
+    invalid_objects: list[dict[str, Any]] = []
+    selected_resources = [
+        item for item in [*record_list, *phase_list]
+        if isinstance(item, dict) and item.get("id") in selected_ids
+    ]
+    for resource in selected_resources:
+        validation = validate_record_schema(resource)
+        if not validation["valid"]:
+            invalid_objects.append({
+                "id": resource.get("id"),
+                "kind": "subject_input",
+                "issues": validation["issues"],
+            })
+    for grant in grant_list:
+        if isinstance(grant, dict) and grant.get("subjectId") == subject_id:
+            validation = validate_schema_instance(grant, "consent.schema.json")
+            if not validation["valid"]:
+                invalid_objects.append({
+                    "id": grant.get("id") if isinstance(grant.get("id"), str) else None,
+                    "kind": "consent_grant",
+                    "issues": validation["issues"],
+                })
+    for reference_id in selected_references:
+        correspondence = next((item for item in correspondence_list if isinstance(item, dict) and item.get("id") == reference_id), None)
+        evidence = next((item for item in evidence_list if isinstance(item, dict) and item.get("id") == reference_id), None)
+        if correspondence is not None:
+            validation = validate_schema_instance(correspondence, "correspondence.schema.json")
+            if not validation["valid"]:
+                invalid_objects.append({"id": reference_id, "kind": "correspondence", "issues": validation["issues"]})
+        if evidence is not None:
+            validation = validate_schema_instance(evidence, "evidence-claim.schema.json")
+            if not validation["valid"]:
+                invalid_objects.append({"id": reference_id, "kind": "evidence_claim", "issues": validation["issues"]})
+    if invalid_objects:
+        return {
+            "authorized": False,
+            "reason": "invalid_selected_schema",
+            "schemaIssues": invalid_objects,
+            "authorizationChecks": [],
+        }
+
     reference_check = validate_reading_references(
         reading,
         record_list,
@@ -430,18 +487,13 @@ def authorize_reading_inputs(
             "authorizationChecks": [],
         }
 
-    subject_id = reading.get("subjectId")
     purpose = reading.get("purpose")
     if not isinstance(subject_id, str) or not subject_id.strip():
         return {"authorized": False, "reason": "missing_reading_subject", "authorizationChecks": []}
     if not isinstance(purpose, str) or not purpose.strip():
         return {"authorized": False, "reason": "missing_reading_purpose", "authorizationChecks": []}
 
-    selected_ids = set(reading.get("inputIds", []))
-    selected_items = [
-        item for item in [*record_list, *phase_list]
-        if isinstance(item, dict) and isinstance(item.get("id"), str) and item["id"] in selected_ids
-    ]
+    selected_items = selected_resources
     required_actions = ["analyze"]
     if action == "remote_processing":
         required_actions.append("remote_processing")
@@ -484,18 +536,49 @@ def preflight_subject_reading(
     reference/consent checks then enforce citations, exclusions, and grants for
     those selected inputs. Index membership never widens the reading selection.
     This function returns a presentation preflight only: callers must still
-    validate the complete reading schema and enforce storage authorization.
+    enforce storage authorization at a trusted data boundary.
     """
     if not isinstance(reading, dict):
         return {"authorized": False, "preflightPassed": False, "reason": "invalid_reading"}
 
     resource_list = list(resources)
+    index_schema = validate_schema_instance(subject_index, "subject-index.schema.json")
+    if not index_schema["valid"]:
+        return {
+            "authorized": False,
+            "preflightPassed": False,
+            "reason": "invalid_subject_index_schema",
+            "schemaIssues": index_schema["issues"],
+        }
     resolution = resolve_subject_index(subject_index, resource_list)
     if not resolution["valid"]:
         return {
             "authorized": False,
             "preflightPassed": False,
             "reason": "invalid_subject_index_references",
+            "resolution": resolution,
+        }
+
+    resource_index = {
+        resource.get("id"): resource
+        for resource in resource_list
+        if isinstance(resource, dict) and isinstance(resource.get("id"), str)
+    }
+    invalid_indexed_resources = []
+    for resource_id in resolution["resolvedIds"]:
+        resource = resource_index.get(resource_id)
+        validation = validate_record_schema(resource)
+        if not validation["valid"]:
+            invalid_indexed_resources.append({
+                "id": resource_id,
+                "issues": validation["issues"],
+            })
+    if invalid_indexed_resources:
+        return {
+            "authorized": False,
+            "preflightPassed": False,
+            "reason": "invalid_indexed_resource_schema",
+            "schemaIssues": invalid_indexed_resources,
             "resolution": resolution,
         }
 
@@ -568,9 +651,9 @@ def assemble_reading(
     """Assemble an authorized reading into typed, provenance-carrying claims.
 
     This deterministic renderer preserves supplied claim text; it does not
-    generate or verify that text. It is a caller-supplied in-memory prototype,
-    and the caller must still perform full schema validation and enforce access
-    at the storage boundary.
+    generate or verify that text. Input contracts are schema-validated during
+    preflight. The result is still a caller-supplied in-memory prototype, not a
+    storage authorization boundary or a separately schema-validated output.
     """
     resource_list = list(resources)
     correspondence_list = list(correspondences)
@@ -736,6 +819,7 @@ def assemble_reading(
         "subjectId": reading.get("subjectId"),
         "version": reading.get("version"),
         "purpose": reading.get("purpose"),
+        "question": reading.get("question"),
         "timeWindow": reading.get("timeWindow"),
         "claims": assembled_claims,
         "limitations": reading.get("limitations", []),
@@ -743,7 +827,8 @@ def assemble_reading(
             "kind": "deterministic_claim_assembly",
             "sourceTextGenerated": False,
             "textEntailmentVerified": False,
-            "schemaValidationPerformed": False,
+            "inputSchemasValidated": True,
+            "outputSchemaValidated": False,
             "authorizedAction": action,
         },
     }

@@ -1,6 +1,6 @@
 # Subject resource resolution and authorization
 
-**Status:** executable in-memory prototype, version 0.1. These helpers check object relationships and consent inputs supplied by a caller. They do not validate complete JSON Schema compliance, authenticate the subject or steward, retrieve from storage, or enforce a database boundary.
+**Status:** executable in-memory prototype, version 0.2. `preflight_subject_reading` validates the subject-index and indexed-resource schemas before checking object relationships and consent inputs supplied by a caller. It does not authenticate the subject or steward, retrieve from storage, or enforce a database boundary.
 
 ## Resource graph
 
@@ -29,7 +29,7 @@ A `rhythm_summary` also carries `summaryMeasure`, domain, method/schema versions
 
 Index membership allows a client to locate an object; it does not authorize collection, analysis, sharing, or remote processing. Call `resolve_subject_index` to check the index structure and references. Then call `authorize_subject_index_resources` with a separate explicit list of selected resource IDs, the stated purpose, action, and grants. Only those selected resources are sent to the consent evaluator. Remote processing requires both `analyze` and `remote_processing` grants. Sharing still requires a recipient-matched grant.
 
-For a reading, [`preflight_subject_reading`](../metheus/readings.py) combines index resolution, reading-reference checks, excluded-domain checks, and consent evaluation. It rejects any personal input that is not in the index, but it never adds indexed resources to the reading's selection. It returns a preflight decision only; it does not validate the full reading schema, generate text, or protect a storage boundary.
+For a reading, [`preflight_subject_reading`](../metheus/readings.py) combines schema validation, index resolution, reading-reference checks, excluded-domain checks, and consent evaluation. It rejects any personal input that is not in the index, but it never adds indexed resources to the reading's selection. It returns a preflight decision only; it does not generate text or protect a storage boundary.
 
 ```python
 from metheus import authorize_subject_index_resources, resolve_subject_index
@@ -62,7 +62,7 @@ The result includes issue codes and resource IDs, not record contents. No record
 
 ## Current limitations
 
-- The resolver trusts that supplied objects were loaded from a trusted source and parsed correctly. It does not run a JSON Schema validator.
+- The resolver trusts that supplied objects came from an appropriate trusted source. The reading preflight validates the index and indexed records against schemas but does not authenticate a source or validate unrelated unindexed candidate objects.
 - It checks top-level schema-version strings but cannot prove that a particular calculation implementation produced the feature records.
 - The subject index steward role is declared metadata; legal authority and identity require a separate verified service.
 - Authorization is still in-memory. Authentication, database row-level enforcement, storage encryption, audit logging, revocation propagation, export, and deletion remain unimplemented.
