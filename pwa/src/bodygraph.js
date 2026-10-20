@@ -3,7 +3,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 const SVG_URL = '/chat/bodygraph-reference.svg?v=2';
 const ENDOCRINE_URL = '/chat/endocrine-relations.json?v=0.2.3';
-const CORRESPONDENCE_URL = '/chat/gate-endocrine-correspondences.json?v=0.1.0';
+const CORRESPONDENCE_URL = '/chat/gate-endocrine-correspondences.json?v=0.1.1';
 const $ = (selector) => document.querySelector(selector);
 
 function pointInRoot(root, element, x, y) {
@@ -125,8 +125,13 @@ export async function mountBodygraph() {
     clearCorrespondences();
     const list = $('#gate-correspondence-list');
     list.replaceChildren();
-    const byGate = new Map(gateCorrespondences.map((item) => [item.sourceFeature.id, item]));
-    for (const [gateId, item] of byGate) {
+    const byGate = new Map();
+    for (const item of gateCorrespondences) {
+      const group = byGate.get(item.sourceFeature.id) || [];
+      group.push(item);
+      byGate.set(item.sourceFeature.id, group);
+    }
+    for (const [gateId, items] of byGate) {
       const target = targets.find((entry) => entry.kind === 'gate' && entry.id === gateId);
       if (!target) continue;
       const [x, y] = toPlane(target.point);
@@ -140,8 +145,9 @@ export async function mountBodygraph() {
       const context = labelCanvas.getContext('2d');
       context.font = 'bold 23px system-ui, sans-serif';
       context.fillStyle = '#51335d';
-      const targetLabel = item.targetConcept.label.length > 34 ? `${item.targetConcept.label.slice(0, 31)}…` : item.targetConcept.label;
-      context.fillText(`Gate ${gateId} · ${targetLabel}`, 8, 42);
+      const targetLabel = items.length > 1 ? `${items.length} sourced links` : items[0].targetConcept.label;
+      const shortLabel = targetLabel.length > 34 ? `${targetLabel.slice(0, 31)}…` : targetLabel;
+      context.fillText(`Gate ${gateId} · ${shortLabel}`, 8, 42);
       const texture = new THREE.CanvasTexture(labelCanvas);
       texture.colorSpace = THREE.SRGBColorSpace;
       const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: false }));
@@ -149,11 +155,13 @@ export async function mountBodygraph() {
       sprite.scale.set(104, 14.6, 1);
       correspondenceGroup.add(sprite);
 
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.dataset.correspondenceId = item.id;
-      button.textContent = `${item.sourceFeature.label} → ${item.targetConcept.label} · source-attributed; select for details`;
-      list.append(button);
+      for (const item of items) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.dataset.correspondenceId = item.id;
+        button.textContent = `${item.sourceFeature.label} → ${item.targetConcept.label} · ${item.sourceSystem.lineage || item.sourceSystem.name} · source-attributed; select for details`;
+        list.append(button);
+      }
     }
   }
 
@@ -173,6 +181,28 @@ export async function mountBodygraph() {
     const limitations = document.createElement('span');
     limitations.textContent = ` Limits: ${item.limitations.join(' ')}`;
     detail.append(limitations);
+  }
+
+  function displayGateCorrespondences(gateId) {
+    const matches = gateCorrespondences.filter((entry) => entry.sourceFeature.id === gateId);
+    if (matches.length === 1) return displayCorrespondence(matches[0]);
+    if (!matches.length) return;
+    detail.replaceChildren();
+    for (const item of matches) {
+      const section = document.createElement('p');
+      const summary = document.createElement('span');
+      summary.textContent = `${item.sourceFeature.label} → ${item.targetConcept.label}. ${item.claimText} `;
+      const citation = item.sourceCitations[0];
+      const link = document.createElement('a');
+      link.href = citation.url;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.textContent = `${citation.title} · ${citation.locator || 'Source'}`;
+      const limits = document.createElement('span');
+      limits.textContent = ` Limits: ${item.limitations.join(' ')}`;
+      section.append(summary, link, limits);
+      detail.append(section);
+    }
   }
 
   async function loadCorrespondences() {
@@ -512,8 +542,7 @@ export async function mountBodygraph() {
     raycaster.setFromCamera(pointer, camera);
     const marker = raycaster.intersectObjects(correspondenceGroup.children.filter((object) => object.userData.gateId))[0]?.object;
     if (!marker) return;
-    const item = gateCorrespondences.find((entry) => entry.sourceFeature.id === marker.userData.gateId);
-    displayCorrespondence(item);
+    displayGateCorrespondences(marker.userData.gateId);
   }
   canvas.addEventListener('pointerdown', (event) => { down = { x: event.clientX, y: event.clientY }; });
   canvas.addEventListener('pointerup', (event) => {

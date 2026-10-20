@@ -238,7 +238,7 @@ $('#ai-ask-start').addEventListener('click', () => {
   messageInput.setSelectionRange(messageInput.value.length, messageInput.value.length);
   messageInput.style.height = 'auto';
   messageInput.style.height = `${Math.min(messageInput.scrollHeight, 160)}px`;
-  $('#ai-guide-status').textContent = 'Add your prompt after “!metheus ask”. Only this explicit command and recent Metheus exchange are sent to the configured AI provider.';
+  $('#ai-guide-status').textContent = 'Add your prompt after “!metheus ask”. This prompt and recent Metheus exchange are sent to the configured AI provider; matching public source entries may be included for gate questions.';
 });
 
 messageInput.addEventListener('input', () => {

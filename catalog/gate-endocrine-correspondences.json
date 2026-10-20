@@ -1,19 +1,38 @@
 {
   "$schema": "../schema/correspondence-catalog.schema.json",
-  "catalogVersion": "0.1.0",
+  "catalogVersion": "0.1.1",
   "catalogStatus": "source_attributed",
   "policy": "These entries record specific Human Design sources' gate-level biological or hormonal correspondences. They are not established biology, assay interpretation, or evidence that a gate causes, measures, or predicts a hormone. Preserve each source and its wording; do not generalize one source's teaching to all Human Design lineages.",
   "correspondences": [
     {
       "id": "gate-6-reproductive-hormone-source-attribution",
-      "sourceSystem": { "name": "Human Design", "lineage": "Human Design App / Healing Shore LLC", "version": "web article accessed 2026-10-20" },
-      "sourceFeature": { "kind": "gate", "id": "6", "label": "Gate 6 · Friction" },
-      "targetConcept": { "kind": "physiological_process", "id": "reproductive-hormone-production", "label": "Female reproductive system and hormone production" },
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "Human Design App / Healing Shore LLC",
+        "version": "web article accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "6",
+        "label": "Gate 6 · Friction"
+      },
+      "targetConcept": {
+        "kind": "physiological_process",
+        "id": "reproductive-hormone-production",
+        "label": "Female reproductive system and hormone production"
+      },
       "relationType": "tradition_attributed",
       "evidenceStatus": "not_evaluated",
       "permittedUse": "optional_reflective_prompt",
       "claimText": "Human Design App's Gate 6 article says Gate 6 is linked to the female reproductive system and hormone production. This is that source's correspondence, not an established physiological association.",
-      "sourceCitations": [{ "title": "Gate 6 Human Design: The Gate of Friction and Emotional Awareness", "url": "https://www.humandesignapp.com/human-design-gates/gate-6-human-design/", "locator": "Biological & Energetic Connection of Gate 6", "accessedAt": "2026-10-20" }],
+      "sourceCitations": [
+        {
+          "title": "Gate 6 Human Design: The Gate of Friction and Emotional Awareness",
+          "url": "https://www.humandesignapp.com/human-design-gates/gate-6-human-design/",
+          "locator": "Biological & Energetic Connection of Gate 6",
+          "accessedAt": "2026-10-20"
+        }
+      ],
       "limitations": [
         "This is an attribution to one contemporary Human Design source; it is not a universal or canonical lineage claim.",
         "The cited source does not identify a specific hormone, assay, direction, dose, or validated gate-to-hormone mechanism.",
@@ -22,18 +41,73 @@
     },
     {
       "id": "gate-41-adrenaline-source-attribution",
-      "sourceSystem": { "name": "Human Design", "lineage": "Ra Uru Hu teaching as reproduced by HD Navigator", "version": "Gate 41.1 article accessed 2026-10-20" },
-      "sourceFeature": { "kind": "gate", "id": "41", "line": 1, "label": "Gate 41.1 · Decrease / Contraction" },
-      "targetConcept": { "kind": "hormone", "id": "adrenaline", "label": "Adrenaline (epinephrine)" },
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "Ra Uru Hu teaching as reproduced by HD Navigator",
+        "version": "Gate 41.1 article accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "41",
+        "line": 1,
+        "label": "Gate 41.1 · Decrease / Contraction"
+      },
+      "targetConcept": {
+        "kind": "hormone",
+        "id": "adrenaline",
+        "label": "Adrenaline (epinephrine)"
+      },
       "relationType": "tradition_attributed",
       "evidenceStatus": "not_evaluated",
       "permittedUse": "optional_reflective_prompt",
       "claimText": "In a reproduced Ra Uru Hu teaching on Gate 41.1, the Root is described as dealing with adrenaline. Metheus records this as a source-attributed Gate 41/Root teaching, not as evidence that Gate 41 regulates adrenaline.",
-      "sourceCitations": [{ "title": "Gate 41 in Line 1 of Human Design (41.1 Reasonableness)", "url": "https://hdnavigator.ru/en/blog/post/449/41-vorota-1-liniya-обоснованность", "locator": "Ra Uru Hu on 41.1 Reasonableness", "accessedAt": "2026-10-20" }],
+      "sourceCitations": [
+        {
+          "title": "Gate 41 in Line 1 of Human Design (41.1 Reasonableness)",
+          "url": "https://hdnavigator.ru/en/blog/post/449/41-vorota-1-liniya-обоснованность",
+          "locator": "Ra Uru Hu on 41.1 Reasonableness",
+          "accessedAt": "2026-10-20"
+        }
+      ],
       "limitations": [
         "The source associates adrenaline with the Root center in a Gate 41.1 lecture context; it does not make adrenaline a measured gate-specific output.",
         "This is a source-specific symbolic teaching, not a biomedical mechanism or consensus across Human Design lineages.",
         "It does not estimate an individual's catecholamine level or stress response."
+      ]
+    },
+    {
+      "id": "gate-41-adrenal-physiology-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "HumDes reference catalog",
+        "version": "Gate 41 article accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "41",
+        "label": "Gate 41 · Contraction"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "adrenal-glands",
+        "label": "Adrenal glands (adrenaline glands)"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The HumDes Gate 41 reference assigns Gate 41 the physiology 'Adrenal glands (adrenaline glands)' and describes the Root center as the center of adrenaline pressure. This records that source's Human Design correspondence; it is not evidence that Gate 41 regulates adrenal secretion or adrenaline levels.",
+      "sourceCitations": [
+        {
+          "title": "Gate 41 Contraction (Decrease)",
+          "url": "https://www.humdes.com/en/kb/gates/41/",
+          "locator": "Summary of the Gates in Rave Chart Structure; Root Center",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to a Human Design reference source, not a universal or experimentally validated association.",
+        "The source does not define a Gate 41-specific mechanism, assay, direction, or effect size.",
+        "It does not measure or predict an individual's adrenal function, catecholamine levels, stress response, or health state."
       ]
     }
   ]
