@@ -9,7 +9,7 @@ Metheus is a developing framework for readings that bring symbolic design into c
 
 The distinction matters. Symbolic interpretation, measured signals, and a person's own report are different kinds of information. A reading can place them in conversation while keeping their sources visible and leaving meaning with the person.
 
-Possible Epimethean context includes menstrual cycles when relevant, conception, pregnancy, birth, postpartum life, menopause, sleep, temperature, heart-rate variability (HRV), and personal reflections. No context or tracking is assumed or required.
+Possible Epimethean context includes menstrual cycles when relevant, conception, pregnancy, birth, postpartum life, menopause, sleep, temperature, heart-rate variability (HRV), relationship milestones, intimacy, and personal reflections. Relationship or intimacy notes are optional, private, and subjective; they cannot establish another person's consent, feelings, or compatibility. No context or tracking is assumed or required.
 
 ## Principles
 
