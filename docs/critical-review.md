@@ -20,6 +20,8 @@ This review adds a minimal [`subject index schema`](../schema/subject-index.sche
 
 **Remaining work:** This is an in-memory cross-object check, not a complete JSON Schema validator or storage authorization boundary. Integrate the resolver with a trusted store, verify resources when they are written, and define correction, deletion, and supersession behavior; do not make a comprehensive profile mandatory.
 
+**Authorization hardening:** Policy version `metheus-consent-policy/0.3.0` rejects unknown consent purposes/actions/domains, unrecognized record-type/domain pairings, malformed share recipients, invalid action/purpose entries inside grants, and ambiguous grant IDs for a subject. Supersession and revocation references are subject-scoped. This is a narrow fail-closed policy layer, not proof that records or grants satisfy every schema constraint.
+
 **Consent correction in this review:** The authorization policy previously let `birth_chart_inputs` act as a broad fallback for the `symbolic` domain. That collapsed permission for private source details with permission to use a derived map. The fallback is removed; the learning example now grants only its selected learning and symbolic records, while birth inputs require their own explicit domain/purpose scope.
 
 ### 2. Reading references needed a real runtime boundary

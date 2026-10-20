@@ -13,7 +13,7 @@ from typing import Any, Iterable
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 
-POLICY_VERSION = "metheus-consent-policy/0.2.0"
+POLICY_VERSION = "metheus-consent-policy/0.3.0"
 
 # A narrow permission may be covered by an explicit broad category for users
 # who chose that scope. Reproductive, intimacy, relationship, child, and chart
@@ -37,6 +37,17 @@ _BROAD_SCOPES: dict[str, set[str]] = {
 
 _DOMAIN_ALIASES = {"relationship": "relationships"}
 
+_RECORD_DOMAINS = {
+    "birth_chart_inputs", "circadian", "sleep", "feeding", "nutrition", "hydration",
+    "activity", "behavior", "learning", "sensory_exposure", "supplement", "medication",
+    "physiology", "hormone_assay", "symptom", "reproductive", "development",
+    "relationship", "relationships", "intimacy", "environment", "life_event", "symbolic", "other",
+}
+_CONSENT_DOMAINS = (_RECORD_DOMAINS - {"relationship"}) | {
+    "biometrics", "clinical_results", "nutrition_behavior", "child_development",
+}
+_OBSERVATION_RECORD_TYPES = {"observation", "event", "estimate", "symbolic_feature", "context"}
+
 _PHASE_SYSTEM_DOMAINS = {
     "human_design_transit": "symbolic",
     "astrological_transit": "symbolic",
@@ -50,6 +61,15 @@ _PHASE_SYSTEM_DOMAINS = {
 }
 
 _CHILD_STEWARD_ROLES = {"parent_guardian", "legally_authorized_representative"}
+_PURPOSES = {
+    "symbolic_calculation", "personal_reflection", "rhythm_summary", "learning_support",
+    "health_record_organization", "caregiver_coordination", "clinical_sharing", "other",
+}
+_PERMITTED_ACTIONS = {"collect", "analyze", "share", "remote_processing"}
+_CHILD_ASSENT_STATES = {
+    "not_applicable", "not_asked", "asked_agreed", "asked_declined",
+    "not_able_to_express", "unknown",
+}
 
 
 def _is_phase_annotation(record: dict[str, Any]) -> bool:
@@ -182,7 +202,8 @@ def _record_scope_matches(grant: dict[str, Any], record: dict[str, Any]) -> bool
 def _covers_domain(grant_domains: Any, record_domain: Any) -> bool:
     if (
         not isinstance(grant_domains, list)
-        or not all(isinstance(value, str) for value in grant_domains)
+        or not grant_domains
+        or not all(isinstance(value, str) and value in _CONSENT_DOMAINS for value in grant_domains)
         or not isinstance(record_domain, str)
     ):
         return False
@@ -195,8 +216,19 @@ def record_domain(record: dict[str, Any]) -> str | None:
         if not _is_phase_annotation(record):
             return None
         return _PHASE_SYSTEM_DOMAINS.get(record.get("phaseSystem"))
+    record_type = record.get("recordType")
     domain = record.get("domain")
-    if isinstance(domain, str):
+    if not isinstance(domain, str) or domain not in _RECORD_DOMAINS:
+        return None
+    if record_type == "birth_chart_input":
+        return domain if domain == "birth_chart_inputs" else None
+    if record_type == "symbolic_map":
+        return domain if domain == "symbolic" else None
+    if record_type in _OBSERVATION_RECORD_TYPES:
+        if record_type == "symbolic_feature" and domain != "symbolic":
+            return None
+        if domain == "birth_chart_inputs":
+            return None
         return domain
     return None
 
@@ -224,28 +256,42 @@ def _grantor_is_usable(grant: dict[str, Any], record: dict[str, Any]) -> bool:
 
 
 def _recipient_matches(grant: dict[str, Any], requested: dict[str, str] | None) -> bool:
-    if requested is None:
+    valid_roles = {"clinician", "educator", "caregiver", "family_member", "service_provider", "other"}
+    if (
+        not isinstance(requested, dict)
+        or not isinstance(requested.get("reference"), str)
+        or not requested["reference"].strip()
+        or not isinstance(requested.get("role"), str)
+        or requested["role"] not in valid_roles
+    ):
         return False
     recipient = grant.get("recipient")
     return (
         isinstance(recipient, dict)
+        and isinstance(recipient.get("reference"), str)
+        and bool(recipient["reference"].strip())
+        and isinstance(recipient.get("role"), str)
+        and recipient["role"] in valid_roles
         and recipient.get("reference") == requested.get("reference")
         and recipient.get("role") == requested.get("role")
     )
 
 
-def _inactive_grant_ids(grants: list[dict[str, Any]]) -> set[str]:
-    inactive: set[str] = set()
+def _inactive_grant_ids(grants: list[dict[str, Any]]) -> set[tuple[str, str]]:
+    inactive: set[tuple[str, str]] = set()
     for grant in grants:
+        subject_id = grant.get("subjectId")
+        if not isinstance(subject_id, str) or not subject_id:
+            continue
         status = grant.get("status")
         if status not in {"granted", "withdrawn"}:
             continue
         if status == "granted" and isinstance(grant.get("supersedes"), str):
-            inactive.add(grant["supersedes"])
+            inactive.add((subject_id, grant["supersedes"]))
         if status == "withdrawn":
             values = grant.get("revokesGrantIds", [])
             if isinstance(values, list):
-                inactive.update(value for value in values if isinstance(value, str))
+                inactive.update((subject_id, value) for value in values if isinstance(value, str))
     return inactive
 
 
@@ -272,10 +318,12 @@ def evaluate_authorization(
         raise ValueError("subject_id is required")
     if not isinstance(purpose, str) or not purpose.strip():
         raise ValueError("purpose is required")
-    if action not in {"collect", "analyze", "share", "remote_processing"}:
+    if purpose not in _PURPOSES:
+        raise ValueError("unsupported authorization purpose")
+    if not isinstance(action, str) or action not in {"collect", "analyze", "share", "remote_processing"}:
         raise ValueError("unsupported authorization action")
-    evaluated_at = now or datetime.now(timezone.utc)
-    if evaluated_at.tzinfo is None or evaluated_at.utcoffset() is None:
+    evaluated_at = datetime.now(timezone.utc) if now is None else now
+    if not isinstance(evaluated_at, datetime) or evaluated_at.tzinfo is None or evaluated_at.utcoffset() is None:
         raise ValueError("now must include a timezone")
     evaluated_at = evaluated_at.astimezone(timezone.utc)
 
@@ -294,6 +342,16 @@ def evaluate_authorization(
     }
     grant_list = [grant for grant in grants if isinstance(grant, dict)]
     inactive_ids = _inactive_grant_ids(grant_list)
+    grant_identity_counts = Counter(
+        (grant.get("subjectId"), grant.get("id"))
+        for grant in grant_list
+        if isinstance(grant.get("subjectId"), str)
+        and isinstance(grant.get("id"), str)
+        and grant.get("id")
+    )
+    ambiguous_grant_ids = {
+        identity for identity, count in grant_identity_counts.items() if count > 1
+    }
     decisions: list[dict[str, Any]] = []
 
     if not selected_records:
@@ -348,12 +406,17 @@ def evaluate_authorization(
             if (
                 not isinstance(grant_id, str)
                 or not grant_id.strip()
-                or grant_id in inactive_ids
+                or (subject_id, grant_id) in ambiguous_grant_ids
+                or (subject_id, grant_id) in inactive_ids
                 or grant.get("subjectId") != subject_id
                 or grant.get("status") != "granted"
                 or not isinstance(permitted_actions, list)
+                or not permitted_actions
+                or not all(isinstance(value, str) and value in _PERMITTED_ACTIONS for value in permitted_actions)
                 or action not in permitted_actions
                 or not isinstance(purposes, list)
+                or not purposes
+                or not all(isinstance(value, str) and value in _PURPOSES for value in purposes)
                 or purpose not in purposes
                 or not _covers_domain(grant.get("domains"), domain)
                 or not _grant_time_matches(grant, evaluated_at)
@@ -373,6 +436,14 @@ def evaluate_authorization(
             ):
                 continue
             participation = grant.get("childParticipation", {})
+            if "childParticipation" in grant and (
+                not isinstance(participation, dict)
+                or (
+                    "assentState" in participation
+                    and participation.get("assentState") not in _CHILD_ASSENT_STATES
+                )
+            ):
+                continue
             if isinstance(participation, dict) and participation.get("assentState") == "asked_declined":
                 declined_grant_applies = True
                 continue
