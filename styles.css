@@ -34,6 +34,7 @@ h1 { margin: 1.8rem 0 .8rem; font-size: clamp(5rem, 15vw, 11rem); line-height: .
 .lead { max-width: 45rem; margin: 1.8rem 0 .7rem; color: var(--ink); font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(1.7rem, 4vw, 2.75rem); line-height: 1.2; }
 .hero-copy { max-width: 39rem; color: var(--muted); line-height: 1.85; }
 .scroll-link { margin-top: 3.3rem; color: var(--accent); font-size: .82rem; letter-spacing: .04em; text-decoration: none; }
+.scroll-link + .scroll-link { margin-top: .7rem; }
 .scroll-link span { margin-left: .6rem; }
 
 .section { padding-block: clamp(5.5rem, 12vw, 9rem); }
@@ -45,6 +46,11 @@ h1 { margin: 1.8rem 0 .8rem; font-size: clamp(5rem, 15vw, 11rem); line-height: .
 .layer h3, .context-grid h3, .steps h3 { margin: 2.4rem 0 .7rem; font-family: 'Instrument Serif', Georgia, serif; font-size: 1.8rem; font-weight: 400; }
 .layer p:not(.layer-index) { max-width: 30rem; color: var(--muted); line-height: 1.8; }
 .layer-lived { border-color: var(--accent); }
+.plain-language-terms { padding-block: clamp(3.5rem, 7vw, 5rem); border-block: 1px solid var(--line); }
+.term-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.4rem 3rem; margin: 0; }
+.term-list > div { border-top: 1px solid var(--line); padding-top: .8rem; }
+.term-list dt { color: var(--ink); font-weight: 600; }
+.term-list dd { margin: .35rem 0 0; color: var(--muted); font-size: .9rem; line-height: 1.7; }
 
 .band { background: var(--panel); border-block: 1px solid rgba(214, 181, 139, .16); }
 .band-inner { padding-block: clamp(4rem, 9vw, 7rem); text-align: center; }
@@ -110,7 +116,7 @@ h1 { margin: 1.8rem 0 .8rem; font-size: clamp(5rem, 15vw, 11rem); line-height: .
 @media (max-width: 720px) {
   .wrap { width: min(100% - 2.2rem, 560px); }
   .hero { min-height: 88svh; padding-block: 5rem; }
-  .layers, .context-grid, .model-sources { grid-template-columns: 1fr; gap: 2rem; }
+  .layers, .context-grid, .model-sources, .term-list { grid-template-columns: 1fr; gap: 2rem; }
   .model-flow { grid-template-columns: 1fr; gap: .2rem; }
   .model-flow > div { min-height: auto; }
   .flow-arrow { justify-self: center; transform: rotate(90deg); }
