@@ -134,6 +134,8 @@ A phase name should not encode a medical conclusion. If the user wants neutral d
 
 A phase annotation is separate from the observation records that support it. It may be a user-authored name or a system-suggested name. Its supporting records remain independently consented and provenance-tagged.
 
+To place a selected phase beside selected lived records, `describe_phase_observation_relations` computes temporal relations for the explicitly selected record/phase pairs. The comparison can say that recorded windows overlap; it cannot determine that a person was biologically in a menstrual, hormonal, developmental, or circadian phase. Each source and phase must be separately authorized, and the comparison itself is an in-memory description rather than a stored record or evidence of mechanism.
+
 ```json
 {
   "id": "phase-annotation-example",

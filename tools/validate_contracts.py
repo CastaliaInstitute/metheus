@@ -36,6 +36,7 @@ EXAMPLE_SCHEMAS = {
     "phase-chart-feature.example.json": "observation.schema.json",
     "phase-epimethean.example.json": "phase-annotation.schema.json",
     "phase-promethean.example.json": "phase-annotation.schema.json",
+    "phase-observation-relation.example.json": "temporal-relation.schema.json",
     "promethean-feature.example.json": "observation.schema.json",
     "rhythm-sleep-2026-10-18.example.json": "observation.schema.json",
     "rhythm-sleep-2026-10-19.example.json": "observation.schema.json",

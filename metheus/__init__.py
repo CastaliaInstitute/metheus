@@ -18,7 +18,7 @@ from .rhythms import (
 from .schema_validation import validate_record_schema, validate_schema_instance
 from .lifecycle import resolve_current_records
 from .rendering import render_assembled_reading_html
-from .temporal import describe_temporal_order
+from .temporal import describe_phase_observation_relations, describe_temporal_order
 
 __all__ = [
     "evaluate_authorization",
@@ -28,6 +28,7 @@ __all__ = [
     "assemble_reading",
     "render_assembled_reading_html",
     "describe_temporal_order",
+    "describe_phase_observation_relations",
     "validate_record_schema",
     "validate_schema_instance",
     "resolve_current_records",

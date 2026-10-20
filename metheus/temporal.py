@@ -121,32 +121,10 @@ def _classify(left: tuple[str, Any, Any] | None, right: tuple[str, Any, Any] | N
     return "overlaps", None
 
 
-def describe_temporal_order(
-    records: Iterable[dict[str, Any]], *, subject_id: str, left_record_id: str,
-    right_record_id: str, phase_annotations: Iterable[dict[str, Any]] = (),
+def _build_relation(
+    subject_id: str, left_record_id: str, right_record_id: str,
+    left: dict[str, Any], right: dict[str, Any],
 ) -> dict[str, Any]:
-    """Describe the recorded temporal relation between two same-subject inputs.
-
-    The inputs must be current records in the supplied revision history. Date-only
-    windows compare only with other date-only windows; timestamped windows compare
-    on the UTC timeline. Mixed precision, open-ended windows, or absent/invalid
-    time data produce ``indeterminate``. This result is a descriptive helper, not
-    an observation, authorization decision, biological relation, or causal claim.
-    """
-    if not subject_id or not left_record_id or not right_record_id:
-        raise ValueError("subject and both record IDs are required")
-    if left_record_id == right_record_id:
-        raise ValueError("temporal order requires two distinct records")
-    candidates = [*records, *phase_annotations]
-    resolution = _resolve_subject_history(candidates, subject_id)
-    current = {record.get("id"): record for record in resolution["currentRecords"]}
-    left = current.get(left_record_id)
-    right = current.get(right_record_id)
-    if left is None or right is None:
-        raise ValueError("both records must be current and belong to the requested subject")
-    allowed = {"observation", "event", "estimate", "context", "phase_annotation"}
-    if left.get("recordType") not in allowed or right.get("recordType") not in allowed:
-        raise ValueError("temporal order supports observations, events, contexts, estimates, and phase annotations")
     left_window, left_comparable = _time_window(left)
     right_window, right_comparable = _time_window(right)
     relation, gap = _classify(left_comparable, right_comparable)
@@ -176,3 +154,81 @@ def describe_temporal_order(
             "This in-memory description is not a stored record and does not authorize access to either input.",
         ],
     }
+
+
+def describe_temporal_order(
+    records: Iterable[dict[str, Any]], *, subject_id: str, left_record_id: str,
+    right_record_id: str, phase_annotations: Iterable[dict[str, Any]] = (),
+) -> dict[str, Any]:
+    """Describe the recorded temporal relation between two same-subject inputs.
+
+    The inputs must be current records in the supplied revision history. Date-only
+    windows compare only with other date-only windows; timestamped windows compare
+    on the UTC timeline. Mixed precision, open-ended windows, or absent/invalid
+    time data produce ``indeterminate``. This result is a descriptive helper, not
+    an observation, authorization decision, biological relation, or causal claim.
+    """
+    if not subject_id or not left_record_id or not right_record_id:
+        raise ValueError("subject and both record IDs are required")
+    if left_record_id == right_record_id:
+        raise ValueError("temporal order requires two distinct records")
+    candidates = [*records, *phase_annotations]
+    resolution = _resolve_subject_history(candidates, subject_id)
+    current = {record.get("id"): record for record in resolution["currentRecords"]}
+    left = current.get(left_record_id)
+    right = current.get(right_record_id)
+    if left is None or right is None:
+        raise ValueError("both records must be current and belong to the requested subject")
+    allowed = {"observation", "event", "estimate", "context", "phase_annotation"}
+    if left.get("recordType") not in allowed or right.get("recordType") not in allowed:
+        raise ValueError("temporal order supports observations, events, contexts, estimates, and phase annotations")
+    return _build_relation(subject_id, left_record_id, right_record_id, left, right)
+
+
+def describe_phase_observation_relations(
+    records: Iterable[dict[str, Any]], *, subject_id: str,
+    observation_record_ids: Iterable[str], phase_annotation_ids: Iterable[str],
+    phase_annotations: Iterable[dict[str, Any]], max_pairs: int = 500,
+) -> list[dict[str, Any]]:
+    """Describe temporal relations between explicitly selected records/phases.
+
+    This computes the Cartesian product of the selected observation and phase
+    IDs. Both lists are explicit to avoid silently broadening a reading's scope.
+    The caller must authorize every selected input before invoking this helper.
+    The returned pairwise objects are ephemeral; they do not assign biological
+    phase or association.
+    """
+    if not isinstance(max_pairs, int) or isinstance(max_pairs, bool) or max_pairs < 1:
+        raise ValueError("max_pairs must be a positive integer")
+    observation_ids = list(observation_record_ids)
+    phase_ids = list(phase_annotation_ids)
+    if not observation_ids or not phase_ids:
+        raise ValueError("explicit observation and phase annotation IDs are required")
+    if not all(isinstance(value, str) and value for value in observation_ids + phase_ids):
+        raise ValueError("selected IDs must be nonempty strings")
+    if len(set(observation_ids)) != len(observation_ids) or len(set(phase_ids)) != len(phase_ids):
+        raise ValueError("selected IDs must be unique within each list")
+    if set(observation_ids).intersection(phase_ids):
+        raise ValueError("an ID cannot be both an observation and a phase annotation")
+    if len(observation_ids) * len(phase_ids) > max_pairs:
+        raise ValueError("selected record and phase combination exceeds max_pairs")
+
+    record_list = list(records)
+    phase_list = list(phase_annotations)
+    resolution = _resolve_subject_history([*record_list, *phase_list], subject_id)
+    current = {record.get("id"): record for record in resolution["currentRecords"]}
+    for record_id in observation_ids:
+        record = current.get(record_id)
+        if record is None or record.get("recordType") not in {"observation", "event", "estimate", "context"}:
+            raise ValueError("every selected observation ID must resolve to a current same-subject source record")
+    phase_index = {item.get("id"): item for item in phase_list if isinstance(item, dict)}
+    for phase_id in phase_ids:
+        annotation = current.get(phase_id)
+        if annotation is None or annotation.get("recordType") != "phase_annotation" or phase_index.get(phase_id) is not annotation:
+            raise ValueError("every selected phase ID must resolve to a current same-subject phase annotation")
+
+    return [
+        _build_relation(subject_id, record_id, phase_id, current[record_id], current[phase_id])
+        for record_id in observation_ids
+        for phase_id in phase_ids
+    ]
