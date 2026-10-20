@@ -59,7 +59,7 @@ The [phase-aware reading example](examples/phase-aware-reading.example.json) sho
 
 See the [privacy, consent, and data stewardship model](docs/privacy-consent-model.md) and draft [consent-grant schema](schema/consent.schema.json) for scoped permissions, child participation, relationship-data boundaries, and required data lifecycle controls.
 
-The Python package includes an in-memory [`evaluate_authorization`](metheus/authorization.py) policy prototype and [`validate_reading_references`](metheus/readings.py) integrity check. They evaluate caller-supplied objects but do not authenticate users or enforce access to storage.
+The Python package includes an in-memory [`evaluate_authorization`](metheus/authorization.py) policy prototype, [`validate_reading_references`](metheus/readings.py) integrity check, and [`authorize_reading_inputs`](metheus/readings.py) preflight for selected reading analysis. They evaluate caller-supplied objects but do not authenticate users or enforce access to storage.
 
 ## Site
 

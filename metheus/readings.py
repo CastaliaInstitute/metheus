@@ -7,7 +7,10 @@ enforce a storage boundary.
 
 from __future__ import annotations
 
+from datetime import datetime
 from typing import Any, Iterable
+
+from .authorization import evaluate_authorization
 
 
 def validate_reading_references(
@@ -191,3 +194,73 @@ def validate_reading_references(
                     issue("phase_hypothesis_requires_subject_sources")
 
     return {"valid": not issues, "issues": issues}
+
+
+def authorize_reading_inputs(
+    reading: dict[str, Any],
+    records: Iterable[dict[str, Any]],
+    phase_annotations: Iterable[dict[str, Any]],
+    grants: Iterable[dict[str, Any]],
+    *,
+    action: str = "analyze",
+    now: datetime | None = None,
+) -> dict[str, Any]:
+    """Preflight selected reading inputs for reference integrity and consent.
+
+    `action` may be `analyze` or `remote_processing`. Remote processing also
+    requires a separate successful `analyze` authorization. Only objects named
+    by the reading's `inputIds` are sent to the consent evaluator. This is an
+    in-memory preflight, not an authentication or storage access boundary.
+    """
+    if not isinstance(action, str) or action not in {"analyze", "remote_processing"}:
+        raise ValueError("action must be 'analyze' or 'remote_processing'")
+    if not isinstance(reading, dict):
+        return {"authorized": False, "reason": "invalid_reading"}
+
+    record_list = list(records)
+    phase_list = list(phase_annotations)
+    grant_list = list(grants)
+    reference_check = validate_reading_references(reading, record_list, phase_list)
+    if not reference_check["valid"]:
+        return {
+            "authorized": False,
+            "reason": "invalid_reading_references",
+            "referenceIssues": reference_check["issues"],
+            "authorizationChecks": [],
+        }
+
+    subject_id = reading.get("subjectId")
+    purpose = reading.get("purpose")
+    if not isinstance(subject_id, str) or not subject_id.strip():
+        return {"authorized": False, "reason": "missing_reading_subject", "authorizationChecks": []}
+    if not isinstance(purpose, str) or not purpose.strip():
+        return {"authorized": False, "reason": "missing_reading_purpose", "authorizationChecks": []}
+
+    selected_ids = set(reading.get("inputIds", []))
+    selected_items = [
+        item for item in [*record_list, *phase_list]
+        if isinstance(item, dict) and isinstance(item.get("id"), str) and item["id"] in selected_ids
+    ]
+    required_actions = ["analyze"]
+    if action == "remote_processing":
+        required_actions.append("remote_processing")
+
+    checks = [
+        evaluate_authorization(
+            selected_items,
+            grant_list,
+            subject_id=subject_id,
+            purpose=purpose,
+            action=required_action,
+            now=now,
+        )
+        for required_action in required_actions
+    ]
+    return {
+        "authorized": all(check["authorized"] for check in checks),
+        "subjectId": subject_id,
+        "purpose": purpose,
+        "requestedAction": action,
+        "referenceCheck": {"valid": True, "issues": []},
+        "authorizationChecks": checks,
+    }

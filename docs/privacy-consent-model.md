@@ -78,6 +78,22 @@ In the draft schema, `permittedActions` means currently authorized actions, not 
 
 The current in-memory policy prototype is [`metheus/authorization.py`](../metheus/authorization.py). `evaluate_authorization` requires every selected source record or phase annotation to match an active grant for the same subject, purpose, action, and domain; it checks duplicate record IDs, creation/expiry time, record-ID/date scopes, share recipient, remote-processing disclosure, supersession/revocation references, and explicit child dissent. Known phase systems map to narrow domains: symbolic transits to `symbolic`, menstrual/pregnancy/postpartum/menopause contexts to `reproductive`, development to `development`, and sleep/wake to `sleep`. A phase annotation and its source basis records are separate selected items and each must be authorized; one phase annotation cannot serve as another's basis. Date scopes must contain the full date span of an interval, including phase-annotation windows, not just the start date. An `ongoing` phase annotation has no finite end, so it cannot be covered by a date-scoped grant; use a specifically record-scoped grant if that ongoing context is authorized. Narrow consent domains are preferred; legacy broad scopes cover only the subdomains listed in that module. For a remote analysis, callers must require both `analyze` and `remote_processing`; for sharing, they must pass the exact recipient. Any denied record makes the batch unauthorized.
 
+`authorize_reading_inputs` in [`metheus/readings.py`](../metheus/readings.py) combines reference checks with consent evaluation for a reading's `analyze` or `remote_processing` action. It selects only objects named by the reading's `inputIds`; it also rejects unresolved or cross-subject phase bases before evaluating grants. Remote processing returns separate decisions for analysis and remote processing, and authorizes only if both pass. Sharing a reading still requires `evaluate_authorization` with `action="share"`, the selected recipient, and every input item; these helpers remain preflight prototypes, not storage-boundary controls.
+
+```python
+from metheus import authorize_reading_inputs
+
+decision = authorize_reading_inputs(
+    reading,
+    candidate_source_records,
+    candidate_phase_annotations,
+    consent_grants,
+    action="remote_processing",
+)
+if not decision["authorized"]:
+    raise PermissionError("Reading inputs are not authorized for remote processing")
+```
+
 Development phase annotations require an explicit life stage. Child stages remain subject to the guardian-steward check even when represented by a derived phase label. The evaluator still cannot verify that the label is accurate or that the grantor has legal authority.
 
 Example call shape:
