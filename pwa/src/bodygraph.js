@@ -3,7 +3,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 const SVG_URL = '/chat/bodygraph-reference.svg?v=2';
 const ENDOCRINE_URL = '/chat/endocrine-relations.json?v=0.2.3';
-const CORRESPONDENCE_URL = '/chat/gate-endocrine-correspondences.json?v=0.1.2';
+const CORRESPONDENCE_URL = '/chat/gate-endocrine-correspondences.json?v=0.2.0';
 const $ = (selector) => document.querySelector(selector);
 
 function pointInRoot(root, element, x, y) {
@@ -139,21 +139,24 @@ export async function mountBodygraph() {
       marker.position.set(x, y, 2);
       marker.userData.gateId = gateId;
       correspondenceGroup.add(marker);
-      const labelCanvas = document.createElement('canvas');
-      labelCanvas.width = 512;
-      labelCanvas.height = 72;
-      const context = labelCanvas.getContext('2d');
-      context.font = 'bold 23px system-ui, sans-serif';
-      context.fillStyle = '#51335d';
-      const targetLabel = items.length > 1 ? `${items.length} sourced links` : items[0].targetConcept.label;
-      const shortLabel = targetLabel.length > 34 ? `${targetLabel.slice(0, 31)}…` : targetLabel;
-      context.fillText(`Gate ${gateId} · ${shortLabel}`, 8, 42);
-      const texture = new THREE.CanvasTexture(labelCanvas);
-      texture.colorSpace = THREE.SRGBColorSpace;
-      const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: false }));
-      sprite.position.set(x + 30, y + (y > 0 ? -12 : 12), 3);
-      sprite.scale.set(104, 14.6, 1);
-      correspondenceGroup.add(sprite);
+      if (byGate.size <= 8) {
+        const labelCanvas = document.createElement('canvas');
+        labelCanvas.width = 512;
+        labelCanvas.height = 72;
+        const context = labelCanvas.getContext('2d');
+        context.font = 'bold 23px system-ui, sans-serif';
+        context.fillStyle = '#51335d';
+        const targetLabel = items.length > 1 ? `${items.length} sourced links` : items[0].targetConcept.label;
+        const shortLabel = targetLabel.length > 34 ? `${targetLabel.slice(0, 31)}…` : targetLabel;
+        context.fillText(`Gate ${gateId} · ${shortLabel}`, 8, 42);
+        const texture = new THREE.CanvasTexture(labelCanvas);
+        texture.colorSpace = THREE.SRGBColorSpace;
+        const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: false }));
+        sprite.position.set(x + 30, y + (y > 0 ? -12 : 12), 3);
+        sprite.scale.set(104, 14.6, 1);
+        correspondenceGroup.add(sprite);
+
+      }
 
       for (const item of items) {
         const button = document.createElement('button');
@@ -212,7 +215,7 @@ export async function mountBodygraph() {
       const catalog = await response.json();
       gateCorrespondences = catalog.correspondences;
       renderCorrespondences();
-      detail.textContent = `${gateCorrespondences.length} source-attributed gate correspondences. Select a marked gate to read the source wording and limitations. These are symbolic teachings, not biological mechanisms or personal measurements.`;
+      detail.textContent = `${gateCorrespondences.length} source-attributed gate correspondences across ${byGate.size} gates. Select a ring or source-list entry to read the attributed wording and limitations. Dense overlays omit on-map labels for readability; the accessible list keeps every entry.`;
     } catch {
       detail.textContent = 'The gate correspondence catalog could not be loaded. The generic BodyGraph is still available.';
     }

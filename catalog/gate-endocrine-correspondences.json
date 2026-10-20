@@ -1,6 +1,6 @@
 {
   "$schema": "../schema/correspondence-catalog.schema.json",
-  "catalogVersion": "0.1.2",
+  "catalogVersion": "0.2.0",
   "catalogStatus": "source_attributed",
   "policy": "These entries record specific Human Design sources' gate-level biological or hormonal correspondences. They are not established biology, assay interpretation, or evidence that a gate causes, measures, or predicts a hormone. Preserve each source and its wording; do not generalize one source's teaching to all Human Design lineages.",
   "correspondences": [
@@ -213,6 +213,1686 @@
         "This is an attribution to a Human Design reference source, not an experimentally validated association or a universal lineage claim.",
         "The source names a physiological correspondence but does not define a Gate-specific mechanism, assay, direction, or effect size.",
         "It does not measure or predict an individual’s pineal function, melatonin level, sleep, circadian phase, or health state."
+      ]
+    },
+    {
+      "id": "gate-3-ovaries-testes-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "3",
+        "label": "Gate 3"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "gonads",
+        "label": "Ovaries and testes"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Ovaries and testes as the organ association for Gate 3. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 3 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 2",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-5-ovaries-testes-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "5",
+        "label": "Gate 5"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "gonads",
+        "label": "Ovaries and testes"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Ovaries and testes as the organ association for Gate 5. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 5 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 2",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-9-ovaries-testes-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "9",
+        "label": "Gate 9"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "gonads",
+        "label": "Ovaries and testes"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Ovaries and testes as the organ association for Gate 9. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 9 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 2",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-14-ovaries-testes-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "14",
+        "label": "Gate 14"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "gonads",
+        "label": "Ovaries and testes"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Ovaries and testes as the organ association for Gate 14. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 14 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 5",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-27-ovaries-testes-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "27",
+        "label": "Gate 27"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "gonads",
+        "label": "Ovaries and testes"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Ovaries and testes as the organ association for Gate 27. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 27 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 3",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-29-ovaries-testes-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "29",
+        "label": "Gate 29"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "gonads",
+        "label": "Ovaries and testes"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Ovaries and testes as the organ association for Gate 29. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 29 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 3",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-34-ovaries-testes-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "34",
+        "label": "Gate 34"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "gonads",
+        "label": "Ovaries and testes"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Ovaries and testes as the organ association for Gate 34. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 34 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 3",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-42-ovaries-testes-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "42",
+        "label": "Gate 42"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "gonads",
+        "label": "Ovaries and testes"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Ovaries and testes as the organ association for Gate 42. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 42 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 4",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-59-ovaries-testes-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "59",
+        "label": "Gate 59"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "gonads",
+        "label": "Ovaries and testes"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Ovaries and testes as the organ association for Gate 59. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 59 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 5",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-4-pituitary-glands-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "4",
+        "label": "Gate 4"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "pituitary-gland",
+        "label": "Anterior and posterior pituitary glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Anterior and posterior pituitary glands as the organ association for Gate 4. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 4 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 2",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-11-pituitary-glands-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "11",
+        "label": "Gate 11"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "pituitary-gland",
+        "label": "Anterior and posterior pituitary glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Anterior and posterior pituitary glands as the organ association for Gate 11. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 11 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 2",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-17-pituitary-glands-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "17",
+        "label": "Gate 17"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "pituitary-gland",
+        "label": "Anterior and posterior pituitary glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Anterior and posterior pituitary glands as the organ association for Gate 17. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 17 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 2",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-24-pituitary-glands-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "24",
+        "label": "Gate 24"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "pituitary-gland",
+        "label": "Anterior and posterior pituitary glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Anterior and posterior pituitary glands as the organ association for Gate 24. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 24 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 3",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-43-pituitary-glands-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "43",
+        "label": "Gate 43"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "pituitary-gland",
+        "label": "Anterior and posterior pituitary glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Anterior and posterior pituitary glands as the organ association for Gate 43. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 43 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 4",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-47-pituitary-glands-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "47",
+        "label": "Gate 47"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "pituitary-gland",
+        "label": "Anterior and posterior pituitary glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Anterior and posterior pituitary glands as the organ association for Gate 47. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 47 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 4",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-8-thyroid-parathyroid-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "8",
+        "label": "Gate 8"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "thyroid-parathyroid-glands",
+        "label": "Thyroid and parathyroid glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Thyroid and parathyroid glands as the organ association for Gate 8. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 8 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 2",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-12-thyroid-parathyroid-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "12",
+        "label": "Gate 12"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "thyroid-parathyroid-glands",
+        "label": "Thyroid and parathyroid glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Thyroid and parathyroid glands as the organ association for Gate 12. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 12 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 2",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-16-thyroid-parathyroid-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "16",
+        "label": "Gate 16"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "thyroid-parathyroid-glands",
+        "label": "Thyroid and parathyroid glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Thyroid and parathyroid glands as the organ association for Gate 16. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 16 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 2",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-20-thyroid-parathyroid-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "20",
+        "label": "Gate 20"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "thyroid-parathyroid-glands",
+        "label": "Thyroid and parathyroid glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Thyroid and parathyroid glands as the organ association for Gate 20. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 20 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 3",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-23-thyroid-parathyroid-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "23",
+        "label": "Gate 23"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "thyroid-parathyroid-glands",
+        "label": "Thyroid and parathyroid glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Thyroid and parathyroid glands as the organ association for Gate 23. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 23 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 3",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-31-thyroid-parathyroid-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "31",
+        "label": "Gate 31"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "thyroid-parathyroid-glands",
+        "label": "Thyroid and parathyroid glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Thyroid and parathyroid glands as the organ association for Gate 31. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 31 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 3",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-33-thyroid-parathyroid-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "33",
+        "label": "Gate 33"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "thyroid-parathyroid-glands",
+        "label": "Thyroid and parathyroid glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Thyroid and parathyroid glands as the organ association for Gate 33. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 33 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 3",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-35-thyroid-parathyroid-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "35",
+        "label": "Gate 35"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "thyroid-parathyroid-glands",
+        "label": "Thyroid and parathyroid glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Thyroid and parathyroid glands as the organ association for Gate 35. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 35 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 3",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-45-thyroid-parathyroid-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "45",
+        "label": "Gate 45"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "thyroid-parathyroid-glands",
+        "label": "Thyroid and parathyroid glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Thyroid and parathyroid glands as the organ association for Gate 45. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 45 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 4",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-56-thyroid-parathyroid-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "56",
+        "label": "Gate 56"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "thyroid-parathyroid-glands",
+        "label": "Thyroid and parathyroid glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Thyroid and parathyroid glands as the organ association for Gate 56. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 56 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 5",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-62-thyroid-parathyroid-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "62",
+        "label": "Gate 62"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "thyroid-parathyroid-glands",
+        "label": "Thyroid and parathyroid glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Thyroid and parathyroid glands as the organ association for Gate 62. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 62 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 5",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-19-adrenal-glands-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "19",
+        "label": "Gate 19"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "adrenal-glands",
+        "label": "Adrenal glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Adrenal glands as the organ association for Gate 19. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 19 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 3",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-38-adrenal-glands-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "38",
+        "label": "Gate 38"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "adrenal-glands",
+        "label": "Adrenal glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Adrenal glands as the organ association for Gate 38. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 38 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 4",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-39-adrenal-glands-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "39",
+        "label": "Gate 39"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "adrenal-glands",
+        "label": "Adrenal glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Adrenal glands as the organ association for Gate 39. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 39 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 4",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-41-adrenal-glands-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "41",
+        "label": "Gate 41"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "adrenal-glands",
+        "label": "Adrenal glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Adrenal glands as the organ association for Gate 41. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 41 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 4",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-52-adrenal-glands-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "52",
+        "label": "Gate 52"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "adrenal-glands",
+        "label": "Adrenal glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Adrenal glands as the organ association for Gate 52. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 52 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 4",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-53-adrenal-glands-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "53",
+        "label": "Gate 53"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "adrenal-glands",
+        "label": "Adrenal glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Adrenal glands as the organ association for Gate 53. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 53 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 4",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-54-adrenal-glands-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "54",
+        "label": "Gate 54"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "adrenal-glands",
+        "label": "Adrenal glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Adrenal glands as the organ association for Gate 54. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 54 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 4",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-58-adrenal-glands-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "58",
+        "label": "Gate 58"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "adrenal-glands",
+        "label": "Adrenal glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Adrenal glands as the organ association for Gate 58. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 58 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 5",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-60-adrenal-glands-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "60",
+        "label": "Gate 60"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "adrenal-glands",
+        "label": "Adrenal glands"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Adrenal glands as the organ association for Gate 60. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 60 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 5",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-21-thymus-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "21",
+        "label": "Gate 21"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "thymus",
+        "label": "Thymus"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Thymus as the organ association for Gate 21. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 21 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 3",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-26-thymus-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "26",
+        "label": "Gate 26"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "thymus",
+        "label": "Thymus"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Thymus as the organ association for Gate 26. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 26 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 3",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-51-thymus-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "51",
+        "label": "Gate 51"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "thymus",
+        "label": "Thymus"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Thymus as the organ association for Gate 51. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 51 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 4",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-6-kidneys-pancreas-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "6",
+        "label": "Gate 6"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "kidneys-pancreas",
+        "label": "Kidneys and pancreas"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Kidneys and pancreas as the organ association for Gate 6. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 6 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 2",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-22-kidneys-pancreas-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "22",
+        "label": "Gate 22"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "kidneys-pancreas",
+        "label": "Kidneys and pancreas"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Kidneys and pancreas as the organ association for Gate 22. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 22 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 3",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-30-kidneys-pancreas-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "30",
+        "label": "Gate 30"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "kidneys-pancreas",
+        "label": "Kidneys and pancreas"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Kidneys and pancreas as the organ association for Gate 30. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 30 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 3",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-36-kidneys-pancreas-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "36",
+        "label": "Gate 36"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "kidneys-pancreas",
+        "label": "Kidneys and pancreas"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Kidneys and pancreas as the organ association for Gate 36. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 36 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 3",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-37-kidneys-pancreas-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "37",
+        "label": "Gate 37"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "kidneys-pancreas",
+        "label": "Kidneys and pancreas"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Kidneys and pancreas as the organ association for Gate 37. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 37 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 3",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-49-kidneys-pancreas-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "49",
+        "label": "Gate 49"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "kidneys-pancreas",
+        "label": "Kidneys and pancreas"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Kidneys and pancreas as the organ association for Gate 49. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 49 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 4",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-55-kidneys-pancreas-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "55",
+        "label": "Gate 55"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "kidneys-pancreas",
+        "label": "Kidneys and pancreas"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Kidneys and pancreas as the organ association for Gate 55. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 55 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 4",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-61-pineal-gland-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "61",
+        "label": "Gate 61"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "pineal-gland",
+        "label": "Pineal gland"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Pineal gland as the organ association for Gate 61. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 61 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 5",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-63-pineal-gland-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "63",
+        "label": "Gate 63"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "pineal-gland",
+        "label": "Pineal gland"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Pineal gland as the organ association for Gate 63. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 63 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 5",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
+      ]
+    },
+    {
+      "id": "gate-64-pineal-gland-7-jewels-source-attribution",
+      "sourceSystem": {
+        "name": "Human Design",
+        "lineage": "7 Jewels · Michelle Rene’ Robinson",
+        "version": "Working with the 64 Gates of Human Design, accessed 2026-10-20"
+      },
+      "sourceFeature": {
+        "kind": "gate",
+        "id": "64",
+        "label": "Gate 64"
+      },
+      "targetConcept": {
+        "kind": "organ",
+        "id": "pineal-gland",
+        "label": "Pineal gland"
+      },
+      "relationType": "tradition_attributed",
+      "evidenceStatus": "not_evaluated",
+      "permittedUse": "optional_reflective_prompt",
+      "claimText": "The 7 Jewels “Working with the 64 Gates of Human Design” reference lists Pineal gland as the organ association for Gate 64. This records that source’s gate-to-organ assignment; it does not establish a gate-specific endocrine mechanism or show that Gate 64 regulates any hormone.",
+      "sourceCitations": [
+        {
+          "title": "Working with the 64 Gates of Human Design",
+          "url": "https://static1.squarespace.com/static/6280e747849f8a12d5596c13/t/66aa563beed0906e07efabb5/1722439227589/Gates-of-Empowerment-.pdf",
+          "locator": "7 Jewels resource by Michelle Rene’ Robinson, gate-organ table, PDF page 5",
+          "accessedAt": "2026-10-20"
+        }
+      ],
+      "limitations": [
+        "This is an attribution to one contemporary Human Design resource, not a universal or experimentally validated association.",
+        "The source assigns an organ to a gate but does not establish a physiological route, gate-specific hormone, regulatory direction, or effect size.",
+        "It does not measure or predict an individual’s organ function, hormone level, reproductive state, or health."
       ]
     }
   ]
