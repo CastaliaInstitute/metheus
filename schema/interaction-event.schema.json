@@ -236,6 +236,14 @@
     "participantReferences": {
       "type": "array",
       "minItems": 1,
+      "uniqueItems": true,
+      "contains": {
+        "type": "object",
+        "required": ["relationToRecorder"],
+        "properties": { "relationToRecorder": { "const": "recorder" } }
+      },
+      "minContains": 1,
+      "maxContains": 1,
       "items": {
         "type": "object",
         "additionalProperties": false,
