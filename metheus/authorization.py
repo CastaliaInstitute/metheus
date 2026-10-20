@@ -15,7 +15,7 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 from .rhythms import measurement_series_source_matches, measurement_series_summary_valid
 
 
-POLICY_VERSION = "metheus-consent-policy/0.3.0"
+POLICY_VERSION = "metheus-consent-policy/0.4.0"
 
 # A narrow permission may be covered by an explicit broad category for users
 # who chose that scope. Reproductive, intimacy, relationship, child, and chart
@@ -77,7 +77,13 @@ _PHASE_SYSTEM_DOMAINS = {
     "menopause": "reproductive",
     "development": "development",
     "sleep_wake": "sleep",
+    "circadian_rhythm": "circadian",
+    "eating_rhythm": "nutrition",
     "other": "other",
+}
+_ULTRADIAN_PHASE_DOMAINS = {
+    "feeding_bout_reported": "feeding",
+    "within_day_activity_rest_cycle": "activity",
 }
 
 _CHILD_STEWARD_ROLES = {"parent_guardian", "legally_authorized_representative"}
@@ -130,7 +136,7 @@ def _record_dates(record: dict[str, Any]) -> tuple[date, date] | None:
     # Do not let an added/malformed `time` field narrow a phase annotation's
     # authorization window; its declared phase window is authoritative.
     if "phaseSystem" in record:
-        if not _is_phase_annotation(record) or record.get("phaseSystem") not in _PHASE_SYSTEM_DOMAINS:
+        if not _is_phase_annotation(record) or record_domain(record) is None:
             return None
         window = record.get("window")
         if not isinstance(window, dict):
@@ -235,6 +241,8 @@ def record_domain(record: dict[str, Any]) -> str | None:
     if "phaseSystem" in record:
         if not _is_phase_annotation(record):
             return None
+        if record.get("phaseSystem") == "ultradian_rhythm":
+            return _ULTRADIAN_PHASE_DOMAINS.get(record.get("canonicalPhase"))
         return _PHASE_SYSTEM_DOMAINS.get(record.get("phaseSystem"))
     record_type = record.get("recordType")
     domain = record.get("domain")
@@ -422,7 +430,7 @@ def evaluate_authorization(
         if not isinstance(domain, str):
             decisions.append({"recordId": record_id, "authorized": False, "reason": "missing_record_domain"})
             continue
-        if _is_phase_annotation(record) and record.get("phaseSystem") in _PHASE_SYSTEM_DOMAINS:
+        if _is_phase_annotation(record):
             basis_ids = record.get("basisRecordIds")
             if not isinstance(basis_ids, list) or not basis_ids or not all(isinstance(value, str) and value for value in basis_ids):
                 decisions.append({"recordId": record_id, "authorized": False, "reason": "missing_phase_basis_records"})
