@@ -1,0 +1,31 @@
+{
+  "id": "synthetic-symbolic-map-reading",
+  "subjectId": "synthetic-subject",
+  "version": "0.1",
+  "purpose": "personal_reflection",
+  "timeWindow": {
+    "start": "2026-10-20T00:00:00Z",
+    "end": "2026-10-21T00:00:00Z",
+    "timeZone": "Etc/UTC",
+    "precision": "exact"
+  },
+  "inputIds": ["synthetic-symbolic-map", "synthetic-chart-feature"],
+  "excludedDomains": ["birth_chart_inputs", "reproductive", "intimacy", "relationships"],
+  "claims": [
+    {
+      "claimType": "symbolic_prompt",
+      "text": "This synthetic map links a birth-input record to a symbolic feature. It offers no claim about physiology or a person's fixed traits.",
+      "sourceIds": ["synthetic-symbolic-map", "synthetic-chart-feature"],
+      "support": {
+        "confidence": "not_applicable",
+        "coverage": "unknown",
+        "rationale": "Illustrative symbolic context only; no chart calculation was performed."
+      }
+    }
+  ],
+  "limitations": [
+    "Synthetic example; no actual person or chart is represented.",
+    "Raw birth-chart inputs are excluded from this reading selection."
+  ],
+  "generatedAt": "2026-10-20T12:00:00Z"
+}

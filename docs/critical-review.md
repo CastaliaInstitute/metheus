@@ -32,11 +32,11 @@ The reading schema supports `correspondenceIds` and `evidenceClaimIds`, but the 
 
 ### 3. No end-to-end reading engine exists
 
-The reading grammar is extensive, but there is no engine that selects inputs, resolves every source, checks coverage, renders claims with citations, and records subject feedback/revision. `validate_reading_references` checks selected IDs and several cross-object rules; `authorize_reading_inputs` adds consent preflight; neither produces a reading or proves that natural-language text is entailed by its cited inputs.
+The reading grammar is extensive, but there is no engine that selects inputs, resolves every source, checks coverage, renders claims with citations, and records subject feedback/revision. `preflight_subject_reading` now composes subject-index resolution, reading references, domain exclusions, and consent for a supplied reading; it remains a gate, not a generator. No component proves that natural-language text is entailed by its cited inputs.
 
 **Impact:** The most consequential product behavior—turning records into language—has no executable safety or provenance boundary.
 
-**Recommendation:** Implement a synthetic-data-only reading pipeline with deterministic claim assembly first. Every rendered sentence should map to typed claim records and resolved IDs. Add generation only after a claim-level attribution/evaluation process can detect unsupported text, missing alternatives, and scope drift.
+**Recommendation:** Continue the synthetic-data-only pipeline with deterministic claim assembly. Every rendered sentence should map to typed claim records and resolved IDs. Add generation only after a claim-level attribution/evaluation process can detect unsupported text, missing alternatives, and scope drift.
 
 ### 4. The physiology is organized, not modeled
 

@@ -26,6 +26,8 @@ Both sets of dependencies must appear in the subject index under the expected ki
 
 Index membership allows a client to locate an object; it does not authorize collection, analysis, sharing, or remote processing. Call `resolve_subject_index` to check the index structure and references. Then call `authorize_subject_index_resources` with a separate explicit list of selected resource IDs, the stated purpose, action, and grants. Only those selected resources are sent to the consent evaluator. Remote processing requires both `analyze` and `remote_processing` grants. Sharing still requires a recipient-matched grant.
 
+For a reading, [`preflight_subject_reading`](../metheus/readings.py) combines index resolution, reading-reference checks, excluded-domain checks, and consent evaluation. It rejects any personal input that is not in the index, but it never adds indexed resources to the reading's selection. It returns a preflight decision only; it does not validate the full reading schema, generate text, or protect a storage boundary.
+
 ```python
 from metheus import authorize_subject_index_resources, resolve_subject_index
 
@@ -46,6 +48,8 @@ if not decision["authorized"]:
 ```
 
 This reflection selection does not include the raw birth input. The synthetic [`map reflection grant`](../examples/symbolic-map-reflection-consent.example.json) scopes `analyze` to the map and its feature under `symbolic` + `personal_reflection`. Recalculating the map requires its own `symbolic_calculation` purpose and `birth_chart_inputs` consent, as shown in the separate synthetic [birth-input calculation grant](../examples/birth-input-calculation-consent.example.json). The two domains have no broad fallback to one another.
+
+The [synthetic reading example](../examples/symbolic-map-reading.example.json) adds a selected reading with explicit exclusions. To gate that reading before presentation, pass it with the example index, the three synthetic resources, and the map-reflection grant to `preflight_subject_reading`. A passing result means the references and consent inputs passed this prototype; it does not mean the reading text was generated or proven to follow from its sources.
 
 ## Failure behavior
 

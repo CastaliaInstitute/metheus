@@ -190,7 +190,7 @@ def _covers_domain(grant_domains: Any, record_domain: Any) -> bool:
     return required in grant_domains or bool(_BROAD_SCOPES.get(record_domain, set()) & set(grant_domains))
 
 
-def _record_domain(record: dict[str, Any]) -> str | None:
+def record_domain(record: dict[str, Any]) -> str | None:
     if "phaseSystem" in record:
         if not _is_phase_annotation(record):
             return None
@@ -320,7 +320,7 @@ def evaluate_authorization(
         if record.get("subjectId") != subject_id:
             decisions.append({"recordId": record_id, "authorized": False, "reason": "subject_mismatch"})
             continue
-        domain = _record_domain(record)
+        domain = record_domain(record)
         if not isinstance(domain, str):
             decisions.append({"recordId": record_id, "authorized": False, "reason": "missing_record_domain"})
             continue

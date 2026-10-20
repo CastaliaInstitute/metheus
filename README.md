@@ -67,6 +67,8 @@ The Python package includes an in-memory [`evaluate_authorization`](metheus/auth
 
 [`resolve_subject_index`](metheus/resources.py) checks resource pointers, kinds, schema versions, ownership, and symbolic-map dependencies. [`authorize_subject_index_resources`](metheus/resources.py) checks consent only for an explicit selection; index membership alone never authorizes access. See the [resource resolution contract](docs/resource-resolution.md) for the supported kinds and remaining limitations.
 
+[`preflight_subject_reading`](metheus/readings.py) combines index resolution, reading citations, exact domain exclusions, and consent for a subject-selected reading. The [synthetic symbolic-map reading](examples/symbolic-map-reading.example.json) illustrates a reading that cites the derived map and feature while excluding raw birth inputs; it is not an automatically generated interpretation.
+
 ## Site
 
 - GitHub Pages: https://castaliainstitute.github.io/metheus/

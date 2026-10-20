@@ -10,7 +10,16 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any, Iterable
 
-from .authorization import evaluate_authorization
+from .authorization import evaluate_authorization, record_domain
+from .resources import resolve_subject_index
+
+
+_READING_DOMAINS = {
+    "birth_chart_inputs", "circadian", "sleep", "feeding", "nutrition", "hydration",
+    "activity", "behavior", "learning", "sensory_exposure", "supplement", "medication",
+    "physiology", "hormone_assay", "symptom", "reproductive", "development",
+    "relationship", "relationships", "intimacy", "environment", "life_event", "symbolic", "other",
+}
 
 
 def validate_reading_references(
@@ -67,6 +76,15 @@ def validate_reading_references(
         selected_reference_ids = set(reference_value)
         if len(selected_reference_ids) != len(reference_value):
             issue("duplicate_reference_id")
+
+    excluded_value = reading.get("excludedDomains", [])
+    if not isinstance(excluded_value, list) or not all(
+        isinstance(value, str) and value in _READING_DOMAINS for value in excluded_value
+    ):
+        excluded_domains: set[str] = set()
+        issue("invalid_excluded_domains")
+    else:
+        excluded_domains = {"relationships" if value == "relationship" else value for value in excluded_value}
 
     record_index: dict[str, dict[str, Any]] = {}
     for record in records:
@@ -153,6 +171,15 @@ def validate_reading_references(
             issue("phase_annotation_subject_mismatch", input_id)
         if input_id in correspondence_index or input_id in evidence_index:
             issue("reference_item_in_subject_inputs", input_id)
+        selected_resource = record_index.get(input_id) or phase_index.get(input_id)
+        if selected_resource is not None:
+            domain = record_domain(selected_resource)
+            if not isinstance(domain, str):
+                issue("selected_input_domain_unresolvable", input_id)
+            else:
+                canonical_domain = "relationships" if domain == "relationship" else domain
+                if canonical_domain in excluded_domains:
+                    issue("excluded_domain_selected", input_id)
 
     for reference_id in selected_reference_ids:
         matches = int(reference_id in correspondence_index) + int(reference_id in evidence_index)
@@ -398,4 +425,91 @@ def authorize_reading_inputs(
         "requestedAction": action,
         "referenceCheck": {"valid": True, "issues": []},
         "authorizationChecks": checks,
+    }
+
+
+def preflight_subject_reading(
+    reading: dict[str, Any],
+    subject_index: dict[str, Any],
+    resources: Iterable[dict[str, Any]],
+    grants: Iterable[dict[str, Any]],
+    *,
+    action: str = "analyze",
+    now: datetime | None = None,
+    correspondences: Iterable[dict[str, Any]] = (),
+    evidence_claims: Iterable[dict[str, Any]] = (),
+) -> dict[str, Any]:
+    """Preflight a reading against one subject index and its consent grants.
+
+    Every `inputId` must be both indexed and resolved. The existing reading
+    reference/consent checks then enforce citations, exclusions, and grants for
+    those selected inputs. Index membership never widens the reading selection.
+    This function returns a presentation preflight only: callers must still
+    validate the complete reading schema and enforce storage authorization.
+    """
+    if not isinstance(reading, dict):
+        return {"authorized": False, "preflightPassed": False, "reason": "invalid_reading"}
+
+    resource_list = list(resources)
+    resolution = resolve_subject_index(subject_index, resource_list)
+    if not resolution["valid"]:
+        return {
+            "authorized": False,
+            "preflightPassed": False,
+            "reason": "invalid_subject_index_references",
+            "resolution": resolution,
+        }
+
+    subject_id = reading.get("subjectId")
+    if subject_id != subject_index.get("subjectId"):
+        return {
+            "authorized": False,
+            "preflightPassed": False,
+            "reason": "reading_subject_index_mismatch",
+            "resolution": resolution,
+        }
+
+    input_ids = reading.get("inputIds", [])
+    if not isinstance(input_ids, list) or not all(isinstance(value, str) and value for value in input_ids):
+        return {
+            "authorized": False,
+            "preflightPassed": False,
+            "reason": "invalid_reading_input_ids",
+            "resolution": resolution,
+        }
+    unindexed_ids = sorted(set(input_ids) - set(resolution["resolvedIds"]))
+    if unindexed_ids:
+        return {
+            "authorized": False,
+            "preflightPassed": False,
+            "reason": "reading_input_not_indexed",
+            "unindexedIds": unindexed_ids,
+            "resolution": resolution,
+        }
+
+    records = [
+        resource for resource in resource_list
+        if isinstance(resource, dict) and resource.get("recordType") != "phase_annotation"
+    ]
+    phases = [
+        resource for resource in resource_list
+        if isinstance(resource, dict) and resource.get("recordType") == "phase_annotation"
+    ]
+    authorization = authorize_reading_inputs(
+        reading,
+        records,
+        phases,
+        grants,
+        action=action,
+        now=now,
+        correspondences=correspondences,
+        evidence_claims=evidence_claims,
+    )
+    return {
+        "authorized": authorization.get("authorized", False),
+        "preflightPassed": authorization.get("authorized", False),
+        "readingId": reading.get("id"),
+        "subjectId": subject_id,
+        "resolution": resolution,
+        "authorization": authorization,
     }

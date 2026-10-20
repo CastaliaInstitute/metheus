@@ -29,7 +29,14 @@
       "items": { "type": "string", "minLength": 1 },
       "uniqueItems": true
     },
-    "excludedDomains": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "excludedDomains": {
+      "type": "array",
+      "description": "Domains the subject explicitly excludes from this reading. These are exact domain exclusions, not broad permission categories.",
+      "items": {
+        "enum": ["birth_chart_inputs", "circadian", "sleep", "feeding", "nutrition", "hydration", "activity", "behavior", "learning", "sensory_exposure", "supplement", "medication", "physiology", "hormone_assay", "symptom", "reproductive", "development", "relationship", "relationships", "intimacy", "environment", "life_event", "symbolic", "other"]
+      },
+      "uniqueItems": true
+    },
     "claims": {
       "type": "array",
       "items": {
