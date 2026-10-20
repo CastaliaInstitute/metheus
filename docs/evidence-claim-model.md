@@ -44,6 +44,8 @@ The [evidence-claim schema](../schema/evidence-claim.schema.json) captures these
 5. Assign status and permitted use only for that scope; record review date and reviewer role.
 6. Re-review when the source base changes or the claim's scope is expanded.
 
+The step-by-step operating rules, reviewer roles, review packet, status decisions, promotion checklist, and change-control requirements are specified in the [evidence-claim review protocol](evidence-review-protocol.md). That protocol is not an implemented reviewer service; until one exists, no candidate claim is eligible for readings.
+
 No evidence-claim record should recommend a behavior, supplement, hormone treatment, educational placement, or medical action. Intervention evidence describes studied conditions and outcomes; it does not automatically make an intervention appropriate for a specific person.
 
 ## Candidate evidence catalog
@@ -54,4 +56,4 @@ Before any candidate becomes reading-eligible, a domain-qualified reviewer must 
 
 ## Current boundary
 
-The repository contains a candidate-only evidence catalog, but it does not yet contain a reviewed evidence-claim library, qualified review workflow, or automated citation-quality process. The in-memory [`validate_reading_references`](../metheus/readings.py) preflight can resolve caller-supplied evidence-claim IDs and reject claims that are unevaluated, under review, internal-only, or incompatible with the reading claim type. It cannot authenticate a catalog or reviewer, assess citation quality, or enforce database access. Until review and service-level controls exist, the catalog and resolver are research scaffolding, not an evidence-backed feature.
+The repository contains a candidate-only evidence catalog and a written review protocol, but no reviewed evidence-claim library, executed claim reviews, authenticated reviewer workflow, or automated citation-quality process. The in-memory [`validate_reading_references`](../metheus/readings.py) preflight can resolve caller-supplied evidence-claim IDs and reject claims that are unevaluated, under review, internal-only, or incompatible with the reading claim type. It cannot authenticate a catalog or reviewer, assess citation quality, or enforce database access. Until review and service-level controls exist, the catalog and resolver are research scaffolding, not an evidence-backed feature.
