@@ -173,3 +173,5 @@ Sensitive data are included only for a subject-selected purpose and scope. Colle
 Metheus is currently a concept, not a validated model or clinical product. This document describes a direction for design and research.
 
 For the current implementation boundary by domain—including which rhythm summaries are executable and which physiology/development layers remain conceptual—see the [capability matrix](capability-matrix.md).
+
+For the formal computational split between source records, derived features, latent-state estimation, typed relations, symbolic prompts, and reading assembly, see the [Methean model core specification](model-core-spec.md). It defines the current ceiling as selected descriptive operations and sets evidence and validation gates before any physiological or developmental inference is added.

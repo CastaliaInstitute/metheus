@@ -31,6 +31,8 @@ See [Hormone and endocrine-signal reference](docs/hormone-reference.md) for a br
 
 See [Metheus as a systems model](docs/systems-model.md) for the intended architecture: a stable symbolic map in conversation with physiology, development, circadian and feeding rhythms, relationships, circumstances, and observations that change over time.
 
+See the [Methean model core specification](docs/model-core-spec.md) for the computational boundary between symbolic prompts, source observations, descriptive features, latent-state estimates, and readings, including typed relation classes and maturity gates for future inference.
+
 See the [critical review](docs/critical-review.md) for the current implementation limits, unresolved architecture and validation gaps, and a prioritized path toward an end-to-end Metheus prototype.
 
 See the [capability matrix](docs/capability-matrix.md) for a domain-by-domain distinction between documented concepts, data contracts, executable summaries, validated models, and product services.
