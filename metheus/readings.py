@@ -513,3 +513,183 @@ def preflight_subject_reading(
         "resolution": resolution,
         "authorization": authorization,
     }
+
+
+def assemble_reading(
+    reading: dict[str, Any],
+    subject_index: dict[str, Any],
+    resources: Iterable[dict[str, Any]],
+    grants: Iterable[dict[str, Any]],
+    *,
+    action: str = "analyze",
+    now: datetime | None = None,
+    correspondences: Iterable[dict[str, Any]] = (),
+    evidence_claims: Iterable[dict[str, Any]] = (),
+) -> dict[str, Any]:
+    """Assemble an authorized reading into typed, provenance-carrying claims.
+
+    This deterministic renderer preserves supplied claim text; it does not
+    generate or verify that text. It is a caller-supplied in-memory prototype,
+    and the caller must still perform full schema validation and enforce access
+    at the storage boundary.
+    """
+    resource_list = list(resources)
+    correspondence_list = list(correspondences)
+    evidence_list = list(evidence_claims)
+    preflight = preflight_subject_reading(
+        reading,
+        subject_index,
+        resource_list,
+        grants,
+        action=action,
+        now=now,
+        correspondences=correspondence_list,
+        evidence_claims=evidence_list,
+    )
+    if not preflight.get("preflightPassed"):
+        return {
+            "assembled": False,
+            "reason": preflight.get("reason", "reading_preflight_failed"),
+            "preflight": preflight,
+        }
+
+    if not isinstance(reading.get("id"), str) or not isinstance(reading.get("claims"), list):
+        return {
+            "assembled": False,
+            "reason": "reading_missing_assembly_fields",
+            "preflight": preflight,
+        }
+
+    selected_ids = set(reading.get("inputIds", []))
+    selected_refs = set(reading.get("referenceIds", []))
+    record_index = {
+        item.get("id"): item for item in resource_list
+        if isinstance(item, dict) and isinstance(item.get("id"), str)
+        and item.get("recordType") != "phase_annotation"
+    }
+    source_fields = (
+        "id", "recordType", "eventType", "domain", "label", "epistemicClass",
+        "time", "source", "methodDetails", "uncertainty", "limitations",
+    )
+    phase_index = {
+        item.get("id"): item for item in resource_list
+        if isinstance(item, dict) and isinstance(item.get("id"), str)
+        and item.get("recordType") == "phase_annotation"
+    }
+    correspondence_index = {
+        item.get("id"): item for item in correspondence_list
+        if isinstance(item, dict) and isinstance(item.get("id"), str)
+    }
+    evidence_index = {
+        item.get("id"): item for item in evidence_list
+        if isinstance(item, dict) and isinstance(item.get("id"), str)
+    }
+
+    assembled_claims: list[dict[str, Any]] = []
+    for position, claim in enumerate(reading["claims"], start=1):
+        if not isinstance(claim, dict):
+            return {
+                "assembled": False,
+                "reason": "invalid_claim_shape",
+                "claimPosition": position,
+                "preflight": preflight,
+            }
+        if not isinstance(claim.get("claimType"), str) or not isinstance(claim.get("text"), str):
+            return {
+                "assembled": False,
+                "reason": "claim_missing_type_or_text",
+                "claimPosition": position,
+                "preflight": preflight,
+            }
+        source_ids = claim.get("sourceIds", [])
+        phase_ids = claim.get("phaseAnnotationIds", [])
+        correspondence_ids = claim.get("correspondenceIds", [])
+        evidence_ids = claim.get("evidenceClaimIds", [])
+        if not all(isinstance(values, list) for values in (
+            source_ids, phase_ids, correspondence_ids, evidence_ids
+        )):
+            return {
+                "assembled": False,
+                "reason": "invalid_claim_reference_shape",
+                "claimPosition": position,
+                "preflight": preflight,
+            }
+
+        phases = []
+        for phase_id in phase_ids:
+            annotation = phase_index.get(phase_id)
+            if annotation is not None:
+                phases.append({
+                    "id": phase_id,
+                    "layer": annotation.get("layer"),
+                    "phaseSystem": annotation.get("phaseSystem"),
+                    "canonicalPhase": annotation.get("canonicalPhase"),
+                    "evocativeName": annotation.get("evocativeName"),
+                    "description": annotation.get("description"),
+                    "window": annotation.get("window"),
+                    "basis": annotation.get("basis"),
+                    "interpretation": annotation.get("interpretation"),
+                    "sourceSystem": annotation.get("sourceSystem"),
+                    "nameSource": annotation.get("nameSource"),
+                    "basisRecordIds": annotation.get("basisRecordIds", []),
+                    "method": annotation.get("method"),
+                    "methodVersion": annotation.get("methodVersion"),
+                    "uncertainty": annotation.get("uncertainty"),
+                    "limitations": annotation.get("limitations", []),
+                })
+
+        claim_refs = []
+        for reference_id in correspondence_ids:
+            correspondence = correspondence_index.get(reference_id)
+            if correspondence is not None and reference_id in selected_refs:
+                claim_refs.append({
+                    "id": reference_id,
+                    "kind": "correspondence",
+                    "claimText": correspondence.get("claimText"),
+                    "sourceCitations": correspondence.get("sourceCitations", []),
+                    "limitations": correspondence.get("limitations", []),
+                })
+        for reference_id in evidence_ids:
+            evidence = evidence_index.get(reference_id)
+            if evidence is not None and reference_id in selected_refs:
+                claim_refs.append({
+                    "id": reference_id,
+                    "kind": "evidence_claim",
+                    "claimText": evidence.get("claimText"),
+                    "evidenceStatus": evidence.get("evidenceStatus"),
+                    "scope": evidence.get("scope"),
+                    "sourceCitations": evidence.get("sourceCitations", []),
+                    "limitations": evidence.get("limitations", []),
+                })
+
+        assembled_claims.append({
+            "position": position,
+            "claimType": claim.get("claimType"),
+            "text": claim.get("text"),
+            "sourceIds": [source_id for source_id in source_ids if source_id in selected_ids],
+            "sources": [
+                {key: record_index[source_id][key] for key in source_fields if key in record_index[source_id]}
+                for source_id in source_ids if source_id in record_index
+            ],
+            "phaseAnnotations": phases,
+            "references": claim_refs,
+            "support": claim.get("support"),
+        })
+
+    return {
+        "assembled": True,
+        "readingId": reading["id"],
+        "subjectId": reading.get("subjectId"),
+        "version": reading.get("version"),
+        "purpose": reading.get("purpose"),
+        "timeWindow": reading.get("timeWindow"),
+        "claims": assembled_claims,
+        "limitations": reading.get("limitations", []),
+        "assembly": {
+            "kind": "deterministic_claim_assembly",
+            "sourceTextGenerated": False,
+            "textEntailmentVerified": False,
+            "schemaValidationPerformed": False,
+            "authorizedAction": action,
+        },
+    }

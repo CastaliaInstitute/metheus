@@ -1,7 +1,12 @@
 """Early deterministic components for the Metheus systems model."""
 
 from .authorization import evaluate_authorization
-from .readings import authorize_reading_inputs, preflight_subject_reading, validate_reading_references
+from .readings import (
+    assemble_reading,
+    authorize_reading_inputs,
+    preflight_subject_reading,
+    validate_reading_references,
+)
 from .resources import authorize_subject_index_resources, resolve_subject_index
 from .rhythms import (
     summarize_bleeding_onset_intervals,
@@ -15,6 +20,7 @@ __all__ = [
     "authorize_reading_inputs",
     "validate_reading_references",
     "preflight_subject_reading",
+    "assemble_reading",
     "resolve_subject_index",
     "authorize_subject_index_resources",
     "summarize_bleeding_onset_intervals",

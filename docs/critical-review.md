@@ -30,13 +30,13 @@ The reading schema supports `correspondenceIds` and `evidenceClaimIds`, but the 
 
 **Remaining limitation:** This is still a caller-supplied in-memory preflight. It does not validate all JSON Schema constraints, authenticate a catalog, verify source URLs or reviewer qualifications, or enforce a storage boundary. A future service must validate schemas and use a trusted, versioned catalog before rendering.
 
-### 3. No end-to-end reading engine exists
+### 3. Reading assembly now preserves typed provenance, but text entailment remains open
 
-The reading grammar is extensive, but there is no engine that selects inputs, resolves every source, checks coverage, renders claims with citations, and records subject feedback/revision. `preflight_subject_reading` now composes subject-index resolution, reading references, domain exclusions, and consent for a supplied reading; it remains a gate, not a generator. No component proves that natural-language text is entailed by its cited inputs.
+`preflight_subject_reading` composes subject-index resolution, reading references, domain exclusions, and consent for a supplied reading. The new `assemble_reading` step preserves authored claims in order and attaches source IDs, phase metadata, general-reference citations, support, and limitations. It is deterministic and does not generate prose. No component proves that natural-language text is entailed by its cited inputs, validates the complete reading schema, or records subject feedback/revision.
 
-**Impact:** The most consequential product behavior—turning records into language—has no executable safety or provenance boundary.
+**Impact:** The initial claim assembly has a provenance boundary, but there is still no executable check that authored or generated language is supported by its cited records and references.
 
-**Recommendation:** Continue the synthetic-data-only pipeline with deterministic claim assembly. Every rendered sentence should map to typed claim records and resolved IDs. Add generation only after a claim-level attribution/evaluation process can detect unsupported text, missing alternatives, and scope drift.
+**Recommendation:** Continue the synthetic-data-only pipeline by making the assembler consume validated schemas and by adding claim-level attribution/evaluation. Every rendered claim block must map to a typed claim and resolved IDs; sentence-level rendering needs explicit boundaries if a claim contains multiple sentences. Add language generation only after evaluation can detect unsupported text, missing alternatives, and scope drift.
 
 ### 4. The physiology is organized, not modeled
 
@@ -82,11 +82,11 @@ The tracked repository has no automated test suite or schema/example-validation 
 
 1. **Close data-contract seams:** add a minimal profile/index schema and define versioning, correction, and references across profiles, symbolic maps, observations, summaries, readings, and consent.
 2. **Make contracts executable:** validate each schema and example; add behavioral coverage for reference resolution, consent, temporal windows, and child/relationship boundaries.
-3. **Build one synthetic vertical slice:** profile references → consented synthetic observations → one deterministic rhythm summary → typed reading claims → source-rendered output. Keep persistence and real user data out of this prototype.
+3. **Complete one synthetic vertical slice:** profile references → consented synthetic observations → one deterministic rhythm summary → typed reading claims → provenance-carrying assembled output. The preflight and initial assembler now exist; schema validation, source-rendered display, and claim text evaluation remain. Keep persistence and real user data out of this prototype.
 4. **Govern evidence:** create the review process and a small curated evidence catalog; do not treat citation presence as evidence quality.
 5. **Review high-stakes populations/domains:** infant development, reproductive health, intimate data, and any future intervention-related display with appropriate lived-experience and domain reviewers.
 6. **Only then design real storage/integrations:** threat model, authentication, encryption, scoped authorization at the data boundary, remote-processing disclosure, audit, export, correction, deletion, backups, and vendor review.
 
 ## Current capability statement
 
-At this review, Metheus can present its concept and documentation, represent draft subject-index, birth-input, symbolic-map, observation, phase, reading, consent, and reference records, summarize selected logged rhythms descriptively, and run caller-supplied in-memory reference, index-resolution, and consent preflights. It cannot ingest device or laboratory data, retain personal histories, enforce authorization at a storage boundary, produce validated endocrine or developmental models, or provide a secure health-data service. That limitation should remain prominent until the corresponding capabilities are implemented and verified.
+At this review, Metheus can present its concept and documentation, represent draft subject-index, birth-input, symbolic-map, observation, phase, reading, consent, and reference records, summarize selected logged rhythms descriptively, run caller-supplied in-memory reference/index/consent preflights, and assemble authored claims with source/phase/reference provenance. It cannot generate or entailment-check reading text, validate the complete reading schema at runtime, ingest device or laboratory data, retain personal histories, enforce authorization at a storage boundary, produce validated endocrine or developmental models, or provide a secure health-data service. That limitation should remain prominent until the corresponding capabilities are implemented and verified.
