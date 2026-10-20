@@ -42,14 +42,29 @@ Represent transitions and changing developmental needs: prenatal life, birth, in
 
 Represent processes that vary over time and on different scales:
 
-- **Circadian:** light/dark exposure, sleep/wake timing, temperature and daily routines.
-- **Ultradian:** shorter pulses and cycles, including pulsatile endocrine release and sleep-stage variation.
+- **Circadian (roughly day-scale):** internal timing and phase, light/dark exposure, sleep/wake timing, body-temperature rhythm, alertness, and daily routines. Record clock time and, where possible, relation to the person's sleep schedule; do not assume everyone follows a day-oriented schedule.
+- **Sleep/wake:** sleep onset and offset, duration, interruptions, naps, subjective rest, and schedule variation. Separate device estimates from a person's report and avoid treating one “ideal” schedule as universal.
+- **Feeding and metabolic timing:** meal and snack timing, feeding windows, fasting intervals where voluntarily provided, hydration, and the person's subjective hunger/fullness/energy. This is timing context, not a diet score or recommendation. For infants, represent feeding cues, caregiver-reported feeds, and feeding guidance appropriate to that child; adult fasting concepts do not apply.
+- **Ultradian (within-day):** shorter pulses and cycles, including pulsatile endocrine release, activity/rest periods, and sleep-stage variation.
 - **Reproductive and hormonal:** cycle dates and symptoms, pregnancy, postpartum/lactation, menopause, and direct hormone results when available.
-- **Metabolic and homeostatic:** meals, hydration, temperature, activity, and recovery context.
+- **Activity and recovery:** movement, exertion, sedentary periods, rest, and recovery context.
 - **Developmental:** growth, movement, language, play, regulation, and changing social engagement.
 - **Relational:** connection, conflict, intimacy, caregiving, separation, and repair as personally reported.
 
-These rhythms interact. They should not be collapsed into a single universal cycle or assumed to have the same importance for every person.
+These rhythms interact. Light exposure and sleep timing can organize circadian phase; meals, activity, and social schedules can act as timing cues for peripheral physiology; sleep, feeding, and hormones influence one another. A model should look for individual timing and co-variation rather than assume a single universal routine or that timing alone establishes cause. Rhythms can change with shift work, travel, parenting, illness, disability, season, culture, and personal preference.
+
+#### Rhythm record
+
+For each repeated process, represent (when available):
+
+- event or measurement time, plus time zone and clock-change context;
+- process type (sleep, light, meal, feed, activity, symptom, lab, or other);
+- start/end or point event, duration, and source;
+- regularity and variability over a chosen observation window;
+- relation to sleep timing or another reference event, if useful;
+- missing data, device changes, and confidence in derived estimates.
+
+Do not force meal events into fixed breakfast/lunch/dinner slots. Do not infer a circadian phase from clock time alone when sleep timing, light exposure, or work schedule is unknown. Do not describe an observed alignment between sleep, meals, temperature, mood, or hormones as causal without evidence that supports that claim.
 
 ### 4. State and circumstance
 
@@ -61,8 +76,8 @@ Each data point should carry its source and uncertainty:
 
 | Kind | Examples | What it can support |
 |---|---|---|
-| Directly measured | Temperature, HRV, heart rate, lab assay | A dated observation from a device or lab, with method and limitations |
-| Self-reported | Mood, desire, bleeding, feeding, sleep quality, intimacy, pain | The person's account of their own experience |
+| Directly measured | Temperature, HRV, heart rate, light exposure, lab assay | A dated observation from a device or lab, with method and limitations |
+| Self-reported | Mood, desire, bleeding, meal timing, hunger/fullness, sleep quality, intimacy, pain | The person's account of their own experience |
 | Caregiver-reported | Baby sleep/feeding observations, developmental behavior | An adult observer's account, not direct access to an infant's internal state |
 | Derived estimate | Cycle phase, sleep regularity, trend | A calculation from inputs; method and confidence must be visible |
 | Symbolic interpretation | Human Design gates, types, profiles, or other chart meanings | A framework for reflection, not empirically measured physiology |
@@ -123,7 +138,7 @@ For infants, use a caregiver-supported record with a strong duty of care:
 
 1. **Ontology:** Define the concepts and relationships, including source, timescale, uncertainty, and consent/ownership.
 2. **Observation model:** Specify data contracts for device measures, lab results, self-reports, caregiver observations, derived estimates, and symbolic data.
-3. **Temporal model:** Represent events and repeated measurements without assuming regular cycles or complete tracking.
+3. **Temporal model:** Represent events and repeated measurements across day, within-day, reproductive, and developmental scales without assuming regular cycles, conventional meal schedules, or complete tracking.
 4. **Reading grammar:** Create rules for combining layers while preserving provenance and avoiding causal overstatement.
 5. **Prototype:** Build sample readings for different ages and life contexts, including sparse-data and conflicting-signal cases.
 6. **Review:** Seek input from people with lived experience, pediatric/developmental experts for child contexts, and endocrine expertise for physiology claims.

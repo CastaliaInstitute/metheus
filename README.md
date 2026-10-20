@@ -29,7 +29,7 @@ This site is an early concept. Wearable integrations and personal data collectio
 
 See [Hormone and endocrine-signal reference](docs/hormone-reference.md) for a broad, categorized inventory, regulation notes, and developmental-stage guidance. It distinguishes classical hormones from neurotransmitters, cytokines, growth factors, local mediators, and molecules whose endocrine classification is debated.
 
-See [Metheus as a systems model](docs/systems-model.md) for the intended architecture: a stable symbolic map in conversation with physiology, development, relationships, circumstances, and observations that change over time.
+See [Metheus as a systems model](docs/systems-model.md) for the intended architecture: a stable symbolic map in conversation with physiology, development, circadian and feeding rhythms, relationships, circumstances, and observations that change over time.
 
 ## Site
 
