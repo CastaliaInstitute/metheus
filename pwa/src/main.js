@@ -1510,11 +1510,42 @@ function showMatrixRoomPicker(login, client) {
   roomPickerSelect.hidden = rooms.length === 0;
   $('#room-picker-open').disabled = rooms.length === 0;
   $('#room-picker-empty').hidden = rooms.length > 0;
+  $('#room-picker-refresh').hidden = rooms.length > 0;
   connectForm.hidden = true;
   roomPicker.hidden = false;
   syncIndicator.textContent = 'Connected';
   setStatus('You’re signed in. Choose your circle.');
 }
+
+$('#room-picker-refresh').addEventListener('click', async () => {
+  const client = session.client;
+  if (!client) {
+    setStatus('Please sign in again to refresh your circles.', true);
+    return;
+  }
+  const refreshButton = $('#room-picker-refresh');
+  refreshButton.disabled = true;
+  setStatus('Checking for new circles…');
+  try {
+    client.retryImmediately();
+    const until = Date.now() + 10000;
+    while (Date.now() < until) {
+      const rooms = client.getRooms().filter((room) => room.getMyMembership?.() === 'join');
+      if (rooms.length) {
+        showMatrixRoomPicker({ user_id: session.userId }, client);
+        if (rooms.length === 1) roomPickerSelect.value = rooms[0].roomId;
+        setStatus('Your circles are ready. Choose one to continue.');
+        return;
+      }
+      await new Promise((resolve) => window.setTimeout(resolve, 500));
+    }
+    setStatus('No circles are connected yet. After the organizer invites you, refresh again.');
+  } catch (error) {
+    setStatus(getPlainBody(error), true);
+  } finally {
+    refreshButton.disabled = false;
+  }
+});
 
 async function openMatrixRoom(room, login) {
   const client = session.client;
