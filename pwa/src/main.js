@@ -1547,6 +1547,46 @@ $('#room-picker-refresh').addEventListener('click', async () => {
   }
 });
 
+$('#new-circle-form').addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const client = session.client;
+  const input = $('#new-circle-name');
+  const name = input.value.trim();
+  if (!client || !name) {
+    setStatus(client ? 'Enter a name for your circle.' : 'Please sign in again before creating a circle.', true);
+    return;
+  }
+  const createButton = $('#new-circle-create');
+  createButton.disabled = true;
+  setStatus('Creating your private circle…');
+  try {
+    const result = await client.createRoom({
+      name,
+      preset: 'private_chat',
+      visibility: 'private',
+      initial_state: [{
+        type: 'm.room.encryption',
+        state_key: '',
+        content: { algorithm: 'm.megolm.v1.aes-sha2' },
+      }],
+    });
+    const until = Date.now() + 10000;
+    let room = client.getRoom(result.room_id);
+    while (!room && Date.now() < until) {
+      await new Promise((resolve) => window.setTimeout(resolve, 250));
+      room = client.getRoom(result.room_id);
+    }
+    if (!room) throw new Error('Your circle was created, but it is still syncing. Refresh circles to open it.');
+    input.value = '';
+    await openMatrixRoom(room, { user_id: session.userId });
+    setStatus('Your private circle is ready.');
+  } catch (error) {
+    setStatus(getPlainBody(error), true);
+  } finally {
+    createButton.disabled = false;
+  }
+});
+
 async function openMatrixRoom(room, login) {
   const client = session.client;
   if (!room || !client) throw new Error('Sign in again before opening this circle.');

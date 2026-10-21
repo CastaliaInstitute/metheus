@@ -46,6 +46,10 @@ a { color:inherit; }
 .room-picker select { width:100%;border:1px solid var(--line);border-radius:8px;background:#121c23;color:var(--ink);padding:.8rem .85rem;font:inherit; }
 .room-picker select:focus { border-color:rgba(214,181,139,.72);outline:2px solid rgba(214,181,139,.1); }
 .room-picker .secondary-button { justify-self:start;align-self:flex-start; }
+.new-circle-form { display:flex;flex-direction:column;gap:.6rem;border-top:1px solid var(--line);padding-top:1rem;margin-top:.2rem; }
+.new-circle-form label { color:var(--muted);font-size:.72rem; }
+.new-circle-form input { width:100%;border:1px solid var(--line);border-radius:8px;background:#121c23;color:var(--ink);padding:.8rem .85rem;font:inherit; }
+.new-circle-form input:focus { border-color:rgba(214,181,139,.72);outline:2px solid rgba(214,181,139,.1); }
 .form-row { display:grid;grid-template-columns:1fr 1fr;gap:.8rem; }
 .primary-button { display:flex;justify-content:space-between;align-items:center;border:0;border-radius:8px;background:var(--accent);color:#20211e;font-weight:600;padding:.9rem 1rem;cursor:pointer;margin-top:.2rem; }
 .primary-button:disabled,.send-button:disabled { opacity:.55;cursor:wait; }

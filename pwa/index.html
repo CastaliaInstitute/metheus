@@ -47,13 +47,18 @@
               <p class="status-line" id="connect-status" role="status" aria-live="polite"></p>
             </form>
             <section class="room-picker" id="room-picker" hidden aria-labelledby="room-picker-heading">
-              <h3 id="room-picker-heading">Choose your circle</h3>
-              <p>Choose a space you already belong to. Its shared messages will appear here.</p>
+              <h3 id="room-picker-heading">Your circles</h3>
+              <p>Open a space you already belong to, or start a new private circle.</p>
               <label for="room-picker-select">Your circles</label>
               <select id="room-picker-select"></select>
               <button class="primary-button" id="room-picker-open" type="button">Open circle <span aria-hidden="true">→</span></button>
-              <p class="form-note" id="room-picker-empty" hidden>No circles are connected to this account yet. Ask the circle organizer to invite your Castalia account. Once they’ve added you, choose “Refresh circles” below.</p>
+              <p class="form-note" id="room-picker-empty" hidden>You don’t have a circle yet. Create one below, or refresh after someone invites your Castalia account.</p>
               <button class="secondary-button" id="room-picker-refresh" type="button" hidden>Refresh circles</button>
+              <form class="new-circle-form" id="new-circle-form">
+                <label for="new-circle-name">Name your new circle</label>
+                <input id="new-circle-name" name="name" type="text" maxlength="80" placeholder="For example, The Hearth" required />
+                <button class="secondary-button" id="new-circle-create" type="submit">Create private circle</button>
+              </form>
               <button class="secondary-button" id="room-picker-switch-account" type="button">Use a different account</button>
             </section>
           </div>
