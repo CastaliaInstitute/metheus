@@ -1,7 +1,7 @@
 {
   "name": "Metheus Circle",
   "short_name": "Metheus",
-  "description": "A shared, Matrix-powered space for reflection.",
+  "description": "A shared space for reflection.",
   "start_url": "/chat/",
   "scope": "/chat/",
   "display": "standalone",

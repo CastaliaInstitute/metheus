@@ -167,7 +167,7 @@ function correspondenceContextForQuestion(question) {
   return `\n\nRelevant source-attributed gate correspondence catalog entries (reference data):\n${JSON.stringify(references)}`;
 }
 
-const privacyDisclosure = `Metheus AI is optional. If every currently joined person in this room opts in, messages sent with “!metheus ask …” plus the recent in-memory Metheus exchange, a single “!metheus ask-chart …” message with its supplied gate context and, only when explicitly included, a separate user-configured Metheus prompt profile, or a “!metheus ask …” message from a sender who explicitly enabled chart mode with “!metheus chart-set …” will be sent to the model endpoint configured by the operator to produce a reply. Chart-aware turns send that sender's gate numbers, derived channel/activity context, and matching source-attributed gate-correspondence entries when the question names a gate, for that turn only; they do not receive or update the shared AI conversation context. The supplied gate list is personal and non-time-bound; it is not a live transit reading, and the bot does not calculate or verify charts. “!metheus chart-set …” keeps the sender's supplied gate list in bot memory for that room until they send “!metheus chart-clear”, anyone opts out, room membership changes, or the bot restarts. The set/clear commands, questions, and replies are visible in this Matrix room and may remain in room history according to its settings. Ordinary room chat is not forwarded. The bot does not save chat text or gate context to its own disk. A membership, consent, or chart-setting change during a request discards its pending room reply, but cannot recall a request already sent to the provider. The bot host stores per-room opt-in status and the current room-member list, but not chat text or chart profiles. The Matrix room itself and its server follow their own history and retention settings. Processing and retention depend on the configured endpoint, which may be locally or remotely operated; the room operator must identify the destination and explain its data controls before use. Review the provider's current data terms before sharing sensitive, medical, reproductive, child, or intimate information. Do not use this prototype for emergencies.`;
+const privacyDisclosure = `Mētheus AI is optional. It replies only after every person in this circle has read this notice and agreed. Regular circle messages are not sent to the AI service. When someone chooses to ask Mētheus, their question is sent to the AI service chosen by the circle organizer. If they choose to include BodyGraph context, the selected design markers and related reference information accompany that question. Everyone in the circle can see the question and reply, and they may remain in shared conversation history. Mētheus keeps a short conversation context in temporary memory; it does not save message text or design context to its own files. Design context is symbolic, self-reported, and not independently verified. The AI service may have its own retention and monitoring practices; ask the circle organizer which service is used before sharing sensitive health, reproductive, child, or intimate information. This is not clinical care or emergency support.`;
 
 function loadConsentState() {
   try {
@@ -257,7 +257,7 @@ async function sendNotice(roomId, text) {
 async function processCommand(roomId, sender, command, members, consent) {
   switch (command.name) {
     case "help":
-      await sendNotice(roomId, "Metheus commands: !metheus ai-info, !metheus ai-status, !metheus ai-opt-in, !metheus ai-opt-out, !metheus ask <your question>, !metheus ask-chart my-gates: 11, 56 | <your question> for one chart-aware request, or include `metheus-gates: 17, 62 |` after the user gates to include a separate Metheus prompt profile for that turn, !metheus chart-set my-gates: 11, 56 to enable chart context for your own later !metheus ask turns in this room, !metheus chart-status to check your setting, and !metheus chart-clear to remove it. Chart lists are self-attested and unverified; chart-set remains in bot memory only until cleared, opt-out, membership change, or restart. Commands and replies are visible to the room.");
+      await sendNotice(roomId, "Use the Mētheus Circle app to ask a question, review AI choices, or include optional BodyGraph context. Every person must agree before AI replies are enabled.");
       return;
     case "ai-status": {
       if (!members.includes(sender)) return;
@@ -266,8 +266,8 @@ async function processCommand(roomId, sender, command, members, consent) {
       const optedInCount = new Set(consent.optedIn.filter((userId) => memberSet.has(userId))).size;
       const active = hasRoomWideOptIn(consent, members);
       await sendNotice(roomId, members.length === 0
-        ? "Metheus AI is inactive. No other participants are currently joined."
-        : `Metheus AI is ${active ? "active for explicit !metheus ask and !metheus ask-chart messages" : "inactive"}. ${informedCount} of ${members.length} currently joined participants have read the disclosure; ${optedInCount} of ${members.length} have opted in. Individual consent choices and chart-mode settings are not listed.`);
+        ? "Mētheus AI is paused because no other people are currently in this circle."
+        : `Mētheus AI is ${active ? "ready for questions" : "paused"}. ${informedCount} of ${members.length} people have read the agreement; ${optedInCount} of ${members.length} have agreed. Individual choices are private.`);
       return;
     }
     case "ai-info":
@@ -275,12 +275,12 @@ async function processCommand(roomId, sender, command, members, consent) {
       consent.informed = [...new Set([...consent.informed, sender])].sort();
       saveConsentState();
       await sendNotice(roomId, privacyDisclosure);
-      await sendNotice(roomId, "If you understand and agree to this room's optional AI processing, send !metheus ai-opt-in. Each currently joined person must opt in separately. You may use !metheus ask-chart for one chart-aware turn or explicitly enable chart context for your own later !metheus ask turns with !metheus chart-set my-gates: 11, 56. Chart-aware turns are isolated from shared conversation memory. Send !metheus chart-clear to remove your temporary chart setting, or !metheus ai-opt-out to stop room processing and clear all bot memory.");
+      await sendNotice(roomId, "If you agree, choose “I agree to AI support in this circle” in the app. Each person chooses separately. You can include your own BodyGraph context for one question or save it for future questions; you can clear it or pause AI support at any time.");
       return;
     case "ai-opt-in":
       if (!members.includes(sender)) return;
       if (!consent.informed.includes(sender)) {
-        await sendNotice(roomId, "Please read the disclosure first by sending !metheus ai-info. No room text has been sent to the AI.");
+        await sendNotice(roomId, "Please read the AI agreement in the app before agreeing. No circle messages have been sent to the AI service.");
         return;
       }
       if (!consent.optedIn.includes(sender)) {
@@ -290,9 +290,9 @@ async function processCommand(roomId, sender, command, members, consent) {
       saveConsentState();
       roomSessions.delete(roomId);
       if (hasRoomWideOptIn(consent, members)) {
-        await sendNotice(roomId, "Every currently joined person has opted in. Metheus AI is active for explicit !metheus ask and !metheus ask-chart messages. Conversation context and any explicitly enabled chart settings are held only in memory.");
+        await sendNotice(roomId, "Everyone has agreed. Mētheus AI is ready for questions that people choose to send. Temporary conversation context and saved design context are held in memory only.");
       } else {
-        await sendNotice(roomId, "Your opt-in is recorded. Metheus will not process any room content until every currently joined person has independently opted in.");
+        await sendNotice(roomId, "Your choice is saved. Mētheus AI will remain paused until everyone in the circle has agreed.");
       }
       return;
     case "ai-opt-out":
@@ -302,28 +302,28 @@ async function processCommand(roomId, sender, command, members, consent) {
       saveConsentState();
       roomSessions.delete(roomId);
       roomChartProfiles.delete(roomId);
-      await sendNotice(roomId, "AI processing is paused for this room, and Metheus's in-memory context has been cleared. A request already sent to the provider cannot be recalled. To resume, every currently joined person must read the disclosure and opt in again.");
+      await sendNotice(roomId, "Mētheus AI is paused for this circle and its temporary conversation context has been cleared. A question already sent to the AI service cannot be recalled. Everyone must agree again to resume.");
       return;
     case "chart-set": {
       if (!members.includes(sender)) return;
       if (!hasRoomWideOptIn(consent, members)) {
-        await sendNotice(roomId, "Metheus AI is inactive. Every currently joined person must read !metheus ai-info and opt in before chart-aware processing can be enabled.");
+        await sendNotice(roomId, "Mētheus AI is paused. Everyone in the circle must read the agreement and agree before design context can be used.");
         return;
       }
       const parsed = parseChartSet(command.argument);
       if (parsed.error) {
-        await sendNotice(roomId, parsed.error);
+        await sendNotice(roomId, "Choose valid markers from your BodyGraph and include a question.");
         return;
       }
       const chartContext = buildChartContext(parsed.gates, bodygraphTopology, gateAiAffordanceCatalog);
       if (chartContext.error) {
-        await sendNotice(roomId, chartContext.error);
+        await sendNotice(roomId, "We could not prepare the design context. Review the BodyGraph choices and try again.");
         return;
       }
       setRoomChartProfile(roomId, sender, parsed.gates);
       consent.revision += 1;
       saveConsentState();
-      await sendNotice(roomId, "Chart-aware mode is enabled for your own future explicit !metheus ask turns in this room. Your gate list is self-attested, unverified, and non-time-bound; it is not a transit reading. It is held in bot memory only. Each of your chart-aware turns uses only your current question and chart context, not shared conversation history. Send !metheus chart-clear to remove your setting; membership changes, any opt-out, or a bot restart also clears it.");
+      await sendNotice(roomId, "Your selected BodyGraph context will accompany your future questions in this circle until you clear it. It is symbolic and self-reported, not a verified chart or transit reading. The selection is held in temporary memory and is cleared when membership changes, someone pauses AI support, or the service restarts.");
       return;
     }
     case "chart-clear": {
@@ -334,24 +334,24 @@ async function processCommand(roomId, sender, command, members, consent) {
         saveConsentState();
       }
       await sendNotice(roomId, removed
-        ? "Your chart-aware setting has been cleared from bot memory."
-        : "You do not have a chart-aware setting stored in bot memory.");
+        ? "Your saved BodyGraph context has been cleared."
+        : "You do not have saved BodyGraph context in this circle.");
       return;
     }
     case "chart-status": {
       if (!members.includes(sender)) return;
       await sendNotice(roomId, getRoomChartProfile(roomId, sender)
-        ? "Your chart-aware setting is enabled for your own explicit !metheus ask turns in this room. It is held in bot memory only."
-        : "Your chart-aware setting is not enabled in this room. Use !metheus chart-set with your own gate list to enable it.");
+        ? "Your saved BodyGraph context is enabled for your questions in this circle. It is held in temporary memory only."
+        : "You have not saved BodyGraph context for this circle.");
       return;
     }
     case "ask":
       if (!command.argument) {
-        await sendNotice(roomId, "Add a question after the command: !metheus ask <your question>");
+        await sendNotice(roomId, "Add a question before sending it to Mētheus.");
         return;
       }
       if (!hasRoomWideOptIn(consent, members)) {
-        await sendNotice(roomId, "Metheus AI is inactive. Every currently joined person must read !metheus ai-info and opt in before any message is sent to the AI.");
+        await sendNotice(roomId, "Mētheus AI is paused until everyone in the circle has read the agreement and agreed. No question was sent to the AI service.");
         return;
       }
       const activeGates = getRoomChartProfile(roomId, sender);
@@ -359,30 +359,30 @@ async function processCommand(roomId, sender, command, members, consent) {
         ? buildChartContext(activeGates, bodygraphTopology, gateAiAffordanceCatalog)
         : null;
       if (chartContext?.error) {
-        await sendNotice(roomId, chartContext.error);
+        await sendNotice(roomId, "We could not prepare the design context. Review the BodyGraph choices and try again.");
         return;
       }
       await answerQuestion(roomId, command.argument, members, consent, sender, chartContext);
       return;
     case "ask-chart": {
       if (!hasRoomWideOptIn(consent, members)) {
-        await sendNotice(roomId, "Metheus AI is inactive. Every currently joined person must read !metheus ai-info and opt in before any message is sent to the AI.");
+        await sendNotice(roomId, "Mētheus AI is paused until everyone in the circle has read the agreement and agreed. No question was sent to the AI service.");
         return;
       }
       const parsed = parseChartAsk(command.argument);
       if (parsed.error) {
-        await sendNotice(roomId, parsed.error);
+        await sendNotice(roomId, "Choose valid markers from your BodyGraph and include a question.");
         return;
       }
       const chartContext = buildChartContext(parsed.gates, bodygraphTopology, gateAiAffordanceCatalog);
       if (chartContext.error) {
-        await sendNotice(roomId, chartContext.error);
+        await sendNotice(roomId, "We could not prepare the design context. Review the BodyGraph choices and try again.");
         return;
       }
       if (parsed.metheusGates) {
         const metheusProfile = buildMetheusGateProfile(parsed.metheusGates, bodygraphTopology, gateAiAffordanceCatalog);
         if (metheusProfile.error) {
-          await sendNotice(roomId, metheusProfile.error);
+          await sendNotice(roomId, "We could not prepare Mētheus’s optional design context. Review the selection and try again.");
           return;
         }
         chartContext.metheusPromptProfile = metheusProfile;
@@ -398,22 +398,22 @@ async function processCommand(roomId, sender, command, members, consent) {
       return;
     }
     default:
-      await sendNotice(roomId, "I don't recognize that command. Send !metheus help for the available commands.");
+      await sendNotice(roomId, "Use the Mētheus Circle app to ask a question or change your AI choices.");
   }
 }
 
 async function answerQuestion(roomId, question, members, consent, sender, chartContext = null) {
   if (question.length > maxMessageChars) {
-    await sendNotice(roomId, `Please keep each Metheus question under ${maxMessageChars} characters.`);
+    await sendNotice(roomId, "Please shorten your question and try again.");
     return;
   }
   if (inFlightRooms.has(roomId)) {
-    await sendNotice(roomId, "Metheus is already working on a question for this room. Please wait for that reply.");
+    await sendNotice(roomId, "Mētheus is already working on a question for this circle. Please wait for that reply.");
     return;
   }
   const now = Date.now();
   if (now - (lastRequestAt.get(roomId) || 0) < 8_000) {
-    await sendNotice(roomId, "Please wait a few seconds before sending another Metheus question.");
+    await sendNotice(roomId, "Please wait a moment before sending another question to Mētheus.");
     return;
   }
   inFlightRooms.add(roomId);
@@ -522,7 +522,7 @@ matrix.on("room.message", async (roomId, event) => {
     if (sender === await matrix.getUserId()) return;
 
     if (!await matrix.crypto.isRoomEncrypted(roomId)) {
-      await sendNotice(roomId, "Metheus AI is disabled here because this room is not encrypted. No message was sent to the AI.");
+      await sendNotice(roomId, "Mētheus AI is unavailable because this circle is not set up for protected messaging. No question was sent to the AI service.");
       return;
     }
 

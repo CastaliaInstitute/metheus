@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#111821" />
     <meta name="referrer" content="no-referrer" />
-    <meta name="description" content="A shared, Matrix-powered conversation space for reflection with Mētheus." />
+    <meta name="description" content="A shared space for reflection with Mētheus." />
     <link rel="manifest" href="/chat/manifest.webmanifest" />
     <link rel="icon" href="/chat/icon.svg" type="image/svg+xml" />
     <title>Mētheus · Shared reflection</title>
@@ -21,43 +21,38 @@
         <header class="topbar">
           <a href="/" class="wordmark">MĒTHEUS <span>·</span> CIRCLE</a>
           <button class="quiet-button" id="install-button" hidden>Install app</button>
-          <button class="quiet-button" id="logout-button" hidden>Disconnect</button>
+          <button class="quiet-button" id="logout-button" hidden>Sign out</button>
         </header>
 
         <section class="chat-frame" aria-label="Mētheus shared conversation">
           <header class="room-header">
             <div class="room-icon" aria-hidden="true">✳</div>
             <div class="room-title"><p class="eyebrow">A SHARED SPACE</p><h1 id="room-title">The Hearth</h1><p class="room-subtitle" id="room-subtitle">A place to notice patterns together.</p></div>
-            <button class="icon-button" id="settings-toggle" aria-label="Connection settings" title="Connection settings" hidden>•••</button>
           </header>
 
           <section class="notice" aria-label="Privacy and scope notice">
             <span class="notice-symbol" aria-hidden="true">◈</span>
-            <p><strong>Each person brings their own voice.</strong> This is a shared room: everyone in it, including the Mētheus bot, may see messages sent here. This prototype disables sending unless Matrix reports the room is end-to-end encrypted. Avoid intimate or health details unless everyone involved has freely agreed.</p>
+            <p><strong>Each person brings their own voice.</strong> Everyone in this circle, including Mētheus, can read messages shared here. Only messages you choose to send to Mētheus are processed by its AI service, after everyone in the circle agrees. Avoid sensitive health, reproductive, child, or intimate details in this early version.</p>
           </section>
 
           <div class="connection-panel" id="connection-panel">
             <div class="connection-copy">
-              <p class="eyebrow">CONNECT TO YOUR MATRIX ROOM</p>
+              <p class="eyebrow">YOUR SHARED SPACE</p>
               <h2>Reflection, held in company.</h2>
-              <p>Sign in with your Castalia.Institute account to join a Matrix room where the Mētheus bot is present. Mētheus is a reflective companion, not a clinician or relationship referee.</p>
+              <p>Sign in with Castalia.Institute to open a circle for shared reflection. Mētheus is a reflective companion, not a clinician or relationship referee.</p>
             </div>
             <form id="connect-form" class="connect-form">
-              <label>Room ID or alias (optional)<input name="room" type="text" placeholder="Leave blank to choose a room after sign-in" autocomplete="off" /></label>
               <button class="primary-button" type="submit">Sign in with Castalia.Institute <span aria-hidden="true">→</span></button>
-              <p class="form-note">Castalia handles sign-in. Mētheus receives a short-lived, single-use Matrix login token after authentication; the client exchanges it, removes it from the address bar, and keeps the Matrix session token in memory. Encryption keys are managed by the Matrix SDK in this browser. Disconnect to sign out.</p>
+              <p class="form-note">Your sign-in is handled by Castalia.Institute. This browser keeps your conversation session until you sign out.</p>
               <p class="status-line" id="connect-status" role="status" aria-live="polite"></p>
             </form>
             <section class="room-picker" id="room-picker" hidden aria-labelledby="room-picker-heading">
-              <h3 id="room-picker-heading">Choose a Matrix room</h3>
-              <p>Your joined rooms are listed here. Opening a room shows its shared messages to this browser.</p>
-              <label for="room-picker-select">Your rooms</label>
+              <h3 id="room-picker-heading">Choose your circle</h3>
+              <p>Choose a space you already belong to. Its shared messages will appear here.</p>
+              <label for="room-picker-select">Your circles</label>
               <select id="room-picker-select"></select>
-              <button class="primary-button" id="room-picker-open" type="button">Open selected room <span aria-hidden="true">→</span></button>
-              <p class="form-note" id="room-picker-empty" hidden>No joined rooms were found yet. Ask a room administrator to invite this account, or join an invited room by ID or alias below.</p>
-              <label for="room-picker-room">Join by room ID or alias</label>
-              <input id="room-picker-room" type="text" placeholder="#circle:castalia.institute or !roomid:castalia.institute" autocomplete="off" />
-              <button class="secondary-button" id="room-picker-join" type="button">Join room</button>
+              <button class="primary-button" id="room-picker-open" type="button">Open circle <span aria-hidden="true">→</span></button>
+              <p class="form-note" id="room-picker-empty" hidden>No circles are connected to this account yet. Ask the circle organizer to add you, then sign in again.</p>
               <button class="secondary-button" id="room-picker-switch-account" type="button">Use a different account</button>
             </section>
           </div>
@@ -65,7 +60,7 @@
           <section class="conversation" id="conversation" hidden>
             <div class="conversation-layout">
               <div class="chat-column">
-                <div class="timeline" id="timeline" role="log" aria-live="polite" aria-label="Room messages">
+                <div class="timeline" id="timeline" role="log" aria-live="polite" aria-label="Circle messages">
                   <div class="welcome-card" id="welcome-card">
                     <span class="welcome-star">✦</span><p class="eyebrow">BEGIN WHERE YOU ARE</p>
                     <h2>What feels present<br />for your circle today?</h2>
@@ -73,24 +68,23 @@
                   </div>
                 </div>
                 <details class="ai-guide" id="ai-guide">
-                  <summary><span><span class="eyebrow">OPTIONAL · SHARED ROOM AI</span><strong>Mētheus AI</strong></span><span class="ai-guide-mark" aria-hidden="true">＋</span></summary>
-                  <p class="ai-guide-copy">The bot processes only explicit <code>!metheus ask</code> or <code>!metheus ask-chart</code> messages, and only after every currently joined person has read its disclosure and opted in. Ordinary room chat is not sent to the model. A one-time chart-aware request sends the gates you provide for that turn. You can also explicitly enable your gates for your own later <code>!metheus ask</code> turns with “Use my gates for future asks”; check or clear that setting with the controls below. On every chart-aware turn, Mētheus receives your full selected gate list, derived channel map, and activities linked to those gates. It matches those activities to your current question, rather than assuming every gate is relevant. It answers your question first, can shape practical help around a relevant activity from your selected gates, and may offer one partner-gate activity if it clearly adds a useful option. It can skip chart framing when no activity fits. This is a self-reported symbolic chart context, not a verified chart or live awareness of transits, feelings, or body state; the bot does not remember earlier chart-aware replies. The setting stays in bot memory until you clear it, someone opts out, room membership changes, or the bot restarts. Your chart-aware turns include only your question and gate context, never shared conversation history. The commands and replies are visible to everyone in this room and may remain in room history. Use only your own gate list and only if you want the room and provider to receive it.</p>
+                  <summary><span><span class="eyebrow">OPTIONAL · AI SUPPORT</span><strong>How Mētheus AI works</strong></span><span class="ai-guide-mark" aria-hidden="true">＋</span></summary>
+                  <p class="ai-guide-copy">Your circle can use Mētheus AI after every participant has read this note and agreed. Ordinary messages stay in the circle unless someone chooses “Ask Mētheus.” When you ask, your message and any design markers you choose to include are sent to an external AI service for a reply. That service may retain content to monitor misuse. Everyone in the circle can see the question and reply in shared history. You can pause AI support at any time. Mētheus offers reflection, not diagnosis, therapy, or relationship judgment.</p>
                   <div class="ai-actions">
-                    <button type="button" class="ai-action" data-ai-command="!metheus ai-info">Request AI disclosure</button>
-                    <button type="button" class="ai-action" data-ai-command="!metheus ai-status">Check shared AI status</button>
-                    <button type="button" class="ai-action" data-ai-command="!metheus ai-opt-in">Opt in after reading</button>
-                    <button type="button" class="ai-action ai-action-muted" data-ai-command="!metheus ai-opt-out">Opt out and clear bot context</button>
-                    <button type="button" class="ai-action ai-action-ask" id="ai-ask-start">Ask Mētheus AI</button>
-                    <button type="button" class="ai-action" id="ai-ask-chart-start">Ask once with my active gates</button>
-                    <button type="button" class="ai-action ai-action-ask" id="ai-ask-chart-profile-start">Ask once with both maps</button>
-                    <button type="button" class="ai-action" id="ai-chart-set-start">Use my gates for future asks</button>
-                    <button type="button" class="ai-action" data-ai-command="!metheus chart-status">Check my chart setting</button>
-                    <button type="button" class="ai-action ai-action-muted" data-ai-command="!metheus chart-clear">Clear my room chart setting</button>
+                    <button type="button" class="ai-action" data-ai-action="info">Show the AI agreement</button>
+                    <button type="button" class="ai-action" data-ai-action="status">See whether everyone has agreed</button>
+                    <button type="button" class="ai-action" data-ai-action="opt-in">I agree to AI support in this circle</button>
+                    <button type="button" class="ai-action ai-action-muted" data-ai-action="opt-out">Pause AI support for this circle</button>
+                    <button type="button" class="ai-action" id="ai-ask-chart-start">Ask once using my BodyGraph</button>
+                    <button type="button" class="ai-action ai-action-ask" id="ai-ask-chart-profile-start">Ask once using both BodyGraphs</button>
+                    <button type="button" class="ai-action" id="ai-chart-set-start">Remember my BodyGraph for future asks</button>
+                    <button type="button" class="ai-action" data-ai-action="chart-status">Check my saved design context</button>
+                    <button type="button" class="ai-action ai-action-muted" data-ai-action="chart-clear">Clear my saved design context</button>
                   </div>
-                  <p class="ai-guide-footnote">Opting out clears the bot’s short in-memory context. A request already sent to the AI provider cannot be recalled. Avoid sensitive health, reproductive, child, or intimate details in this prototype.</p>
+                  <p class="ai-guide-footnote">Pausing AI support clears its short in-memory conversation context. A request already sent to the provider cannot be recalled. Avoid sensitive personal details in this early version.</p>
                   <details class="metheus-profile" id="metheus-profile">
                     <summary><span><span class="eyebrow">OPTIONAL · LOCAL AI PROMPT PROFILE</span><strong>Set Metheus’s symbolic gates</strong></span><span class="bodygraph-badge">SEPARATE FROM YOUR MAP</span></summary>
-                    <p class="gate-ai-intro">Choose gates as a symbolic interaction style for the AI. This is not a chart or lived experience belonging to Metheus. Your selection is saved only in this browser and is sent to the room and AI provider only when you choose “Ask once with both maps.”</p>
+                  <p class="gate-ai-intro">Choose a symbolic interaction style for Mētheus. This is not a chart or lived experience belonging to Mētheus. Your selection stays in this browser and is shared only when you choose “Ask once using both BodyGraphs.”</p>
                     <p class="metheus-profile-summary" id="metheus-profile-summary" aria-live="polite">No Metheus gates selected.</p>
                     <div class="metheus-profile-actions">
                       <button type="button" class="gate-ai-chart-use" id="metheus-profile-compare">Compare on BodyGraph</button>
@@ -101,10 +95,11 @@
                   <p class="ai-guide-status" id="ai-guide-status" role="status" aria-live="polite"></p>
                 </details>
                 <form id="message-form" class="composer">
-                  <label class="sr-only" for="message-input">Message your room</label>
-                  <textarea id="message-input" rows="1" placeholder="Write a message to your room…" maxlength="4000" required></textarea>
+                  <label class="sr-only" for="message-input">Message your circle</label>
+                  <textarea id="message-input" rows="1" placeholder="Write to your circle…" maxlength="4000" required></textarea>
+                  <label class="ask-toggle"><input id="ask-metheus" type="checkbox" /> Ask Mētheus</label>
                   <button class="send-button" type="submit" aria-label="Send message"><span aria-hidden="true">↑</span></button>
-                  <p class="composer-note">The Mētheus bot must be joined to this room to reply. Messages are shared with the whole room.</p>
+                  <p class="composer-note">Messages are shared with everyone in this circle. Only messages you mark “Ask Mētheus” are sent to the AI service.</p>
                 </form>
               </div>
               <details class="bodygraph-panel" id="bodygraph-panel" open>
@@ -125,7 +120,7 @@
                 </details>
                 <details class="cycle-day-tool" id="cycle-day-tool">
                   <summary><span><span class="eyebrow">LOCAL RECORD VIEW</span><strong>Observations by reported cycle day</strong></span><span class="bodygraph-badge">THIS DEVICE ONLY</span></summary>
-                  <p>Open a Metheus reported-cycle-day view JSON file to see selected records beside the day-one markers they were aligned to. The file must already have been created from explicitly selected records with consent for each input. This browser displays the file locally; it does not send its contents to Matrix or the AI provider, and it clears when you close or refresh this page.</p>
+                  <p>Open a Metheus reported-cycle-day view JSON file to see selected records beside the day-one markers they were aligned to. The file must already have been created from explicitly selected records with consent for each input. This browser displays the file locally; it does not share its contents with your circle or the AI service, and it clears when you close or refresh this page.</p>
                   <section class="cycle-marker-entry" aria-labelledby="cycle-marker-heading">
                     <h3 id="cycle-marker-heading">Record your own day-one dates</h3>
                     <p>Mark dates you personally identify as menstrual cycle day one. Dates and gaps are shown only as recorded; they do not identify hormonal phase, ovulation, fertility, or health status. Entries stay in this tab until cleared or closed.</p>
@@ -171,7 +166,7 @@
                 </details>
                 <details class="measurement-series-tool" id="measurement-series-tool">
                   <summary><span><span class="eyebrow">LOCAL MEASUREMENT VIEW</span><strong>Biometrics and assay series</strong></span><span class="bodygraph-badge">THIS DEVICE ONLY</span></summary>
-                  <p>Open a Metheus numeric measurement-series summary or selected observation records to inspect their source, method, units, and reported values. Categorical home-test results are shown one by one and are never averaged with numeric measurements. Files must already have been prepared from explicitly selected records; this viewer does not verify consent or identify the person. It displays files in this tab only and does not send their contents to Matrix or the AI provider.</p>
+                  <p>Open a Metheus numeric measurement-series summary or selected observation records to inspect their source, method, units, and reported values. Categorical home-test results are shown one by one and are never averaged with numeric measurements. Files must already have been prepared from explicitly selected records; this viewer does not verify consent or identify the person. It displays files in this tab only and does not share their contents with your circle or the AI service.</p>
                   <div class="cycle-day-import">
                     <label for="measurement-series-file">Choose a measurement-series summary JSON file</label>
                     <input id="measurement-series-file" type="file" accept="application/json,.json" />
@@ -208,7 +203,7 @@
                 </details>
                 <details class="measurement-series-tool" id="affordance-trial-tool">
                   <summary><span><span class="eyebrow">LOCAL TRIAL VIEW</span><strong>AI activity use and experience</strong></span><span class="bodygraph-badge">THIS DEVICE ONLY</span></summary>
-                  <p>Open a trial summary created locally by Metheus. The viewer displays recorded use events and experience reports separately. It does not verify identity, consent, or source records and does not determine effectiveness, causation, gate activation, or physiological effects. The file remains in this tab and is not sent to Matrix or the AI provider.</p>
+                  <p>Open a trial summary created locally by Metheus. The viewer displays recorded use events and experience reports separately. It does not verify identity, consent, or source records and does not determine effectiveness, causation, gate activation, or physiological effects. The file remains in this tab and is not shared with your circle or the AI service.</p>
                   <div class="cycle-day-import">
                     <label for="affordance-trial-file">Choose an affordance-trial summary JSON file</label>
                     <input id="affordance-trial-file" type="file" accept="application/json,.json" />
@@ -289,7 +284,7 @@
                 <button type="button" class="bodygraph-clear" id="bodygraph-clear">Clear highlight</button>
                 <details class="gate-ai-ideas" id="gate-ai-ideas">
                   <summary><span><span class="eyebrow">OPTIONAL ACTIVITY CATALOG</span><strong>Ideas for all 64 gates</strong></span><span class="bodygraph-badge">BROWSE OR IGNORE</span></summary>
-                  <p class="gate-ai-intro">These are optional activity ideas, not traits or needs. Browse by gate, or search for a topic. Use examples as explicit AI questions, or select gates you self-report as active for you. Separately, choose gates for Metheus’s optional prompt profile. “Ask once with both maps” sends both sets for one turn and displays them as distinct symbolic maps; the Metheus profile is not a human chart. “Use my gates for future asks” enables only your selected gates for your own later explicit AI questions in this room. These are optional ideas, not verified chart activations or an AI activation of a gate. You decide whether to send each command.</p>
+                  <p class="gate-ai-intro">These are optional activity ideas, not traits or needs. Browse by gate or search for a topic. You can try an idea as a regular AI question, or choose design markers to include for one reply. A separate set can describe Mētheus’s optional interaction style. The two BodyGraphs remain symbolic and distinct; this does not verify a chart or activate a gate. You decide what to share and when.</p>
                   <div class="gate-ai-selection" id="gate-ai-selection" hidden>
                     <p id="gate-ai-selected-summary" aria-live="polite"></p>
                     <details class="gate-ai-complements gate-ai-active-activities" id="gate-ai-active-activities" hidden>
@@ -318,16 +313,16 @@
                       <p class="gate-ai-intro" id="bodygraph-prompt-status" role="status" aria-live="polite"></p>
                     </div>
                   </div>
-                  <p class="gate-ai-intro">A chart-aware request is visible in the Matrix room and asks the bot to use your supplied, non-time-bound personal gate list as an optional symbolic lens. It does not verify your chart, calculate current transits, or activate a gate. A Metheus profile is included only in a one-turn “both maps” request.</p>
+                  <p class="gate-ai-intro">A BodyGraph-informed question shares your selected symbolic markers for that reply. It does not verify your chart, calculate current transits, or activate a gate. Mētheus’s profile is included only when you choose “Ask once using both BodyGraphs.”</p>
                   <p class="ai-guide-footnote">Each card shows a symbolic source title and its BodyGraph center/channel, followed by an optional practical activity. The center and channel are chart references, not claims about biology or personal ability. You can try any activity without selecting a chart.</p>
-                  <p class="ai-guide-footnote">After trying an activity, you can create a local JSON record of your self-reported use and an optional experience report. Downloading is your choice; records are not sent to Matrix or the AI provider. Gate/channel references are included only if you check that option. A report is not evidence of gate activation, hormone change, benefit, or causation.</p>
+                  <p class="ai-guide-footnote">After trying an activity, you can create a local JSON record of your self-reported use and an optional experience report. Downloading is your choice; records are not shared with your circle or the AI service. Gate/channel references are included only if you check that option. A report is not evidence of gate activation, hormone change, benefit, or causation.</p>
                   <label for="gate-ai-filter">Find by gate, center, theme, or activity</label>
                   <input id="gate-ai-filter" type="search" placeholder="Try ‘story’, ‘routine’, or ‘Gate 11’" autocomplete="off" />
                   <p id="gate-ai-count" role="status" aria-live="polite"></p>
                   <div id="gate-ai-idea-list" aria-label="Optional AI activities for all gates"></div>
                   <form class="gate-trial-form" id="gate-trial-form" hidden>
                     <h3 id="gate-trial-title">Record an activity</h3>
-                    <p>This creates a local JSON file with your self-reported activity and optional experience. The use date is date-only; an optional experience report is timestamped when entered. Records default to personal/private. The file excludes chat text and AI replies and is not sent to Matrix or an AI provider.</p>
+                    <p>This creates a local JSON file with your self-reported activity and optional experience. The use date is date-only; an optional experience report is timestamped when entered. Records default to personal/private. The file excludes chat text and AI replies and is not shared with your circle or an AI service.</p>
                     <label for="gate-trial-subject">Your pseudonymous participant label (not your name)</label>
                     <input id="gate-trial-subject" name="subjectId" required maxlength="80" autocomplete="off" placeholder="For example, person-01" />
                     <label for="gate-trial-date">Date you tried the activity (time of day is not recorded)</label>
@@ -364,13 +359,7 @@
             </div>
           </section>
 
-          <section class="settings-panel" id="settings-panel" hidden>
-            <div><p class="eyebrow">ROOM AND SESSION</p><h2>Connected with care.</h2><p>This client does not create rooms or invite members. Ask your room administrator to invite each participant and the Mētheus bot.</p></div>
-            <dl id="session-details"></dl>
-            <button class="secondary-button" id="back-to-chat">Return to conversation</button>
-          </section>
-
-          <footer class="chat-footer"><span>MĒTHEUS · DESIGN IN LIVED TIME</span><a href="https://github.com/CastaliaInstitute/metheus/blob/main/docs/matrix-chat-pwa.md">How this works</a><span id="sync-indicator">Not connected</span></footer>
+          <footer class="chat-footer"><span>MĒTHEUS · DESIGN IN LIVED TIME</span><span id="sync-indicator">Not connected</span></footer>
         </section>
       </main>
     </div>

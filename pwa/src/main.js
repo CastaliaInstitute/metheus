@@ -1,5 +1,5 @@
 import './style.css';
-import { formatChartAsk, formatChartAskPrefix, formatChartSet } from '../../shared/chart-command.mjs';
+import { formatChartAsk, formatChartSet, parseChartAsk } from '../../shared/chart-command.mjs';
 import { generateBodygraphInputPrompt } from '../../shared/bodygraph-prompt.mjs';
 import { BODYGRAPH_REFERENCE_URL } from './reference-assets.js';
 import cycleDayExample from '../../examples/reported-cycle-day-view.example.json';
@@ -12,9 +12,7 @@ const connectForm = $('#connect-form');
 const connectPanel = $('#connection-panel');
 const roomPicker = $('#room-picker');
 const roomPickerSelect = $('#room-picker-select');
-const roomPickerRoomInput = $('#room-picker-room');
 const conversation = $('#conversation');
-const settingsPanel = $('#settings-panel');
 const bodygraphPanel = $('#bodygraph-panel');
 const timeline = $('#timeline');
 const statusLine = $('#connect-status');
@@ -51,6 +49,7 @@ const selectedChartGates = new Set();
 const selectedMetheusGates = new Set(readMetheusGateProfile());
 const recentBodygraphMentions = [];
 let comparingGateMaps = false;
+let pendingChartPromptMode = 'ask';
 
 function readMetheusGateProfile() {
   try {
@@ -247,7 +246,7 @@ if (cycleDayFileInput) {
       const view = parsed?.view || parsed;
       if (!validateReportedCycleDayView(view)) throw new Error('invalid view');
       displayReportedCycleDayView(view);
-      status.textContent = `Loaded ${view.observations.length} selected records for this tab only. The file has not been sent to Matrix or Metheus AI.`;
+      status.textContent = `Loaded ${view.observations.length} selected records for this tab only. The file has not been shared with your circle or Mētheus AI.`;
     } catch {
       $('#cycle-day-rows').replaceChildren();
       $('#cycle-day-results').hidden = true;
@@ -633,12 +632,12 @@ if (measurementSeriesFileInput) {
       const summary = parsed?.summary || parsed;
       if (validateMeasurementSeriesSummary(summary)) {
         displayMeasurementSeriesSummary(summary);
-        status.textContent = `Loaded a descriptive summary for ${summary.nMeasurements} numeric samples in this tab only. The file has not been sent to Matrix or Metheus AI.`;
+        status.textContent = `Loaded a descriptive summary for ${summary.nMeasurements} numeric samples in this tab only. The file has not been shared with your circle or Mētheus AI.`;
       } else {
         const records = measurementRecordsFromPayload(parsed);
         if (!records) throw new Error('invalid measurement payload');
         displayMeasurementObservations(records);
-        status.textContent = `Loaded ${records.length} selected measurement record${records.length === 1 ? '' : 's'} individually in this tab. Results have not been averaged or sent to Matrix or Metheus AI.`;
+        status.textContent = `Loaded ${records.length} selected measurement record${records.length === 1 ? '' : 's'} individually in this tab. Results have not been averaged or shared with your circle or Mētheus AI.`;
         $('#measurement-series-clear').disabled = false;
       }
     } catch {
@@ -686,7 +685,7 @@ if (affordanceTrialFileInput) {
       const summary = parsed?.summary || parsed;
       if (!validateAffordanceTrialSummary(summary)) throw new Error('invalid trial summary');
       displayAffordanceTrialSummary(summary);
-      status.textContent = `Loaded a local summary for ${summary.experienceReports.length} experience report${summary.experienceReports.length === 1 ? '' : 's'}. The file was not sent to Matrix or Metheus AI.`;
+      status.textContent = `Loaded a local summary for ${summary.experienceReports.length} experience report${summary.experienceReports.length === 1 ? '' : 's'}. The file was not shared with your circle or Mētheus AI.`;
     } catch {
       clearView();
       status.textContent = 'Could not read this file as a valid Metheus affordance-trial summary. No data was sent.';
@@ -709,7 +708,7 @@ function showBodygraphFallback(error) {
   $('#bodygraph-viewer').replaceChildren(fallback);
   $('#bodygraph-detail').textContent = 'The reference is shown without interactive 3D highlighting in this browser.';
   recentBodygraphMentions.length = 0;
-  syncIndicator.textContent = `Connected · chart fallback (${getPlainBody(error)})`;
+  syncIndicator.textContent = `Connected · reference map unavailable (${getPlainBody(error)})`;
 }
 
 function ensureBodygraph() {
@@ -769,15 +768,6 @@ $('#install-button').addEventListener('click', async () => {
 });
 
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('/chat/sw.js', { scope: '/chat/' }).catch(() => {});
-
-$('#settings-toggle').addEventListener('click', () => {
-  conversation.hidden = !conversation.hidden;
-  settingsPanel.hidden = !settingsPanel.hidden;
-});
-$('#back-to-chat').addEventListener('click', () => {
-  settingsPanel.hidden = true;
-  conversation.hidden = false;
-});
 
 function setStatus(message, isError = false) {
   statusLine.textContent = message;
@@ -1176,7 +1166,7 @@ $('#copy-bodygraph-prompt').addEventListener('click', async () => {
 
 $('#use-bodygraph-prompt').addEventListener('click', () => {
   if (!session.client || !session.roomId || !session.encrypted) {
-    $('#bodygraph-prompt-status').textContent = 'Connect to an encrypted Matrix room before inserting this as a Metheus chat request.';
+    $('#bodygraph-prompt-status').textContent = 'Choose a protected circle before sending a question to Mētheus.';
     return;
   }
   let prompt = $('#bodygraph-prompt-output').value;
@@ -1187,13 +1177,17 @@ $('#use-bodygraph-prompt').addEventListener('click', () => {
   if (!prompt) return;
   const userGates = [...selectedChartGates].sort((a, b) => a - b);
   const metheusGates = [...selectedMetheusGates].sort((a, b) => a - b);
-  const prefix = formatChartAskPrefix(userGates, metheusGates.length ? metheusGates : undefined);
-  messageInput.value = `${prefix}${prompt}\n\nQuestion: `;
+  if (!userGates.length) {
+    $('#bodygraph-prompt-status').textContent = 'Choose at least one marker on your BodyGraph first.';
+    return;
+  }
+  pendingChartPromptMode = metheusGates.length ? 'both' : 'chart';
+  $('#ask-metheus').checked = true;
+  messageInput.value = `${prompt}\n\nQuestion: `;
   messageInput.focus();
-  messageInput.setSelectionRange(messageInput.value.length, messageInput.value.length);
   messageInput.style.height = 'auto';
   messageInput.style.height = `${Math.min(messageInput.scrollHeight, 160)}px`;
-  $('#bodygraph-prompt-status').textContent = 'Prompt inserted as a one-turn chart-aware draft. Add your question, review the full room-visible message, and send; the selected map context goes to the AI provider for this turn only.';
+  $('#bodygraph-prompt-status').textContent = 'Prompt ready. Add your question; your selected design context will be included for this reply only.';
 });
 
 $('#gate-ai-idea-list').addEventListener('click', (event) => {
@@ -1238,17 +1232,16 @@ $('#gate-ai-idea-list').addEventListener('click', (event) => {
   if (!button && !chartButton) return;
   const prompt = chartButton?.dataset.gateAiChartPrompt || button.dataset.gateAiPrompt;
   const gates = [...selectedChartGates].sort((a, b) => a - b);
-  const command = chartButton
-    ? formatChartAsk(gates, prompt)
-    : `!metheus ask ${prompt}`;
-  messageInput.value = command;
+  pendingChartPromptMode = chartButton ? 'chart' : 'ask';
+  $('#ask-metheus').checked = true;
+  messageInput.value = prompt;
   messageInput.focus();
   messageInput.setSelectionRange(messageInput.value.length, messageInput.value.length);
   messageInput.style.height = 'auto';
   messageInput.style.height = `${Math.min(messageInput.scrollHeight, 160)}px`;
   $('#ai-guide-status').textContent = chartButton
-    ? 'The chart-aware example is ready to review. It includes your selected gates and the card’s activity idea; both plus derived symbolic context go to the configured AI provider for this request only. Prior shared AI conversation is not included or updated. The command and reply are visible in the Matrix room if sent.'
-    : 'The example is ready as an explicit !metheus ask. It does not append gate numbers, but an enabled chart-set setting will apply your own gates to this turn in isolation. Review the text before sending.';
+    ? 'The example is ready. Your selected design markers and question will be shared with Mētheus AI for this reply only.'
+    : 'The example is ready. Review your question, then choose “Ask Mētheus” when you are ready.';
 });
 
 $('#gate-trial-cancel').addEventListener('click', () => {
@@ -1361,16 +1354,18 @@ function displayEvent(event) {
   const id = event.getId() || `${event.getSender()}-${event.getTs()}-${content.body}`;
   if (session.seen.has(id)) return;
   session.seen.add(id);
+  const message = presentConversationMessage(content.body);
+  if (!message) return;
   $('#welcome-card').hidden = true;
   const mine = event.getSender() === session.userId;
   const article = document.createElement('article');
   article.className = `message ${mine ? 'message-mine' : ''}`;
-  safeText(article, 'p', event.sender?.name || event.getSender(), 'message-sender');
-  safeText(article, 'p', content.body, 'message-body');
+  safeText(article, 'p', mine ? 'You' : (event.sender?.name || 'Circle member'), 'message-sender');
+  safeText(article, 'p', message.text, 'message-body');
   safeText(article, 'time', new Date(event.getTs()).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }), 'message-time');
   timeline.append(article);
   timeline.scrollTop = timeline.scrollHeight;
-  const mentions = extractBodygraphMentions(content.body);
+  const mentions = message.highlightText ? extractBodygraphMentions(message.highlightText) : [];
   if (bodygraph) mentions.forEach((mention) => bodygraph.highlightFromText(mention));
   else if (mentions.length) {
     recentBodygraphMentions.push(...mentions);
@@ -1378,9 +1373,35 @@ function displayEvent(event) {
   }
 }
 
+function presentConversationMessage(body) {
+  const text = body.trim();
+  if (text.startsWith('!metheus ask-chart ')) {
+    const parsed = parseChartAsk(text.slice('!metheus ask-chart '.length));
+    return { text: parsed.error ? 'Asked Mētheus using selected design context.' : `Asked Mētheus using selected design context: ${parsed.question}`, highlightText: parsed.error ? '' : parsed.question };
+  }
+  if (text.startsWith('!metheus ask ')) {
+    const question = text.slice('!metheus ask '.length).trim();
+    return { text: `Asked Mētheus: ${question}`, highlightText: question };
+  }
+  if (text.startsWith('!metheus chart-set ')) return { text: 'Updated personal design context.' };
+  if (text === '!metheus chart-clear') return { text: 'Cleared personal design context.' };
+  if (text === '!metheus chart-status') return null;
+  if (text === '!metheus ai-info') return { text: 'Requested Mētheus AI information.' };
+  if (text === '!metheus ai-status') return { text: 'Checked AI agreement for this circle.' };
+  if (text === '!metheus ai-opt-in') return { text: 'Agreed to AI support in this circle.' };
+  if (text === '!metheus ai-opt-out') return { text: 'Paused AI support in this circle.' };
+  if (text.startsWith('!metheus ')) return { text: 'Sent a request to Mētheus.' };
+  if (/matrix|homeserver|m\.login\.|!metheus\s/i.test(text)) return { text: 'Mētheus updated a conversation setting.' };
+  return { text, highlightText: text };
+}
+
 function getPlainBody(error) {
-  const message = error?.message || 'The Matrix server could not complete this request.';
-  return message.replace(/https?:\/\/\S+/g, 'server endpoint').slice(0, 240);
+  const message = String(error?.message || '').toLowerCase();
+  if (message.includes('login') || message.includes('auth') || message.includes('token')) return 'Sign-in could not be completed. Please try again.';
+  if (message.includes('encrypt') || message.includes('crypto')) return 'This circle is not ready for protected messaging. Ask its organizer for help.';
+  if (message.includes('room') || message.includes('not found')) return 'That circle is not available to this account. Ask its organizer to add you.';
+  if (message.includes('network') || message.includes('fetch') || message.includes('timeout')) return 'Connection was interrupted. Check your internet connection and try again.';
+  return 'Something went wrong. Please try again or ask the circle organizer for help.';
 }
 
 function onceSyncReady(client, sdk) {
@@ -1410,7 +1431,7 @@ async function connectToMatrixRoom(login, roomInput) {
     await client.initRustCrypto();
     session.client = client;
     session.userId = login.user_id;
-    session.roomId = roomInput || null;
+    session.roomId = roomInput?.trim() || null;
     client.on(sdk.RoomEvent.Timeline, (matrixEvent, room) => {
       if (!room || room.roomId !== session.roomId) return;
       matrixEvent.once('Event.decrypted', () => displayEvent(matrixEvent));
@@ -1420,16 +1441,16 @@ async function connectToMatrixRoom(login, roomInput) {
     client.startClient({ initialSyncLimit: 30 });
     await ready;
     client.on(sdk.ClientEvent.Sync, (state) => {
-      if (state === 'SYNCING' || state === 'PREPARED') syncIndicator.textContent = 'Live · Matrix';
+      if (state === 'SYNCING' || state === 'PREPARED') syncIndicator.textContent = 'Connected';
       else if (state === 'ERROR') syncIndicator.textContent = 'Reconnecting…';
     });
-    if (!roomInput) {
+    if (!roomInput?.trim()) {
       showMatrixRoomPicker(login, client);
       return false;
     }
     let room = client.getRoom(roomInput);
     if (!room) room = await client.joinRoom(roomInput);
-    if (!room) throw new Error('The room is not available to this Castalia account. Check the room ID or ask its admin to invite you.');
+    if (!room) throw new Error('The circle is not available to this account. Ask its organizer to add you.');
     await openMatrixRoom(room, login);
     return true;
   } catch (error) {
@@ -1451,7 +1472,7 @@ function showMatrixRoomPicker(login, client) {
   for (const room of rooms) {
     const option = document.createElement('option');
     option.value = room.roomId;
-    option.textContent = `${room.name || 'Unnamed room'} · ${room.roomId}`;
+    option.textContent = room.name || 'Circle';
     roomPickerSelect.append(option);
   }
   roomPickerSelect.hidden = rooms.length === 0;
@@ -1459,37 +1480,31 @@ function showMatrixRoomPicker(login, client) {
   $('#room-picker-empty').hidden = rooms.length > 0;
   connectForm.hidden = true;
   roomPicker.hidden = false;
-  syncIndicator.textContent = 'Live · Matrix';
-  setStatus(`Signed in to Castalia as ${login.user_id}. Choose a room or join one by ID or alias.`);
+  syncIndicator.textContent = 'Connected';
+  setStatus('You’re signed in. Choose your circle.');
 }
 
 async function openMatrixRoom(room, login) {
   const client = session.client;
-  if (!room || !client) throw new Error('Sign in again before opening a Matrix room.');
+  if (!room || !client) throw new Error('Sign in again before opening this circle.');
   session.roomId = room.roomId;
   const cryptoApi = client.getCrypto();
   session.encrypted = cryptoApi ? await cryptoApi.isEncryptionEnabledInRoom(room.roomId) : false;
   const liveEvents = room.getLiveTimeline()?.getEvents?.() || [];
   liveEvents.forEach(displayEvent);
   $('#room-title').textContent = room.name || 'The Hearth';
-  $('#room-subtitle').textContent = `${room.getJoinedMembers().length} people in this room · ${session.encrypted ? 'end-to-end encryption on' : 'encryption off — sending disabled'}`;
+  $('#room-subtitle').textContent = `${room.getJoinedMembers().length} people · ${session.encrypted ? 'protected conversation' : 'private messaging unavailable'}`;
   messageInput.disabled = !session.encrypted;
-  messageInput.placeholder = session.encrypted ? 'Write a message to your room…' : 'Sending is disabled until this room is end-to-end encrypted.';
+  messageInput.placeholder = session.encrypted ? 'Write to your circle…' : 'Messaging is unavailable in this circle.';
   messageForm.querySelector('button').disabled = !session.encrypted;
   $('.composer-note').textContent = session.encrypted
-    ? 'Messages are shared with everyone in this room. The Mētheus bot must also be joined to reply as AI.'
-    : 'This room is not end-to-end encrypted. Sending is disabled in this prototype.';
-  $('#session-details').replaceChildren();
-  [['Account', login.user_id], ['Room', room.roomId], ['Homeserver', CASTALIA_HOMESERVER], ['Encryption', session.encrypted ? 'Matrix reports end-to-end encryption is enabled for this room.' : 'Not enabled. Sending is disabled.']].forEach(([term, value]) => {
-    safeText($('#session-details'), 'dt', term);
-    safeText($('#session-details'), 'dd', value);
-  });
+    ? 'Messages are shared with everyone in this circle. Only messages marked “Ask Mētheus” are sent to the AI service.'
+    : 'This circle is not set up for protected messaging. Sending is paused; ask its organizer for help.';
   connectPanel.hidden = true;
   conversation.hidden = false;
-  $('#settings-toggle').hidden = false;
   $('#logout-button').hidden = false;
   $('#install-button').hidden = false;
-  syncIndicator.textContent = 'Connected to Matrix';
+  syncIndicator.textContent = 'Connected';
   await loadGateAiIdeas();
   if (bodygraphPanel.open) await ensureBodygraph();
 }
@@ -1535,19 +1550,18 @@ async function handleCastaliaSsoCallback(callback) {
     || callback.state !== transaction.state
     || !Number.isFinite(transaction.createdAt)
     || Date.now() - transaction.createdAt > 10 * 60 * 1000
-    || typeof transaction.roomInput !== 'string' || !transaction.roomInput.trim()
+    || (transaction.roomInput !== undefined && typeof transaction.roomInput !== 'string')
   ) {
     setStatus('This Castalia sign-in link is missing, expired, or does not match this browser session. Start sign-in again.', true);
     return;
   }
-  connectForm.elements.room.value = transaction.roomInput;
   const submit = connectForm.querySelector('button[type="submit"]');
   submit.disabled = true;
-  setStatus('Finishing Castalia sign-in and preparing Matrix encryption support in this browser…');
+  setStatus('Finishing sign-in and opening your circles…');
   try {
-    const roomOpened = await exchangeCastaliaLoginToken(callback.loginToken, transaction.roomInput.trim());
-    if (roomOpened) setStatus('Connected to your Castalia Matrix room.');
-    else setStatus(`Signed in to Castalia as ${session.userId}. Choose a room or join one by ID or alias.`);
+    const roomOpened = await exchangeCastaliaLoginToken(callback.loginToken, transaction.roomInput || '');
+    if (roomOpened) setStatus('Your circle is ready.');
+    else setStatus('You’re signed in. Choose your circle.');
   } catch (error) {
     setStatus(getPlainBody(error), true);
   } finally {
@@ -1558,11 +1572,8 @@ async function handleCastaliaSsoCallback(callback) {
 
 connectForm.addEventListener('submit', (event) => {
   event.preventDefault();
-  if (!connectForm.reportValidity()) return;
-  const roomInput = String(new FormData(connectForm).get('room')).trim();
-  if (!roomInput) return;
   try {
-    startCastaliaSso(roomInput);
+    startCastaliaSso('');
   } catch (error) {
     setStatus(getPlainBody(error), true);
   }
@@ -1571,30 +1582,11 @@ connectForm.addEventListener('submit', (event) => {
 $('#room-picker-open').addEventListener('click', async () => {
   const room = session.client?.getRoom(roomPickerSelect.value);
   if (!room) {
-    setStatus('That room is no longer available in this Matrix session. Refresh the room list by signing in again.', true);
+    setStatus('That circle is no longer available. Sign in again and choose another.', true);
     return;
   }
   try { await openMatrixRoom(room, { user_id: session.userId }); }
   catch (error) { setStatus(getPlainBody(error), true); }
-});
-
-$('#room-picker-join').addEventListener('click', async (event) => {
-  const roomInput = roomPickerRoomInput.value.trim();
-  if (!roomInput || !session.client) {
-    setStatus('Enter a room ID or alias after signing in.', true);
-    return;
-  }
-  const button = event.currentTarget;
-  button.disabled = true;
-  setStatus('Joining the selected Matrix room…');
-  try {
-    const room = await session.client.joinRoom(roomInput);
-    await openMatrixRoom(room, { user_id: session.userId });
-  } catch (error) {
-    setStatus(getPlainBody(error), true);
-  } finally {
-    button.disabled = false;
-  }
 });
 
 $('#room-picker-switch-account').addEventListener('click', () => $('#logout-button').click());
@@ -1603,60 +1595,85 @@ messageForm.addEventListener('submit', async (event) => {
   event.preventDefault();
   const body = messageInput.value.trim();
   if (!body || !session.client || !session.roomId || !session.encrypted) return;
+  const askMetheus = $('#ask-metheus').checked || pendingChartPromptMode !== 'ask';
+  let outgoing = body;
+  if (askMetheus) {
+    try {
+      if (pendingChartPromptMode === 'chart') {
+        const gates = [...selectedChartGates].sort((a, b) => a - b);
+        if (!gates.length) throw new Error('Choose at least one marker on your BodyGraph first.');
+        outgoing = formatChartAsk(gates, body);
+      } else if (pendingChartPromptMode === 'both') {
+        const userGates = [...selectedChartGates].sort((a, b) => a - b);
+        const metheusGates = [...selectedMetheusGates].sort((a, b) => a - b);
+        if (!userGates.length || !metheusGates.length) throw new Error('Choose markers for both BodyGraphs first.');
+        outgoing = formatChartAsk(userGates, body, metheusGates);
+      } else {
+        outgoing = `!metheus ask ${body}`;
+      }
+    } catch (error) {
+      $('#ai-guide-status').textContent = error.message;
+      return;
+    }
+  }
   const submit = messageForm.querySelector('button');
   submit.disabled = true;
   try {
-    await session.client.sendTextMessage(session.roomId, body);
+    await session.client.sendTextMessage(session.roomId, outgoing);
     messageInput.value = '';
     messageInput.style.height = 'auto';
+    $('#ask-metheus').checked = false;
+    pendingChartPromptMode = 'ask';
+    $('#ai-guide-status').textContent = askMetheus
+      ? 'Your question was shared with Mētheus AI. Its reply will appear here when available.'
+      : 'Message shared with your circle.';
   } catch (error) {
-    syncIndicator.textContent = `Message not sent · ${getPlainBody(error)}`;
+    syncIndicator.textContent = getPlainBody(error);
   } finally {
     submit.disabled = false;
     messageInput.focus();
   }
 });
 
-document.querySelectorAll('[data-ai-command]').forEach((button) => {
+const AI_ACTION_COMMANDS = {
+  info: '!metheus ai-info',
+  status: '!metheus ai-status',
+  'opt-in': '!metheus ai-opt-in',
+  'opt-out': '!metheus ai-opt-out',
+  'chart-status': '!metheus chart-status',
+  'chart-clear': '!metheus chart-clear',
+};
+
+document.querySelectorAll('[data-ai-action]').forEach((button) => {
   button.addEventListener('click', async () => {
     if (!session.client || !session.roomId || !session.encrypted) return;
-    const command = button.dataset.aiCommand;
+    const command = AI_ACTION_COMMANDS[button.dataset.aiAction];
+    if (!command) return;
     button.disabled = true;
-    $('#ai-guide-status').textContent = `Sending ${command} to the shared room…`;
+    $('#ai-guide-status').textContent = 'Updating your circle’s AI choice…';
     try {
       await session.client.sendTextMessage(session.roomId, command);
-      $('#ai-guide-status').textContent = `${command} sent. The bot’s reply, if available, will appear in the room timeline.`;
+      $('#ai-guide-status').textContent = 'Your choice was shared with the circle.';
     } catch (error) {
-      $('#ai-guide-status').textContent = `Command not sent · ${getPlainBody(error)}`;
+      $('#ai-guide-status').textContent = getPlainBody(error);
     } finally {
       button.disabled = false;
     }
   });
 });
 
-$('#ai-ask-start').addEventListener('click', () => {
-  if (!session.client || !session.roomId || !session.encrypted) return;
-  messageInput.value = '!metheus ask ';
-  messageInput.focus();
-  messageInput.setSelectionRange(messageInput.value.length, messageInput.value.length);
-  messageInput.style.height = 'auto';
-  messageInput.style.height = `${Math.min(messageInput.scrollHeight, 160)}px`;
-  $('#ai-guide-status').textContent = 'Add your prompt after “!metheus ask”. If you enabled chart-aware mode with chart-set, this turn uses your own gate context in isolation; otherwise the recent shared Mētheus exchange may be included. Matching public source entries may also be included for gate questions.';
-});
-
 $('#ai-ask-chart-start').addEventListener('click', () => {
   if (!session.client || !session.roomId || !session.encrypted) return;
   const gates = [...selectedChartGates].sort((a, b) => a - b);
-  const gateList = gates.length ? `${gates.join(', ')} ` : '';
-  const gateDescription = gates.length ? describeSelectedGates(gates) : '';
-  messageInput.value = gates.length ? formatChartAskPrefix(gates) : `!metheus ask-chart my-gates: ${gateList}| `;
+  if (!gates.length) {
+    $('#ai-guide-status').textContent = 'Choose one or more markers on your BodyGraph first.';
+    return;
+  }
+  pendingChartPromptMode = 'chart';
+  $('#ask-metheus').checked = true;
+  messageInput.value = '';
   messageInput.focus();
-  messageInput.setSelectionRange(messageInput.value.length, messageInput.value.length);
-  messageInput.style.height = 'auto';
-  messageInput.style.height = `${Math.min(messageInput.scrollHeight, 160)}px`;
-  $('#ai-guide-status').textContent = gates.length
-    ? `Your selected gates (${gateDescription}) are in this draft. Review or edit the numbers and add your question. Only submit your own gate list; the bot cannot verify chart ownership. The command is visible to the room, and the supplied gates plus derived context go to the configured AI provider for this request only. Prior shared AI conversation is not included, and this turn does not update that memory.`
-    : 'Add your own gate numbers and question, for example: !metheus ask-chart my-gates: 11, 56 | help me explore curiosity. You can also select gates in the 64-gate activity catalog and reopen this action. The command is visible to the room; the supplied gate list and derived context are sent to the configured AI provider for this request only. Prior shared AI conversation is not included, and this turn does not update that memory.';
+  $('#ai-guide-status').textContent = 'Your selected BodyGraph markers will be included with your next question only.';
 });
 
 $('#ai-ask-chart-profile-start').addEventListener('click', () => {
@@ -1664,30 +1681,29 @@ $('#ai-ask-chart-profile-start').addEventListener('click', () => {
   const userGates = [...selectedChartGates].sort((a, b) => a - b);
   const metheusGates = [...selectedMetheusGates].sort((a, b) => a - b);
   if (!userGates.length || !metheusGates.length) {
-    $('#ai-guide-status').textContent = 'Select at least one gate for your own map and one gate for Metheus’s local prompt profile first.';
+    $('#ai-guide-status').textContent = 'Choose markers for both BodyGraphs first.';
     return;
   }
-  messageInput.value = formatChartAskPrefix(userGates, metheusGates);
+  pendingChartPromptMode = 'both';
+  $('#ask-metheus').checked = true;
+  messageInput.value = '';
   messageInput.focus();
-  messageInput.setSelectionRange(messageInput.value.length, messageInput.value.length);
-  messageInput.style.height = 'auto';
-  messageInput.style.height = `${Math.min(messageInput.scrollHeight, 160)}px`;
-  $('#ai-guide-status').textContent = `Draft includes your selected gates (${describeSelectedGates(userGates)}) and Metheus’s local prompt gates (${describeSelectedGates(metheusGates)}). Add your question, review the complete room-visible command, and send it. Both maps and their derived channel sets will be sent to the AI provider for this turn only; they remain separate and symbolic.`;
+  $('#ai-guide-status').textContent = 'Both selected BodyGraphs will be included with your next question only.';
 });
 
 $('#ai-chart-set-start').addEventListener('click', () => {
   if (!session.client || !session.roomId || !session.encrypted) return;
   const gates = [...selectedChartGates].sort((a, b) => a - b);
   if (!gates.length) {
-    $('#ai-guide-status').textContent = 'Select the gates you self-report as yours in the activity catalog first.';
+    $('#ai-guide-status').textContent = 'Choose one or more markers on your BodyGraph first.';
     return;
   }
-  messageInput.value = formatChartSet(gates);
-  messageInput.focus();
-  messageInput.setSelectionRange(messageInput.value.length, messageInput.value.length);
-  messageInput.style.height = 'auto';
-  messageInput.style.height = `${Math.min(messageInput.scrollHeight, 160)}px`;
-  $('#ai-guide-status').textContent = 'Review and send this room-visible command to enable your supplied gates for your own later explicit !metheus ask turns. The setting stays in bot memory until you clear it, room membership changes, anyone opts out, or the bot restarts. Your chart-aware replies use only your question and gate context, not shared conversation history.';
+  const button = $('#ai-chart-set-start');
+  button.disabled = true;
+  session.client.sendTextMessage(session.roomId, formatChartSet(gates))
+    .then(() => { $('#ai-guide-status').textContent = 'Your selected BodyGraph will be used for your future AI questions in this circle until you clear it.'; })
+    .catch((error) => { $('#ai-guide-status').textContent = getPlainBody(error); })
+    .finally(() => { button.disabled = false; });
 });
 
 messageInput.addEventListener('input', () => {
@@ -1727,19 +1743,18 @@ $('#logout-button').addEventListener('click', async () => {
   connectForm.reset();
   connectForm.hidden = false;
   roomPicker.hidden = true;
-  roomPickerRoomInput.value = '';
   sessionStorage.removeItem(CASTALIA_SSO_TRANSACTION_KEY);
   conversation.hidden = true;
-  settingsPanel.hidden = true;
   connectPanel.hidden = false;
   $('#logout-button').hidden = true;
-  $('#settings-toggle').hidden = true;
   messageInput.disabled = false;
   messageForm.querySelector('button').disabled = false;
-  messageInput.placeholder = 'Write a message to your room…';
-  $('.composer-note').textContent = 'The Mētheus bot must be joined to this room to reply. Messages are shared with the whole room.';
-  syncIndicator.textContent = 'Disconnected';
-  setStatus('Disconnected. Matrix SDK encryption keys may remain in this browser’s local SDK store.');
+  messageInput.placeholder = 'Write to your circle…';
+  $('.composer-note').textContent = 'Messages are shared with everyone in this circle. Only messages marked “Ask Mētheus” are sent to the AI service.';
+  $('#ask-metheus').checked = false;
+  pendingChartPromptMode = 'ask';
+  syncIndicator.textContent = 'Not connected';
+  setStatus('You’re signed out.');
 });
 
 if (pendingSsoCallback) void handleCastaliaSsoCallback(pendingSsoCallback);
