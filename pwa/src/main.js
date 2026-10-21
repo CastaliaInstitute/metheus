@@ -1354,10 +1354,10 @@ function displayEvent(event) {
   const id = event.getId() || `${event.getSender()}-${event.getTs()}-${content.body}`;
   if (session.seen.has(id)) return;
   session.seen.add(id);
-  const message = presentConversationMessage(content.body);
+  const mine = event.getSender() === session.userId;
+  const message = presentConversationMessage(content.body, mine);
   if (!message) return;
   $('#welcome-card').hidden = true;
-  const mine = event.getSender() === session.userId;
   const article = document.createElement('article');
   article.className = `message ${mine ? 'message-mine' : ''}`;
   safeText(article, 'p', mine ? 'You' : (event.sender?.name || 'Circle member'), 'message-sender');
@@ -1373,7 +1373,7 @@ function displayEvent(event) {
   }
 }
 
-function presentConversationMessage(body) {
+function presentConversationMessage(body, mine = false) {
   const text = body.trim();
   if (text.startsWith('!metheus ask-chart ')) {
     const parsed = parseChartAsk(text.slice('!metheus ask-chart '.length));
@@ -1391,7 +1391,39 @@ function presentConversationMessage(body) {
   if (text === '!metheus ai-opt-in') return { text: 'Agreed to AI support in this circle.' };
   if (text === '!metheus ai-opt-out') return { text: 'Paused AI support in this circle.' };
   if (text.startsWith('!metheus ')) return { text: 'Sent a request to Mētheus.' };
-  if (/matrix|homeserver|m\.login\.|!metheus\s/i.test(text)) return { text: 'Mētheus updated a conversation setting.' };
+  if (!mine) {
+    if (/Metheus AI is optional\./i.test(text)) {
+      return { text: 'Mētheus AI is optional. It replies only after everyone agrees. Regular messages are not sent to the AI service. Questions and any selected BodyGraph context are sent to the service for a reply; everyone in the circle can see them, and the service may retain content. Avoid sensitive personal details.' };
+    }
+    if (/If you understand and agree|choose “I agree to AI support/i.test(text)) {
+      return { text: 'Read the AI agreement, then choose “I agree to AI support” in the app. Everyone chooses separately. You can include design context for one question, save it for later, clear it, or pause AI support.' };
+    }
+    if (/Your opt-in is recorded/i.test(text)) {
+      return { text: 'Your agreement is saved. Mētheus AI will remain paused until everyone in the circle has agreed.' };
+    }
+    if (/chart-aware setting has been cleared from bot memory/i.test(text)) {
+      return { text: 'Your saved BodyGraph context has been cleared.' };
+    }
+    if (/do not have a chart-aware setting stored in bot memory/i.test(text)) {
+      return { text: 'You have not saved BodyGraph context for this circle.' };
+    }
+    if (/please keep each Metheus question under/i.test(text)) {
+      return { text: 'Please shorten your question and try again.' };
+    }
+    if (/Metheus AI is inactive|will not process any room content/i.test(text)) {
+      return { text: 'Mētheus AI is paused until everyone in the circle has read the agreement and agreed. No question was sent to the AI service.' };
+    }
+    if (/Every currently joined person has opted in|Every currently joined person has independently opted in/i.test(text)) {
+      return { text: 'Everyone has agreed. Mētheus AI is ready for questions that people choose to send.' };
+    }
+    if (/AI processing is paused for this room/i.test(text)) {
+      return { text: 'Mētheus AI is paused for this circle and its temporary conversation context has been cleared. A question already sent to the AI service cannot be recalled. Everyone must agree again to resume.' };
+    }
+    if (/Chart-aware mode is enabled|Your chart-aware setting/i.test(text)) {
+      return { text: /enabled/i.test(text) ? 'Your selected BodyGraph context will accompany your questions in this circle until you clear it.' : 'Your saved BodyGraph context is not enabled in this circle.' };
+    }
+    if (/matrix|homeserver|m\.login\.|!metheus\s/i.test(text)) return { text: 'Mētheus updated a conversation setting.' };
+  }
   return { text, highlightText: text };
 }
 
